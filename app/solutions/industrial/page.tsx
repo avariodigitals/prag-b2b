@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getProducts } from '@/lib/woocommerce';
+import ProblemsCarousel from '@/components/ProblemsCarousel';
 
 export const metadata: Metadata = {
   title: 'Industrial Power Solutions – Prag B2B',
@@ -12,18 +13,58 @@ const PROBLEMS = [
   {
     title: 'Voltage Instability & Equipment Damage',
     body: 'Unstable power supply causes sudden voltage spikes and fluctuations that can damage sensitive systems, reduce equipment lifespan, and disrupt daily operations.',
+    impact: [
+      'For businesses that depend on stable electricity, voltage instability creates serious operational and financial challenges. Sudden power surges, voltage drops, and inconsistent grid supply can damage sensitive equipment, interrupt production processes, and reduce the lifespan of critical machinery.',
+      'In sectors such as manufacturing, healthcare, hospitality, and commercial facilities, unreliable power affects daily performance and customer experience. Sensitive devices, servers, refrigeration systems, and automation equipment are especially vulnerable, exposing businesses to unexpected downtime and costly repairs.',
+      'Frequent voltage fluctuations force businesses to rely on temporary fixes and backup systems that increase costs without solving the root problem. As energy demands grow, these inefficiencies limit scalability, reduce profitability, and create long-term operational risks.',
+    ],
+    solution: [
+      'PRAG delivers intelligent power stabilization solutions designed to protect businesses from voltage instability. Our systems provide consistent, regulated power that safeguards sensitive equipment and ensures uninterrupted operations.',
+      'We begin by assessing your facility\'s power requirements and designing a tailored solution using advanced voltage stabilizers, surge protection, and smart energy management technologies to create a stable and reliable power infrastructure.',
+      'Our integrated solutions minimize equipment damage, reduce maintenance costs, and improve operational efficiency by ensuring your systems receive clean and consistent power at all times.',
+    ],
   },
   {
     title: 'Unplanned Downtime',
     body: 'Frequent outages interrupt workflows, delay production timelines, and result in costly operational downtime for businesses and facilities.',
+    impact: [
+      'Unplanned power outages can bring entire production lines and business operations to a standstill. Every minute of downtime translates directly to lost revenue, missed deadlines, and reduced customer trust.',
+      'In industries where continuity is critical — manufacturing, data centres, healthcare — even a brief outage can have cascading consequences including spoiled goods, corrupted data, and delayed services.',
+      'Without a reliable backup power strategy, businesses remain permanently exposed to grid unreliability, making it impossible to make credible delivery commitments or maintain service-level agreements.',
+    ],
+    solution: [
+      'PRAG designs and installs high-capacity inverter and backup power systems that automatically take over the moment grid supply fails, keeping your operations running without interruption.',
+      'Our systems are sized to your actual load requirements, ensuring every critical piece of equipment stays powered through outages of any duration.',
+      'With remote monitoring and automatic switchover, your team can focus on operations while PRAG\'s systems handle power continuity in the background.',
+    ],
   },
   {
     title: 'High Generator Dependence',
     body: 'Heavy reliance on diesel generators increases fuel expenses, maintenance costs, noise pollution, and overall operational inefficiency.',
+    impact: [
+      'Diesel generators are expensive to run, noisy, and require constant maintenance. Businesses that depend on them as a primary backup solution face escalating fuel costs and frequent service interruptions.',
+      'Beyond cost, generator dependence creates environmental and compliance risks, particularly as regulations around emissions tighten and sustainability reporting becomes more prominent.',
+      'Generators also provide inconsistent power quality — the start-up surge and voltage irregularities they introduce can themselves damage sensitive equipment.',
+    ],
+    solution: [
+      'PRAG replaces or supplements generator dependence with clean, reliable inverter and battery storage systems that provide instant power without fuel costs, noise, or emissions.',
+      'Our hybrid solutions integrate solar generation with battery storage to create an energy-independent infrastructure that dramatically reduces ongoing operational costs.',
+      'Businesses that transition to PRAG-designed systems typically see significant reductions in fuel and maintenance spend within the first year, with a clear path to full energy independence.',
+    ],
   },
   {
     title: 'Power Quality Issues',
     body: 'Harmonics, surges, and poor power factor degrade equipment performance, increase energy bills, and shorten the lifespan of industrial machinery.',
+    impact: [
+      'Poor power quality — including harmonics, transients, and low power factor — quietly degrades the performance and lifespan of industrial equipment, often going undetected until costly failures occur.',
+      'Energy bills increase as inefficient power consumption drives up demand charges. Equipment running on poor-quality power consumes more energy while delivering less output.',
+      'In precision manufacturing and automated environments, power quality issues can cause process errors, product defects, and safety incidents that are difficult to trace back to their electrical root cause.',
+    ],
+    solution: [
+      'PRAG\'s power quality solutions include automatic voltage regulators, power factor correction systems, and harmonic filters designed to deliver clean, stable power to every load in your facility.',
+      'We conduct a detailed power quality assessment before recommending a solution, ensuring the system we design addresses your specific mix of loads and operational patterns.',
+      'By improving power quality, businesses reduce energy waste, extend equipment life, lower maintenance frequency, and create a safer working environment for both people and machines.',
+    ],
   },
 ];
 
@@ -55,50 +96,15 @@ export default async function IndustrialSolutionsPage() {
         <div className="w-full border-t border-dashed border-sky-200 mt-4" />
       </div>
 
-      {/* Problems carousel-style cards */}
-      <div className="w-full px-6 md:px-20 py-14 flex flex-col gap-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 overflow-x-auto">
-          {PROBLEMS.slice(0, 3).map((p) => (
-            <div key={p.title} className="p-6 bg-white rounded-2xl border border-zinc-200 flex flex-col gap-6 min-w-[260px]">
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-full border border-sky-200 flex items-center justify-center">
-                <svg className="w-5 h-5 text-sky-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
-              </div>
-              <h3 className="text-zinc-900 text-lg font-semibold font-['Onest'] leading-snug">{p.title}</h3>
-              <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed mt-auto">{p.body}</p>
-            </div>
-          ))}
-        </div>
-        {/* Dots */}
-        <div className="flex items-center justify-center gap-2">
-          {PROBLEMS.map((_, i) => (
-            <div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-sky-700' : 'bg-zinc-300'}`} />
-          ))}
+      {/* Problems carousel */}
+      <div className="w-full px-6 md:px-10 py-14">
+        <div className="max-w-4xl mx-auto">
+          <ProblemsCarousel problems={PROBLEMS} />
         </div>
       </div>
 
-      {/* The Impact */}
+      {/* Full-width image + rest of page */}
       <div className="max-w-4xl mx-auto w-full px-6 md:px-10 py-10 flex flex-col gap-10">
-        <div className="flex flex-col gap-4">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Impact</h2>
-          <div className="flex flex-col gap-4 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
-            <p>For businesses that depend on stable electricity to operate efficiently, voltage instability can create serious operational and financial challenges. Sudden power surges, voltage drops, and inconsistent grid supply can damage sensitive equipment, interrupt production processes, and reduce the lifespan of critical machinery. Over time, these disruptions lead to increased maintenance costs, delayed operations, and reduced productivity.</p>
-            <p>In sectors such as manufacturing, healthcare, hospitality, and commercial facilities, unreliable power can affect daily performance and customer experience. Sensitive devices, servers, refrigeration systems, industrial machines, and automation equipment are especially vulnerable to unstable power conditions, making businesses more exposed to unexpected downtime and costly repairs.</p>
-            <p>Frequent voltage fluctuations also force businesses to rely heavily on temporary fixes and backup systems, which often increase operational expenses without solving the root problem. As energy demands grow, these inefficiencies can limit scalability, reduce profitability, and create long-term operational risks.</p>
-          </div>
-        </div>
-
-        {/* The Solution */}
-        <div className="flex flex-col gap-4">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Solution</h2>
-          <div className="flex flex-col gap-4 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
-            <p>PRAG delivers intelligent power stabilization and backup solutions designed to protect businesses from voltage instability and power-related disruptions. Our systems are engineered to provide consistent, regulated power that safeguards sensitive equipment and ensures uninterrupted operations.</p>
-            <p>We begin by assessing your facility&apos;s power requirements, operational demands, and energy challenges to design a solution tailored specifically to your business. Through advanced voltage stabilizers, backup power systems, surge protection, and smart energy management technologies, we help create a stable and reliable power infrastructure.</p>
-            <p>Our integrated solutions minimize equipment damage, reduce maintenance costs, and improve operational efficiency by ensuring your systems receive clean and consistent power at all times. For businesses looking to reduce dependence on unreliable grid supply and expensive diesel generators, PRAG also provides scalable solar and hybrid energy solutions that support long-term sustainability and cost savings. With professional installation, continuous monitoring, and dedicated technical support, PRAG helps businesses maintain productivity, protect critical assets, and operate with confidence regardless of power conditions.</p>
-          </div>
-        </div>
 
         {/* Full-width image */}
         <div className="w-full rounded-2xl overflow-hidden aspect-[16/7] relative">

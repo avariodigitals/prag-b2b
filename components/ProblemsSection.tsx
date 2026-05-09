@@ -1,11 +1,10 @@
-import CountUp from './CountUp';
 import { TriangleAlert, Home, Sun, ShieldOff } from 'lucide-react';
 import Link from 'next/link';
 
 const STATS = [
-  { value: 36, suffix: '', label: 'Trusted across\nall 36 states' },
-  { value: 20, suffix: '+', label: 'Years of\nEngineering Experience' },
-  { value: 500, suffix: '+', label: 'Installations\nNationwide' },
+  { label: 'Trusted across all\n36 states' },
+  { label: '20+Years of\nEngineering Experience' },
+  { label: '500+ installations\nnationwide' },
 ];
 
 const PROBLEMS = [
@@ -14,21 +13,21 @@ const PROBLEMS = [
     title: 'Low, High, or Fluctuating Voltage',
     desc: 'Protect your appliances and equipment from silent damage.',
     cta: 'Get a Stabilization Solution',
-    href: '/solutions/stabilizer',
+    href: '/products/all-prag-stabilizers',
   },
   {
     icon: <Home className="w-6 h-6 text-sky-700" />,
     title: 'Frequent Power Outages',
     desc: 'Keep your home or business running without interruption.',
     cta: 'Get Backup Power',
-    href: '/solutions/inverter',
+    href: '/products/inverters',
   },
   {
     icon: <Sun className="w-6 h-6 text-sky-700" />,
     title: 'No Reliable Power Source',
     desc: 'Generate your own electricity with a dependable solar system.',
     cta: 'Go Solar with PRAG',
-    href: '/solutions/solar',
+    href: '/products/solar',
   },
   {
     icon: <ShieldOff className="w-6 h-6 text-sky-700" />,
@@ -43,15 +42,12 @@ export default function ProblemsSection() {
   return (
     <section className="w-full bg-white">
       {/* Stats Bar */}
-      <div className="w-full border border-sky-700/20 py-8 px-6 md:px-20">
+      <div className="w-full py-8 px-6 md:px-20">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-sky-700/20 text-center gap-6 md:gap-0">
           {STATS.map((s) => (
-            <div key={s.label} className="flex flex-col items-center justify-center px-6 py-2 gap-1">
-              <span className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
-                <CountUp value={s.value} suffix={s.suffix} />
-              </span>
-              <span className="text-zinc-600 text-sm md:text-base font-medium font-['Space_Grotesk'] text-center">
-                {s.label.split('\n').map((line, i) => <span key={i} className="block">{line}</span>)}
+            <div key={s.label} className="flex items-center justify-center px-6 py-2">
+              <span className="text-sky-700 text-lg md:text-2xl font-medium font-['Onest'] leading-tight text-center">
+                {s.label.split('\n').map((line, i) => <span key={i} className="block whitespace-nowrap">{line}</span>)}
               </span>
             </div>
           ))}
@@ -68,7 +64,7 @@ export default function ProblemsSection() {
               <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Common Issues We Solve</span>
             </div>
             <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">
-              Power Problems Cost You<br />More Than You Think
+              <span className="whitespace-nowrap">Power Problems Cost You</span><br />More Than You Think
             </h2>
           </div>
           <p className="md:w-1/2 text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed md:pt-10">

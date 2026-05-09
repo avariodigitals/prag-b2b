@@ -7,19 +7,19 @@ const TECHNOLOGIES = [
     name: 'Voltage Stabilizers',
     slug: 'voltage-stabilizers',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/7ee70985fdddba92a39a6e67f80ec4773cbf34fd.png',
-    href: '/solutions/stabilizer',
+    href: '/products/all-prag-stabilizers',
   },
   {
     name: 'Inverters',
     slug: 'inverters',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/eebd514c0d3e75e4f32cb8fd691c7b3613fd99d5-1.png',
-    href: '/solutions/inverter',
+    href: '/products/inverters',
   },
   {
     name: 'Solar Systems',
     slug: 'solar',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
-    href: '/solutions/solar',
+    href: '/products/solar',
   },
   {
     name: 'Battery Storage',
@@ -31,7 +31,7 @@ const TECHNOLOGIES = [
 
 export default function TechnologiesSection() {
   return (
-    <section className="w-full bg-white py-20 md:py-28 overflow-hidden">
+    <section className="w-full bg-white py-16 md:py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-20 flex flex-col gap-10">
 
         {/* Header */}
@@ -42,7 +42,7 @@ export default function TechnologiesSection() {
               <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Technologies</span>
             </div>
             <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">
-              Four Technologies. One<br />Complete System.
+              Four Technologies.<br /><span className="whitespace-nowrap">One Complete System.</span>
             </h2>
           </div>
           <div className="md:w-1/2 flex flex-col gap-4 md:pt-10">
@@ -59,17 +59,17 @@ export default function TechnologiesSection() {
             <Link
               key={tech.slug}
               href={tech.href}
-              className="relative w-full h-[260px] md:h-[520px] bg-gradient-to-b from-stone-500/10 to-sky-700 rounded-3xl overflow-hidden group"
+              className="relative w-full h-[220px] md:h-[340px] bg-gradient-to-b from-stone-500/10 to-sky-700 rounded-3xl overflow-hidden group"
             >
               <Image
                 src={tech.image}
                 alt={tech.name}
                 fill
                 sizes="(min-width: 768px) 25vw, 50vw"
-                className="object-contain group-hover:scale-105 transition-transform duration-300 p-2 md:p-4"
+                className="object-contain group-hover:scale-105 transition-transform duration-300 p-4 md:p-6"
               />
-              <div className="absolute left-4 bottom-4 md:left-6 md:bottom-6">
-                <span className="text-white text-sm md:text-xl font-semibold font-['Onest']">{tech.name}</span>
+              <div className="absolute inset-x-0 bottom-5 md:bottom-6 flex justify-center px-3">
+                <span className="text-white text-center text-xs md:text-xl font-semibold font-['Onest'] leading-tight whitespace-nowrap">{tech.name}</span>
               </div>
               <div className="absolute right-3 top-4 md:right-5 md:top-6 p-2 md:p-3 bg-sky-700 rounded-full group-hover:bg-sky-800 group-hover:scale-110 transition-all shadow-lg">
                 <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
