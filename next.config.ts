@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'central.prag.global',
       },
+      {
+        protocol: 'https',
+        hostname: '**.prag.global',
+      },
     ],
   },
 };
