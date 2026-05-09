@@ -66,7 +66,7 @@ export default function TechnologiesSection() {
                 alt={tech.name}
                 fill
                 sizes="(min-width: 768px) 25vw, 50vw"
-                className="object-contain group-hover:scale-105 transition-transform duration-300 p-6 md:p-8"
+                className="object-contain group-hover:scale-105 transition-transform duration-300 p-2 md:p-4"
               />
               <div className="absolute left-4 bottom-4 md:left-6 md:bottom-6">
                 <span className="text-white text-sm md:text-xl font-semibold font-['Onest']">{tech.name}</span>
