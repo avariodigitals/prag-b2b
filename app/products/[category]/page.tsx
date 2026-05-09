@@ -11,7 +11,7 @@ const KNOWN_IDS: Record<string, number> = {
   'inverters': 117,
   'solar': 147,
   'batteries': 151,
-  'all-prag-stabilizers': 274,
+  'all-prag-stabilizers': 144,
   'thyristor-stabilizers': 266,
   'relay-voltage-stabilizers': 167,
   'servo-voltage-stabilizers': 168,
