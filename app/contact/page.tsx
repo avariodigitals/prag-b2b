@@ -38,19 +38,26 @@ export default async function ContactPage() {
   return (
     <main className="w-full flex flex-col">
       {/* Hero */}
-      <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">Get in Touch</h1>
-        <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">
-          Have a question or need a custom power solution?<br />
-          We&apos;d love to hear from you.
-        </p>
-        <div className="w-full border-t border-dashed border-sky-200 mt-2" />
+      <div
+        className="w-full py-20 md:py-28 px-6 flex flex-col items-center gap-4 text-center bg-zinc-900 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-900/60 via-zinc-900 to-zinc-900" />
+        <div className="relative z-10 flex flex-col items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-sky-500 rounded-sm shrink-0" />
+            <span className="text-sky-400 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Contact Us</span>
+          </div>
+          <h1 className="text-white text-4xl md:text-6xl font-bold font-['Onest'] leading-tight">Get in Touch</h1>
+          <p className="text-white/60 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
+            Have a question or need a custom power solution? We&apos;d love to hear from you.
+          </p>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-5xl mx-auto w-full px-6 md:px-10 py-10 flex flex-col md:flex-row gap-10 items-start">
+      <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-16 md:py-20 flex flex-col md:flex-row gap-10 md:gap-16 items-start">
         {/* Left: contact info */}
-        <div className="w-full md:w-80 shrink-0 flex flex-col gap-4">
+        <div className="w-full md:w-96 shrink-0 flex flex-col gap-4">
           <div className="p-5 bg-stone-50 rounded-2xl flex items-center gap-4">
             <div className="w-10 h-10 bg-sky-700 rounded-full flex items-center justify-center shrink-0">
               <Mail className="w-4 h-4 text-white" />

@@ -24,7 +24,7 @@ export default function ContactForm() {
   const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-sm font-['Space_Grotesk'] focus:border-sky-700 outline-none transition-colors";
 
   return (
-    <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-5">
+    <form onSubmit={handleSubmit} className="flex-1 bg-stone-50 rounded-2xl p-8 md:p-10 flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
         <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Full Name *</label>
         <input required type="text" value={form.name} onChange={set('name')} className={inputCls} />

@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function CountUp({ value, suffix = '', duration = 1800 }: { value: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
+    setMounted(true);
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(([entry]) => {
@@ -28,5 +30,5 @@ export default function CountUp({ value, suffix = '', duration = 1800 }: { value
     return () => observer.disconnect();
   }, [value, duration]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref} suppressHydrationWarning>{mounted ? count : 0}{suffix}</span>;
 }

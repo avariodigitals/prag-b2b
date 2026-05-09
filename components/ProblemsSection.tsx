@@ -3,9 +3,9 @@ import { TriangleAlert, Home, Sun, ShieldOff } from 'lucide-react';
 import Link from 'next/link';
 
 const STATS = [
-  { value: 36, suffix: '', label: 'Trusted across all\n36 states' },
-  { value: 20, suffix: '+', label: '20+Years of\nEngineering Experience' },
-  { value: 500, suffix: '+', label: '500+ installations\nnationwide' },
+  { value: 36, suffix: '', label: 'Trusted across\nall 36 states' },
+  { value: 20, suffix: '+', label: 'Years of\nEngineering Experience' },
+  { value: 500, suffix: '+', label: 'Installations\nNationwide' },
 ];
 
 const PROBLEMS = [
@@ -47,12 +47,11 @@ export default function ProblemsSection() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-sky-700/20 text-center gap-6 md:gap-0">
           {STATS.map((s) => (
             <div key={s.label} className="flex flex-col items-center justify-center px-6 py-2 gap-1">
-              <span className="text-sky-700 text-2xl md:text-3xl font-bold font-['Onest']">
+              <span className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
                 <CountUp value={s.value} suffix={s.suffix} />
-                {s.label.split('\n')[0].replace(String(s.value) + s.suffix, '')}
               </span>
-              <span className="text-sky-700 text-xl md:text-2xl font-bold font-['Onest']">
-                {s.label.split('\n')[1]}
+              <span className="text-zinc-600 text-sm md:text-base font-medium font-['Space_Grotesk'] text-center">
+                {s.label.split('\n').map((line, i) => <span key={i} className="block">{line}</span>)}
               </span>
             </div>
           ))}

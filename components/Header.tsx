@@ -83,6 +83,90 @@ function NavItem({ label, items, href }: { label: string; items?: { label: strin
   );
 }
 
+function MobileAccordion({ label, items, onClose }: { label: string; items: { label: string; href: string }[]; onClose: () => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-gray-100 last:border-0">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between py-4 text-sm font-semibold text-zinc-800 font-['Space_Grotesk']"
+      >
+        {label}
+        <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div className="pb-3 flex flex-col gap-1">
+          {items.map((i) => (
+            <Link
+              key={i.href}
+              href={i.href}
+              onClick={onClose}
+              className="py-2 pl-4 text-sm text-zinc-500 font-['Space_Grotesk'] hover:text-sky-700 hover:pl-5 transition-all"
+            >
+              {i.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        className={`md:hidden fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      />
+      {/* Tray */}
+      <div
+        className={`md:hidden fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Tray header */}
+        <div className="flex items-center justify-between px-6 h-16 border-b border-gray-100">
+          <Link href="/" onClick={onClose}>
+            <Image
+              src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
+              alt="Prag"
+              width={100}
+              height={32}
+              className="h-8 w-auto"
+              style={{ width: 'auto' }}
+            />
+          </Link>
+          <button onClick={onClose} aria-label="Close menu">
+            <X className="w-6 h-6 text-zinc-800" />
+          </button>
+        </div>
+        {/* Tray body */}
+        <div className="px-6 py-2 flex flex-col overflow-y-auto max-h-[calc(100vh-4rem)]">
+          <MobileAccordion label="Solutions" items={SOLUTIONS} onClose={onClose} />
+          <MobileAccordion label="Products" items={PRODUCTS} onClose={onClose} />
+          <MobileAccordion label="Company" items={COMPANY} onClose={onClose} />
+          <Link
+            href="/contact"
+            onClick={onClose}
+            className="py-4 text-sm font-semibold text-zinc-800 font-['Space_Grotesk'] border-b border-gray-100 hover:text-sky-700 transition-colors"
+          >
+            Contact
+          </Link>
+          <Link
+            href="/products"
+            onClick={onClose}
+            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-700 transition-colors"
+          >
+            Shop
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -121,36 +205,11 @@ export default function Header() {
 
         {/* Mobile Toggle */}
         <button className="md:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
-          {mobileOpen
-            ? <X className="w-6 h-6 text-zinc-800" />
-            : <Menu className="w-6 h-6 text-zinc-800" />}
+          <Menu className="w-6 h-6 text-zinc-800" />
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-5 flex flex-col gap-2 max-h-[80vh] overflow-y-auto">
-          <p className="text-xs font-bold text-zinc-400 font-['Space_Grotesk'] uppercase tracking-wider pt-1">Solutions</p>
-          {SOLUTIONS.map((i) => (
-            <Link key={i.href} href={i.href} onClick={() => setMobileOpen(false)} className="py-1.5 text-sm text-zinc-700 font-['Space_Grotesk'] hover:text-sky-700">{i.label}</Link>
-          ))}
-          <p className="text-xs font-bold text-zinc-400 font-['Space_Grotesk'] uppercase tracking-wider mt-3">Products</p>
-          {PRODUCTS.map((i) => (
-            <Link key={i.href} href={i.href} onClick={() => setMobileOpen(false)} className="py-1.5 text-sm text-zinc-700 font-['Space_Grotesk'] hover:text-sky-700">{i.label}</Link>
-          ))}
-          <p className="text-xs font-bold text-zinc-400 font-['Space_Grotesk'] uppercase tracking-wider mt-3">Company</p>
-          {COMPANY.map((i) => (
-            <Link key={i.href} href={i.href} onClick={() => setMobileOpen(false)} className="py-1.5 text-sm text-zinc-700 font-['Space_Grotesk'] hover:text-sky-700">{i.label}</Link>
-          ))}
-          <Link href="/contact" onClick={() => setMobileOpen(false)} className="py-1.5 text-sm text-zinc-700 font-['Space_Grotesk'] hover:text-sky-700">Contact</Link>
-          <Link
-            href="/products"
-            className="mt-3 text-center px-5 py-2.5 rounded-full border border-zinc-800 text-zinc-800 text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-800 hover:text-white transition-colors"
-          >
-            Shop
-          </Link>
-        </div>
-      )}
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }

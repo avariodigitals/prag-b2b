@@ -24,7 +24,7 @@ const INSTALLATIONS = [
   {
     category: 'Industrial',
     title: 'Zenith Textile Factory, Kano',
-    image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-8.png',
+    image: 'https://central.prag.global/wp-content/uploads/2026/05/de54212698666fc36bad495a64ee3ac2e8d43166.png',
     imageLeft: false,
     problem: 'Voltage fluctuations causing 3–5 motor burnouts per month on industrial looms, costing ₦8M+ in repairs annually.',
     solution: 'Three-phase 250kVA servo-motor stabilizer + power factor correction capacitors + surge protection system across all production lines.',
@@ -38,7 +38,7 @@ const INSTALLATIONS = [
   {
     category: 'Commercial',
     title: 'Federal Medical Centre, Abuja',
-    image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-9.png',
+    image: 'https://central.prag.global/wp-content/uploads/2026/05/7fc3e3ba69e25dbdf5621fb3f7498f827e5c525f.png',
     imageLeft: true,
     problem: 'Severe voltage fluctuations destroying diagnostic equipment and theatre instruments worth ₦45M annually.',
     solution: '100kVA three-phase industrial stabilizer + dual-input online UPS system deployed across all critical wards and theatres.',
@@ -52,7 +52,7 @@ const INSTALLATIONS = [
   {
     category: 'Commercial',
     title: 'Ikeja Shopping Mall, Lagos',
-    image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-10.png',
+    image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
     imageLeft: false,
     problem: 'Daily 6–8hr outages causing ₦2.1M/week in lost sales and spoiled perishables across 42 tenants.',
     solution: '200kW rooftop solar system + 500kWh lithium battery storage + three-phase hybrid inverters with remote monitoring dashboard.',

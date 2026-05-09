@@ -40,7 +40,7 @@ export default function Footer() {
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link
-            href="/contact"
+            href="/power-calculator"
             className="px-7 py-3.5 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
           >
             Get a Free Power Assessment

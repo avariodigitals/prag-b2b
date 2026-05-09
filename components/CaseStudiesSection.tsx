@@ -79,7 +79,7 @@ export default function CaseStudiesSection() {
 
         {/* CTA */}
         <Link
-          href="/case-studies"
+          href="/installations"
           className="px-8 py-3.5 bg-sky-900 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full hover:bg-sky-800 transition-colors flex items-center gap-2"
         >
           View all Case studies →
