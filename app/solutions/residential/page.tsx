@@ -153,7 +153,7 @@ export default async function ResidentialSolutionsPage() {
         </div>
 
         {/* CTA */}
-        <div className="flex flex-col md:flex-row items-center gap-4 pt-4">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
           <Link
             href="/contact"
             className="px-8 py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
