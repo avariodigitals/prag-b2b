@@ -70,6 +70,18 @@ async function persistDistributorLocally(body: Record<string, unknown>) {
   await fs.writeFile(localStorePath, `${JSON.stringify(next, null, 2)}\n`, 'utf8');
 }
 
+function resolveB2BAdminUrl() {
+  const candidates = [
+    process.env.B2B_ADMIN_API_URL,
+    process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL,
+    process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL,
+  ];
+  for (const candidate of candidates) {
+    if (candidate && candidate.trim()) return candidate.replace(/\/$/, '');
+  }
+  return null;
+}
+
 export async function POST(req: Request) {
   const body = await req.json();
 
@@ -83,13 +95,13 @@ export async function POST(req: Request) {
     body: JSON.stringify(body),
   });
 
-  const adminUrl = process.env.B2B_ADMIN_API_URL || process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL;
+  const adminUrl = resolveB2BAdminUrl();
   if (res.ok) {
     let syncedToAdmin = false;
 
     if (adminUrl) {
       try {
-        const intakeRes = await fetch(`${adminUrl.replace(/\/$/, '')}/api/admin/b2b/intake`, {
+        const intakeRes = await fetch(`${adminUrl}/api/admin/b2b/intake`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -105,7 +117,7 @@ export async function POST(req: Request) {
       }
     }
 
-    if (!syncedToAdmin) {
+    if (!syncedToAdmin && !process.env.VERCEL) {
       try {
         await persistDistributorLocally(body as Record<string, unknown>);
       } catch {
