@@ -5,7 +5,7 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getProblemProductRecommendations, getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Industrial Power Solutions – Prag B2B',
+  title: 'Industrial Power Solutions',
   description: 'Engineered power for heavy-duty operations. PRAG delivers robust, high-capacity power systems designed to keep industrial operations running without interruption.',
 };
 

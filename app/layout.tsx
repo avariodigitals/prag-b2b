@@ -17,7 +17,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Prag B2B – Power Solutions for Businesses',
+  title: {
+    default: "PRAG - Nigeria's Leading Power Engineering Company.",
+    template: '%s - PRAG',
+  },
   description: 'Enterprise power engineering solutions across Nigeria.',
   icons: {
     icon: '/favicon.png',

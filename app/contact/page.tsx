@@ -5,7 +5,7 @@ import { getB2BPublicContent } from '@/lib/b2bContent';
 import ContactForm from '@/components/ContactForm';
 import StoresGrid from '@/components/StoresGrid';
 
-export const metadata: Metadata = { title: 'Get in Touch – Prag B2B' };
+export const metadata: Metadata = { title: 'Get in Touch' };
 
 function SocialIcon({ network }: { network: string }) {
   if (network === 'facebook')

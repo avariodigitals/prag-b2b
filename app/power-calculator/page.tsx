@@ -2,7 +2,7 @@ import PowerCalculatorTool from '@/components/PowerCalculatorTool';
 import { getProducts } from '@/lib/woocommerce';
 
 export const metadata = {
-  title: 'Power Calculator – Prag B2B',
+  title: 'Power Calculator',
   description: 'Select your appliances and get an instant system size recommendation.',
 };
 

@@ -5,7 +5,7 @@ import BlogGrid from '@/components/BlogGrid';
 import { getPosts, getPostCategories } from '@/lib/wordpress';
 
 export const metadata = {
-  title: 'Knowledge Center – Prag B2B',
+  title: 'Knowledge Center',
   description: 'Practical guides, honest comparisons, and expert insights from PRAG\'s engineering team.',
 };
 

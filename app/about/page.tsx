@@ -2,7 +2,7 @@ import Image from 'next/image';
 import CountUp from '@/components/CountUp';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
-export const metadata = { title: 'About Us – PRAG Power Engineering B2B' };
+export const metadata = { title: 'About Us' };
 
 const STATS = [
   { display: 50, suffix: 'K+', label: 'System Installed' },

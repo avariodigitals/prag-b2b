@@ -1,7 +1,7 @@
 import DistributorForm from '@/components/DistributorForm';
 import { LayoutGrid, Tag, GraduationCap, Headphones, BadgeCheck, Users } from 'lucide-react';
 
-export const metadata = { title: 'Become a Distributor – PRAG Power Engineering' };
+export const metadata = { title: 'Become a Distributor' };
 
 const BENEFITS = [
   { icon: LayoutGrid, title: 'High-Margin Products', body: 'PRAG distributors earn industry-leading margins on our full product range — stabilizers, inverters, batteries, and solar.' },

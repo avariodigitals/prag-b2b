@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Returns & Refund Policy – Prag B2B' };
+export const metadata: Metadata = { title: 'Returns & Refund Policy' };
 
 export default function ReturnPolicyPage() {
   return (

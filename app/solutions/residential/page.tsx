@@ -5,7 +5,7 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getProblemProductRecommendations, getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Residential Power Solutions – Prag B2B',
+  title: 'Residential Power Solutions',
   description: 'Keep your home comfortable, secure, and fully powered with smart energy solutions designed for everyday living.',
 };
 

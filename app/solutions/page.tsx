@@ -5,7 +5,7 @@ import SolutionProductTags from '@/components/SolutionProductTags';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
-  title: 'Power Solutions – Prag B2B',
+  title: 'Power Solutions',
   description: 'From industrial plants to residential homes, we engineer power systems that never let you down.',
 };
 

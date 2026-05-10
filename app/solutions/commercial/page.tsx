@@ -5,7 +5,7 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getProblemProductRecommendations, getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Commercial Power Solutions – Prag B2B',
+  title: 'Commercial Power Solutions',
   description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
 };
 

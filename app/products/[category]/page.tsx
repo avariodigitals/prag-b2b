@@ -38,7 +38,7 @@ const DISPLAY: Record<string, { name: string; description: string }> = {
 export async function generateMetadata({ params }: Props) {
   const { category } = await params;
   const name = DISPLAY[category]?.name ?? category;
-  return { title: `${name} – PRAG B2B` };
+  return { title: `${name}` };
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {

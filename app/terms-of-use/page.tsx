@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Terms of Use – Prag B2B' };
+export const metadata: Metadata = { title: 'Terms of Use' };
 
 export default function TermsOfUsePage() {
   return (

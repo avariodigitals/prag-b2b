@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import TechResourcesView from '@/components/TechResourcesView';
 import { getProducts } from '@/lib/woocommerce';
 
-export const metadata = { title: 'Technical Resources – PRAG Power Engineering B2B' };
+export const metadata = { title: 'Technical Resources' };
 
 interface Props {
   searchParams: Promise<{ product?: string }>;

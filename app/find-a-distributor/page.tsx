@@ -4,7 +4,7 @@ import { MapPin, Phone } from 'lucide-react';
 import { getStores } from '@/lib/woocommerce';
 
 export const metadata: Metadata = {
-  title: 'Find a PRAG Store Near You – Prag B2B',
+  title: 'Find a PRAG Store Near You',
   description: 'Connect with authorized PRAG stores across Nigeria for expert consultation, product purchases, and professional installation services.',
 };
 
