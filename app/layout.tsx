@@ -18,6 +18,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Prag B2B – Power Solutions for Businesses',
   description: 'Enterprise power engineering solutions across Nigeria.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
