@@ -14,7 +14,7 @@ export default function PolicyPageLayout({ title, sections }: Props) {
   return (
     <main className="w-full flex flex-col">
       {/* Breadcrumb + title */}
-      <div className="w-full px-4 md:px-20 py-6 md:py-10 bg-stone-50 flex flex-col gap-3 md:gap-5">
+      <div className="w-full px-6 md:px-10 py-6 md:py-10 bg-stone-50 flex flex-col gap-3 md:gap-5">
         <div className="flex items-center gap-1 flex-wrap">
           <Link href="/" className="text-sky-700 text-sm font-medium font-['Onest'] hover:underline">Home</Link>
           <span className="text-zinc-400 text-sm font-['Onest'] mx-1">/</span>
@@ -24,7 +24,7 @@ export default function PolicyPageLayout({ title, sections }: Props) {
       </div>
 
       {/* Content */}
-      <div className="w-full px-4 md:px-20 py-6 md:py-10 flex justify-center">
+      <div className="w-full px-6 md:px-10 py-6 md:py-10 flex justify-center">
         <div className="w-full max-w-3xl p-5 md:p-10 bg-white rounded-2xl border border-zinc-100 flex flex-col gap-8 md:gap-10">
           {sections.map((section, i) => (
             <div key={i} className="flex flex-col gap-3 md:gap-4">

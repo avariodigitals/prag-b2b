@@ -29,9 +29,9 @@ export default function AboutPage() {
     <main className="w-full bg-white flex flex-col">
 
       {/* Hero */}
-      <div className="w-full px-6 md:px-20 pt-14 pb-10 bg-stone-50 flex flex-col items-center gap-4 text-center">
-        <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight max-w-3xl">
-          Engineering Reliable Power Solutions for Real-World Challenges
+      <div className="w-full px-6 md:px-10 pt-14 pb-10 bg-stone-50 flex flex-col items-center gap-4 text-center">
+        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-3xl">
+          Engineering Reliable Power Solutions<br />for Real-World Challenges
         </h1>
         <p className="text-sky-700 text-base md:text-lg font-['Space_Grotesk'] max-w-lg leading-relaxed">
           PRAG is a power solutions company focused on designing and delivering systems that solve unstable electricity problems for homes, businesses, and industries.
@@ -39,7 +39,7 @@ export default function AboutPage() {
       </div>
 
       {/* About section */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24 flex flex-col gap-10">
+      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col gap-10">
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-20">
           <div className="flex items-center gap-2 shrink-0">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />
@@ -84,7 +84,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24 flex flex-col items-center gap-10">
+      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />
@@ -113,7 +113,7 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24 bg-stone-50 flex flex-col items-center gap-12">
+      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 bg-stone-50 flex flex-col items-center gap-12">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />

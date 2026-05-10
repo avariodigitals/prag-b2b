@@ -1,11 +1,14 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
+import { getProducts } from '@/lib/woocommerce';
 
 export const metadata = {
   title: 'Power Calculator – Prag B2B',
   description: 'Select your appliances and get an instant system size recommendation.',
 };
 
-export default function PowerCalculatorPage() {
+export default async function PowerCalculatorPage() {
+  const { products } = await getProducts({ per_page: 100, page: 1 });
+
   return (
     <main className="w-full bg-white flex flex-col">
       <div className="w-full pt-10 md:pt-14 pb-6 md:pb-8 bg-stone-50 flex flex-col items-center gap-4 px-4">
@@ -16,7 +19,7 @@ export default function PowerCalculatorPage() {
           Select your appliances, set daily usage hours, and get an instant system recommendation — free, no signup required.
         </p>
       </div>
-      <PowerCalculatorTool />
+      <PowerCalculatorTool products={products} />
     </main>
   );
 }

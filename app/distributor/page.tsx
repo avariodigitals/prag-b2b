@@ -23,8 +23,8 @@ export default function DistributorPage() {
     <main className="w-full bg-white flex flex-col">
 
         {/* Hero */}
-        <div className="w-full bg-stone-50 px-6 md:px-20 pt-14 pb-10 flex flex-col items-center gap-4 text-center">
-          <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight max-w-2xl">
+        <div className="w-full bg-stone-50 px-6 md:px-10 pt-14 pb-10 flex flex-col items-center gap-4 text-center">
+          <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-2xl">
             Sell the Solutions Nigeria Needs.
           </h1>
           <p className="text-sky-700 text-base md:text-lg font-['Space_Grotesk'] max-w-lg">
@@ -33,7 +33,7 @@ export default function DistributorPage() {
         </div>
 
         {/* Benefits */}
-        <section className="w-full px-6 md:px-20 py-14 flex flex-col gap-10">
+        <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-14 flex flex-col gap-10">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
@@ -55,7 +55,7 @@ export default function DistributorPage() {
         </section>
 
         {/* Partnership Tiers */}
-        <section className="w-full px-6 md:px-20 py-14 bg-stone-50 flex flex-col gap-10">
+        <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-14 bg-stone-50 flex flex-col gap-10">
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
@@ -79,7 +79,7 @@ export default function DistributorPage() {
         </section>
 
         {/* Application Form */}
-        <section className="w-full px-6 md:px-20 py-14 flex flex-col items-center gap-8">
+        <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-14 flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />

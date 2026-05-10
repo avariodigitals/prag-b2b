@@ -1,11 +1,33 @@
 import Link from 'next/link';
 
-export default function Hero() {
+async function getHeroImage() {
+  const baseUrl = process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL;
+  if (!baseUrl) return 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg';
+
+  try {
+    const res = await fetch(`${baseUrl.replace(/\/$/, '')}/api/public/b2b-content`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg';
+    const data = await res.json();
+    const pages = Array.isArray(data?.pages)
+      ? (data.pages as Array<{ route?: string; sections?: Array<{ type?: string; imageUrl?: string }> }>)
+      : [];
+    const heroPage = pages.find((page) => page.route === '/' || page.route === '/home' || page.route === '');
+    const imageUrl = heroPage?.sections?.find((section: { type?: string; imageUrl?: string }) => section.type === 'hero')?.imageUrl;
+    return imageUrl || 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg';
+  } catch {
+    return 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg';
+  }
+}
+
+export default async function Hero() {
+  const heroImage = await getHeroImage();
   return (
     <section
-      className="relative w-full min-h-[90vh] flex items-center justify-center text-center"
+      className="relative w-full min-h-[84vh] md:min-h-[88vh] flex items-center justify-center text-center"
       style={{
-        backgroundImage: "url('https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg')",
+        backgroundImage: `url('${heroImage}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

@@ -1,16 +1,22 @@
 import ProductsView from '@/components/ProductsView';
-import { getCategories, getProducts, type Product } from '@/lib/woocommerce';
+import { getCategories, getProducts, searchProducts, type Product } from '@/lib/woocommerce';
 
 export const revalidate = 300;
 
 const CATEGORY_SLUGS = ['inverters', 'all-prag-stabilizers', 'batteries', 'solar'];
 
-export default async function ProductsPage() {
+interface Props {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const query = String(sp.q ?? '').trim();
   const categories = await getCategories();
 
   // Fetch all products + per-category in parallel
   const [{ products: allProducts }, ...categoryResults] = await Promise.all([
-    getProducts({ per_page: 100 }),
+    query ? Promise.resolve({ products: await searchProducts(query), total: 0 }) : getProducts({ per_page: 100 }),
     ...CATEGORY_SLUGS.map(slug => {
       const cat = categories.find(c => c.slug === slug);
       return cat

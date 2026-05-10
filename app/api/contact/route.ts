@@ -9,6 +9,20 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+
+    const adminUrl = process.env.B2B_ADMIN_API_URL || process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL;
+    if (res.ok && adminUrl) {
+      try {
+        await fetch(`${adminUrl.replace(/\/$/, '')}/api/admin/b2b/intake`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...body, kind: 'contact', route: '/contact' }),
+        });
+      } catch {
+        // Ignore admin sync failures so the public submission still succeeds.
+      }
+    }
+
     return NextResponse.json({ success: res.ok }, { status: res.ok ? 200 : 500 });
   } catch {
     return NextResponse.json({ success: false }, { status: 500 });

@@ -1,12 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 interface Problem {
+  id: string;
   title: string;
   body: string;
   impact: string[];
   solution: string[];
+  image: string;
+  technologies: string[];
+  productIds?: number[];
+  productCategories: string[];
+}
+
+interface CarouselProduct {
+  id: number;
+  name: string;
+  slug: string;
+  images: { src: string; alt: string }[];
+  categories: { id: number; name: string; slug: string }[];
 }
 
 const ICON = (
@@ -14,8 +29,6 @@ const ICON = (
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
   </svg>
 );
-
-const VISIBLE = 3;
 
 function ProblemCard({
   problem,
@@ -53,59 +66,130 @@ function ProblemCard({
   );
 }
 
-export default function ProblemsCarousel({ problems }: { problems: Problem[] }) {
-  // pageStart = which group of VISIBLE cards we're showing
-  const [pageStart, setPageStart] = useState(0);
-  // activeIndex = which problem card is expanded (global index)
+export default function ProblemsCarousel({
+  problems,
+  products,
+  recommendedProductsByProblem,
+}: {
+  problems: Problem[];
+  products: CarouselProduct[];
+  recommendedProductsByProblem?: Record<string, CarouselProduct[]>;
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const dragStateRef = useRef({ isDragging: false, startX: 0, startScrollLeft: 0 });
 
-  const maxStart = Math.max(0, problems.length - VISIBLE);
-  const visibleProblems = problems.slice(pageStart, pageStart + VISIBLE);
+  if (problems.length === 0) return null;
 
-  const handleDot = (i: number) => {
-    const newStart = Math.min(i, maxStart);
-    setPageStart(newStart);
-    // If the clicked dot's problem isn't active, activate it
-    setActiveIndex(i);
+  const activeProblem = problems[activeIndex];
+  const queriedProducts = activeProblem?.id ? (recommendedProductsByProblem?.[activeProblem.id] ?? []) : [];
+  const productsByIds = Array.isArray(activeProblem?.productIds) && activeProblem.productIds.length > 0
+    ? products.filter((product) => activeProblem.productIds?.includes(product.id))
+    : [];
+  const filteredProducts = (queriedProducts.length > 0
+    ? queriedProducts
+    : productsByIds.length > 0
+    ? productsByIds
+    : products.filter((product) =>
+      product.categories?.some((cat) => activeProblem.productCategories.includes(cat.slug))
+    ))
+    .slice(0, 4);
+  const displayProducts = filteredProducts.length > 0 ? filteredProducts : products.slice(0, 4);
+
+  const handleCard = (index: number) => {
+    setActiveIndex(index);
+    const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
+    card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
   };
 
-  const handleCard = (globalIndex: number) => {
-    setActiveIndex(globalIndex);
+  const syncActiveFromScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const cards = Array.from(track.children) as HTMLElement[];
+    if (cards.length === 0) return;
+
+    const referencePoint = track.scrollLeft + (track.clientWidth * 0.18);
+    let nearestIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.offsetLeft - referencePoint);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    setActiveIndex(nearestIndex);
+  };
+
+  useEffect(() => {
+    syncActiveFromScroll();
+  }, [problems.length]);
+
+  const handleTrackMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    if (!track) return;
+    dragStateRef.current = {
+      isDragging: true,
+      startX: event.clientX,
+      startScrollLeft: track.scrollLeft,
+    };
+  };
+
+  const handleTrackMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    if (!track || !dragStateRef.current.isDragging) return;
+    const delta = event.clientX - dragStateRef.current.startX;
+    track.scrollLeft = dragStateRef.current.startScrollLeft - delta;
+    syncActiveFromScroll();
+  };
+
+  const stopDragging = () => {
+    dragStateRef.current.isDragging = false;
+  };
+
+  const handleTrackWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (Math.abs(delta) < 2) return;
+    track.scrollLeft += delta;
+    syncActiveFromScroll();
+    event.preventDefault();
   };
 
   return (
     <div className="w-full flex flex-col gap-6">
-      {/* Desktop: 3 cards side-by-side */}
-      <div className="hidden md:grid md:grid-cols-3 gap-5">
-        {visibleProblems.map((p, i) => {
-          const globalIndex = pageStart + i;
-          return (
-            <ProblemCard
-              key={p.title}
-              problem={p}
-              active={activeIndex === globalIndex}
-              onClick={() => handleCard(globalIndex)}
-            />
-          );
-        })}
+      <div className="overflow-hidden">
+        <div
+          ref={trackRef}
+          className="flex gap-5 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none"
+          onMouseDown={handleTrackMouseDown}
+          onMouseMove={handleTrackMouseMove}
+          onMouseUp={stopDragging}
+          onMouseLeave={stopDragging}
+          onWheel={handleTrackWheel}
+          onScroll={syncActiveFromScroll}
+        >
+          {problems.map((problem, index) => (
+            <div key={problem.id ?? `${problem.title}-${index}`} className="shrink-0 w-[88%] md:w-[60%] lg:w-[46%]">
+              <ProblemCard
+                problem={problem}
+                active={activeIndex === index}
+                onClick={() => handleCard(index)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Mobile: single card at activeIndex, swipe via dots */}
-      <div className="md:hidden">
-        <ProblemCard
-          problem={problems[activeIndex]}
-          active={true}
-          onClick={() => {}}
-        />
-      </div>
-
-      {/* Dots — one per problem, navigate pages and activate */}
+      {/* Dots — one per problem, indicator only */}
       <div className="flex items-center justify-center gap-2">
         {problems.map((_, i) => (
-          <button
+          <span
             key={i}
-            aria-label={`Problem ${i + 1}`}
-            onClick={() => handleDot(i)}
             className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 ${
               activeIndex === i ? 'bg-sky-700' : 'bg-zinc-300 hover:bg-zinc-400'
             }`}
@@ -119,7 +203,7 @@ export default function ProblemsCarousel({ problems }: { problems: Problem[] }) 
         <div className="flex flex-col gap-3">
           <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Impact</h2>
           <div className="flex flex-col gap-3 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
-            {problems[activeIndex].impact.map((para, i) => (
+            {activeProblem.impact.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </div>
@@ -129,10 +213,61 @@ export default function ProblemsCarousel({ problems }: { problems: Problem[] }) 
         <div className="flex flex-col gap-3">
           <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Solution</h2>
           <div className="flex flex-col gap-3 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
-            {problems[activeIndex].solution.map((para, i) => (
+            {activeProblem.solution.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </div>
+        </div>
+
+        {/* Image under solution */}
+        <div className="w-full rounded-2xl overflow-hidden aspect-[16/7] relative">
+          <Image
+            src={activeProblem.image}
+            alt={activeProblem.title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+
+        {/* Technologies & Products */}
+        <div className="flex flex-col gap-6">
+          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">Technologies &amp; Products</h2>
+          <ul className="flex flex-col gap-3">
+            {activeProblem.technologies.map((tech) => (
+              <li key={tech} className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-sky-700 shrink-0" />
+                <span className="text-zinc-700 text-sm font-['Space_Grotesk']">{tech}</span>
+              </li>
+            ))}
+          </ul>
+
+          {displayProducts.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {displayProducts.map((product) => {
+                const img = product.images?.[0];
+                return (
+                  <Link
+                    key={product.id}
+                    href={`/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`}
+                    className="aspect-square bg-stone-50 rounded-2xl overflow-hidden relative flex items-center justify-center hover:shadow-md transition-shadow"
+                  >
+                    {img ? (
+                      <Image
+                        src={img.src}
+                        alt={img.alt || product.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                        className="object-contain p-6"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 bg-zinc-200 rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

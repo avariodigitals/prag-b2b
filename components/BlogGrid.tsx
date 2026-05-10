@@ -37,7 +37,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
   for (let i = 0; i < posts.length; i += 3) rows.push(posts.slice(i, i + 3));
 
   return (
-    <div className="w-full px-4 md:px-20 py-8 md:py-16 flex flex-col gap-8 md:gap-10">
+    <div className="w-full max-w-6xl mx-auto px-6 md:px-10 py-8 md:py-16 flex flex-col gap-8 md:gap-10">
 
       {/* Featured post */}
       {featured && (

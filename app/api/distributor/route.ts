@@ -15,6 +15,24 @@ export async function POST(req: Request) {
     body: JSON.stringify(body),
   });
 
+  const adminUrl = process.env.B2B_ADMIN_API_URL || process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL;
+  if (res.ok && adminUrl) {
+    try {
+      await fetch(`${adminUrl.replace(/\/$/, '')}/api/admin/b2b/intake`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...body,
+          kind: 'distributor',
+          route: '/distributor',
+          company: body.business,
+        }),
+      });
+    } catch {
+      // Ignore admin sync failures so the public submission still succeeds.
+    }
+  }
+
   const data = await res.json();
 
   if (!res.ok) {

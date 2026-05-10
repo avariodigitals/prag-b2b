@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import SolutionProductTags from '@/components/SolutionProductTags';
 
 export const metadata: Metadata = {
   title: 'Power Solutions – Prag B2B',
@@ -21,7 +22,7 @@ const SOLUTIONS = [
       'Power Factor Correction Units',
       'Large-Scale Solar + Storage',
     ],
-    href: '/products/all-prag-stabilizers',
+    href: '/solutions/industrial',
     image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
     imageLeft: true,
   },
@@ -38,7 +39,7 @@ const SOLUTIONS = [
       'Commercial Solar Systems (10–500kW)',
       'UPS Systems for Critical Loads',
     ],
-    href: '/products/all-prag-stabilizers',
+    href: '/solutions/commercial',
     image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
     imageLeft: false,
   },
@@ -55,7 +56,7 @@ const SOLUTIONS = [
       'Lithium Battery Banks (100–400Ah)',
       'Monocrystalline Solar Panels',
     ],
-    href: '/products/all-prag-stabilizers',
+    href: '/solutions/residential',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png',
     imageLeft: true,
   },
@@ -65,7 +66,7 @@ export default function SolutionsPage() {
   return (
     <main className="w-full">
       {/* Hero */}
-      <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6">
+      <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6 bg-stone-50">
         <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
           Power Solutions for Every Challenge
         </h1>
@@ -73,7 +74,6 @@ export default function SolutionsPage() {
           From industrial plants to residential homes, we engineer<br />
           power systems that never let you down.
         </p>
-        <div className="w-full border-t border-dashed border-sky-200 mt-4" />
       </div>
 
       {/* Solutions */}
@@ -112,16 +112,7 @@ export default function SolutionsPage() {
 
               <div className="flex flex-col gap-2">
                 <p className="text-zinc-800 text-sm font-semibold font-['Space_Grotesk']">Recommended Products:</p>
-                <div className="flex flex-wrap gap-2">
-                  {s.products.map((product) => (
-                    <span
-                      key={product}
-                      className="px-3 py-1 rounded-full border border-zinc-300 text-zinc-600 text-xs font-['Space_Grotesk']"
-                    >
-                      {product}
-                    </span>
-                  ))}
-                </div>
+                <SolutionProductTags tags={s.products} />
               </div>
 
               <Link

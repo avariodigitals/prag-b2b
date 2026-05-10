@@ -22,7 +22,6 @@ const PRODUCTS = [
 
 const COMPANY = [
   { label: 'About', href: '/about' },
-  { label: 'Contact Us', href: '/contact' },
   { label: 'Find a Distributor', href: '/find-a-distributor' },
   { label: 'Become a Distributor', href: '/distributor' },
   { label: 'Compare Products', href: '/compare' },

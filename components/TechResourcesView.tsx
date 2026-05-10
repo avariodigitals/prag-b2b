@@ -12,16 +12,18 @@ interface Props {
 
 export default function TechResourcesView({ products, selectedSlug }: Props) {
   const router = useRouter();
-  const [slug, setSlug] = useState(selectedSlug ?? '');
+  const initialSlug = selectedSlug && products.some((p) => p.slug === selectedSlug) ? selectedSlug : '';
+  const [slug, setSlug] = useState(initialSlug);
   const selectedProduct = products.find(p => p.slug === slug);
 
   function handleSelect(e: React.ChangeEvent<HTMLSelectElement>) {
-    setSlug(e.target.value);
-    router.push(`/resources?product=${e.target.value}`);
+    const nextSlug = e.target.value;
+    setSlug(nextSlug);
+    router.push(nextSlug ? `/resources?product=${nextSlug}` : '/resources');
   }
 
   return (
-    <div className="w-full px-6 md:px-20 py-10 md:py-16 flex flex-col gap-10">
+    <div className="w-full max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
       {/* Product selector */}
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">

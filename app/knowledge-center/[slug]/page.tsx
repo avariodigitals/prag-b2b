@@ -44,7 +44,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
   return (
     <main className="w-full bg-white flex flex-col">
       {/* Hero */}
-      <div className="w-full px-4 md:px-20 pt-8 pb-6 bg-stone-50 max-w-[1280px] mx-auto flex flex-col gap-3">
+      <div className="w-full px-6 md:px-10 pt-8 pb-6 bg-stone-50 max-w-6xl mx-auto flex flex-col gap-3">
         <Link href="/knowledge-center" className="flex items-center gap-2 text-sky-700 text-sm font-medium font-['Space_Grotesk'] hover:underline w-fit">
           <ArrowLeft className="w-4 h-4" /> Back to Knowledge Center
         </Link>
@@ -59,7 +59,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
       </div>
 
       {/* Content */}
-      <div className="w-full px-4 md:px-20 py-8 flex flex-col gap-8 max-w-[1280px] mx-auto">
+      <div className="w-full px-6 md:px-10 py-8 flex flex-col gap-8 max-w-6xl mx-auto">
         {img && (
           <div className="relative w-full h-56 md:h-[420px] rounded-2xl overflow-hidden">
             <Image src={img} alt={stripHtml(post.title.rendered)} fill sizes="(max-width: 768px) 100vw, 1280px" className="object-cover" priority />
@@ -73,7 +73,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
 
       {/* Related posts */}
       {related.length > 0 && (
-        <div className="w-full px-4 md:px-20 py-8 border-t border-zinc-100 max-w-[1280px] mx-auto flex flex-col gap-6">
+        <div className="w-full px-6 md:px-10 py-8 border-t border-zinc-100 max-w-6xl mx-auto flex flex-col gap-6">
           <h2 className="text-zinc-900 text-xl font-bold font-['Onest']">More Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {related.map((p: WPPost) => {

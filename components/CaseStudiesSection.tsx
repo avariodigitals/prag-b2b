@@ -1,33 +1,35 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { getCaseStudiesContent } from '@/lib/caseStudies';
 
-const RESULTS = [
-  { label: 'Power Rating', value: '500KVA' },
-  { label: 'Uptime', value: '99.8%' },
-  { label: 'Solar Panels', value: '99.8%' },
-  { label: 'Annual Savings', value: '₦15M' },
-  { label: 'Life Span', value: '3X' },
-  { label: 'Life Span', value: '3X' },
-];
+export default async function CaseStudiesSection() {
+  const content = await getCaseStudiesContent();
+  const featuredStudy = content.studies.find((study) => study.featured && study.active)
+    ?? content.studies.find((study) => study.active)
+    ?? content.studies[0];
 
-const TAGS = ['Stabilizer', 'Inverter', 'Solar Panels'];
+  if (!featuredStudy) return null;
 
-export default function CaseStudiesSection() {
   return (
-    <section className="w-full bg-white py-16 px-6 md:px-20">
+    <section className="w-full bg-white pt-8 pb-16 md:py-16 px-6 md:px-20">
       <div className="max-w-5xl mx-auto flex flex-col items-center gap-10">
 
         {/* Header */}
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Case Studies</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">{content.sectionKicker}</span>
           </div>
           <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight text-center">
-            Real Results from<br />Real Projects
+            {content.sectionTitle.split('\n').map((line, index) => (
+              <span key={`${line}-${index}`}>
+                {line}
+                {index < content.sectionTitle.split('\n').length - 1 && <br />}
+              </span>
+            ))}
           </h2>
           <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] max-w-xl text-center">
-            Explore how we&apos;ve helped homes, businesses, and industrial facilities overcome power challenges with tailored solutions.
+            {content.sectionDescription}
           </p>
         </div>
 
@@ -36,8 +38,8 @@ export default function CaseStudiesSection() {
           {/* Image */}
           <div className="relative w-full md:w-[380px] shrink-0 h-64 md:h-auto rounded-xl overflow-hidden">
             <Image
-              src="https://central.prag.global/wp-content/uploads/2026/05/Rectangle-7.png"
-              alt="Lagos manufacturing case study"
+              src={featuredStudy.imageUrl}
+              alt={featuredStudy.imageAlt || featuredStudy.title}
               fill
               className="object-cover"
               sizes="(min-width: 768px) 380px, 100vw"
@@ -47,15 +49,15 @@ export default function CaseStudiesSection() {
           {/* Content */}
           <div className="flex flex-col gap-5 flex-1">
             <h3 className="text-zinc-900 text-lg md:text-xl font-bold font-['Onest'] leading-snug">
-              A Lagos manufacturing company reduced downtime by over 90% with a PRAG system — achieving 99.8% uptime.
+              {featuredStudy.title}
             </h3>
             <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">
-              To reduce frequent power outages causing 12+ hours of weekly downtime, damaging expensive CNC machines.
+              {featuredStudy.problem}
             </p>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
-              {TAGS.map((tag) => (
+              {featuredStudy.tags.map((tag) => (
                 <span key={tag} className="px-3 py-1 rounded-full border border-gray-200 text-zinc-600 text-xs font-['Space_Grotesk']">
                   {tag}
                 </span>
@@ -66,8 +68,8 @@ export default function CaseStudiesSection() {
             <div className="flex flex-col gap-3">
               <span className="text-zinc-900 text-xs font-bold font-['Space_Grotesk'] uppercase tracking-widest">Results</span>
               <div className="grid grid-cols-3 gap-2">
-                {RESULTS.map((r, i) => (
-                  <div key={i} className="border border-gray-200 rounded-lg px-3 py-2.5 flex flex-col gap-0.5">
+                {featuredStudy.results.map((r) => (
+                  <div key={`${r.label}-${r.value}`} className="border border-gray-200 rounded-lg px-3 py-2.5 flex flex-col gap-0.5">
                     <span className="text-zinc-400 text-[10px] font-semibold font-['Space_Grotesk'] uppercase tracking-wider">{r.label}</span>
                     <span className="text-zinc-900 text-sm font-bold font-['Onest']">{r.value}</span>
                   </div>
@@ -79,10 +81,10 @@ export default function CaseStudiesSection() {
 
         {/* CTA */}
         <Link
-          href="/installations"
+          href={content.sectionCtaHref}
           className="px-8 py-3.5 bg-sky-900 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full hover:bg-sky-800 transition-colors flex items-center gap-2"
         >
-          View all Case studies →
+          {content.sectionCtaLabel}
         </Link>
 
       </div>

@@ -49,21 +49,14 @@ export default async function FindADistributorPage() {
   return (
     <main className="w-full flex flex-col">
       {/* Hero */}
-      <div className="w-full py-20 md:py-28 px-6 flex flex-col items-center gap-4 text-center bg-zinc-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-900/60 via-zinc-900 to-zinc-900" />
-        <div className="relative z-10 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-sky-500 rounded-sm shrink-0" />
-            <span className="text-sky-400 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Store Locator</span>
-          </div>
-          <h1 className="text-white text-4xl md:text-6xl font-bold font-['Onest'] leading-tight">Find a PRAG Store<br />Near You</h1>
-          <p className="text-white/60 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
-            Connect with authorized PRAG stores across Nigeria for expert consultation, product purchases, and professional installation services.
-          </p>
-        </div>
+      <div className="w-full bg-stone-50 py-16 md:py-20 px-6 flex flex-col items-center gap-4 text-center">
+        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">Find a PRAG Store Near You</h1>
+        <p className="text-sky-700 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
+          Connect with authorized PRAG stores across Nigeria for expert consultation, product purchases, and professional installation services.
+        </p>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-16 md:py-20 flex flex-col gap-16">
+      <div className="max-w-6xl mx-auto w-full px-6 md:px-10 py-16 md:py-20 flex flex-col gap-16">
 
         {/* PRAG Stores */}
         {pragStores.length > 0 && (

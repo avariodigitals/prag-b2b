@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import type { Product } from '@/lib/woocommerce';
-import { formatPrice } from '@/lib/woocommerce';
+import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
 
 interface Props {
   products: Product[];
@@ -72,6 +72,10 @@ export default function CompareView({ products }: Props) {
 
   function getApplications(product: Product | null) {
     return product?.categories?.map((c) => c.name) ?? [];
+  }
+
+  function getProductLandingHref(product: Product) {
+    return getShopProductUrl(product);
   }
 
   const specRows: { label: string; values: (string | React.ReactNode)[] }[] = hasComparison
@@ -163,8 +167,11 @@ export default function CompareView({ products }: Props) {
               <thead>
                 <tr className="bg-sky-800 text-white">
                   <th className="text-left px-6 py-4 font-semibold font-['Space_Grotesk'] w-44">Specification</th>
-                  {selected.map((p) => (
-                    <th key={p!.id} className="text-left px-6 py-4">
+                  {selected.map((p, idx) => (
+                    <th
+                      key={p!.id}
+                      className={`text-left px-6 py-4 ${idx > 0 ? 'border-l border-sky-600/40' : ''}`}
+                    >
                       <p className="font-bold font-['Onest'] text-base">{p!.name}</p>
                       <p className="text-sky-200 text-xs font-['Space_Grotesk'] font-normal mt-0.5">
                         {p!.categories[0]?.name ?? ''}
@@ -180,26 +187,38 @@ export default function CompareView({ products }: Props) {
                       {row.label}
                     </td>
                     {row.values.map((val, j) => (
-                      <td key={j} className="px-6 py-4 text-zinc-800 font-['Space_Grotesk'] align-top">
+                      <td
+                        key={j}
+                        className={`px-6 py-4 text-zinc-800 font-['Space_Grotesk'] align-top ${j > 0 ? 'border-l border-zinc-200' : ''}`}
+                      >
                         {val}
                       </td>
                     ))}
                   </tr>
                 ))}
               </tbody>
+              <tfoot>
+                <tr className="bg-white border-t border-zinc-200">
+                  <td className="px-6 py-4 text-zinc-500 font-medium font-['Space_Grotesk']">Action</td>
+                  {selected.map((p, idx) => (
+                    <td key={p!.id} className={`px-6 py-4 ${idx > 0 ? 'border-l border-zinc-200' : ''}`}>
+                      <a
+                        href={getProductLandingHref(p!)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex px-6 py-2.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+                      >
+                        Buy Now
+                      </a>
+                    </td>
+                  ))}
+                </tr>
+              </tfoot>
             </table>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-center gap-4">
-            <a
-              href={`https://prag.global/product/${p1.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
-            >
-              Buy Now
-            </a>
+          <div className="flex items-center justify-center">
             <button
               onClick={() => { setP1(null); setP2(null); }}
               className="px-8 py-3 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"

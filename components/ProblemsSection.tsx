@@ -42,12 +42,12 @@ export default function ProblemsSection() {
   return (
     <section className="w-full bg-white">
       {/* Stats Bar */}
-      <div className="w-full py-8 px-6 md:px-20">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-sky-700/20 text-center gap-6 md:gap-0">
+      <div className="w-full py-6 md:py-8 px-6 md:px-20">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-sky-700/20 text-center gap-0">
           {STATS.map((s) => (
-            <div key={s.label} className="flex items-center justify-center px-6 py-2">
-              <span className="text-sky-700 text-lg md:text-2xl font-medium font-['Onest'] leading-tight text-center">
-                {s.label.split('\n').map((line, i) => <span key={i} className="block whitespace-nowrap">{line}</span>)}
+            <div key={s.label} className="flex items-center justify-center px-6 py-6 md:py-3">
+              <span className="text-sky-700 text-lg md:text-2xl font-medium font-['Onest'] leading-snug text-center">
+                {s.label.split('\n').map((line, i) => <span key={i} className="block">{line}</span>)}
               </span>
             </div>
           ))}
@@ -55,7 +55,7 @@ export default function ProblemsSection() {
       </div>
 
       {/* Problems Content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-20 py-16 flex flex-col gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-20 pt-10 pb-16 md:py-16 flex flex-col gap-12">
         {/* Header Row */}
         <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-20">
           <div className="flex flex-col gap-3 md:w-1/2">
@@ -63,7 +63,7 @@ export default function ProblemsSection() {
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
               <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Common Issues We Solve</span>
             </div>
-            <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">
+            <h2 className="text-zinc-900 text-2xl sm:text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">
               <span className="whitespace-nowrap">Power Problems Cost You</span><br />More Than You Think
             </h2>
           </div>

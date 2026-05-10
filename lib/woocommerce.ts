@@ -2,6 +2,7 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
+  permalink?: string;
   price: string;
   regular_price: string;
   sale_price: string;
@@ -85,7 +86,7 @@ export async function getProducts({
     status: 'publish',
     per_page: String(per_page),
     page: String(page),
-    _fields: 'id,name,slug,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
+    _fields: 'id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
     ...(category_id ? { category: String(category_id) } : {}),
   });
   try {
@@ -108,7 +109,7 @@ export async function getProducts({
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     const res = await fetch(
-      `${baseUrl()}/products?slug=${slug}&_fields=id,name,slug,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight&${authParams()}`,
+      `${baseUrl()}/products?slug=${slug}&_fields=id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight&${authParams()}`,
       { next: { revalidate: 120 } }
     );
     if (!res.ok) return null;
@@ -176,7 +177,7 @@ async function searchProductsRaw(query: string, per_page = 8): Promise<Product[]
       search: query,
       status: 'publish',
       per_page: String(per_page),
-      _fields: 'id,name,slug,price,regular_price,sale_price,on_sale,stock_status,images,categories,attributes',
+      _fields: 'id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,attributes',
     });
     const res = await fetch(`${baseUrl()}/products?${qs}&${authParams()}`, { cache: 'no-store' });
     if (!res.ok) return [];
@@ -194,6 +195,13 @@ export async function searchProducts(query: string): Promise<Product[]> {
 
 export function formatPrice(price: string) {
   return `₦${Number(price).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
+}
+
+export function getShopProductUrl(product: Pick<Product, 'slug' | 'categories'>): string {
+  const shopBase = 'https://shop.prag.global';
+  const categorySlug = product.categories?.[0]?.slug?.trim() || 'products';
+  const productSlug = product.slug?.trim();
+  return `${shopBase}/products/${encodeURIComponent(categorySlug)}/${encodeURIComponent(productSlug)}`;
 }
 
 export interface Store {

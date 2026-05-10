@@ -38,24 +38,15 @@ export default async function ContactPage() {
   return (
     <main className="w-full flex flex-col">
       {/* Hero */}
-      <div
-        className="w-full py-20 md:py-28 px-6 flex flex-col items-center gap-4 text-center bg-zinc-900 relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-900/60 via-zinc-900 to-zinc-900" />
-        <div className="relative z-10 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-sky-500 rounded-sm shrink-0" />
-            <span className="text-sky-400 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Contact Us</span>
-          </div>
-          <h1 className="text-white text-4xl md:text-6xl font-bold font-['Onest'] leading-tight">Get in Touch</h1>
-          <p className="text-white/60 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
-            Have a question or need a custom power solution? We&apos;d love to hear from you.
-          </p>
-        </div>
+      <div className="w-full bg-stone-50 py-16 md:py-20 px-6 flex flex-col items-center gap-4 text-center">
+        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">Get in Touch</h1>
+        <p className="text-sky-700 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
+          Have a question or need a custom power solution?<br className="hidden md:block" /> We&apos;d love to hear from you.
+        </p>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-16 py-16 md:py-20 flex flex-col md:flex-row gap-10 md:gap-16 items-start">
+      <div className="max-w-6xl mx-auto w-full px-6 md:px-10 py-16 md:py-20 flex flex-col md:flex-row gap-10 md:gap-16 items-start">
         {/* Left: contact info */}
         <div className="w-full md:w-96 shrink-0 flex flex-col gap-4">
           <div className="p-5 bg-stone-50 rounded-2xl flex items-center gap-4">
@@ -100,15 +91,15 @@ export default async function ContactPage() {
           </div>
 
           {socialLinks.length > 0 && (
-            <div className="p-5 bg-white rounded-2xl border border-sky-700 flex flex-col gap-4">
+            <div className="p-5 bg-stone-50 rounded-2xl border border-sky-700 flex flex-col gap-4">
               <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Follow our socials</span>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex items-center justify-between gap-2 sm:gap-4">
                 {socialLinks.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-sky-700 rounded-full flex items-center justify-center">
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 bg-sky-700 rounded-full flex items-center justify-center shrink-0">
                       <SocialIcon network={s.network} />
                     </div>
-                    <span className="text-zinc-900 text-sm font-['Space_Grotesk']">{s.label}</span>
+                    <span className="text-zinc-900 text-xs sm:text-sm font-['Space_Grotesk'] whitespace-nowrap">{s.label}</span>
                   </a>
                 ))}
               </div>

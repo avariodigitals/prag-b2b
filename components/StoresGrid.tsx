@@ -43,7 +43,7 @@ export default function StoresGrid({ pragStores, onlineStores, chainStores }: Pr
   const chainLogos = chainStores.filter((s) => s.logo).map((s) => ({ src: s.logo!.src, alt: s.logo!.alt, href: s.map_url, name: s.name }));
 
   return (
-    <section className="w-full px-6 md:px-20 py-12 flex flex-col gap-12 border-t border-dashed border-sky-200">
+    <section className="w-full px-6 md:px-20 py-12 flex flex-col gap-12">
       {/* Header */}
       <div className="flex flex-col items-center gap-3 text-center">
         <h2 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">Find a PRAG Store Near You</h2>
@@ -52,7 +52,6 @@ export default function StoresGrid({ pragStores, onlineStores, chainStores }: Pr
           expert consultation, product purchases, and professional<br />
           installation services.
         </p>
-        <div className="w-full border-t border-dashed border-sky-200 mt-2" />
       </div>
 
       {/* PRAG Stores */}
