@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { unstable_noStore as noStore } from 'next/cache';
+import { cache } from 'react';
 
 export interface PublicB2BPageSection {
   id?: string;
@@ -139,10 +140,18 @@ async function getB2BContentFromLocalStore(): Promise<PublicB2BContent | null> {
 }
 
 export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
+  return getB2BPublicContentCached();
+}
+
+const getB2BPublicContentCached = cache(async (): Promise<PublicB2BContent | null> => {
   noStore();
 
-  const localContent = await getB2BContentFromLocalStore();
-  if (localContent) return localContent;
+  // Local file fallback is useful in local dev, but avoid it on Vercel where
+  // the Prag-Admin workspace path does not exist and adds unnecessary latency.
+  if (!process.env.VERCEL) {
+    const localContent = await getB2BContentFromLocalStore();
+    if (localContent) return localContent;
+  }
 
   const baseUrl = resolveB2BAdminBaseUrl();
   if (!baseUrl) return null;
@@ -150,13 +159,14 @@ export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
   try {
     const res = await fetch(`${baseUrl}/api/public/b2b-content`, {
       cache: 'no-store',
+      signal: AbortSignal.timeout(3500),
     });
     if (!res.ok) return null;
     return (await res.json()) as PublicB2BContent;
   } catch {
     return null;
   }
-}
+});
 
 export function findB2BPage(content: PublicB2BContent | null, route: string): PublicB2BPage | null {
   if (!content?.pages || !Array.isArray(content.pages)) return null;
