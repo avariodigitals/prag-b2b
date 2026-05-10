@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { getProducts } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 
@@ -55,6 +56,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   return (
     <main className="w-full bg-white flex flex-col">
+      {/* Breadcrumb */}
+      <div className="w-full px-6 md:px-20 py-4 bg-stone-50 border-b border-zinc-100 flex items-center gap-1.5 flex-wrap text-sm font-['Space_Grotesk']">
+        <Link href="/" className="text-sky-700 hover:underline">Home</Link>
+        <span className="text-zinc-400">/</span>
+        <Link href="/products" className="text-zinc-500 hover:text-sky-700">Products</Link>
+        <span className="text-zinc-400">/</span>
+        <span className="text-zinc-500">{name}</span>
+      </div>
+
       {/* Hero */}
       <div className="w-full bg-stone-50 px-6 md:px-20 pt-12 pb-8 flex flex-col items-center gap-3 text-center">
         <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Onest']">{name}</h1>

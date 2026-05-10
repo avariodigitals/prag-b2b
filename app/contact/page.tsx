@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getStores, getSiteSettings } from '@/lib/woocommerce';
+import { getB2BPublicContent } from '@/lib/b2bContent';
 import ContactForm from '@/components/ContactForm';
 import StoresGrid from '@/components/StoresGrid';
 
@@ -17,18 +18,20 @@ function SocialIcon({ network }: { network: string }) {
 }
 
 export default async function ContactPage() {
-  const [stores, settings] = await Promise.all([getStores(), getSiteSettings()]);
+  const [stores, settings, content] = await Promise.all([getStores(), getSiteSettings(), getB2BPublicContent()]);
+  const b2bContact = content?.settings?.contact;
 
-  const phone = settings.contact_phone;
-  const email = settings.contact_email;
-  const address = settings.address;
+  const phone = b2bContact?.contactPhone?.trim() || settings.contact_phone;
+  const email = b2bContact?.contactEmail?.trim() || settings.contact_email;
+  const address = b2bContact?.address?.trim() || settings.address;
   const hoursWeekday = settings.business_hours_weekday;
   const hoursSaturday = settings.business_hours_saturday;
+  const socials = b2bContact?.socials;
 
   const socialLinks = [
-    { label: 'Facebook', href: settings.socials?.facebook, network: 'facebook' },
-    { label: 'Instagram', href: settings.socials?.instagram, network: 'instagram' },
-    { label: 'LinkedIn', href: settings.socials?.linkedin, network: 'linkedin' },
+    { label: 'Facebook', href: socials?.facebook || settings.socials?.facebook, network: 'facebook' },
+    { label: 'Instagram', href: socials?.instagram || settings.socials?.instagram, network: 'instagram' },
+    { label: 'LinkedIn', href: socials?.linkedin || settings.socials?.linkedin, network: 'linkedin' },
   ].filter((s) => Boolean(s.href));
 
   const pragStores = stores.filter((s) => s.type === 'prag');

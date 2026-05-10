@@ -38,24 +38,28 @@ export default function TechnologiesSection() {
   const [technologies, setTechnologies] = useState(TECHNOLOGIES);
 
   useEffect(() => {
-    const baseUrl = process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL;
-    if (!baseUrl) return;
-    const publicBaseUrl = baseUrl.replace(/\/$/, '');
-
     let cancelled = false;
 
     async function loadImages() {
       try {
-        const res = await fetch(`${publicBaseUrl}/api/public/b2b-content`, { cache: 'no-store' });
+        const res = await fetch('/api/public/b2b-content', { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
-        const page = data?.pages?.find((entry: { route: string; sections?: Array<{ type: string; imageUrl?: string }> }) => entry.route === '/');
+        const page = data?.pages?.find((entry: { route: string; sections?: Array<{ type: string; imageUrl?: string; summary?: string; title?: string; ctaHref?: string }> }) => entry.route === '/');
+        const technologySections = Array.isArray(page?.sections)
+          ? page.sections.filter((section: { type?: string; visible?: boolean }) => section.type === 'technology' && section.visible !== false)
+          : [];
         if (cancelled) return;
 
         setTechnologies((current) => current.map((item, index) => {
-          const override = page?.sections?.find((section: { type: string; imageUrl?: string }, sectionIndex: number) => section.type === 'technology' && sectionIndex === index)?.imageUrl
-            || page?.sections?.[index + 5]?.imageUrl;
-          return override ? { ...item, image: override } : item;
+          const section = technologySections[index];
+          if (!section) return item;
+          return {
+            ...item,
+            name: section.summary?.trim() || section.title?.trim() || item.name,
+            image: section.imageUrl?.trim() || item.image,
+            href: section.ctaHref?.trim() || item.href,
+          };
         }));
       } catch {
         // Keep the built-in images as a safe fallback.

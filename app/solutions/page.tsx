@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import SolutionProductTags from '@/components/SolutionProductTags';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
   title: 'Power Solutions – Prag B2B',
@@ -62,23 +63,61 @@ const SOLUTIONS = [
   },
 ];
 
-export default function SolutionsPage() {
+function parseChallengeAndSolution(content: string): { challenge: string; solution: string } {
+  const text = content.trim();
+  if (!text) return { challenge: '', solution: '' };
+
+  const challengeMatch = text.match(/challenge:\s*([\s\S]*?)(?:our solutions?:|$)/i);
+  const solutionMatch = text.match(/our solutions?:\s*([\s\S]*)$/i);
+
+  if (challengeMatch || solutionMatch) {
+    return {
+      challenge: challengeMatch?.[1]?.trim() || '',
+      solution: solutionMatch?.[1]?.trim() || '',
+    };
+  }
+
+  return { challenge: text, solution: '' };
+}
+
+export default async function SolutionsPage() {
+  const content = await getB2BPublicContent();
+  const page = findB2BPage(content, '/solutions');
+  const heroSection = findVisibleSectionsByType(page, 'hero')[0];
+  const contentSections = findVisibleSectionsByType(page, 'content');
+  const mergedSolutions = SOLUTIONS.map((fallback, index) => {
+    const section = contentSections[index];
+    if (!section) return fallback;
+    const parsed = parseChallengeAndSolution(section.content?.trim() || '');
+    return {
+      ...fallback,
+      tag: section.kicker?.trim() || fallback.tag,
+      title: section.summary?.trim() || section.title?.trim() || fallback.title,
+      challenge: parsed.challenge || fallback.challenge,
+      solution: parsed.solution || fallback.solution,
+      href: section.ctaHref?.trim() || fallback.href,
+      image: section.imageUrl?.trim() || fallback.image,
+    };
+  });
+
+  const heroTitle = heroSection?.summary?.trim() || page?.title?.trim() || 'Power Solutions for Every Challenge';
+  const heroDescription = heroSection?.content?.trim() || page?.description?.trim() || 'From industrial plants to residential homes, we engineer power systems that never let you down.';
+
   return (
     <main className="w-full">
       {/* Hero */}
       <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6 bg-stone-50">
         <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
-          Power Solutions for Every Challenge
+          {heroTitle}
         </h1>
         <p className="text-zinc-500 text-sm font-['Space_Grotesk'] max-w-sm leading-relaxed">
-          From industrial plants to residential homes, we engineer<br />
-          power systems that never let you down.
+          {heroDescription}
         </p>
       </div>
 
       {/* Solutions */}
       <div className="max-w-5xl mx-auto px-6 md:px-10 flex flex-col gap-20 py-12 pb-20">
-        {SOLUTIONS.map((s) => (
+        {mergedSolutions.map((s) => (
           <div
             key={s.tag}
             className={`flex flex-col ${s.imageLeft ? 'md:flex-row' : 'md:flex-row-reverse'} gap-10 items-center`}

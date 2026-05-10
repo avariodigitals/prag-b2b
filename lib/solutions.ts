@@ -1,4 +1,5 @@
 import { getProducts, searchProducts } from '@/lib/woocommerce';
+import { getB2BPublicContent } from '@/lib/b2bContent';
 
 export type SolutionCategoryKey = 'residential' | 'commercial' | 'industrial';
 
@@ -346,19 +347,36 @@ function mergeCategory(defaultCategory: SolutionCategoryContent, raw?: NonNullab
 
 export async function getSolutionCategoryContent(key: SolutionCategoryKey): Promise<SolutionCategoryContent> {
   const defaultCategory = DEFAULT_SOLUTIONS[key];
-  const baseUrl = process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL;
-  if (!baseUrl) return defaultCategory;
+  const data = await getB2BPublicContent();
+  if (!data) return defaultCategory;
 
   try {
-    const res = await fetch(`${baseUrl.replace(/\/$/, '')}/api/public/b2b-content`, { next: { revalidate: 60 } });
-    if (!res.ok) return defaultCategory;
-
-    const data = await res.json();
     const payload = (data?.solutions ?? {}) as PublicSolutionsPayload;
     const incoming = Array.isArray(payload.categories) ? payload.categories : [];
     const entry = incoming.find((category) => normalizeCategoryKey(category?.key) === key);
+    const merged = mergeCategory(defaultCategory, entry);
 
-    return mergeCategory(defaultCategory, entry);
+    const routeByKey: Record<SolutionCategoryKey, string> = {
+      residential: '/solutions/residential',
+      commercial: '/solutions/commercial',
+      industrial: '/solutions/industrial',
+    };
+    const route = routeByKey[key];
+    const page = Array.isArray(data?.pages)
+      ? (data.pages as Array<{ route?: string; sections?: Array<{ type?: string; summary?: string; content?: string; ctaLabel?: string; ctaHref?: string; visible?: boolean }> }>).find((item) => item?.route === route)
+      : null;
+    const heroSection = page?.sections?.find((section) => section?.type === 'hero' && section?.visible !== false)
+      ?? page?.sections?.find((section) => section?.visible !== false);
+
+    if (!heroSection) return merged;
+
+    return {
+      ...merged,
+      heroTitle: heroSection.summary?.trim() || merged.heroTitle,
+      heroDescription: heroSection.content?.trim() || merged.heroDescription,
+      ctaLabel: heroSection.ctaLabel?.trim() || merged.ctaLabel,
+      ctaHref: heroSection.ctaHref?.trim() || merged.ctaHref,
+    };
   } catch {
     return defaultCategory;
   }

@@ -33,14 +33,14 @@ export default async function ProductDetailPage({ params }: Props) {
   return (
     <main className="w-full bg-white flex flex-col">
       {/* Breadcrumb */}
-      <div className="w-full px-6 md:px-20 py-4 bg-stone-50 border-b border-zinc-100">
-        <div className="flex items-center gap-1.5 flex-wrap text-sm font-['Space_Grotesk']">
-          <Link href="/products" className="text-sky-700 hover:underline">Products</Link>
-          <span className="text-zinc-400">/</span>
-          <Link href={`/products`} className="text-zinc-500 hover:underline capitalize">{category.replace(/-/g, ' ')}</Link>
-          <span className="text-zinc-400">/</span>
-          <span className="text-zinc-500 truncate max-w-xs">{product.name}</span>
-        </div>
+      <div className="w-full px-6 md:px-20 py-4 bg-stone-50 border-b border-zinc-100 flex items-center gap-1.5 flex-wrap text-sm font-['Space_Grotesk']">
+        <Link href="/" className="text-sky-700 hover:underline">Home</Link>
+        <span className="text-zinc-400">/</span>
+        <Link href="/products" className="text-zinc-500 hover:text-sky-700">Products</Link>
+        <span className="text-zinc-400">/</span>
+        <Link href={`/products`} className="text-zinc-500 hover:underline capitalize">{category.replace(/-/g, ' ')}</Link>
+        <span className="text-zinc-400">/</span>
+        <span className="text-zinc-500 truncate max-w-xs">{product.name}</span>
       </div>
 
       <ProductDetailView product={product} related={relatedFiltered} reviews={reviews} techDocs={techDocs} />

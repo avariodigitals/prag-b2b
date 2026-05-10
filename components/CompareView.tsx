@@ -102,8 +102,8 @@ export default function CompareView({ products }: Props) {
             if (!features.length) return '—';
             return (
               <ul className="flex flex-col gap-1">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-1.5 text-sm font-['Space_Grotesk'] text-zinc-700">
+                {features.map((f, idx) => (
+                  <li key={`${f}-${idx}`} className="flex items-center gap-1.5 text-sm font-['Space_Grotesk'] text-zinc-700">
                     <Check className="w-3.5 h-3.5 text-sky-700 shrink-0" />
                     {f}
                   </li>
@@ -119,9 +119,9 @@ export default function CompareView({ products }: Props) {
             if (!apps.length) return '—';
             return (
               <div className="flex flex-wrap gap-1.5">
-                {apps.map((a) => (
+                {apps.map((a, idx) => (
                   <span
-                    key={a}
+                    key={`${a}-${idx}`}
                     className="px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-medium font-['Space_Grotesk']"
                   >
                     {a}
@@ -162,7 +162,7 @@ export default function CompareView({ products }: Props) {
       {/* Comparison Table */}
       {hasComparison && (
         <div className="flex flex-col gap-6">
-          <div className="rounded-xl border border-zinc-200 overflow-hidden">
+          <div className="hidden md:block rounded-xl border border-zinc-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-sky-800 text-white">
@@ -217,11 +217,49 @@ export default function CompareView({ products }: Props) {
             </table>
           </div>
 
+          <div className="md:hidden flex flex-col gap-4">
+            <div className="grid grid-cols-2 gap-2">
+              {selected.map((p) => (
+                <div key={p!.id} className="rounded-xl border border-zinc-200 bg-white p-3">
+                  <p className="text-zinc-900 text-sm font-bold font-['Onest'] line-clamp-2 min-h-10">{p!.name}</p>
+                  <p className="text-zinc-500 text-xs font-['Space_Grotesk'] mt-1">{p!.categories[0]?.name ?? ''}</p>
+                </div>
+              ))}
+            </div>
+
+            {specRows.map((row, i) => (
+              <div key={row.label} className={`rounded-xl border border-zinc-200 p-3 ${i % 2 === 0 ? 'bg-white' : 'bg-zinc-50'}`}>
+                <p className="text-zinc-500 text-[11px] font-semibold font-['Space_Grotesk'] uppercase tracking-wide mb-2">{row.label}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {row.values.map((val, j) => (
+                    <div key={j} className="text-zinc-800 text-sm font-['Space_Grotesk'] break-words">
+                      {val}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            <div className="grid grid-cols-2 gap-2">
+              {selected.map((p) => (
+                <a
+                  key={p!.id}
+                  href={getProductLandingHref(p!)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-11 inline-flex items-center justify-center px-4 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+                >
+                  Buy Now
+                </a>
+              ))}
+            </div>
+          </div>
+
           {/* Actions */}
           <div className="flex items-center justify-center">
             <button
               onClick={() => { setP1(null); setP2(null); }}
-              className="px-8 py-3 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+              className="w-full md:w-auto h-11 md:h-auto px-8 py-3 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
             >
               Clear Comparison
             </button>

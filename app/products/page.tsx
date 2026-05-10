@@ -1,5 +1,6 @@
 import ProductsView from '@/components/ProductsView';
 import { getCategories, getProducts, searchProducts, type Product } from '@/lib/woocommerce';
+import Link from 'next/link';
 
 export const revalidate = 300;
 
@@ -46,11 +47,18 @@ export default async function ProductsPage({ searchParams }: Props) {
   });
 
   return (
-    <main className="w-full bg-white">
+    <main className="w-full bg-white flex flex-col">
+        {/* Breadcrumb */}
+        <div className="w-full px-6 md:px-20 py-4 bg-stone-50 border-b border-zinc-100 flex items-center gap-1.5 flex-wrap text-sm font-['Space_Grotesk']">
+          <Link href="/" className="text-sky-700 hover:underline">Home</Link>
+          <span className="text-zinc-400">/</span>
+          <span className="text-zinc-500">Products</span>
+        </div>
+
         {/* Hero */}
-        <div className="w-full bg-stone-50 py-14 px-6 md:px-20 flex flex-col items-center gap-4 text-center">
-          <h1 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Onest']">Our Products</h1>
-          <p className="text-zinc-500 text-base md:text-lg font-['Space_Grotesk'] max-w-xl">
+        <div className="w-full bg-stone-50 px-6 md:px-20 pt-12 pb-8 flex flex-col items-center gap-3 text-center">
+          <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Onest']">Our Products</h1>
+          <p className="text-sky-700 text-base md:text-lg font-['Space_Grotesk'] max-w-xl">
             Industrial-grade power solutions engineered for businesses, facilities, and large-scale operations.
           </p>
         </div>

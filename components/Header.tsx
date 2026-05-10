@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import type { PublicB2BContent } from '@/lib/b2bContent';
 
 const SOLUTIONS = [
   { label: 'Industrial', href: '/solutions/industrial' },
@@ -111,7 +112,17 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: { la
   );
 }
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({
+  open,
+  onClose,
+  companyItems,
+  cta,
+}: {
+  open: boolean;
+  onClose: () => void;
+  companyItems: { label: string; href: string }[];
+  cta: { label: string; href: string };
+}) {
   return (
     <>
       {/* Backdrop */}
@@ -145,7 +156,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
         <div className="px-6 py-2 flex flex-col overflow-y-auto max-h-[calc(100vh-4rem)]">
           <MobileAccordion label="Solutions" items={SOLUTIONS} onClose={onClose} />
           <MobileAccordion label="Products" items={PRODUCTS} onClose={onClose} />
-          <MobileAccordion label="Company" items={COMPANY} onClose={onClose} />
+          <MobileAccordion label="Company" items={companyItems} onClose={onClose} />
           <Link
             href="/contact"
             onClick={onClose}
@@ -154,11 +165,11 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
             Contact
           </Link>
           <Link
-            href="/products"
+            href={cta.href}
             onClick={onClose}
             className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-700 transition-colors"
           >
-            Shop
+            {cta.label}
           </Link>
         </div>
       </div>
@@ -166,8 +177,16 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
-export default function Header() {
+export default function Header({ settings }: { settings?: PublicB2BContent['settings'] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const configuredCompany = Array.isArray(settings?.header?.menuItems)
+    ? settings?.header?.menuItems.filter((item) => item?.label && item?.href)
+    : [];
+  const companyItems = configuredCompany && configuredCompany.length > 0 ? configuredCompany : COMPANY;
+  const cta = {
+    label: settings?.header?.ctaLabel?.trim() || 'Shop',
+    href: settings?.header?.ctaHref?.trim() || '/products',
+  };
 
   return (
     <header className="w-full bg-white sticky top-0 z-50 shadow-sm">
@@ -190,16 +209,16 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <NavItem label="Solutions" items={SOLUTIONS} />
           <NavItem label="Products" items={PRODUCTS} />
-          <NavItem label="Company" items={COMPANY} />
+          <NavItem label="Company" items={companyItems} />
           <NavItem label="Contact" href="/contact" />
         </nav>
 
         {/* Shop Button */}
         <Link
-          href="/products"
+          href={cta.href}
           className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-800 hover:text-white transition-colors"
         >
-          Shop
+          {cta.label}
         </Link>
 
         {/* Mobile Toggle */}
@@ -208,7 +227,7 @@ export default function Header() {
         </button>
       </div>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} companyItems={companyItems} cta={cta} />
     </header>
   );
 }

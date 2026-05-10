@@ -1,23 +1,20 @@
 import Image from 'next/image';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
-async function getWhyPragImages() {
-  const baseUrl = process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL;
-  if (!baseUrl) return REASONS;
+async function getWhyPragContent() {
+  const content = await getB2BPublicContent();
+  const page = findB2BPage(content, '/');
+  const reasonSections = findVisibleSectionsByType(page, 'reason');
 
-  try {
-    const res = await fetch(`${baseUrl.replace(/\/$/, '')}/api/public/b2b-content`, { next: { revalidate: 60 } });
-    if (!res.ok) return REASONS;
-    const data = await res.json();
-    const page = data?.pages?.find((entry: { route: string; sections?: Array<{ type: string; imageUrl?: string }> }) => entry.route === '/');
-    const fallback = REASONS;
-    return fallback.map((reason, index) => {
-      const sectionImage = page?.sections?.find((section: { type: string; imageUrl?: string }, sectionIndex: number) => section.type === 'reason' && sectionIndex === index)?.imageUrl
-        || page?.sections?.[index + 1]?.imageUrl;
-      return sectionImage ? { ...reason, image: sectionImage } : reason;
-    });
-  } catch {
-    return REASONS;
-  }
+  return REASONS.map((fallback, index) => {
+    const section = reasonSections[index];
+    if (!section) return fallback;
+    return {
+      image: section.imageUrl?.trim() || fallback.image,
+      title: section.summary?.trim() || section.title?.trim() || fallback.title,
+      desc: section.content?.trim() || fallback.desc,
+    };
+  });
 }
 
 const REASONS = [
@@ -44,7 +41,7 @@ const REASONS = [
 ];
 
 export default async function WhyPragSection() {
-  const reasons = await getWhyPragImages();
+  const reasons = await getWhyPragContent();
   return (
     <section className="w-full bg-white py-16 md:py-20 px-6 md:px-20">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">

@@ -1,3 +1,5 @@
+import { getB2BPublicContent } from '@/lib/b2bContent';
+
 export type CaseStudyCategory = 'Residential' | 'Commercial' | 'Industrial';
 
 export interface CaseStudyResult {
@@ -257,16 +259,10 @@ function mergeCaseStudiesContent(content?: Partial<CaseStudiesContent> | null): 
 }
 
 export async function getCaseStudiesContent(): Promise<CaseStudiesContent> {
-  const baseUrl = process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL;
-  if (!baseUrl) return DEFAULT_CASE_STUDIES_CONTENT;
+  const data = await getB2BPublicContent();
+  if (!data) return DEFAULT_CASE_STUDIES_CONTENT;
 
   try {
-    const res = await fetch(`${baseUrl.replace(/\/$/, '')}/api/public/b2b-content`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return DEFAULT_CASE_STUDIES_CONTENT;
-
-    const data = await res.json();
     const merged = mergeCaseStudiesContent(data?.caseStudies);
     const installationsPage = Array.isArray(data?.pages)
       ? (data.pages as PublicPageRecord[]).find((entry) => entry?.route === '/installations')

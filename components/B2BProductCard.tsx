@@ -31,18 +31,18 @@ export default function B2BProductCard({ product }: { product: Product }) {
         )}
 
         {/* Badges */}
-        <div className="absolute top-2 md:top-14 left-2 md:left-3 flex flex-col gap-1 z-10">
-          {isOutOfStock && (
+        <div className="absolute top-2 md:top-2 left-2 md:left-2 flex flex-col gap-1.5 z-10">
+          {isOutOfStock && hasPrice && (
             <span className="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-[10px] font-semibold font-['Space_Grotesk'] uppercase">
               Out of stock
             </span>
           )}
-          {product.on_sale && !isOutOfStock && (
-            <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-600 text-white text-xs md:text-sm font-bold font-['Space_Grotesk'] uppercase tracking-tight flex items-center justify-center leading-none">
+          {product.on_sale && !isUnavailable && (
+            <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-600 text-white text-sm md:text-base font-bold font-['Space_Grotesk'] uppercase tracking-tight flex items-center justify-center leading-none">
               Sale
             </span>
           )}
-          {hasNewTag && !isOutOfStock && !product.on_sale && (
+          {hasNewTag && !isUnavailable && !product.on_sale && (
             <span className="px-2 py-1 rounded-full bg-lime-700 text-white text-[10px] font-semibold font-['Space_Grotesk'] uppercase">
               New
             </span>

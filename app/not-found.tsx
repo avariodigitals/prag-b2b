@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import NotFoundLogger from '@/components/NotFoundLogger';
 
 export default function NotFound() {
   return (
     <main className="w-full bg-white flex flex-col flex-1 min-h-[70vh] justify-center items-center px-6 py-20 text-center gap-8">
+      <NotFoundLogger />
       <span className="text-sky-700 text-[120px] md:text-[180px] font-bold font-['Onest'] leading-none">404</span>
       <h1 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Onest']">Page Not Found</h1>
       <p className="max-w-md text-zinc-500 text-base md:text-lg font-['Space_Grotesk'] leading-relaxed">
