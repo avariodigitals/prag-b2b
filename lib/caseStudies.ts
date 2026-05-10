@@ -263,7 +263,12 @@ export async function getCaseStudiesContent(): Promise<CaseStudiesContent> {
   if (!data) return DEFAULT_CASE_STUDIES_CONTENT;
 
   try {
-    const merged = mergeCaseStudiesContent(data?.caseStudies);
+    const caseStudiesInput = data?.caseStudies;
+    const merged = mergeCaseStudiesContent(
+      caseStudiesInput && typeof caseStudiesInput === 'object'
+        ? (caseStudiesInput as Partial<CaseStudiesContent>)
+        : undefined,
+    );
     const installationsPage = Array.isArray(data?.pages)
       ? (data.pages as PublicPageRecord[]).find((entry) => entry?.route === '/installations')
       : undefined;
