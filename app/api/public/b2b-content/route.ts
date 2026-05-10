@@ -2,6 +2,17 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+type B2BStoreShape = {
+  settings?: unknown;
+  caseStudies?: unknown;
+  solutions?: unknown;
+  pages?: unknown;
+  audit?: Array<{ at?: string }>;
+};
+
 function resolveB2BAdminBaseUrl() {
   const candidates = [
     process.env.B2B_ADMIN_API_URL,
@@ -18,19 +29,63 @@ async function readLocalB2BStore() {
   try {
     const localStorePath = path.resolve(process.cwd(), '..', 'Prag-Admin', '.admin-data', 'b2b-admin-config.json');
     const raw = await fs.readFile(localStorePath, 'utf8');
-    const parsed = JSON.parse(raw) as {
-      settings?: unknown;
-      caseStudies?: unknown;
-      solutions?: unknown;
-      pages?: unknown;
-      audit?: Array<{ at?: string }>;
-    };
+    const parsed = JSON.parse(raw) as B2BStoreShape;
     return {
       settings: parsed.settings,
       caseStudies: parsed.caseStudies,
       solutions: parsed.solutions,
       pages: Array.isArray(parsed.pages) ? parsed.pages : [],
       updatedAt: parsed.audit?.[0]?.at ?? new Date().toISOString(),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function resolveWordPressApiUrl() {
+  const candidate = process.env.NEXT_PUBLIC_WP_API_URL;
+  if (!candidate || !candidate.trim()) return null;
+  return candidate.replace(/\/$/, '');
+}
+
+function buildWordPressAuthHeader() {
+  const user = process.env.WP_APP_USER;
+  const password = process.env.WP_APP_PASSWORD;
+  if (!user || !password) return {};
+
+  const encoded = Buffer.from(`${user}:${password}`).toString('base64');
+  return { Authorization: `Basic ${encoded}` };
+}
+
+async function readWordPressB2BStore() {
+  const wpApiUrl = resolveWordPressApiUrl();
+  if (!wpApiUrl) return null;
+
+  try {
+    const res = await fetch(`${wpApiUrl}/prag-core/v1/admin-config`, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+        ...buildWordPressAuthHeader(),
+      },
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (!res.ok || res.status === 204) return null;
+
+    const parsed = (await res.json()) as {
+      b2bAdminStore?: B2BStoreShape;
+    } & B2BStoreShape;
+    const store = parsed?.b2bAdminStore && typeof parsed.b2bAdminStore === 'object'
+      ? parsed.b2bAdminStore
+      : parsed;
+
+    return {
+      settings: store.settings,
+      caseStudies: store.caseStudies,
+      solutions: store.solutions,
+      pages: Array.isArray(store.pages) ? store.pages : [],
+      updatedAt: store.audit?.[0]?.at ?? new Date().toISOString(),
     };
   } catch {
     return null;
@@ -58,6 +113,17 @@ export async function GET() {
   try {
     const upstream = await fetch(`${baseUrl}/api/public/b2b-content`, { cache: 'no-store' });
     if (!upstream.ok) {
+      const wpData = await readWordPressB2BStore();
+      if (wpData) {
+        return NextResponse.json(wpData, {
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            Pragma: 'no-cache',
+            Expires: '0',
+            'X-B2B-Content-Source': 'wordpress-fallback',
+          },
+        });
+      }
       return NextResponse.json({ error: 'Unable to fetch B2B content.' }, { status: upstream.status });
     }
 
@@ -71,6 +137,17 @@ export async function GET() {
       },
     });
   } catch {
+    const wpData = await readWordPressB2BStore();
+    if (wpData) {
+      return NextResponse.json(wpData, {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+          'X-B2B-Content-Source': 'wordpress-fallback',
+        },
+      });
+    }
     return NextResponse.json({ error: 'Unable to fetch B2B content.' }, { status: 500 });
   }
 }

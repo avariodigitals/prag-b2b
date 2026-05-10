@@ -110,6 +110,15 @@ interface LocalB2BStoreShape {
   audit?: Array<{ at?: string }>;
 }
 
+interface WordPressAdminConfigShape {
+  b2bAdminStore?: LocalB2BStoreShape;
+  settings?: PublicB2BContent['settings'];
+  caseStudies?: unknown;
+  solutions?: unknown;
+  pages?: PublicB2BPage[];
+  audit?: Array<{ at?: string }>;
+}
+
 function resolveB2BAdminBaseUrl() {
   const candidates = [
     process.env.B2B_ADMIN_API_URL,
@@ -122,18 +131,77 @@ function resolveB2BAdminBaseUrl() {
   return null;
 }
 
+function resolveWordPressApiUrl() {
+  const candidate = process.env.NEXT_PUBLIC_WP_API_URL;
+  if (!candidate || !candidate.trim()) return null;
+  return candidate.replace(/\/$/, '');
+}
+
+function buildWordPressAuthHeader() {
+  const user = process.env.WP_APP_USER;
+  const password = process.env.WP_APP_PASSWORD;
+  if (!user || !password) return {};
+
+  const encoded = Buffer.from(`${user}:${password}`).toString('base64');
+  return { Authorization: `Basic ${encoded}` };
+}
+
+function mapStoreToPublicContent(store: LocalB2BStoreShape): PublicB2BContent {
+  return {
+    settings: store.settings,
+    caseStudies: store.caseStudies,
+    solutions: store.solutions,
+    pages: Array.isArray(store.pages) ? store.pages : [],
+    updatedAt: store.audit?.[0]?.at ?? new Date().toISOString(),
+  };
+}
+
 async function getB2BContentFromLocalStore(): Promise<PublicB2BContent | null> {
   try {
     const localStorePath = path.resolve(process.cwd(), '..', 'Prag-Admin', '.admin-data', 'b2b-admin-config.json');
     const raw = await fs.readFile(localStorePath, 'utf8');
     const parsed = JSON.parse(raw) as LocalB2BStoreShape;
-    return {
-      settings: parsed.settings,
-      caseStudies: parsed.caseStudies,
-      solutions: parsed.solutions,
-      pages: Array.isArray(parsed.pages) ? parsed.pages : [],
-      updatedAt: parsed.audit?.[0]?.at ?? new Date().toISOString(),
-    };
+    return mapStoreToPublicContent(parsed);
+  } catch {
+    return null;
+  }
+}
+
+async function getB2BContentFromAdminPublicApi(baseUrl: string): Promise<PublicB2BContent | null> {
+  try {
+    const res = await fetch(`${baseUrl}/api/public/b2b-content`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as PublicB2BContent;
+  } catch {
+    return null;
+  }
+}
+
+async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
+  const wpApiUrl = resolveWordPressApiUrl();
+  if (!wpApiUrl) return null;
+
+  try {
+    const res = await fetch(`${wpApiUrl}/prag-core/v1/admin-config`, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+        ...buildWordPressAuthHeader(),
+      },
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (!res.ok || res.status === 204) return null;
+
+    const parsed = (await res.json()) as WordPressAdminConfigShape;
+    const store = parsed?.b2bAdminStore && typeof parsed.b2bAdminStore === 'object'
+      ? parsed.b2bAdminStore
+      : parsed;
+
+    return mapStoreToPublicContent(store);
   } catch {
     return null;
   }
@@ -154,18 +222,15 @@ const getB2BPublicContentCached = cache(async (): Promise<PublicB2BContent | nul
   }
 
   const baseUrl = resolveB2BAdminBaseUrl();
-  if (!baseUrl) return null;
-
-  try {
-    const res = await fetch(`${baseUrl}/api/public/b2b-content`, {
-      cache: 'no-store',
-      signal: AbortSignal.timeout(3500),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as PublicB2BContent;
-  } catch {
-    return null;
+  if (baseUrl) {
+    const adminContent = await getB2BContentFromAdminPublicApi(baseUrl);
+    if (adminContent) return adminContent;
   }
+
+  const wpContent = await getB2BContentFromWordPress();
+  if (wpContent) return wpContent;
+
+  return null;
 });
 
 export function findB2BPage(content: PublicB2BContent | null, route: string): PublicB2BPage | null {
