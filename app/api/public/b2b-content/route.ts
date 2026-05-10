@@ -48,7 +48,7 @@ function resolveWordPressApiUrl() {
   return candidate.replace(/\/$/, '');
 }
 
-function buildWordPressAuthHeader() {
+function buildWordPressAuthHeader(): Record<string, string> {
   const user = process.env.WP_APP_USER;
   const password = process.env.WP_APP_PASSWORD;
   if (!user || !password) return {};
@@ -62,12 +62,14 @@ async function readWordPressB2BStore() {
   if (!wpApiUrl) return null;
 
   try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...buildWordPressAuthHeader(),
+    };
+
     const res = await fetch(`${wpApiUrl}/prag-core/v1/admin-config`, {
       cache: 'no-store',
-      headers: {
-        'Content-Type': 'application/json',
-        ...buildWordPressAuthHeader(),
-      },
+      headers,
       signal: AbortSignal.timeout(8000),
     });
 
