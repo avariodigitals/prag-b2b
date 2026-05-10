@@ -5,6 +5,7 @@ import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
 const onest = Onest({ subsets: ['latin'], variable: '--font-onest', display: 'swap' });
@@ -104,6 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             children
           )}
         </div>
+        {!launchEnabled && <WhatsAppChatWidget settings={settings} />}
         {!launchEnabled && <Footer settings={settings} />}
         {scripts?.footer && <script dangerouslySetInnerHTML={{ __html: scripts.footer }} />}
         {customDomainHook && <script dangerouslySetInnerHTML={{ __html: customDomainHook }} />}

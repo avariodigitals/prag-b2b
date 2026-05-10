@@ -30,12 +30,16 @@ const QUICKLINKS = [
 
 export default function Footer({ settings }: { settings?: PublicB2BContent['settings'] }) {
   const contact = settings?.contact;
+  const integrations = settings?.integrations;
   const footer = settings?.footer;
 
   const phone = contact?.contactPhone?.trim() || '+2348032170129';
   const email = contact?.contactEmail?.trim() || 'sales@prag.global';
   const address = contact?.address?.trim() || 'Lagos, Nigeria';
-  const whatsapp = contact?.whatsapp?.trim() || 'https://wa.me/2348032170129';
+  const whatsappNumber = (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
+  const whatsapp = whatsappNumber
+    ? `https://wa.me/${whatsappNumber}`
+    : (contact?.whatsapp?.trim() || 'https://wa.me/2348032170129');
   const ctaTitle = footer?.ctaTitle?.trim() || 'Stop Losing Money to Bad Power';
   const ctaDescription = footer?.ctaDescription?.trim() || 'Talk to a PRAG engineer today and fix your power issues permanently.';
   const primaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a Free Power Assessment';

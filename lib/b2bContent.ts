@@ -65,12 +65,18 @@ export interface PublicB2BIntegrationsSettings {
   searchConsoleVerification?: string;
   zohoOneScript?: string;
   customDomainHook?: string;
+  whatsappChatEnabled?: boolean;
+  whatsappChatNumber?: string;
+  whatsappChatText?: string;
 }
 
 export interface PublicB2BContactSettings {
   contactPhone?: string;
   contactEmail?: string;
   address?: string;
+  /**
+   * Legacy location for WhatsApp link. Prefer `settings.integrations.whatsappChatLink`.
+   */
   whatsapp?: string;
   socials?: {
     facebook?: string;
