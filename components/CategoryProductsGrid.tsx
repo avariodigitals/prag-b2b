@@ -147,7 +147,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
 
       {/* Grid */}
       {isPending ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 animate-pulse">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="flex flex-col gap-3">
               <div className="aspect-square bg-stone-100 rounded-xl" />
@@ -159,7 +159,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
       ) : products.length === 0 ? (
         <p className="text-zinc-400 text-center py-16 font-['Space_Grotesk']">No products found.</p>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
           {products.map(p => <B2BProductCard key={p.id} product={p} />)}
         </div>
       )}

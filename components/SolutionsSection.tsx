@@ -33,7 +33,7 @@ export default function SolutionsSection() {
             <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
             <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Solutions</span>
           </div>
-          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight">
+          <h2 className="text-zinc-900 text-2xl md:text-5xl font-bold font-['Onest'] leading-tight">
             Complete Power Systems<br />Designed for Nigeria
           </h2>
           <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-xl text-center">
