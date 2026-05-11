@@ -16,7 +16,7 @@ export default function B2BProductCard({ product }: { product: Product }) {
   return (
     <div className="w-full relative flex flex-col gap-2 md:gap-3 group rounded-xl p-1.5 bg-transparent hover:shadow-sm transition-shadow duration-300">
       {/* Image */}
-      <div className="relative w-full h-[300px] md:h-[330px] rounded-lg overflow-hidden flex items-center justify-center bg-stone-50">
+      <div className="relative w-full h-[300px] md:h-[330px] rounded-lg overflow-hidden flex items-center justify-center">
         {image ? (
           <Image
             src={image.src}

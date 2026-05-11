@@ -250,7 +250,7 @@ export default function ProblemsCarousel({
                   <Link
                     key={product.id}
                     href={`/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`}
-                    className="aspect-square bg-stone-50 rounded-2xl overflow-hidden relative flex items-center justify-center hover:shadow-md transition-shadow"
+                    className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center hover:shadow-md transition-shadow"
                   >
                     {img ? (
                       <Image
