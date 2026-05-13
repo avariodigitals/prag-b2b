@@ -28,13 +28,13 @@ export default function TechResourcesView({ products, selectedSlug }: Props) {
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-          <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Select Product</span>
+          <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Select Product</span>
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-          <span className="text-zinc-900 text-2xl font-bold font-['Onest'] shrink-0">Product:</span>
+          <span className="text-zinc-900 text-2xl font-bold font-['Montserrat'] shrink-0">Product:</span>
           <div className="relative w-full md:w-[420px]">
             <select value={slug} onChange={handleSelect}
-              className="w-full h-12 pl-4 pr-10 bg-white rounded-xl border-2 border-sky-700 text-zinc-700 text-sm font-['Space_Grotesk'] appearance-none outline-none focus:border-sky-800">
+              className="w-full h-12 pl-4 pr-10 bg-white rounded-xl border-2 border-sky-700 text-zinc-700 text-sm font-['Montserrat'] appearance-none outline-none focus:border-sky-800">
               <option value="">Select a product...</option>
               {products.map(p => (
                 <option key={p.id} value={p.slug}>{p.name}</option>
@@ -47,7 +47,7 @@ export default function TechResourcesView({ products, selectedSlug }: Props) {
 
       {selectedProduct
         ? <TechDocumentsPanel key={selectedProduct.id} product={selectedProduct} />
-        : <p className="text-zinc-400 text-base font-['Space_Grotesk'] text-center py-10">Select a product above to view available documents.</p>
+        : <p className="text-zinc-400 text-lg md:text-xl font-['Montserrat'] text-center py-10">Select a product above to view available documents.</p>
       }
     </div>
   );
@@ -68,9 +68,9 @@ function TechDocumentsPanel({ product }: { product: Product }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-        <h2 className="text-zinc-900 text-2xl font-bold font-['Onest']">{product.name}</h2>
+        <h2 className="text-zinc-900 text-2xl font-bold font-['Montserrat']">{product.name}</h2>
         {!loading && (
-          <span className="text-zinc-500 text-sm font-['Space_Grotesk']">
+          <span className="text-zinc-500 text-base md:text-lg font-['Montserrat']">
             {docs.length} document{docs.length !== 1 ? 's' : ''} available
           </span>
         )}
@@ -86,7 +86,7 @@ function TechDocumentsPanel({ product }: { product: Product }) {
       )}
 
       {!loading && docs.length === 0 && (
-        <p className="text-zinc-400 text-sm font-['Space_Grotesk'] py-4">No documents available for this product.</p>
+        <p className="text-zinc-400 text-lg md:text-xl font-['Montserrat'] py-4">No documents available for this product.</p>
       )}
 
       {!loading && docs.length > 0 && (
@@ -98,16 +98,16 @@ function TechDocumentsPanel({ product }: { product: Product }) {
                   <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-zinc-900 text-base font-semibold font-['Onest']">{doc.title}</span>
+                  <span className="text-zinc-900 text-base font-semibold font-['Montserrat']">{doc.title}</span>
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    {doc.file_type && <span className="text-zinc-500 text-sm font-['Space_Grotesk']">{doc.file_type.toUpperCase()}</span>}
-                    {doc.file_size && <><span className="text-zinc-300">•</span><span className="text-zinc-500 text-sm font-['Space_Grotesk']">{doc.file_size}</span></>}
-                    {doc.pages && <><span className="text-zinc-300">•</span><span className="text-zinc-500 text-sm font-['Space_Grotesk']">{doc.pages} pages</span></>}
+                    {doc.file_type && <span className="text-zinc-500 text-base md:text-lg font-['Montserrat']">{doc.file_type.toUpperCase()}</span>}
+                    {doc.file_size && <><span className="text-zinc-300">•</span><span className="text-zinc-500 text-base md:text-lg font-['Montserrat']">{doc.file_size}</span></>}
+                    {doc.pages && <><span className="text-zinc-300">•</span><span className="text-zinc-500 text-base md:text-lg font-['Montserrat']">{doc.pages} pages</span></>}
                   </div>
                 </div>
               </div>
               <a href={doc.file_url} target="_blank" rel="noopener noreferrer" download
-                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-xl transition-colors w-full md:w-auto shrink-0">
+                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] rounded-xl transition-colors w-full md:w-auto shrink-0">
                 <Download className="w-4 h-4" />
                 Download
               </a>

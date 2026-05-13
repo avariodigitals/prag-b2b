@@ -26,10 +26,10 @@ export default async function KnowledgeCenterPage({ searchParams }: Props) {
   return (
     <main className="w-full bg-white flex flex-col">
       <div className="w-full pt-10 md:pt-20 pb-8 bg-stone-50 flex flex-col items-center gap-4 px-4">
-        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Onest'] text-center">
+        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Montserrat'] text-center">
           Understand Power.<br />Make Better Decisions.
         </h1>
-        <p className="max-w-[531px] text-center text-sky-700 text-base font-normal font-['Space_Grotesk']">
+        <p className="max-w-[531px] text-center text-sky-700 text-lg md:text-xl font-normal font-['Montserrat']">
           Practical guides, honest comparisons, and expert insights from PRAG&apos;s engineering team — written for Nigerian conditions.
         </p>
       </div>

@@ -45,15 +45,15 @@ export default async function KnowledgeCenterPost({ params }: Props) {
     <main className="w-full bg-white flex flex-col">
       {/* Hero */}
       <div className="w-full px-6 md:px-10 pt-8 pb-6 bg-stone-50 max-w-6xl mx-auto flex flex-col gap-3">
-        <Link href="/knowledge-center" className="flex items-center gap-2 text-sky-700 text-sm font-medium font-['Space_Grotesk'] hover:underline w-fit">
+        <Link href="/knowledge-center" className="flex items-center gap-2 text-sky-700 text-sm font-medium font-['Montserrat'] hover:underline w-fit">
           <ArrowLeft className="w-4 h-4" /> Back to Knowledge Center
         </Link>
         <div className="flex items-center gap-3 flex-wrap">
-          <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-xs font-medium font-['Space_Grotesk']">{catName}</span>
-          <span className="text-zinc-400 text-sm font-['Space_Grotesk']" suppressHydrationWarning>{postDate(post)}</span>
+          <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-xs font-medium font-['Montserrat']">{catName}</span>
+          <span className="text-zinc-400 text-base md:text-lg font-['Montserrat']" suppressHydrationWarning>{postDate(post)}</span>
         </div>
         <h1
-          className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight"
+          className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight"
           dangerouslySetInnerHTML={{ __html: sanitize(post.title.rendered) }}
         />
       </div>
@@ -66,7 +66,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
           </div>
         )}
         <article
-          className="prose prose-zinc max-w-none text-zinc-700 text-base md:text-lg font-['Space_Grotesk'] leading-relaxed"
+          className="prose prose-zinc max-w-none text-zinc-700 text-base md:text-lg font-['Montserrat'] leading-relaxed"
           dangerouslySetInnerHTML={{ __html: sanitize(post.content.rendered) }}
         />
       </div>
@@ -74,7 +74,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
       {/* Related posts */}
       {related.length > 0 && (
         <div className="w-full px-6 md:px-10 py-8 border-t border-zinc-100 max-w-6xl mx-auto flex flex-col gap-6">
-          <h2 className="text-zinc-900 text-xl font-bold font-['Onest']">More Articles</h2>
+          <h2 className="text-zinc-900 text-xl font-bold font-['Montserrat']">More Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {related.map((p: WPPost) => {
               const rImg = postImage(p);
@@ -86,7 +86,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
                     </div>
                   )}
                   <h3
-                    className="text-zinc-900 text-base font-medium font-['Onest'] line-clamp-2 group-hover:text-sky-700 transition-colors"
+                    className="text-zinc-900 text-base font-medium font-['Montserrat'] line-clamp-2 group-hover:text-sky-700 transition-colors"
                     dangerouslySetInnerHTML={{ __html: sanitize(p.title.rendered) }}
                   />
                 </Link>

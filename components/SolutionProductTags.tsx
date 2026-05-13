@@ -14,7 +14,7 @@ export default function SolutionProductTags({ tags }: Props) {
           <Link
             key={tag}
             href={`/products?q=${encodeURIComponent(tag)}`}
-            className="px-3 py-1 rounded-full border border-zinc-300 text-zinc-600 text-xs font-['Space_Grotesk'] transition-colors hover:border-sky-700 hover:text-sky-700"
+            className="px-3 py-1 rounded-full border border-zinc-300 text-zinc-600 text-xs font-['Montserrat'] transition-colors hover:border-sky-700 hover:text-sky-700"
           >
             {tag}
           </Link>

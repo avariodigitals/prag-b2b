@@ -7,7 +7,7 @@ const KNOWN_IDS: Record<string, number> = {
   'inverters': 117,
   'solar': 147,
   'batteries': 151,
-  'all-prag-stabilizers': 274,
+  'all-prag-stabilizers': 144,
   'voltage-stabilizers': 144,
   'thyristor-stabilizers': 266,
   'relay-voltage-stabilizers': 167,
@@ -28,12 +28,8 @@ export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const categorySlug = sp.get('category') ?? '';
   const sub = sp.get('sub');
-  const sort = sp.get('sort') ?? '';
   const page = Number(sp.get('page') ?? 2);
   const per_page = Number(sp.get('per_page') ?? 16);
-
-  const orderby = sort === 'price' || sort === 'price-desc' ? 'price' : sort || undefined;
-  const order = sort === 'price-desc' ? 'desc' : sort ? 'asc' : undefined;
 
   const activeSlug = sub ?? categorySlug;
   const category_id = KNOWN_IDS[activeSlug];

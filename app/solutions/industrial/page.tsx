@@ -22,10 +22,10 @@ export default async function IndustrialSolutionsPage() {
   return (
     <main className="w-full flex flex-col">
       <div className="flex flex-col items-center gap-4 text-center pt-16 pb-10 px-6 bg-stone-50">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-2xl">
+        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-2xl">
           {content.heroTitle}
         </h1>
-        <p className="text-sky-700 text-sm md:text-base font-['Space_Grotesk'] max-w-lg leading-relaxed">
+        <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-lg leading-relaxed">
           {content.heroDescription}
         </p>
       </div>
@@ -40,13 +40,13 @@ export default async function IndustrialSolutionsPage() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
           <Link
             href={content.ctaHref}
-            className="px-8 py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+            className="px-8 py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] rounded-full transition-colors"
           >
             {content.ctaLabel}
           </Link>
           <Link
             href={content.secondaryCtaHref}
-            className="px-8 py-3.5 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+            className="px-8 py-3.5 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Montserrat'] rounded-full transition-colors"
           >
             {content.secondaryCtaLabel}
           </Link>

@@ -1,15 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { Onest, Space_Grotesk } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Script from 'next/script';
 import './globals.css';
+import CookieConsentLoader from '@/components/CookieConsentLoader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
-const onest = Onest({ subsets: ['latin'], variable: '--font-onest', display: 'swap' });
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk', display: 'swap' });
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-montserrat',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -72,7 +77,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </>
         )}
       </head>
-      <body className={`${onest.variable} ${spaceGrotesk.variable} antialiased flex flex-col min-h-screen`} suppressHydrationWarning>
+      <body className={`${montserrat.variable} antialiased flex flex-col min-h-screen`} suppressHydrationWarning>
+        <CookieConsentLoader />
         {scripts?.head && <script dangerouslySetInnerHTML={{ __html: scripts.head }} />}
         {!launchEnabled && <Header settings={settings} />}
         {gtmId && (
@@ -100,8 +106,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     priority
                   />
                 </div>
-                <h1 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest']">{launchTitle}</h1>
-                <p className="mt-4 text-zinc-600 text-sm md:text-base font-['Space_Grotesk']">{launchMessage}</p>
+                <h1 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Montserrat']">{launchTitle}</h1>
+                <p className="mt-4 text-zinc-600 text-lg md:text-xl font-['Montserrat']">{launchMessage}</p>
               </div>
             </main>
           ) : (

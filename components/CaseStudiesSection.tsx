@@ -18,9 +18,9 @@ export default async function CaseStudiesSection() {
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">{content.sectionKicker}</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">{content.sectionKicker}</span>
           </div>
-          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight text-center">
+          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Montserrat'] leading-tight text-center">
             {content.sectionTitle.split('\n').map((line, index) => (
               <span key={`${line}-${index}`}>
                 {line}
@@ -28,7 +28,7 @@ export default async function CaseStudiesSection() {
               </span>
             ))}
           </h2>
-          <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] max-w-xl text-center">
+          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] max-w-xl text-center">
             {content.sectionDescription}
           </p>
         </div>
@@ -48,17 +48,17 @@ export default async function CaseStudiesSection() {
 
           {/* Content */}
           <div className="flex flex-col gap-5 flex-1">
-            <h3 className="text-zinc-900 text-lg md:text-xl font-bold font-['Onest'] leading-snug">
+            <h3 className="text-zinc-900 text-lg md:text-xl font-bold font-['Montserrat'] leading-snug">
               {featuredStudy.title}
             </h3>
-            <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">
+            <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">
               {featuredStudy.problem}
             </p>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {featuredStudy.tags.map((tag) => (
-                <span key={tag} className="px-3 py-1 rounded-full border border-gray-200 text-zinc-600 text-xs font-['Space_Grotesk']">
+                <span key={tag} className="px-3 py-1 rounded-full border border-gray-200 text-zinc-600 text-xs font-['Montserrat']">
                   {tag}
                 </span>
               ))}
@@ -66,12 +66,12 @@ export default async function CaseStudiesSection() {
 
             {/* Results */}
             <div className="flex flex-col gap-3">
-              <span className="text-zinc-900 text-xs font-bold font-['Space_Grotesk'] uppercase tracking-widest">Results</span>
+              <span className="text-zinc-900 text-xs font-bold font-['Montserrat'] uppercase tracking-widest">Results</span>
               <div className="grid grid-cols-3 gap-2">
                 {featuredStudy.results.map((r) => (
                   <div key={`${r.label}-${r.value}`} className="border border-gray-200 rounded-lg px-3 py-2.5 flex flex-col gap-0.5">
-                    <span className="text-zinc-400 text-[10px] font-semibold font-['Space_Grotesk'] uppercase tracking-wider">{r.label}</span>
-                    <span className="text-zinc-900 text-sm font-bold font-['Onest']">{r.value}</span>
+                    <span className="text-zinc-400 text-[10px] font-semibold font-['Montserrat'] uppercase tracking-wider">{r.label}</span>
+                    <span className="text-zinc-900 text-sm font-bold font-['Montserrat']">{r.value}</span>
                   </div>
                 ))}
               </div>
@@ -82,7 +82,7 @@ export default async function CaseStudiesSection() {
         {/* CTA */}
         <Link
           href={content.sectionCtaHref}
-          className="px-8 py-3.5 bg-sky-900 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full hover:bg-sky-800 transition-colors flex items-center gap-2"
+          className="px-8 py-3.5 bg-sky-900 text-white text-sm font-semibold font-['Montserrat'] rounded-full hover:bg-sky-800 transition-colors flex items-center gap-2"
         >
           {content.sectionCtaLabel}
         </Link>

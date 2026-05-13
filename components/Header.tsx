@@ -16,7 +16,7 @@ const SOLUTIONS = [
 const PRODUCTS = [
   { label: 'Inverters', href: '/products/inverters' },
   { label: 'Batteries', href: '/products/batteries' },
-  { label: 'Solar Panels', href: '/products/solar' },
+  { label: 'Solar', href: '/products/solar' },
   { label: 'Stabilizers', href: '/products/all-prag-stabilizers' },
   { label: 'All Products', href: '/products' },
 ];
@@ -35,7 +35,7 @@ function Dropdown({ items }: { items: { label: string; href: string }[] }) {
         <Link
           key={item.href}
           href={item.href}
-          className="block px-4 py-2.5 text-sm text-zinc-700 font-['Space_Grotesk'] hover:bg-sky-50 hover:text-sky-700 transition-colors"
+          className="block px-4 py-2.5 text-base text-zinc-700 font-['Montserrat'] hover:bg-sky-50 hover:text-sky-700 transition-colors"
         >
           {item.label}
         </Link>
@@ -61,7 +61,7 @@ function NavItem({ label, items, href }: { label: string; items?: { label: strin
     return (
       <Link
         href={href ?? '#'}
-        className="text-zinc-800 text-sm font-medium font-['Space_Grotesk'] hover:text-sky-700 transition-colors"
+        className="text-zinc-800 text-base font-medium font-['Montserrat'] hover:text-sky-700 transition-colors"
       >
         {label}
       </Link>
@@ -70,7 +70,7 @@ function NavItem({ label, items, href }: { label: string; items?: { label: strin
 
   return (
     <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-      <button className="flex items-center gap-1 text-zinc-800 text-sm font-medium font-['Space_Grotesk'] hover:text-sky-700 transition-colors">
+      <button className="flex items-center gap-1 text-zinc-800 text-base font-medium font-['Montserrat'] hover:text-sky-700 transition-colors">
         {label}
         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
@@ -89,7 +89,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: { la
     <div className="border-b border-gray-100 last:border-0">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between py-4 text-sm font-semibold text-zinc-800 font-['Space_Grotesk']"
+        className="w-full flex items-center justify-between py-4 text-base font-semibold text-zinc-800 font-['Montserrat']"
       >
         {label}
         <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
@@ -101,7 +101,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: { la
               key={i.href}
               href={i.href}
               onClick={onClose}
-              className="py-2 pl-4 text-sm text-zinc-500 font-['Space_Grotesk'] hover:text-sky-700 hover:pl-5 transition-all"
+              className="py-2 pl-4 text-base text-zinc-500 font-['Montserrat'] hover:text-sky-700 hover:pl-5 transition-all"
             >
               {i.label}
             </Link>
@@ -144,7 +144,7 @@ function MobileMenu({
               alt="Prag"
               width={100}
               height={32}
-              className="h-8 w-auto"
+              className="h-10 w-auto"
               style={{ width: 'auto' }}
             />
           </Link>
@@ -160,14 +160,14 @@ function MobileMenu({
           <Link
             href="/contact"
             onClick={onClose}
-            className="py-4 text-sm font-semibold text-zinc-800 font-['Space_Grotesk'] border-b border-gray-100 hover:text-sky-700 transition-colors"
+            className="py-4 text-base font-semibold text-zinc-800 font-['Montserrat'] border-b border-gray-100 hover:text-sky-700 transition-colors"
           >
             Contact
           </Link>
           <Link
             href={cta.href}
             onClick={onClose}
-            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-700 transition-colors"
+            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-base font-medium font-['Montserrat'] hover:bg-zinc-700 transition-colors"
           >
             {cta.label}
           </Link>
@@ -200,7 +200,7 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
             width={100}
             height={32}
             priority
-            className="h-8 w-auto"
+            className="h-10 md:h-8 w-auto"
             style={{ width: 'auto' }}
           />
         </Link>
@@ -216,7 +216,7 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
         {/* Shop Button */}
         <Link
           href={cta.href}
-          className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-sm font-medium font-['Space_Grotesk'] hover:bg-zinc-800 hover:text-white transition-colors"
+          className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Montserrat'] hover:bg-zinc-800 hover:text-white transition-colors"
         >
           {cta.label}
         </Link>

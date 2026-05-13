@@ -31,14 +31,14 @@ export default function SolutionsSection() {
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Solutions</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Solutions</span>
           </div>
-          <h2 className="text-zinc-900 text-2xl md:text-5xl font-bold font-['Onest'] leading-tight">
+          <h2 className="text-zinc-900 text-2xl md:text-5xl font-bold font-['Montserrat'] leading-tight">
             Complete Power Systems<br />Designed for Nigeria
           </h2>
-          <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-xl text-center">
+          <p className="hidden md:block text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed max-w-xl text-center">
             We don&apos;t sell products.<br />
-            We design and deploy integrated power systems built for Nigerian conditions.<br />
+            We design and deploy integrated power systems<br /> built for Nigerian conditions.
             Our Systems Include:<br />
             Stabilization • Backup Power • Solar • Battery Storage
           </p>
@@ -56,10 +56,10 @@ export default function SolutionsSection() {
                   className="object-cover"
                 />
               </div>
-              <div className="p-6 flex flex-col gap-3 flex-1">
-                <h3 className="text-zinc-900 text-xl font-semibold font-['Onest']">{s.title}</h3>
-                <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed flex-1">{s.desc}</p>
-                <Link href={s.href} className="flex items-center gap-1 text-sky-700 text-sm font-medium font-['Space_Grotesk'] hover:gap-2 transition-all">
+              <div className="p-6 flex flex-col gap-3 flex-1 text-center">
+                <h3 className="text-zinc-900 text-xl font-bold md:font-semibold font-['Montserrat']">{s.title}</h3>
+                <p className="text-zinc-500 text-lg md:text-xl font-normal font-['Montserrat'] leading-relaxed flex-1">{s.desc}</p>
+                <Link href={s.href} className="flex items-center justify-center gap-1 text-sky-700 text-base font-bold font-['Montserrat'] hover:gap-2 transition-all">
                   Explore Solutions <span>→</span>
                 </Link>
               </div>

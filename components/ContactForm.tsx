@@ -41,10 +41,10 @@ function FormToast({ toast, onClose }: { toast: Toast; onClose: () => void }) {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold font-['Space_Grotesk']">
+        <p className="text-lg md:text-xl font-bold font-['Montserrat']">
           {toast.type === 'success' ? 'Message Sent!' : 'Submission Failed'}
         </p>
-        <p className="text-sm font-['Space_Grotesk'] opacity-90 mt-0.5 leading-snug">{toast.message}</p>
+        <p className="text-lg md:text-xl font-['Montserrat'] opacity-90 mt-0.5 leading-snug">{toast.message}</p>
       </div>
       <button onClick={onClose} aria-label="Dismiss" className="ml-1 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -86,35 +86,35 @@ export default function ContactForm() {
     }
   }
 
-  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-sm font-['Space_Grotesk'] focus:border-sky-700 outline-none transition-colors";
+  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-base font-['Montserrat'] focus:border-sky-700 outline-none transition-colors";
 
   return (
     <>
       {toast && <FormToast toast={toast} onClose={() => setToast(null)} />}
       <form onSubmit={handleSubmit} noValidate className="flex-1 bg-stone-50 rounded-2xl p-8 md:p-10 flex flex-col gap-5">
         <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Full Name *</label>
+          <label className="text-zinc-900 text-base font-['Montserrat']">Full Name *</label>
           <input required type="text" value={form.name} onChange={set('name')} maxLength={100} className={inputCls} />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Email Address *</label>
+          <label className="text-zinc-900 text-base font-['Montserrat']">Email Address *</label>
           <input required type="email" value={form.email} onChange={set('email')} className={inputCls} />
         </div>
 
         <div className="flex gap-4">
           <div className="flex-1 flex flex-col gap-1.5">
-            <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Phone Number</label>
+            <label className="text-zinc-900 text-base font-['Montserrat']">Phone Number</label>
             <input type="tel" value={form.phone} onChange={set('phone')} maxLength={25} className={inputCls} />
           </div>
           <div className="flex-1 flex flex-col gap-1.5">
-            <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Company</label>
+            <label className="text-zinc-900 text-base font-['Montserrat']">Company</label>
             <input type="text" value={form.company} onChange={set('company')} maxLength={150} className={inputCls} />
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Enquiry Type</label>
+          <label className="text-zinc-900 text-base font-['Montserrat']">Enquiry Type</label>
           <select value={form.enquiry_type} onChange={set('enquiry_type')} className={inputCls}>
             <option value=""></option>
             {ENQUIRY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -122,16 +122,16 @@ export default function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-sm font-['Space_Grotesk']">Message *</label>
+          <label className="text-zinc-900 text-base font-['Montserrat']">Message *</label>
           <textarea required value={form.message} onChange={set('message')} rows={5} maxLength={2000}
-            className="w-full p-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-sm font-['Space_Grotesk'] focus:border-sky-700 outline-none transition-colors resize-none"
+            className="w-full p-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-base font-['Montserrat'] focus:border-sky-700 outline-none transition-colors resize-none"
           />
         </div>
 
         <button
           type="submit"
           disabled={sending}
-          className="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-lg transition-colors disabled:opacity-60"
+          className="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] rounded-lg transition-colors disabled:opacity-60"
         >
           {sending ? 'Sending...' : 'Send Enquiry'}
         </button>

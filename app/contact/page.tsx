@@ -10,6 +10,8 @@ export const metadata: Metadata = { title: 'Get in Touch' };
 function SocialIcon({ network }: { network: string }) {
   if (network === 'facebook')
     return <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12" /></svg>;
+  if (network === 'whatsapp')
+    return <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>;
   if (network === 'instagram')
     return <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" /></svg>;
   if (network === 'linkedin')
@@ -27,9 +29,14 @@ export default async function ContactPage() {
   const hoursWeekday = settings.business_hours_weekday;
   const hoursSaturday = settings.business_hours_saturday;
   const socials = b2bContact?.socials;
+  const whatsappNumber = (content?.settings?.integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
+  const whatsappLink = whatsappNumber
+    ? `https://wa.me/${whatsappNumber}`
+    : (b2bContact?.whatsapp?.trim() || 'https://wa.me/2348032170129');
 
   const socialLinks = [
     { label: 'Facebook', href: socials?.facebook || settings.socials?.facebook, network: 'facebook' },
+    { label: 'WhatsApp', href: whatsappLink, network: 'whatsapp' },
     { label: 'Instagram', href: socials?.instagram || settings.socials?.instagram, network: 'instagram' },
     { label: 'LinkedIn', href: socials?.linkedin || settings.socials?.linkedin, network: 'linkedin' },
   ].filter((s) => Boolean(s.href));
@@ -42,8 +49,8 @@ export default async function ContactPage() {
     <main className="w-full flex flex-col">
       {/* Hero */}
       <div className="w-full bg-stone-50 py-16 md:py-20 px-6 flex flex-col items-center gap-4 text-center">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">Get in Touch</h1>
-        <p className="text-sky-700 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed max-w-lg">
+        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat'] leading-tight">Get in Touch</h1>
+        <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] leading-relaxed max-w-lg">
           Have a question or need a custom power solution?<br className="hidden md:block" /> We&apos;d love to hear from you.
         </p>
       </div>
@@ -57,8 +64,8 @@ export default async function ContactPage() {
               <Mail className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Email</span>
-              <a href={`mailto:${email}`} className="text-zinc-500 text-sm font-['Space_Grotesk'] hover:text-sky-700">{email}</a>
+              <span className="text-zinc-900 text-base font-medium font-['Montserrat']">Email</span>
+              <a href={`mailto:${email}`} className="text-zinc-500 text-base font-['Montserrat'] hover:text-sky-700">{email}</a>
             </div>
           </div>
 
@@ -67,8 +74,8 @@ export default async function ContactPage() {
               <Phone className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Phone</span>
-              <a href={`tel:${phone}`} className="text-zinc-500 text-sm font-['Space_Grotesk'] hover:text-sky-700">{phone}</a>
+              <span className="text-zinc-900 text-base font-medium font-['Montserrat']">Phone</span>
+              <a href={`tel:${phone}`} className="text-zinc-500 text-base font-['Montserrat'] hover:text-sky-700">{phone}</a>
             </div>
           </div>
 
@@ -77,8 +84,8 @@ export default async function ContactPage() {
               <MapPin className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Location</span>
-              <span className="text-zinc-500 text-sm font-['Space_Grotesk']">{address}</span>
+              <span className="text-zinc-900 text-base font-medium font-['Montserrat']">Location</span>
+              <span className="text-zinc-500 text-base font-['Montserrat']">{address}</span>
             </div>
           </div>
 
@@ -87,22 +94,22 @@ export default async function ContactPage() {
               <Clock className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Business Hours</span>
-              <span className="text-zinc-500 text-sm font-['Space_Grotesk']">{hoursWeekday}</span>
-              <span className="text-zinc-500 text-sm font-['Space_Grotesk']">{hoursSaturday}</span>
+              <span className="text-zinc-900 text-base font-medium font-['Montserrat']">Business Hours</span>
+              <span className="text-zinc-500 text-base font-['Montserrat']">{hoursWeekday}</span>
+              <span className="text-zinc-500 text-base font-['Montserrat']">{hoursSaturday}</span>
             </div>
           </div>
 
           {socialLinks.length > 0 && (
             <div className="p-5 bg-stone-50 rounded-2xl border border-sky-700 flex flex-col gap-4">
-              <span className="text-zinc-900 text-sm font-medium font-['Space_Grotesk']">Follow our socials</span>
-              <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <span className="text-zinc-900 text-base font-medium font-['Montserrat']">Follow our socials</span>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
                 {socialLinks.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 sm:gap-3 min-w-0">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 bg-sky-700 rounded-full flex items-center justify-center shrink-0">
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 min-w-[140px] sm:min-w-[160px]">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 bg-sky-700 rounded-full flex items-center justify-center shrink-0">
                       <SocialIcon network={s.network} />
                     </div>
-                    <span className="text-zinc-900 text-xs sm:text-sm font-['Space_Grotesk'] whitespace-nowrap">{s.label}</span>
+                    <span className="text-zinc-900 text-base font-['Montserrat'] whitespace-nowrap">{s.label}</span>
                   </a>
                 ))}
               </div>

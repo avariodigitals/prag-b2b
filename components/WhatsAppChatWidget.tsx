@@ -32,7 +32,6 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
   const integrations = settings?.integrations;
   const contact = settings?.contact;
 
-  const enabled = integrations?.whatsappChatEnabled ?? true;
   const baseLink = useMemo(() => {
     const number = (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
     if (number) return `https://wa.me/${number}`;
@@ -51,7 +50,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
     { label: 'Delivery', subtitle: 'Orders & logistics', prefill: 'Hi PRAG, I need help with delivery / logistics.' },
   ]), []);
 
-  if (!enabled || !baseLink) return null;
+  if (!baseLink) return null;
 
   function openWhatsApp(message: string) {
     const href = withPrefill(baseLink, message);
@@ -62,13 +61,13 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
   const startChatHref = withPrefill(baseLink, prefill);
 
   return (
-    <div className="fixed left-4 bottom-4 z-50 flex flex-col items-start gap-3">
+    <div className="fixed right-6 bottom-8 z-50 flex flex-col items-end gap-3">
       {open && (
         <div className="w-[280px] overflow-hidden rounded-2xl border border-emerald-100 bg-white/95 shadow-2xl backdrop-blur">
           <div className="bg-gradient-to-br from-[#25D366] to-[#12B76A] px-4 py-3 text-white flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-sm font-semibold font-['Space_Grotesk'] truncate">{title}</p>
-              <p className="mt-0.5 text-xs text-white/85 font-['Space_Grotesk'] line-clamp-2">{subtitle}</p>
+              <p className="text-lg md:text-xl font-semibold font-['Montserrat'] truncate">{title}</p>
+              <p className="mt-0.5 text-xs text-white/85 font-['Montserrat'] line-clamp-2">{subtitle}</p>
             </div>
             <button
               type="button"
@@ -84,7 +83,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
           </div>
 
           <div className="px-3 pt-3 pb-3">
-            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide uppercase text-zinc-500 font-['Space_Grotesk']">
+            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide uppercase text-zinc-500 font-['Montserrat']">
               Choose an option
             </p>
 
@@ -100,9 +99,9 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
                     className="group rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-left transition-colors hover:border-emerald-200 hover:bg-emerald-50/60"
                   >
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-zinc-900 font-['Space_Grotesk'] truncate">{option.label}</p>
+                      <p className="text-lg md:text-xl font-semibold text-zinc-900 font-['Montserrat'] truncate">{option.label}</p>
                       {optionSubtitle && (
-                        <p className="mt-0.5 text-xs text-zinc-600 font-['Space_Grotesk'] truncate">{optionSubtitle}</p>
+                        <p className="mt-0.5 text-lg md:text-xl text-zinc-600 font-['Montserrat'] truncate">{optionSubtitle}</p>
                       )}
                     </div>
                   </button>
@@ -114,7 +113,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
               href={startChatHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#25D366] to-[#12B76A] text-white px-4 py-2.5 text-sm font-semibold font-['Space_Grotesk'] shadow-lg shadow-emerald-200/50 transition-transform duration-200 hover:scale-[1.02]"
+              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#25D366] to-[#12B76A] text-white px-4 py-2.5 text-sm font-semibold font-['Montserrat'] shadow-lg shadow-emerald-200/50 transition-transform duration-200 hover:scale-[1.02]"
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4" aria-hidden="true">
                 <path
@@ -131,13 +130,13 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#25D366] to-[#12B76A] text-white shadow-xl shadow-emerald-200/50 ring-1 ring-emerald-200/60 transition-transform duration-200 hover:scale-[1.06]"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white transition-colors duration-200 hover:bg-[#1fb857]"
         aria-label={open ? 'Close WhatsApp chat widget' : 'Open WhatsApp chat widget'}
       >
-        <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+        <svg viewBox="0 0 24 24" className="w-8 h-8" aria-hidden="true">
           <path
             fill="currentColor"
-            d="M20.52 3.48A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413zM12.05 21.78h-.005a9.824 9.824 0 01-5.01-1.38l-.36-.214-3.741.982.999-3.648-.235-.374a9.858 9.858 0 01-1.51-5.254c.003-5.45 4.437-9.884 9.893-9.884a9.825 9.825 0 016.988 2.898 9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.912 9.88z"
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
           />
         </svg>
       </button>

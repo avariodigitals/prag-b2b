@@ -43,22 +43,22 @@ const REASONS = [
 export default async function WhyPragSection() {
   const reasons = await getWhyPragContent();
   return (
-    <section className="w-full bg-white py-16 md:py-20 px-6 md:px-20">
+    <section className="w-full bg-[#f3f4f6] py-16 md:py-20 px-6 md:px-20">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
 
         {/* Header */}
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">The Prag Difference</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">The Prag Difference</span>
           </div>
-          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Onest'] leading-tight md:hidden">
+          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Montserrat'] leading-tight md:hidden">
             Why Leading Homes<br />and Businesses Choose<br />PRAG
           </h2>
-          <h2 className="hidden md:block text-zinc-900 md:text-5xl font-bold font-['Onest'] leading-tight">
+          <h2 className="hidden md:block text-zinc-900 md:text-5xl font-bold font-['Montserrat'] leading-tight">
             Why Leading Homes and<br />Businesses Choose PRAG
           </h2>
-          <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk']">
+          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat']">
             Our work is guided by a commitment to quality, precision, and long-term performance.
           </p>
         </div>
@@ -66,7 +66,7 @@ export default async function WhyPragSection() {
         {/* 2x2 Grid */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
           {reasons.map((r) => (
-            <div key={r.title} className="relative h-72 md:h-80 rounded-2xl overflow-hidden group">
+            <div key={r.title} className="relative h-96 md:h-[30rem] rounded-2xl overflow-hidden group">
               <Image
                 src={r.image}
                 alt={r.title}
@@ -77,9 +77,9 @@ export default async function WhyPragSection() {
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/10" />
               {/* Text */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-2">
-                <h3 className="text-white text-base md:text-lg font-semibold font-['Onest'] leading-snug">{r.title}</h3>
-                <p className="text-white/85 text-xs md:text-sm font-['Space_Grotesk'] leading-relaxed">{r.desc}</p>
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7 flex flex-col gap-2">
+                <h3 className="text-white text-2xl md:text-lg lg:text-xl font-bold font-['Montserrat'] leading-snug">{r.title}</h3>
+                <p className="hidden md:block text-white/85 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{r.desc}</p>
               </div>
             </div>
           ))}

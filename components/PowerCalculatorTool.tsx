@@ -132,8 +132,8 @@ export default function PowerCalculatorTool({ products }: Props) {
                 >
                   <div className="flex justify-between items-center">
                     <div className="flex flex-col gap-1">
-                      <span className="text-zinc-900 text-sm font-semibold font-['Onest']">{appliance.name}</span>
-                      <span className="text-zinc-400 text-xs font-normal font-['Onest']">{appliance.watts}W per unit</span>
+                      <span className="text-zinc-900 text-sm font-semibold font-['Montserrat']">{appliance.name}</span>
+                      <span className="text-zinc-400 text-xs font-normal font-['Montserrat']">{appliance.watts}W per unit</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -142,7 +142,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                       >
                         <span className="text-zinc-500 text-sm font-bold leading-none">−</span>
                       </button>
-                      <span className="text-zinc-900 text-sm font-bold font-['Onest'] w-4 text-center">{qty}</span>
+                      <span className="text-zinc-900 text-sm font-bold font-['Montserrat'] w-4 text-center">{qty}</span>
                       <button
                         onClick={() => update(appliance.name, 1)}
                         className="w-7 h-7 bg-sky-700 rounded-full flex justify-center items-center hover:bg-sky-800 transition-colors"
@@ -168,8 +168,8 @@ export default function PowerCalculatorTool({ products }: Props) {
             { label: 'Recommended Inverter', value: appliancesAdded > 0 ? `${recommendedKva} KVA` : '—' },
           ].map((item) => (
             <div key={item.label} className="flex flex-col items-center gap-0.5">
-              <span className="text-white text-lg font-extrabold font-['Onest']">{item.value}</span>
-              <span className="text-white/60 text-xs font-normal font-['Space_Grotesk']">{item.label}</span>
+              <span className="text-white text-lg font-extrabold font-['Montserrat']">{item.value}</span>
+              <span className="text-white/60 text-xs font-normal font-['Montserrat']">{item.label}</span>
             </div>
           ))}
         </div>
@@ -177,13 +177,13 @@ export default function PowerCalculatorTool({ products }: Props) {
         <div className="flex items-center gap-3">
           <button
             onClick={reset}
-            className="h-10 px-4 rounded-lg outline outline-1 outline-white text-white text-xs font-medium font-['Space_Grotesk'] hover:bg-sky-800 transition-colors"
+            className="h-10 px-4 rounded-lg outline outline-1 outline-white text-white text-xs font-medium font-['Montserrat'] hover:bg-sky-800 transition-colors"
           >
             Reset
           </button>
           <button
             onClick={() => setAssessmentRequested(true)}
-            className={`h-10 px-5 bg-white rounded-lg text-sky-700 text-sm font-semibold font-['Space_Grotesk'] flex items-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
+            className={`h-10 px-5 bg-white rounded-lg text-sky-700 text-sm font-semibold font-['Montserrat'] flex items-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
             disabled={appliancesAdded === 0}
           >
             Get a Free Assessment →
@@ -194,8 +194,8 @@ export default function PowerCalculatorTool({ products }: Props) {
       {assessmentRequested && appliancesAdded > 0 && (
         <div className="w-full rounded-2xl border border-zinc-200 p-5 md:p-6 flex flex-col gap-5">
           <div className="flex flex-col gap-1">
-            <h2 className="text-zinc-900 text-xl font-bold font-['Onest']">Likely Product Matches</h2>
-            <p className="text-zinc-500 text-sm font-['Space_Grotesk']">
+            <h2 className="text-zinc-900 text-xl font-bold font-['Montserrat']">Likely Product Matches</h2>
+            <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat']">
               Based on your load profile, these products can support around {recommendedKva} KVA requirements.
             </p>
           </div>
@@ -209,17 +209,17 @@ export default function PowerCalculatorTool({ products }: Props) {
                   <div key={product.id} className="rounded-xl border border-zinc-200 p-4 bg-white flex flex-col gap-3">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex flex-col gap-1">
-                        <p className="text-zinc-900 text-base font-bold font-['Onest'] leading-tight">{product.name}</p>
-                        <p className="text-zinc-500 text-xs font-['Space_Grotesk']">
+                        <p className="text-zinc-900 text-lg md:text-xl font-bold font-['Montserrat'] leading-tight">{product.name}</p>
+                        <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat']">
                           Capacity: {product.detectedKva} KVA
                         </p>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-semibold font-['Space_Grotesk']">
+                      <span className="px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-semibold font-['Montserrat']">
                         {product.categories?.[0]?.name ?? 'Product'}
                       </span>
                     </div>
 
-                    <p className="text-sky-700 text-sm font-semibold font-['Onest']">
+                    <p className="text-sky-700 text-lg md:text-xl font-semibold font-['Montserrat']">
                       {hasPrice ? formatPrice(product.price) : 'Contact for pricing'}
                     </p>
 
@@ -228,7 +228,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                         href={getProductLandingHref(product)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] inline-flex items-center transition-colors"
+                        className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] inline-flex items-center transition-colors"
                       >
                         Buy Now
                       </a>
@@ -236,7 +236,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                         href={`https://wa.me/2348032170129?text=${encodeURIComponent(`Hi PRAG, I need help choosing the right system. My calculator recommendation is ${recommendedKva} KVA and I am interested in ${product.name}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="h-9 px-4 rounded-lg border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Space_Grotesk'] inline-flex items-center transition-colors"
+                        className="h-9 px-4 rounded-lg border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Montserrat'] inline-flex items-center transition-colors"
                       >
                         Contact Sales
                       </a>
@@ -247,13 +247,13 @@ export default function PowerCalculatorTool({ products }: Props) {
             </div>
           ) : (
             <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 flex flex-col gap-3">
-              <p className="text-zinc-600 text-sm font-['Space_Grotesk']">
+              <p className="text-zinc-600 text-lg md:text-xl font-['Montserrat']">
                 No direct product match was found for this exact capacity yet. Contact sales for a tailored recommendation.
               </p>
               <div>
                 <Link
                   href="/contact"
-                  className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Space_Grotesk'] inline-flex items-center transition-colors"
+                  className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] inline-flex items-center transition-colors"
                 >
                   Get Expert Recommendation
                 </Link>

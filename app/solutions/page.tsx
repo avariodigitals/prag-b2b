@@ -107,10 +107,10 @@ export default async function SolutionsPage() {
     <main className="w-full">
       {/* Hero */}
       <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6 bg-stone-50">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
+        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat']">
           {heroTitle}
         </h1>
-        <p className="text-zinc-500 text-sm font-['Space_Grotesk'] max-w-sm leading-relaxed">
+        <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] max-w-sm leading-relaxed">
           {heroDescription}
         </p>
       </div>
@@ -132,31 +132,31 @@ export default async function SolutionsPage() {
               {/* Tag */}
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-sky-700 rounded-sm shrink-0" />
-                <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">
+                <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">
                   {s.tag}
                 </span>
               </div>
 
-              <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-['Onest'] leading-snug">{s.title}</h2>
+              <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-['Montserrat'] leading-snug">{s.title}</h2>
 
               <div className="flex flex-col gap-1">
-                <p className="text-zinc-800 text-sm font-semibold font-['Space_Grotesk']">Challenge:</p>
-                <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">{s.challenge}</p>
+                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Challenge:</p>
+                <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{s.challenge}</p>
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="text-zinc-800 text-sm font-semibold font-['Space_Grotesk']">Our Solutions:</p>
-                <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">{s.solution}</p>
+                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Our Solutions:</p>
+                <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{s.solution}</p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <p className="text-zinc-800 text-sm font-semibold font-['Space_Grotesk']">Recommended Products:</p>
+                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Recommended Products:</p>
                 <SolutionProductTags tags={s.products} />
               </div>
 
               <Link
                 href={s.href}
-                className="flex items-center gap-1 text-sky-700 text-sm font-medium font-['Space_Grotesk'] hover:gap-2 transition-all w-fit"
+                className="flex items-center gap-1 text-sky-700 text-base font-medium font-['Montserrat'] hover:gap-2 transition-all w-fit"
               >
                 Learn More →
               </Link>

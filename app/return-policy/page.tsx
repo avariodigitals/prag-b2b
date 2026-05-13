@@ -46,7 +46,7 @@ export default function ReturnPolicyPage() {
           heading: 'Important Notice',
           body: (
             <div className="p-4 bg-sky-50 rounded-xl border border-sky-100">
-              <p className="text-sky-700 text-sm font-medium font-['Space_Grotesk']">
+              <p className="text-sky-700 text-lg md:text-xl font-medium font-['Montserrat']">
                 Once a product has been installed, it is deemed accepted and cannot be returned.
               </p>
             </div>

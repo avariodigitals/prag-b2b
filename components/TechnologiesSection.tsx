@@ -114,14 +114,14 @@ export default function TechnologiesSection() {
           <div className="flex flex-col gap-3 md:w-1/2">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-              <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Technologies</span>
+              <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Technologies</span>
             </div>
-            <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest'] leading-tight">
+            <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Montserrat'] leading-tight">
               Four Technologies.<br /><span>One Complete System.</span>
             </h2>
           </div>
           <div className="md:w-1/2 flex flex-col gap-4 md:pt-10">
-            <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed">
+            <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">
               Every PRAG solution is built using the right combination of: Voltage Stabilizers, Inverters, Solar Systems and Lithium Battery Storage engineered, installed, and supported by our team.
             </p>
 
@@ -145,10 +145,10 @@ export default function TechnologiesSection() {
                 alt={tech.name}
                 fill
                 sizes="(min-width: 1024px) 440px, (min-width: 640px) 54vw, 82vw"
-                className="object-contain group-hover:scale-105 transition-transform duration-300 p-9 md:p-20"
+                className="object-contain group-hover:scale-105 transition-transform duration-300 p-9 pb-24 md:p-20 md:pb-28"
               />
-              <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-start px-6 md:px-7">
-                <span className="text-white text-left text-base md:text-[1.6rem] font-semibold font-['Onest'] leading-tight">{tech.name}</span>
+              <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-center px-6 md:px-7">
+                <span className="text-white text-center text-xl md:text-[1.6rem] font-bold font-['Montserrat'] leading-tight whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">{tech.name}</span>
               </div>
               <div className="absolute right-3 top-4 md:right-5 md:top-6 p-2 md:p-3 bg-sky-700 rounded-full group-hover:bg-sky-800 group-hover:scale-110 transition-all shadow-lg">
                 <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-white" />

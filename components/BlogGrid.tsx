@@ -57,23 +57,23 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
           <div className="flex-1 p-6 bg-white flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-4 flex-wrap">
-                <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-sm font-medium font-['Space_Grotesk']">
+                <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-sm font-medium font-['Montserrat']">
                   {categories.find((c) => featured.categories.includes(c.id))?.name ?? 'Power Guide'}
                 </span>
-                <span className="text-neutral-700 text-sm font-['Onest']" suppressHydrationWarning>{readTime(featured)}</span>
-                <span className="text-sky-700 text-sm font-['Onest']" suppressHydrationWarning>{postDate(featured)}</span>
+                <span className="text-neutral-700 text-base md:text-lg font-['Montserrat']" suppressHydrationWarning>{readTime(featured)}</span>
+                <span className="text-sky-700 text-base md:text-lg font-['Montserrat']" suppressHydrationWarning>{postDate(featured)}</span>
               </div>
               <h2
-                className="text-zinc-900 text-2xl md:text-3xl font-medium font-['Onest']"
+                className="text-zinc-900 text-2xl md:text-3xl font-medium font-['Montserrat']"
                 dangerouslySetInnerHTML={{ __html: sanitize(featured.title.rendered) }}
               />
-              <p className="text-neutral-700 text-base md:text-lg font-['Onest'] line-clamp-3">
+              <p className="text-neutral-700 text-base md:text-lg font-['Montserrat'] line-clamp-3">
                 {stripHtml(featured.excerpt.rendered)}
               </p>
             </div>
             <Link
               href={`/knowledge-center/${featured.slug}`}
-              className="flex items-center gap-2 text-sky-700 text-base font-['Onest'] hover:underline mt-auto"
+              className="flex items-center gap-1 text-sky-700 text-base font-bold font-['Montserrat'] hover:gap-2 transition-all mt-auto"
             >
               Read full Article <ArrowRight className="w-5 h-5" />
             </Link>
@@ -85,7 +85,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
       <div className="flex items-center gap-3 flex-wrap">
         <button
           onClick={() => setCategory(undefined)}
-          className={`px-5 py-2.5 rounded-3xl text-sm font-medium font-['Space_Grotesk'] transition-colors ${!activeCategory ? 'bg-sky-700 text-white' : 'bg-white outline outline-1 outline-neutral-700 text-neutral-700 hover:outline-sky-700 hover:text-sky-700'}`}
+          className={`px-5 py-2.5 rounded-3xl text-sm font-medium font-['Montserrat'] transition-colors ${!activeCategory ? 'bg-sky-700 text-white' : 'bg-white outline outline-1 outline-neutral-700 text-neutral-700 hover:outline-sky-700 hover:text-sky-700'}`}
         >
           All
         </button>
@@ -93,7 +93,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
           <button
             key={cat.id}
             onClick={() => setCategory(String(cat.id))}
-            className={`px-5 py-2.5 rounded-3xl text-sm font-medium font-['Space_Grotesk'] transition-colors ${activeCategory === String(cat.id) ? 'bg-sky-700 text-white' : 'bg-white outline outline-1 outline-neutral-700 text-neutral-700 hover:outline-sky-700 hover:text-sky-700'}`}
+            className={`px-5 py-2.5 rounded-3xl text-sm font-medium font-['Montserrat'] transition-colors ${activeCategory === String(cat.id) ? 'bg-sky-700 text-white' : 'bg-white outline outline-1 outline-neutral-700 text-neutral-700 hover:outline-sky-700 hover:text-sky-700'}`}
           >
             {cat.name}
           </button>
@@ -102,7 +102,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
 
       {/* Article grid */}
       {posts.length === 0 ? (
-        <p className="text-zinc-400 text-lg font-['Space_Grotesk'] text-center py-10">No articles found.</p>
+        <p className="text-zinc-400 text-lg font-['Montserrat'] text-center py-10">No articles found.</p>
       ) : (
         <div className="flex flex-col gap-6">
           {rows.map((row, i) => (
@@ -119,24 +119,24 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                     )}
                     <div className="px-5 py-5 bg-white flex flex-col gap-4 flex-1">
                       <div className="flex items-center gap-3 flex-wrap">
-                        <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-xs font-medium font-['Space_Grotesk']">{catName}</span>
-                        <span className="text-neutral-700 text-xs font-['Onest']" suppressHydrationWarning>{readTime(post)}</span>
+                        <span className="px-2 py-1 bg-sky-700 rounded-3xl text-white text-xs font-medium font-['Montserrat']">{catName}</span>
+                        <span className="text-neutral-700 text-xs font-['Montserrat']" suppressHydrationWarning>{readTime(post)}</span>
                       </div>
                       <h3
-                        className="text-zinc-900 text-lg font-medium font-['Onest'] line-clamp-2"
+                        className="text-zinc-900 text-lg font-medium font-['Montserrat'] line-clamp-2"
                         dangerouslySetInnerHTML={{ __html: sanitize(post.title.rendered) }}
                       />
-                      <p className="text-neutral-700 text-sm font-['Onest'] line-clamp-2">
+                      <p className="text-neutral-700 text-base md:text-lg font-['Montserrat'] line-clamp-2">
                         {stripHtml(post.excerpt.rendered)}
                       </p>
                       <div className="flex justify-between items-center mt-auto">
                         <Link
                           href={`/knowledge-center/${post.slug}`}
-                          className="flex items-center gap-1.5 text-sky-700 text-sm font-['Onest'] hover:underline"
+                          className="flex items-center gap-1 text-sky-700 text-base font-bold font-['Montserrat'] hover:gap-2 transition-all"
                         >
                           Read full Article <ArrowRight className="w-4 h-4" />
                         </Link>
-                        <span className="text-zinc-500 text-xs font-['Onest']" suppressHydrationWarning>{postDate(post)}</span>
+                        <span className="text-zinc-500 text-xs font-['Montserrat']" suppressHydrationWarning>{postDate(post)}</span>
                       </div>
                     </div>
                   </div>

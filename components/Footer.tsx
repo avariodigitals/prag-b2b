@@ -14,8 +14,8 @@ const COMPANY = [
   { label: 'About us', href: '/about' },
   { label: 'Contact us', href: '/contact' },
   { label: 'Find a Distributor', href: '/find-a-distributor' },
-  { label: 'Become a Distributor', href: '/distributor' },
   { label: 'Compare Products', href: '/compare' },
+  { label: 'Become a Distributor', href: '/distributor' },
 ];
 
 const QUICKLINKS = [
@@ -49,7 +49,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
   const companyName = footer?.companyName?.trim() || 'PRAG Power Engineering Ltd';
   const companyRegistration = footer?.companyRegistration?.trim() || 'RC: 1234567.';
-  const footerTagline = footer?.tagline?.trim() || 'Nigeria\'s leading power engineering company delivering reliable power systems for homes, businesses, and industries nationwide.';
+  const footerTagline = footer?.tagline?.trim() || 'Power systems for homes, businesses, and industries nationwide.';
   const footerCopyright = footer?.copyright?.trim() || `© Copyright ${new Date().getFullYear()} PRAG. All rights reserved.`;
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
   const defaultLegalLinks = [
@@ -72,7 +72,14 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const displayColumns = (configuredColumns.length > 0 ? configuredColumns : defaultColumns)
     .map((column) => ({
       title: column.title,
-      items: column.items.filter((item) => item?.label && item?.href),
+      items: (() => {
+        const items = column.items.filter((item) => item?.label && item?.href);
+        const isCompany = column.title.trim().toLowerCase() === 'company';
+        if (!isCompany) return items;
+        const distributorItems = items.filter((item) => item.label.trim().toLowerCase() === 'become a distributor');
+        const otherItems = items.filter((item) => item.label.trim().toLowerCase() !== 'become a distributor');
+        return [...otherItems, ...distributorItems];
+      })(),
     }))
     .filter((column) => column.items.length > 0);
 
@@ -85,16 +92,16 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
     <footer>
       {/* Top CTA Banner */}
       <div className="w-full py-20 px-6 md:px-20 flex flex-col items-center gap-8 text-center" style={{ backgroundColor: '#012F4C' }}>
-        <h2 className="text-white text-4xl md:text-6xl font-bold font-['Onest'] leading-tight max-w-3xl">
+        <h2 className="text-white text-4xl md:text-6xl font-bold font-['Montserrat'] leading-tight max-w-3xl">
           {ctaTitle}
         </h2>
-        <p className="text-white/70 text-base md:text-lg font-['Space_Grotesk'] max-w-xl">
+        <p className="text-white/80 text-lg md:text-xl font-['Montserrat'] max-w-2xl leading-relaxed">
           {ctaDescription}
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link
             href={primaryCtaHref}
-            className="px-7 py-3.5 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full transition-colors"
+            className="px-7 py-3.5 bg-sky-600 hover:bg-sky-500 text-white text-base font-semibold font-['Montserrat'] rounded-full transition-colors"
           >
             {primaryCtaLabel}
           </Link>
@@ -102,16 +109,19 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             href={secondaryCtaHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-7 py-3.5 border border-white text-white text-sm font-semibold font-['Space_Grotesk'] rounded-full hover:bg-white hover:text-[#012F4C] transition-colors"
+            className="px-7 py-3.5 border border-white text-white text-base font-semibold font-['Montserrat'] rounded-full hover:bg-white hover:text-[#012F4C] transition-colors inline-flex items-center gap-2"
           >
+            <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#25D366]" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
             {secondaryCtaLabel}
           </a>
         </div>
       </div>
 
       {/* Main Footer */}
-      <div className="w-full bg-[#f5f6f8] px-6 md:px-20 py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="w-full bg-[#f5fefd] px-6 md:px-20 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr] gap-8 lg:gap-x-12">
 
           {/* Brand */}
           <div className="flex flex-col gap-4">
@@ -124,26 +134,25 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 className="h-7 w-auto object-contain"
               />
             </div>
-            <div>
-              <p className="text-zinc-700 text-sm font-['Space_Grotesk']">{companyName}</p>
-              <p className="text-zinc-500 text-sm font-['Space_Grotesk']">{companyRegistration}</p>
-            </div>
-            <p className="text-zinc-600 text-sm font-['Space_Grotesk'] leading-relaxed">
+            <p className="text-zinc-700 text-lg md:text-xl font-['Montserrat']">
+              {companyName} - {companyRegistration}
+            </p>
+            <p className="text-zinc-600 text-base md:text-lg font-['Montserrat'] leading-relaxed">
               {footerTagline}
             </p>
             <div className="flex flex-col gap-2 mt-1">
-              <a href={whatsapp} className="flex items-center gap-2 text-zinc-600 text-sm font-['Space_Grotesk'] hover:text-sky-700 transition-colors">
+              <a href={whatsapp} className="flex items-center gap-2 text-zinc-600 text-base font-['Montserrat'] hover:text-sky-700 transition-colors">
                 {/* WhatsApp icon */}
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
                 {phone}
               </a>
-              <a href={`mailto:${email}`} className="flex items-center gap-2 text-zinc-600 text-sm font-['Space_Grotesk'] hover:text-sky-700 transition-colors">
+              <a href={`mailto:${email}`} className="flex items-center gap-2 text-zinc-600 text-base font-['Montserrat'] hover:text-sky-700 transition-colors">
                 <Mail className="w-4 h-4 shrink-0" />
                 {email}
               </a>
-              <span className="flex items-center gap-2 text-zinc-600 text-sm font-['Space_Grotesk']">
+              <span className="flex items-center gap-2 text-zinc-600 text-base font-['Montserrat']">
                 <MapPin className="w-4 h-4 shrink-0" />
                 {address}
               </span>
@@ -152,11 +161,17 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
           {displayColumns.map((column) => (
             <div key={column.title} className="flex flex-col gap-4">
-              <h4 className="text-zinc-900 text-base font-bold font-['Space_Grotesk']">{column.title}</h4>
-              <ul className="flex flex-col gap-3">
+              <h4 className="text-zinc-900 text-lg font-bold font-['Montserrat']">{column.title}</h4>
+              <ul className="flex flex-col gap-2.5 md:gap-2">
                 {column.items.map((item) => (
                   <li key={`${column.title}-${item.href}`}>
-                    <Link href={item.href} className="text-zinc-600 text-sm font-['Space_Grotesk'] hover:text-sky-700 transition-colors">
+                    <Link
+                      href={item.href}
+                      className={column.title.trim().toLowerCase() === 'company' && item.label.trim().toLowerCase() === 'become a distributor'
+                        ? "inline-flex items-center justify-center px-4 py-2.5 mt-1 rounded-lg bg-sky-600 text-white text-base font-bold font-['Montserrat'] hover:bg-sky-700 transition-colors shadow-sm"
+                        : "block py-0.5 text-zinc-600 text-base font-['Montserrat'] leading-relaxed hover:text-sky-700 transition-colors"
+                      }
+                    >
                       {item.label}
                     </Link>
                   </li>
@@ -168,7 +183,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
         {/* Divider + Bottom bar */}
         <div className="mt-12 border-t border-zinc-200 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-zinc-500 text-xs md:text-sm font-['Space_Grotesk'] text-center md:text-left">{footerCopyright}</p>
+          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] text-center md:text-left">{footerCopyright}</p>
 
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <a href={facebook} aria-label="Facebook" className="text-zinc-500 hover:text-sky-700 transition-colors">
@@ -182,20 +197,26 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             </a>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap justify-center text-sm font-['Space_Grotesk'] text-zinc-500">
+          <div className="flex items-center gap-3 flex-wrap justify-center text-sm font-['Montserrat'] text-zinc-500">
             {legalLinks.map((item, index) => (
               <span key={`legal-${item.href}`} className="flex items-center gap-3">
                 {index > 0 && <span>|</span>}
                 <Link href={item.href} className="hover:text-sky-700 transition-colors">{item.label}</Link>
               </span>
             ))}
+            <span className="flex items-center gap-3">
+              {legalLinks.length > 0 && <span>|</span>}
+              <button id="open_preferences_center" type="button" className="hover:text-sky-700 transition-colors cursor-pointer">
+                Update cookies preferences
+              </button>
+            </span>
           </div>
         </div>
       </div>
 
       {/* Disclaimer bar */}
       <div className="w-full bg-sky-700 py-3 px-6 text-center">
-        <p className="text-white text-xs font-['Space_Grotesk']">
+        <p className="text-white text-base md:text-lg font-['Montserrat']">
           {disclaimerText}
         </p>
       </div>

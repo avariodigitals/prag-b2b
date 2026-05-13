@@ -54,12 +54,12 @@ function ProblemCard({
       </div>
 
       {/* Title — always visible */}
-      <h3 className={`text-lg font-semibold font-['Onest'] leading-snug transition-colors duration-200 ${active ? 'text-sky-700' : 'text-zinc-900'}`}>
+      <h3 className={`text-lg font-semibold font-['Montserrat'] leading-snug transition-colors duration-200 ${active ? 'text-sky-700' : 'text-zinc-900'}`}>
         {problem.title}
       </h3>
 
       {/* Body — always visible */}
-      <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">
+      <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">
         {problem.body}
       </p>
     </button>
@@ -201,8 +201,8 @@ export default function ProblemsCarousel({
       <div className="mt-6 flex flex-col gap-8 transition-all duration-300">
         {/* Impact */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Impact</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
+          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">The Impact</h2>
+          <div className="flex flex-col gap-3 text-zinc-700 text-base md:text-lg font-['Montserrat'] leading-relaxed">
             {activeProblem.impact.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -211,8 +211,8 @@ export default function ProblemsCarousel({
 
         {/* Solution */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">The Solution</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-sm font-['Space_Grotesk'] leading-relaxed">
+          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">The Solution</h2>
+          <div className="flex flex-col gap-3 text-zinc-700 text-base md:text-lg font-['Montserrat'] leading-relaxed">
             {activeProblem.solution.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -232,12 +232,12 @@ export default function ProblemsCarousel({
 
         {/* Technologies & Products */}
         <div className="flex flex-col gap-6">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Onest']">Technologies &amp; Products</h2>
+          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">Technologies &amp; Products</h2>
           <ul className="flex flex-col gap-3">
             {activeProblem.technologies.map((tech) => (
               <li key={tech} className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-sky-700 shrink-0" />
-                <span className="text-zinc-700 text-sm font-['Space_Grotesk']">{tech}</span>
+                <span className="text-zinc-700 text-base md:text-lg font-['Montserrat']">{tech}</span>
               </li>
             ))}
           </ul>

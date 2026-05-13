@@ -52,10 +52,10 @@ export default async function AboutPage() {
 
       {/* Hero */}
       <div className="w-full px-6 md:px-10 pt-14 pb-10 bg-stone-50 flex flex-col items-center gap-4 text-center">
-        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-3xl">
+        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-3xl">
           {heroTitle}
         </h1>
-        <p className="text-sky-700 text-base md:text-lg font-['Space_Grotesk'] max-w-lg leading-relaxed">
+        <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-lg leading-relaxed">
           {heroDescription}
         </p>
       </div>
@@ -65,14 +65,14 @@ export default async function AboutPage() {
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-20">
           <div className="flex items-center gap-2 shrink-0">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">About PRAG</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">About PRAG</span>
           </div>
           <div className="flex-1 flex flex-col gap-10 md:gap-16">
             <div className="flex flex-col gap-4">
-              <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight">
+              <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight">
                 {aboutTitle}
               </h2>
-              <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed whitespace-pre-line">
+              <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed whitespace-pre-line">
                 {aboutBody}
               </p>
             </div>
@@ -81,10 +81,10 @@ export default async function AboutPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {STATS.map(stat => (
                 <div key={stat.label} className="flex flex-col items-center gap-1">
-                  <span className="text-sky-700 text-3xl md:text-4xl font-bold font-['Onest']">
+                  <span className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat']">
                     <CountUp value={stat.display} suffix={stat.suffix} />
                   </span>
-                  <span className="text-zinc-500 text-sm font-['Space_Grotesk'] text-center">{stat.label}</span>
+                  <span className="text-zinc-500 text-base md:text-lg font-['Montserrat'] text-center">{stat.label}</span>
                 </div>
               ))}
             </div>
@@ -108,9 +108,9 @@ export default async function AboutPage() {
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Story</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Story</span>
           </div>
-          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-3xl">
+          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-3xl">
             {storyTitle}
           </h2>
         </div>
@@ -126,7 +126,7 @@ export default async function AboutPage() {
           </div>
           <div className="flex-1 flex flex-col gap-5">
             {storyParas.map((para, i) => (
-              <p key={i} className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] leading-relaxed">{para}</p>
+              <p key={i} className="text-zinc-500 text-base md:text-lg font-['Montserrat'] leading-relaxed">{para}</p>
             ))}
           </div>
         </div>
@@ -137,12 +137,12 @@ export default async function AboutPage() {
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-widest">Our Core Values</span>
+            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Core Values</span>
           </div>
-          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Onest'] leading-tight max-w-xl">
+          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-xl">
             {valuesTitle}
           </h2>
-          <p className="text-zinc-500 text-sm md:text-base font-['Space_Grotesk'] max-w-lg">
+          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] max-w-lg">
             Our work is guided by a commitment to quality, precision, and long-term performance.
           </p>
         </div>
@@ -154,9 +154,9 @@ export default async function AboutPage() {
                 <div className="w-10 h-10 rounded-full bg-sky-700 flex items-center justify-center shrink-0">
                   <div className="w-4 h-4 bg-white rounded-sm" />
                 </div>
-                <h3 className="text-zinc-900 text-base font-semibold font-['Onest'] leading-snug">{val.title}</h3>
+                <h3 className="text-zinc-900 text-base font-semibold font-['Montserrat'] leading-snug">{val.title}</h3>
               </div>
-              <p className="text-zinc-500 text-sm font-['Space_Grotesk'] leading-relaxed">{val.body}</p>
+              <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{val.body}</p>
             </div>
           ))}
         </div>
