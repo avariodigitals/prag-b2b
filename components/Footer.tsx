@@ -48,7 +48,6 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const secondaryCtaHref = footer?.secondaryCtaHref?.trim() || whatsapp;
 
   const companyName = footer?.companyName?.trim() || 'PRAG Power Engineering Ltd';
-  const companyRegistration = footer?.companyRegistration?.trim() || 'RC: 1234567.';
   const footerTagline = footer?.tagline?.trim() || 'Power systems for homes, businesses, and industries nationwide.';
   const footerCopyright = footer?.copyright?.trim() || `© Copyright ${new Date().getFullYear()} PRAG. All rights reserved.`;
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
@@ -134,9 +133,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 className="h-7 w-auto object-contain"
               />
             </div>
-            <p className="text-zinc-700 text-lg md:text-xl font-['Montserrat']">
-              {companyName} - {companyRegistration}
-            </p>
+            <p className="text-zinc-700 text-lg md:text-xl font-['Montserrat']">{companyName}</p>
             <p className="text-zinc-600 text-base md:text-lg font-['Montserrat'] leading-relaxed">
               {footerTagline}
             </p>

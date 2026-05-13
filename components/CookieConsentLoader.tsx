@@ -80,6 +80,9 @@ export default function CookieConsentLoader() {
         .termsfeed-com---nb-simple .cc-nb-main-container {
           width: min(640px, 100%) !important;
           max-width: 640px !important;
+          max-height: calc(100vh - 2rem) !important;
+          overflow-y: auto !important;
+          -webkit-overflow-scrolling: touch !important;
           border-radius: 16px !important;
           box-shadow: 0 20px 48px rgba(15, 23, 42, 0.22) !important;
           margin: 0 !important;
@@ -119,6 +122,82 @@ export default function CookieConsentLoader() {
           visibility: hidden !important;
           opacity: 0 !important;
           pointer-events: none !important;
+        }
+
+        @media (max-width: 768px) {
+          #termsfeed-com---nb,
+          .termsfeed-com---nb,
+          .termsfeed-com---nb-simple,
+          #termsfeed-com---nb.termsfeed-com---is-visible,
+          .termsfeed-com---nb.termsfeed-com---is-visible,
+          .termsfeed-com---nb-simple.termsfeed-com---is-visible {
+            padding: 0.75rem !important;
+          }
+
+          #termsfeed-com---nb .cc-nb-main-container,
+          .termsfeed-com---nb-simple .cc-nb-main-container {
+            width: calc(100vw - 1.5rem) !important;
+            max-width: 420px !important;
+            max-height: calc(100vh - 1.5rem) !important;
+            border-radius: 14px !important;
+          }
+
+          #termsfeed-com---nb .cc-nb-title,
+          .termsfeed-com---nb-simple .cc-nb-title {
+            font-size: 2rem !important;
+            line-height: 1.15 !important;
+          }
+
+          #termsfeed-com---nb .cc-nb-text,
+          .termsfeed-com---nb-simple .cc-nb-text {
+            font-size: 1rem !important;
+            line-height: 1.45 !important;
+          }
+
+          #termsfeed-com---nb .cc-nb-buttons-container,
+          .termsfeed-com---nb-simple .cc-nb-buttons-container {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+          }
+
+          #termsfeed-com---nb .cc-nb-buttons-container button,
+          .termsfeed-com---nb-simple .cc-nb-buttons-container button,
+          #termsfeed-com---nb .cc-nb-buttons-container .cc-nb-changep,
+          .termsfeed-com---nb-simple .cc-nb-buttons-container .cc-nb-changep {
+            width: 100% !important;
+            min-height: 48px !important;
+            font-size: 1rem !important;
+          }
+
+          #termsfeed-com---preferences-center .cc-cp-foot,
+          .termsfeed-com---pc-overlay .cc-cp-foot {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.6rem !important;
+            padding: 0.75rem !important;
+          }
+
+          #termsfeed-com---preferences-center .cc-cp-foot-save,
+          #termsfeed-com---preferences-center .cc-cp-foot-button,
+          .termsfeed-com---pc-overlay .cc-cp-foot-save,
+          .termsfeed-com---pc-overlay .cc-cp-foot-button {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 48px !important;
+            box-sizing: border-box !important;
+            font-size: 1rem !important;
+            line-height: 1.2 !important;
+          }
+
+          #termsfeed-com---preferences-center .cc-cp-foot-byline,
+          .termsfeed-com---pc-overlay .cc-cp-foot-byline {
+            margin: 0 !important;
+            text-align: left !important;
+            font-size: 0.9rem !important;
+            line-height: 1.3 !important;
+          }
         }
       `;
 
