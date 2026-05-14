@@ -49,7 +49,7 @@ export default async function Hero() {
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           backgroundRepeat: 'no-repeat',
-          filter: 'brightness(0.82) contrast(1.08) saturate(0.92)',
+          filter: 'brightness(0.60) contrast(1.08) saturate(0.92)',
         }}
         aria-hidden="true"
       />
