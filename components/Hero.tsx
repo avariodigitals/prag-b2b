@@ -36,47 +36,52 @@ async function getHeroContent() {
 
 export default async function Hero() {
   const hero = await getHeroContent();
-  const mobileHeroImage = (hero as typeof hero & { mobileImage?: string }).mobileImage || hero.image;
   const questionMarkIndex = hero.title.indexOf('?');
   const firstLine = questionMarkIndex >= 0 ? hero.title.slice(0, questionMarkIndex + 1) : hero.title;
   const secondLine = questionMarkIndex >= 0 ? hero.title.slice(questionMarkIndex + 1).trim() : '';
 
   return (
-    <section className="relative w-full min-h-[420px] md:h-[704px] flex flex-col justify-center items-center text-center px-4 sm:px-6 md:px-20 py-16 md:py-0 overflow-hidden">
-      {/* Mobile background */}
+    <section className="relative overflow-hidden w-full min-h-[420px] md:h-[704px] flex flex-col justify-center items-center text-center px-4 sm:px-6 md:px-20 pt-[150px] pb-10">
       <div
-        className="absolute inset-0 md:hidden"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
         style={{
-          backgroundImage: `url('${mobileHeroImage}')`,
+          backgroundImage: "url('/images/herobg.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           backgroundRepeat: 'no-repeat',
-          backgroundColor: 'lightgray',
+          filter: 'brightness(0.82) contrast(1.08) saturate(0.92)',
         }}
         aria-hidden="true"
       />
-      {/* Desktop background */}
       <div
         className="absolute inset-0 hidden md:block"
         style={{
-          backgroundImage: `url('${hero.image}')`,
-          backgroundSize: 'cover',
+          background: `
+            linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%),
+            linear-gradient(13deg, rgba(0, 0, 0, 0.72) 30.12%, rgba(255, 255, 255, 0.04) 76.12%),
+            linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%),
+            url('/images/herobg.jpg') lightgray 50% / cover no-repeat
+          `,
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
-          backgroundColor: 'lightgray',
+          backgroundSize: 'cover',
         }}
         aria-hidden="true"
       />
-      {/* Dark overlay for mobile */}
+
       <div
         className="absolute inset-0 md:hidden"
-        style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.60) 100%)' }}
-        aria-hidden="true"
-      />
-      {/* Dark overlay for desktop */}
-      <div
-        className="absolute inset-0 hidden md:block"
-        style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.50) 100%)' }}
+        style={{
+          background: `
+            linear-gradient(
+              180deg,
+              rgba(0, 0, 0, 0.22) 0%,
+              rgba(0, 0, 0, 0.30) 30%,
+              rgba(0, 0, 0, 0.48) 60%,
+              rgba(0, 0, 0, 0.78) 100%
+            )
+          `,
+        }}
         aria-hidden="true"
       />
 
