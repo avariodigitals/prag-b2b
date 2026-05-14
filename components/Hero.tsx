@@ -94,7 +94,7 @@ export default async function Hero() {
         </div>
 
         {/* CTAs */}
-        <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[520px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 md:gap-4">
+        <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[700px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 md:gap-4">
           <Link
             href={hero.ctaHref}
             className="flex-1 sm:flex-none w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors text-center"

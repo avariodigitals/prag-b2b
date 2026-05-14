@@ -3,7 +3,12 @@ import Link from 'next/link';
 
 const STATS = [
   { label: 'Trusted across\n36 states', weight: 'medium' },
-  { label: '20+Years of\nEngineering\nExperience', weight: 'light' },
+  {
+    label: '20+Years of\nEngineering\nExperience',
+    desktopLabel: '20+Years of\nEngineering Experience',
+    weight: 'medium',
+    mobileWeight: 'medium',
+  },
   { label: '500+\ninstallations\nnationwide', weight: 'medium' },
 ];
 
@@ -60,12 +65,19 @@ export default function ProblemsSection() {
             >
               <span
                 className={`text-[#0166A5] text-[14px] sm:text-[16px] md:text-[34px] leading-[1.15] md:leading-[1.08] tracking-[0] text-center font-['Onest'] ${
-                  s.weight === 'light' ? 'font-light' : 'font-medium'
+                  s.mobileWeight === 'bold' ? 'font-bold md:font-medium' : s.weight === 'light' ? 'font-light' : 'font-medium'
                 }`}
               >
-                {s.label.split('\n').map((line, i) => (
-                  <span key={i} className="block">{line}</span>
-                ))}
+                <span className="block md:hidden">
+                  {s.label.split('\n').map((line, i) => (
+                    <span key={i} className="block">{line}</span>
+                  ))}
+                </span>
+                <span className="hidden md:block">
+                  {(s.desktopLabel ?? s.label).split('\n').map((line, i) => (
+                    <span key={i} className="block">{line}</span>
+                  ))}
+                </span>
               </span>
             </div>
           ))}
@@ -76,21 +88,23 @@ export default function ProblemsSection() {
       <div className="w-full px-4 sm:px-6 md:px-20">
         <div className="max-w-[1280px] mx-auto pt-10 pb-12 md:py-[4.5rem] flex flex-col gap-8 md:gap-12">
           {/* Header */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-5">
+          <div className="flex flex-col gap-4 md:gap-6">
             <div className="flex items-center justify-center md:justify-start gap-[6px]">
               <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
               <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase leading-normal tracking-wide">
-                Power Problems
+                Power Issues We Solve
               </span>
             </div>
-            <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1] tracking-[-2px]">
-              Power Problems Cost You More Than You Think
-            </h2>
-            <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-[20px] font-normal font-['Onest'] leading-[1.6] max-w-[600px] md:max-w-none">
-              Unstable electricity leads to damaged equipment, costly downtime, and reduced efficiency.
-              PRAG delivers reliable solutions—from voltage stabilizers and UPS systems to hybrid inverters
-              and solar power—designed to keep your home or business running without interruption.
-            </p>
+            <div className="flex flex-col items-center text-center gap-4 md:flex-row md:items-start md:justify-between md:gap-10 md:text-left">
+              <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1] tracking-[-2px] max-w-[660px] md:max-w-[740px]">
+                Power Problems Cost You <br className="hidden md:block" />More Than You Think
+              </h2>
+              <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-[20px] font-normal font-['Onest'] leading-[1.6] max-w-[600px] md:max-w-[520px]">
+                Unstable electricity leads to damaged equipment, costly downtime, and reduced efficiency.
+                PRAG delivers reliable solutions—from voltage stabilizers and UPS systems to hybrid inverters
+                and solar power—designed to keep your home or business running without interruption.
+              </p>
+            </div>
           </div>
 
           {/* Problem Cards */}

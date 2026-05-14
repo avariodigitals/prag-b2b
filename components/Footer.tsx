@@ -93,7 +93,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
               {ctaDescription}
             </p>
           </div>
-          <div className="w-full max-w-[400px] flex flex-col sm:flex-row justify-center items-center gap-4">
+          <div className="w-full max-w-[400px] md:max-w-[700px] flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
               href={primaryCtaHref}
               className="w-full sm:w-auto h-14 px-8 bg-gradient-to-r from-[#1B7FC0] to-[#0166A5] rounded-full flex justify-center items-center gap-2.5 hover:brightness-110 transition-all"

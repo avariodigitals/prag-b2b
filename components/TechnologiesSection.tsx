@@ -118,14 +118,21 @@ export default function TechnologiesSection() {
                 Our Technologies
               </span>
             </div>
-            {/* Title */}
-            <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[600px]">
-              Four Product Categories, One Complete System
-            </h2>
-            {/* Description */}
-            <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
-              Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.
-            </p>
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-10">
+              {/* Title */}
+              <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[600px] md:max-w-[680px]">
+                <span className="block md:hidden">
+                  Four Technologies.
+                  <br />
+                  One Complete System.
+                </span>
+                <span className="hidden md:inline">Four Technologies. One Complete System.</span>
+              </h2>
+              {/* Description */}
+              <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
+                Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.
+              </p>
+            </div>
           </div>
 
           {/* Slider */}
@@ -164,7 +171,7 @@ export default function TechnologiesSection() {
                 </div>
                 {/* Arrow button */}
                 <div className="absolute right-4 top-4 md:right-8 md:top-8 inline-flex p-2.5 md:p-3 items-center gap-[10px] bg-[#0166A5] rounded-full group-hover:bg-sky-800 group-hover:scale-110 transition-all shadow-lg">
-                  <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
+                  <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-white" aria-hidden="true" />
                 </div>
               </Link>
             ))}
