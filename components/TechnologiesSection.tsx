@@ -1,6 +1,5 @@
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -106,88 +105,85 @@ export default function TechnologiesSection() {
   };
 
   return (
-    <section className="w-full bg-white pt-16 pb-6 md:py-20 overflow-hidden">
-      <div className="w-full px-6 md:px-20">
-        <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
+    <section className="w-full bg-white pt-12 pb-6 md:py-20 overflow-hidden">
+      <div className="w-full px-4 sm:px-6 md:px-20">
+        <div className="max-w-[1280px] mx-auto flex flex-col gap-8 md:gap-10">
 
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-14">
-          <div className="flex flex-col gap-3 md:w-1/2">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-sky-700 rounded-[1px] shrink-0" />
-              <span className="text-black text-[16px] font-normal [font-family:var(--font-space-grotesk)] uppercase leading-normal">Our Technologies</span>
+          {/* Header */}
+          <div className="flex flex-col gap-4 md:gap-6">
+            {/* Kicker */}
+            <div className="flex items-center gap-[6px]">
+              <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
+              <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase tracking-wide">
+                Our Technologies
+              </span>
             </div>
-            <h2
-              className="text-black text-3xl md:text-[48px] font-bold font-['Onest'] leading-normal"
-              style={{
-                letterSpacing: '-2px',
-                lineHeight: 'normal',
-              }}
-            >
-              Four Technologies.<br /><span>One Complete System.</span>
+            {/* Title */}
+            <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[600px]">
+              Four Product Categories, One Complete System
             </h2>
-          </div>
-          <div className="md:w-1/2 flex flex-col gap-4 md:pt-10">
-            <p
-              className="max-w-[520px]"
-              style={{
-                color: '#787878',
-                fontFamily: 'Onest, sans-serif',
-                fontSize: '20px',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                lineHeight: 'normal',
-              }}
-            >
-              Every PRAG solution is built using the right combination of: Voltage Stabilizers, Inverters, Solar Systems and Lithium Battery Storage engineered, installed, and supported by our team.
+            {/* Description */}
+            <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
+              Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.
             </p>
-
           </div>
-        </div>
 
-        {/* Slider */}
-        <div
-          ref={sliderRef}
-          onScroll={handleScroll}
-          className="flex gap-0 sm:gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 pr-0 sm:pr-6 md:pr-28 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {technologies.map((tech) => (
-            <Link
-              key={tech.slug}
-              href={tech.href}
-              className="relative snap-start flex-none w-full sm:w-[54%] md:w-[600px] h-[540px] md:h-[755px] bg-gradient-to-b from-stone-500/10 via-zinc-700/50 to-black rounded-[32px] md:rounded-xl overflow-hidden group"
-            >
-              <Image
-                src={tech.image}
-                alt={tech.name}
-                fill
-                sizes="(min-width: 1024px) 440px, (min-width: 640px) 54vw, 82vw"
-                className="object-contain group-hover:scale-105 transition-transform duration-300 p-8 pb-28 md:p-16 md:pb-24"
+          {/* Slider */}
+          <div
+            ref={sliderRef}
+            onScroll={handleScroll}
+            className="flex gap-0 sm:gap-5 md:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {technologies.map((tech) => (
+              <Link
+                key={tech.slug}
+                href={tech.href}
+                className="relative snap-start flex-none w-full sm:w-[60%] md:w-[600px] h-[527px] md:h-[755px] rounded-3xl overflow-hidden group"
+                style={{
+                  background: 'linear-gradient(179.15deg, rgba(102,102,102,0.2) 12.01%, rgba(0,0,0,1) 99.26%)',
+                }}
+              >
+                <img
+                  src={tech.image}
+                  alt={tech.name}
+                  className="absolute inset-0 w-full h-full object-contain p-8 pb-28 md:p-16 md:pb-24 group-hover:scale-105 transition-transform duration-300"
+                />
+                {/* Gradient overlay */}
+                <div
+                  className="absolute inset-0 rounded-3xl"
+                  style={{
+                    background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.85) 100%)',
+                  }}
+                  aria-hidden="true"
+                />
+                {/* Label */}
+                <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-start px-6 md:px-7">
+                  <span className="text-white text-2xl md:text-3xl font-semibold font-['Onest'] leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+                    {tech.name}
+                  </span>
+                </div>
+                {/* Arrow button */}
+                <div className="absolute right-4 top-4 md:right-8 md:top-8 inline-flex p-2.5 md:p-3 items-center gap-[10px] bg-[#0166A5] rounded-full group-hover:bg-sky-800 group-hover:scale-110 transition-all shadow-lg">
+                  <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex items-center justify-center gap-2">
+            {technologies.map((tech, index) => (
+              <button
+                key={tech.slug}
+                type="button"
+                aria-label={`Go to ${tech.name}`}
+                onClick={() => handleDotClick(index)}
+                className={`h-[11px] rounded-full transition-all duration-300 ${
+                  activeIndex === index ? 'w-[42px] bg-[#0166A5]' : 'w-[11px] bg-[#D0D0D0] hover:bg-[#BEBEBE]'
+                }`}
               />
-              <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-start px-6 md:px-7">
-                <span className="justify-start text-left text-white text-3xl font-semibold font-['Onest'] leading-tight whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">{tech.name}</span>
-              </div>
-              <div className="absolute right-4 top-4 md:right-8 md:top-8 inline-flex p-3 items-center gap-[10px] bg-sky-700 rounded-full group-hover:bg-sky-800 group-hover:scale-110 transition-all shadow-lg">
-                <ArrowUpRight className="w-5 h-5 md:w-10 md:h-10 text-white" />
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center justify-center gap-2">
-          {technologies.map((tech, index) => (
-            <button
-              key={tech.slug}
-              type="button"
-              aria-label={`Go to ${tech.name}`}
-              onClick={() => handleDotClick(index)}
-              className={`h-4 rounded-full transition-all ${
-                activeIndex === index ? 'w-16 bg-[#0166A5]' : 'w-8 bg-[#D0D0D0] hover:bg-[#BEBEBE]'
-              }`}
-            />
-          ))}
-        </div>
-
+            ))}
+          </div>
         </div>
       </div>
     </section>

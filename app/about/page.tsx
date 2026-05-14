@@ -61,7 +61,7 @@ export default async function AboutPage() {
       </div>
 
       {/* ── About section ── */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24">
+      <section className="w-full px-6 md:px-20 py-8 md:py-24">
         <div className="max-w-[1280px] mx-auto">
           <div className="flex flex-col md:flex-row items-start gap-8 md:gap-20">
 
@@ -86,9 +86,9 @@ export default async function AboutPage() {
               </div>
 
               {/* Stats — n_98039: Onest 48px 300, n_10871: Onest 28px 400, both #0166a5 */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center text-center">
                 {STATS.map(stat => (
-                  <div key={stat.label} className="flex flex-col items-start gap-[2px]">
+                  <div key={stat.label} className="flex flex-col items-center gap-[2px]">
                     <span className="text-[#0166a5] text-[40px] md:text-[48px] font-light font-['Onest'] leading-none">
                       <CountUp value={stat.display} suffix={stat.suffix} />
                     </span>
@@ -113,7 +113,7 @@ export default async function AboutPage() {
       </section>
 
       {/* ── Our Story ── */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24">
+      <section className="w-full px-6 md:px-20 py-8 md:py-24">
         <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-10">
 
           {/* Kicker + heading — centered */}
@@ -152,7 +152,7 @@ export default async function AboutPage() {
       </section>
 
       {/* ── Core Values ── */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-24 bg-stone-50">
+      <section className="w-full px-6 md:px-20 py-8 md:py-24 bg-stone-50">
         <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-12">
 
           {/* Kicker + heading + subtitle — centered */}
@@ -177,7 +177,7 @@ export default async function AboutPage() {
               <div
                 key={val.title}
                 /* n_af255: border-radius 24px, border 0.3px solid rgba(136,136,136,0.5), gap 60px */
-                className="p-6 bg-white rounded-[24px] border border-[rgba(136,136,136,0.5)] flex flex-col gap-[60px]"
+                className="p-6 bg-white rounded-[24px] border border-[rgba(136,136,136,0.5)] flex flex-col gap-10 md:gap-[60px]"
               >
                 {/* Top: icon circle + title */}
                 <div className="flex flex-col gap-3">

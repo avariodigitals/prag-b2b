@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 async function getWhyPragContent() {
@@ -42,49 +41,63 @@ const REASONS = [
 
 export default async function WhyPragSection() {
   const reasons = await getWhyPragContent();
+
   return (
-    <section className="w-full bg-white py-16 md:py-20 px-6 md:px-20">
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-12">
+    <section className="w-full bg-white py-12 md:py-20 px-4 sm:px-6 md:px-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-8 md:gap-12">
 
         {/* Header */}
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-sky-700 rounded-[1px] shrink-0" />
-            <span className="text-black text-[16px] font-normal [font-family:var(--font-space-grotesk)] uppercase leading-normal">The Prag Difference</span>
+          <div className="flex items-center gap-[6px]">
+            <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
+            <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase tracking-wide">
+              The PRAG Difference
+            </span>
           </div>
-          <h2 className="text-black text-3xl md:text-[48px] font-bold font-['Onest'] leading-[1.2] tracking-[-2px] md:hidden">
-            Why Leading Homes<br />and Businesses Choose<br />PRAG
+          <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[500px] md:max-w-[600px]">
+            Why Leading Homes and Businesses Choose PRAG
           </h2>
-          <h2 className="hidden md:block text-black md:text-[48px] font-bold font-['Onest'] leading-[1.2] tracking-[-2px]">
-            Why Leading Homes and<br />Businesses Choose PRAG
-          </h2>
-          <p className="text-zinc-500 text-base md:text-lg font-['Onest']">
+          <p className="text-zinc-500 text-[14px] sm:text-base md:text-lg font-['Onest'] max-w-[480px]">
             Our work is guided by a commitment to quality, precision, and long-term performance.
           </p>
         </div>
 
-        {/* 2x2 Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+        {/* Cards Grid — single column on mobile, 2 columns on md+ */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           {reasons.map((r) => (
-            <div key={r.title} className="relative min-h-[320px] md:min-h-[360px] h-full rounded-2xl outline outline-[0.30px] outline-offset-[-0.30px] outline-zinc-500/50 overflow-hidden group">
-              <Image
+            <div
+              key={r.title}
+              className="relative min-h-[300px] sm:min-h-[340px] md:min-h-[380px] h-full rounded-2xl overflow-hidden group"
+            >
+              <img
                 src={r.image}
                 alt={r.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(min-width: 768px) 50vw, 100vw"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/0 to-black/80" />
-              <div className="absolute inset-0 self-stretch px-6 pt-48 pb-6 bg-gradient-to-b from-white/0 to-black/80 rounded-2xl inline-flex flex-col justify-start items-start">
-                <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                  <div className="self-stretch justify-start text-white text-lg md:text-[18px] lg:text-[20px] font-medium font-['Space_Grotesk'] leading-normal whitespace-nowrap">{r.title}</div>
-                  <div className="self-stretch justify-start text-white text-base md:text-lg font-normal font-['Space_Grotesk'] leading-relaxed md:leading-normal">{r.desc}</div>
-                </div>
+              {/* Base dark tint over whole card */}
+              <div
+                className="absolute inset-0"
+                style={{ background: 'rgba(0,0,0,0.28)' }}
+                aria-hidden="true"
+              />
+              {/* Stronger gradient for text area */}
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.72) 65%, rgba(0,0,0,0.90) 100%)' }}
+                aria-hidden="true"
+              />
+              {/* Text */}
+              <div className="absolute inset-x-0 bottom-0 px-5 pb-5 flex flex-col gap-2">
+                <h3 className="text-white text-[17px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
+                  {r.title}
+                </h3>
+                <p className="text-white/90 text-[13px] font-normal [font-family:var(--font-space-grotesk)] leading-relaxed drop-shadow-sm">
+                  {r.desc}
+                </p>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
