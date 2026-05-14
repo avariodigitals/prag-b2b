@@ -184,7 +184,7 @@ export default function ProblemsCarousel({
       <div className="overflow-hidden">
         <div
           ref={trackRef}
-          className="flex gap-5 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none"
+          className="flex gap-0 sm:gap-5 overflow-x-auto snap-x snap-mandatory pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none"
           onMouseDown={handleTrackMouseDown}
           onMouseMove={handleTrackMouseMove}
           onMouseUp={stopDragging}
@@ -193,7 +193,7 @@ export default function ProblemsCarousel({
           onScroll={syncActiveFromScroll}
         >
           {problems.map((problem, index) => (
-            <div key={problem.id ?? `${problem.title}-${index}`} className="shrink-0 w-[82%] sm:w-[70%] md:w-[52%] lg:w-[34%]">
+            <div key={problem.id ?? `${problem.title}-${index}`} className="shrink-0 w-full sm:w-[70%] md:w-[52%] lg:w-[34%]">
               <ProblemCard
                 problem={problem}
                 active={activeIndex === index}

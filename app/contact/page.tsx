@@ -74,7 +74,7 @@ export default async function ContactPage() {
       </div>
 
       {/* ── Contact Info + Form ── */}
-      <section className="w-full px-6 md:px-20 py-16 md:py-20">
+      <section className="w-full px-4 sm:px-6 md:px-20 py-8 md:py-20">
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
 
           {/* Left: Contact Info */}

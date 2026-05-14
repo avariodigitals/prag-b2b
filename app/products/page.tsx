@@ -51,7 +51,7 @@ export default async function ProductsPage({ searchParams }: Props) {
         <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
           <h1 className="breadcrumb-title-lock">Our Products</h1>
           <p className="breadcrumb-description-lock max-w-[531px]">
-            Select your appliances, set daily usage hours, and get an instant system recommendation — free, no signup required.
+            Browse our full range of voltage stabilizers, inverters, batteries, and solar systems — engineered for Nigerian conditions.
           </p>
         </div>
 

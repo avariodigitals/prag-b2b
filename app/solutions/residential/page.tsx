@@ -31,7 +31,7 @@ export default async function ResidentialSolutionsPage() {
         </p>
       </div>
 
-      <div className="w-full px-6 md:px-20 py-14">
+      <div className="w-full px-4 sm:px-6 md:px-20 py-8 md:py-14">
         <div className="max-w-[1280px] mx-auto">
           <ProblemsCarousel problems={problems} products={products} recommendedProductsByProblem={recommendedProductsByProblem} />
         </div>

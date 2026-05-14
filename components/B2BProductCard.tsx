@@ -21,7 +21,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
   return (
     <div className="w-full relative flex flex-col gap-0 group">
       {/* Image container */}
-      <div className="relative w-full aspect-[302/275] rounded-lg overflow-hidden flex items-center justify-center bg-[#f5f5f5]">
+      <div className="relative w-full aspect-[302/275] rounded-lg overflow-hidden flex items-center justify-center">
         <Link href={detailsHref} aria-label={`View details for ${product.name}`} className="block w-full h-full">
           {image ? (
             <img
@@ -30,7 +30,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
               className="w-full h-full object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <div className="w-full h-full bg-zinc-100 flex items-center justify-center rounded-lg">
+            <div className="w-full h-full flex items-center justify-center rounded-lg">
               <span className="text-zinc-400 text-sm font-['Space_Grotesk']">No image</span>
             </div>
           )}

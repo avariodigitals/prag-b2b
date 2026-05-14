@@ -132,9 +132,9 @@ export default function PowerCalculatorTool({ products }: Props) {
                   className={`p-4 bg-white rounded-xl outline outline-1 flex flex-col gap-2 transition-colors ${qty > 0 ? 'outline-sky-700 bg-sky-50/30' : 'outline-zinc-200'}`}
                 >
                   <div className="flex justify-between items-center">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-zinc-900 text-sm font-semibold font-['Onest']">{appliance.name}</span>
-                      <span className="text-zinc-400 text-xs font-normal font-['Onest']">{appliance.watts}W per unit</span>
+                  <div className="flex flex-col gap-1">
+                      <span className="text-zinc-900 text-base font-semibold font-['Onest'] leading-snug">{appliance.name}</span>
+                      <span className="text-zinc-400 text-sm font-normal font-['Onest']">{appliance.watts}W per unit</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -160,34 +160,36 @@ export default function PowerCalculatorTool({ products }: Props) {
       </div>
 
       {/* Results bar */}
-      <div className="w-full px-5 py-5 bg-sky-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 rounded-xl">
-        <div className="flex flex-wrap gap-6">
+      <div className="w-full px-5 py-5 bg-sky-700 flex flex-col gap-5 md:flex-row md:justify-between md:items-center rounded-xl">
+        <div className="grid grid-cols-3 gap-4 md:flex md:flex-wrap md:gap-6">
           {[
             { label: 'Appliances Added', value: String(appliancesAdded) },
             { label: 'Peak Load', value: `${peakWatts}W` },
             { label: 'Daily Usage', value: `${dailyKwh.toFixed(1)} KWh` },
-            { label: 'Recommended Inverter', value: appliancesAdded > 0 ? `${recommendedKva} KVA` : '—' },
           ].map((item) => (
             <div key={item.label} className="flex flex-col items-center gap-0.5">
-              <span className="text-white text-lg font-extrabold font-['Onest']">{item.value}</span>
-              <span className="text-white/60 text-xs font-normal font-['Onest']">{item.label}</span>
+              <span className="text-white text-xl font-extrabold font-['Onest']">{item.value}</span>
+              <span className="text-white/60 text-xs font-normal font-['Onest'] text-center">{item.label}</span>
             </div>
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={reset}
-            className="h-10 px-4 rounded-lg outline outline-1 outline-white text-white text-xs font-medium font-['Onest'] hover:bg-sky-800 transition-colors"
+            className="h-11 px-6 rounded-full outline outline-1 outline-white text-white text-sm font-medium font-['Onest'] hover:bg-sky-800 transition-colors flex items-center justify-center gap-2"
           >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
             Reset
           </button>
           <button
             onClick={() => setAssessmentRequested(true)}
-            className={`h-10 px-5 bg-white rounded-lg text-sky-700 text-sm font-semibold font-['Onest'] flex items-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
+            className={`h-11 px-6 bg-white rounded-full text-sky-700 text-sm font-semibold font-['Onest'] flex items-center justify-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
             disabled={appliancesAdded === 0}
           >
-            Get a Free Assessment →
+            Get Recommendation
           </button>
         </div>
       </div>

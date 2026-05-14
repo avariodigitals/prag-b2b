@@ -47,21 +47,23 @@ export default function ProductsView({ allProducts, productsByCategory, categori
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Top category pills */}
-      <div className="flex items-center gap-3 flex-wrap">
-        {TOP_CATEGORIES.map(cat => (
-          <button
-            key={cat.slug}
-            onClick={() => handleTopChange(cat.slug)}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium font-['Onest'] border transition-colors ${
-              activeTop === cat.slug
-                ? 'bg-sky-700 text-white border-sky-700'
-                : 'bg-white text-zinc-700 border-zinc-300 hover:border-sky-700 hover:text-sky-700'
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      {/* Top category pills - scrollable on mobile */}
+      <div className="-mx-6 md:mx-0 px-6 md:px-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center gap-3 min-w-max md:min-w-0 md:flex-wrap pb-1">
+          {TOP_CATEGORIES.map(cat => (
+            <button
+              key={cat.slug}
+              onClick={() => handleTopChange(cat.slug)}
+              className={`shrink-0 px-5 py-2.5 rounded-full text-sm font-medium font-['Onest'] border transition-colors ${
+                activeTop === cat.slug
+                  ? 'bg-sky-700 text-white border-sky-700'
+                  : 'bg-white text-zinc-700 border-zinc-300 hover:border-sky-700 hover:text-sky-700'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Subcategory tabs */}

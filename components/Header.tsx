@@ -167,7 +167,7 @@ function MobileMenu({
           <Link
             href={cta.href}
             onClick={onClose}
-            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-base font-medium font-['Onest'] hover:bg-sky-700 transition-colors"
+            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-[#0166a5] text-white text-base font-medium font-['Onest'] hover:bg-sky-800 transition-colors"
           >
             {cta.label}
           </Link>
