@@ -138,24 +138,24 @@ export default async function ContactPage() {
 
             {/* Social Links */}
             {socialLinks.length > 0 && (
-              <div className="p-5 rounded-[14px] border border-[#eeeeee] flex flex-col gap-4">
-                <span className="text-[#1a1a1a] text-sm font-medium font-['Space_Grotesk']">
+              <div className="p-4 md:p-5 rounded-[14px] border border-[#0166a5] md:border-[#eeeeee] flex flex-col gap-4">
+                <span className="text-[#1a1a1a] text-[15px] md:text-sm font-medium font-['Space_Grotesk']">
                   Follow our socials
                 </span>
-                <div className="flex flex-wrap items-center gap-6">
+                <div className="flex flex-nowrap md:flex-wrap items-center gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-1 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                   {socialLinks.map((s) => (
                     <a
                       key={s.label}
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+                      className="flex items-center gap-2.5 shrink-0 hover:opacity-80 transition-opacity"
                       aria-label={`Follow us on ${s.label}`}
                     >
                       <div className="w-10 h-10 bg-[#0166a5] rounded-full flex items-center justify-center shrink-0">
                         <SocialIcon network={s.network} />
                       </div>
-                      <span className="text-[#1a1a1a] text-sm font-normal font-['Space_Grotesk']">
+                      <span className="text-[#1a1a1a] text-[15px] md:text-sm font-normal font-['Space_Grotesk'] whitespace-nowrap">
                         {s.label}
                       </span>
                     </a>

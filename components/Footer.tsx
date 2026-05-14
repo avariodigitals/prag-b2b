@@ -198,7 +198,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
           {/* Divider + Bottom bar */}
           <div className="mt-12 border-t border-[#888888] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-neutral-700/70 text-[18px] md:text-sm font-normal [font-family:var(--font-space-grotesk)] leading-7 md:leading-5 text-center md:text-left">{footerCopyright}</p>
+          <p className="text-neutral-700/70 text-[14px] md:text-sm font-normal [font-family:var(--font-space-grotesk)] leading-5 md:leading-5 whitespace-nowrap md:whitespace-normal text-center md:text-left">{footerCopyright}</p>
 
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <a href={facebook} aria-label="Facebook" className="text-zinc-500 hover:text-sky-700 transition-colors">
