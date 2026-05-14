@@ -50,115 +50,159 @@ export default async function AboutPage() {
   return (
     <main className="w-full bg-white flex flex-col">
 
-      {/* Hero */}
-      <div className="w-full px-6 md:px-10 pt-14 pb-10 bg-stone-50 flex flex-col items-center gap-4 text-center">
-        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-3xl">
+      {/* ── Hero ── */}
+      <div className="w-full px-6 md:px-20 breadcrumb-hero-shell bg-stone-50 flex flex-col items-center gap-4 text-center">
+        <h1 className="breadcrumb-title-lock leading-tight max-w-3xl">
           {heroTitle}
         </h1>
-        <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-lg leading-relaxed">
+        <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
           {heroDescription}
         </p>
       </div>
 
-      {/* About section */}
-      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col gap-10">
-        <div className="flex flex-col md:flex-row items-start gap-8 md:gap-20">
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">About PRAG</span>
+      {/* ── About section ── */}
+      <section className="w-full px-6 md:px-20 py-16 md:py-24">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="flex flex-col md:flex-row items-start gap-8 md:gap-20">
+
+            {/* Kicker — left column */}
+            <div className="flex items-center gap-[6px] shrink-0 pt-2">
+              <div className="w-4 h-4 bg-[#0166a5] rounded-sm shrink-0" aria-hidden="true" />
+              <span className="section-kicker text-[#1a1a1a]">About PRAG</span>
+            </div>
+
+            {/* Content — right column */}
+            <div className="flex-1 flex flex-col gap-20">
+              {/* Heading + body */}
+              <div className="flex flex-col gap-6">
+                {/* n_13900: Space Grotesk 48px 500 #1a1a1a */}
+                <h2 className="text-[#1a1a1a] text-[32px] md:text-[48px] font-medium font-['Space_Grotesk'] leading-tight">
+                  {aboutTitle}
+                </h2>
+                {/* n_064b1: Space Grotesk 20px 400 #888888 */}
+                <p className="text-[#888888] text-[18px] md:text-[20px] font-normal font-['Space_Grotesk'] leading-relaxed whitespace-pre-line">
+                  {aboutBody}
+                </p>
+              </div>
+
+              {/* Stats — n_98039: Onest 48px 300, n_10871: Onest 28px 400, both #0166a5 */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {STATS.map(stat => (
+                  <div key={stat.label} className="flex flex-col items-start gap-[2px]">
+                    <span className="text-[#0166a5] text-[40px] md:text-[48px] font-light font-['Onest'] leading-none">
+                      <CountUp value={stat.display} suffix={stat.suffix} />
+                    </span>
+                    <span className="text-[#0166a5] text-[20px] md:text-[28px] font-normal font-['Onest'] leading-tight">
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Image — n_b9386: border-radius 24px */}
+              <div className="relative w-full h-64 md:h-[499px] rounded-[24px] overflow-hidden">
+                <img
+                  src={aboutImage}
+                  alt="PRAG solar installation"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex-1 flex flex-col gap-10 md:gap-16">
-            <div className="flex flex-col gap-4">
-              <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight">
-                {aboutTitle}
-              </h2>
-              <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed whitespace-pre-line">
-                {aboutBody}
-              </p>
-            </div>
+        </div>
+      </section>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {STATS.map(stat => (
-                <div key={stat.label} className="flex flex-col items-center gap-1">
-                  <span className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat']">
-                    <CountUp value={stat.display} suffix={stat.suffix} />
-                  </span>
-                  <span className="text-zinc-500 text-base md:text-lg font-['Montserrat'] text-center">{stat.label}</span>
-                </div>
-              ))}
-            </div>
+      {/* ── Our Story ── */}
+      <section className="w-full px-6 md:px-20 py-16 md:py-24">
+        <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-10">
 
-            {/* Image */}
-            <div className="relative w-full h-64 md:h-[499px] rounded-3xl overflow-hidden">
-              <Image
-                src={aboutImage}
-                alt="PRAG Team"
-                fill
-                sizes="(max-width: 768px) 100vw, 1082px"
-                className="object-cover"
+          {/* Kicker + heading — centered */}
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="flex items-center gap-[6px]">
+              <div className="w-4 h-4 bg-[#0166a5] rounded-sm shrink-0" aria-hidden="true" />
+              <span className="section-kicker text-[#1a1a1a]">Our Story</span>
+            </div>
+            {/* n_5e5c5: Space Grotesk 48px 500 #1a1a1a — 1082px wide per Figma */}
+            <h2 className="text-[#1a1a1a] text-[32px] md:text-[48px] font-medium font-['Space_Grotesk'] leading-tight max-w-[1082px]">
+              {storyTitle}
+            </h2>
+          </div>
+
+          {/* Image (left) + text (right) */}
+          <div className="flex flex-col md:flex-row items-start gap-8 md:gap-10 w-full">
+            {/* n_79ae4: 539×499px, border-radius 24px */}
+            <div className="relative w-full md:w-[539px] h-64 md:h-[499px] rounded-[24px] overflow-hidden shrink-0">
+              <img
+                src={storyImage}
+                alt="Our Story"
+                className="w-full h-full object-cover"
               />
             </div>
+
+            {/* n_ad465 etc.: Space Grotesk 20px 400 #888888 */}
+            <div className="flex-1 flex flex-col gap-6">
+              {storyParas.map((para, i) => (
+                <p key={i} className="text-[#888888] text-[18px] md:text-[20px] font-normal font-['Space_Grotesk'] leading-relaxed">
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col items-center gap-10">
-        <div className="flex flex-col items-center gap-4 text-center">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Story</span>
+      {/* ── Core Values ── */}
+      <section className="w-full px-6 md:px-20 py-16 md:py-24 bg-stone-50">
+        <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-12">
+
+          {/* Kicker + heading + subtitle — centered */}
+          <div className="flex flex-col items-center gap-6 text-center">
+            <div className="flex items-center gap-[6px]">
+              <div className="w-4 h-4 bg-[#0166a5] rounded-sm shrink-0" aria-hidden="true" />
+              <span className="section-kicker text-[#1a1a1a]">Our Core Values</span>
+            </div>
+            {/* n_133ab: Onest 48px 700 tracking-[-2px] #1a1a1a */}
+            <h2 className="text-[#1a1a1a] text-[32px] md:text-[48px] font-bold font-['Onest'] tracking-[-2px] leading-tight max-w-xl">
+              {valuesTitle}
+            </h2>
+            {/* n_316b9: Onest 20px 400 #444444 */}
+            <p className="text-[#444444] text-[18px] md:text-[20px] font-normal font-['Onest'] max-w-lg">
+              Our work is guided by a commitment to quality, precision, and long-term performance.
+            </p>
           </div>
-          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-3xl">
-            {storyTitle}
-          </h2>
-        </div>
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-10 w-full">
-          <div className="relative w-full md:w-[480px] h-64 md:h-[440px] rounded-3xl overflow-hidden shrink-0">
-            <Image
-              src={storyImage}
-              alt="Our Story"
-              fill
-              sizes="(max-width: 768px) 100vw, 480px"
-              className="object-cover"
-            />
-          </div>
-          <div className="flex-1 flex flex-col gap-5">
-            {storyParas.map((para, i) => (
-              <p key={i} className="text-zinc-500 text-base md:text-lg font-['Montserrat'] leading-relaxed">{para}</p>
+
+          {/* Value cards grid */}
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {VALUES.map(val => (
+              <div
+                key={val.title}
+                /* n_af255: border-radius 24px, border 0.3px solid rgba(136,136,136,0.5), gap 60px */
+                className="p-6 bg-white rounded-[24px] border border-[rgba(136,136,136,0.5)] flex flex-col gap-[60px]"
+              >
+                {/* Top: icon circle + title */}
+                <div className="flex flex-col gap-3">
+                  {/* Blue round frame containing pin icon — matches Figma value card */}
+                  <div className="w-10 h-10 rounded-full bg-[#0166a5] flex items-center justify-center shrink-0">
+                    <img
+                      src="/images/pin-icon.svg"
+                      alt=""
+                      width={8}
+                      height={13}
+                      aria-hidden="true"
+                      className="w-2 h-[13px] object-contain"
+                      style={{ filter: 'brightness(0) invert(1)' }}
+                    />
+                  </div>
+                  <h3 className="text-[#1a1a1a] text-[20px] font-medium font-['Onest'] leading-snug">
+                    {val.title}
+                  </h3>
+                </div>
+                <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-relaxed">
+                  {val.body}
+                </p>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="w-full max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24 bg-stone-50 flex flex-col items-center gap-12">
-        <div className="flex flex-col items-center gap-4 text-center">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-sky-700 rounded-sm" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">Our Core Values</span>
-          </div>
-          <h2 className="text-zinc-900 text-2xl md:text-4xl font-bold font-['Montserrat'] leading-tight max-w-xl">
-            {valuesTitle}
-          </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] max-w-lg">
-            Our work is guided by a commitment to quality, precision, and long-term performance.
-          </p>
-        </div>
-
-        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-5">
-          {VALUES.map(val => (
-            <div key={val.title} className="p-6 bg-white rounded-2xl border border-zinc-200 flex flex-col gap-10">
-              <div className="flex flex-col gap-3">
-                <div className="w-10 h-10 rounded-full bg-sky-700 flex items-center justify-center shrink-0">
-                  <div className="w-4 h-4 bg-white rounded-sm" />
-                </div>
-                <h3 className="text-zinc-900 text-base font-semibold font-['Montserrat'] leading-snug">{val.title}</h3>
-              </div>
-              <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{val.body}</p>
-            </div>
-          ))}
         </div>
       </section>
 

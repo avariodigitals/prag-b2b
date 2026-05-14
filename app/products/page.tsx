@@ -48,10 +48,10 @@ export default async function ProductsPage({ searchParams }: Props) {
   return (
     <main className="w-full bg-white flex flex-col">
         {/* Hero */}
-        <div className="w-full bg-stone-50 px-6 md:px-20 pt-12 pb-8 flex flex-col items-center gap-3 text-center">
-          <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Montserrat']">Our Products</h1>
-          <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-xl">
-            Industrial-grade power solutions engineered for businesses, facilities, and large-scale operations.
+        <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
+          <h1 className="breadcrumb-title-lock">Our Products</h1>
+          <p className="breadcrumb-description-lock max-w-[531px]">
+            Select your appliances, set daily usage hours, and get an instant system recommendation — free, no signup required.
           </p>
         </div>
 

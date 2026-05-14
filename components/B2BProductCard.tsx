@@ -19,84 +19,92 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
   const buyHref = getShopProductUrl(product);
 
   return (
-    <div className={`w-full relative flex flex-col gap-2 md:gap-3 group rounded-xl p-1.5 bg-transparent transition-shadow duration-300 ${listingMode ? 'border border-zinc-200 rounded-2xl p-3 hover:border-sky-200 hover:shadow-sm' : 'hover:shadow-sm'}`}>
-      {/* Image */}
-      <div className="relative w-full h-[300px] md:h-[330px] rounded-lg overflow-hidden flex items-center justify-center">
+    <div className="w-full relative flex flex-col gap-0 group">
+      {/* Image container */}
+      <div className="relative w-full aspect-[302/275] rounded-lg overflow-hidden flex items-center justify-center bg-[#f5f5f5]">
         <Link href={detailsHref} aria-label={`View details for ${product.name}`} className="block w-full h-full">
           {image ? (
-            <Image
+            <img
               src={image.src}
               alt={image.alt || product.name}
-              width={500}
-              height={500}
-              sizes="(min-width: 768px) 500px, 100vw"
-              className="w-full h-full object-contain p-1 md:p-1 group-hover:scale-105 transition-transform duration-300 mix-blend-multiply"
+              className="w-full h-full object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <div className="w-40 h-40 bg-zinc-200 rounded-full mx-auto" />
+            <div className="w-full h-full bg-zinc-100 flex items-center justify-center rounded-lg">
+              <span className="text-zinc-400 text-sm font-['Space_Grotesk']">No image</span>
+            </div>
           )}
         </Link>
 
         {/* Badges */}
-        <div className="absolute top-2 md:top-2 left-2 md:left-2 flex flex-col gap-1.5 z-10">
-          {isOutOfStock && hasPrice && (
-            <span className="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-[10px] font-semibold font-['Montserrat'] uppercase">
+        <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10">
+          {isOutOfStock && (
+            <span className="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-[10px] font-semibold font-['Space_Grotesk'] uppercase tracking-wide border border-rose-300">
               Out of stock
             </span>
           )}
-          {product.on_sale && !isUnavailable && (
-            <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-600 text-white text-sm md:text-base font-bold font-['Montserrat'] uppercase tracking-tight flex items-center justify-center leading-none">
-              Sale
+          {product.on_sale && !isOutOfStock && (
+            <span className="w-12 h-12 rounded-full bg-red-600 text-white text-sm font-bold font-['Onest'] uppercase flex items-center justify-center leading-none">
+              SALE
             </span>
           )}
-          {hasNewTag && !isUnavailable && !product.on_sale && (
-            <span className="px-2 py-1 rounded-full bg-lime-700 text-white text-[10px] font-semibold font-['Montserrat'] uppercase">
-              New
+          {hasNewTag && !isOutOfStock && !product.on_sale && (
+            <span className="px-3 py-1 rounded-full bg-[#0d7c34] text-white text-[10px] font-semibold font-['Space_Grotesk'] uppercase tracking-wide">
+              New !
             </span>
           )}
         </div>
       </div>
 
       {/* Info */}
-      <div className="flex flex-col gap-2 px-1 pb-2 pt-2 md:pt-3">
-        <Link href={detailsHref} aria-label={`View details for ${product.name}`} className="text-center">
-          <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Montserrat'] leading-snug line-clamp-2 group-hover:text-sky-700 transition-colors text-center">
+      <div className="flex flex-col gap-2 pt-4 pb-2 px-1">
+        {/* Name */}
+        <Link href={detailsHref} aria-label={`View details for ${product.name}`}>
+          <p className="text-[#1a1a1a] text-[18px] font-medium font-['Onest'] leading-snug line-clamp-2 text-center group-hover:text-[#0166a5] transition-colors">
             {product.name}
           </p>
         </Link>
-        <div className="flex items-center justify-center gap-2 mt-0">
+
+        {/* Price */}
+        <div className="flex items-center justify-center gap-2">
           {product.on_sale && product.regular_price && (
-            <span className="text-zinc-400 text-xs line-through font-['Montserrat']">
+            <span className="text-zinc-400 text-sm line-through font-['Onest']">
               {formatPrice(product.regular_price)}
             </span>
           )}
           {hasPrice ? (
-            <span className="text-zinc-900 text-base md:text-lg md:font-medium font-['Montserrat']">
+            <span className="text-[#1a1a1a] text-[15px] font-light font-['Onest']">
               {formatPrice(product.price)}
             </span>
           ) : (
-            <span className="text-rose-700 text-sm font-medium font-['Montserrat'] uppercase tracking-wide">Out of stock</span>
+            <span className="text-rose-600 text-sm font-medium font-['Onest'] uppercase tracking-wide">
+              Out of stock
+            </span>
           )}
         </div>
 
-        {!listingMode && (
-          <div className="flex items-center justify-center gap-3 mt-1.5 md:mt-2">
-            <Link
-              href={detailsHref}
-              className="min-w-[108px] px-4 py-2 bg-sky-700 rounded-full text-white text-sm font-medium font-['Montserrat'] text-center hover:bg-sky-800 transition-colors"
-            >
-              Learn more
-            </Link>
-            <a
-              href={buyHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`min-w-[78px] px-3 py-2 rounded-full text-sm font-medium font-['Montserrat'] text-center transition-colors border border-sky-700 ${isUnavailable ? 'text-sky-700/50 border-sky-700/40 pointer-events-none' : 'text-sky-700 hover:bg-sky-50'}`}
-            >
-              Buy &gt;
-            </a>
-          </div>
-        )}
+        {/* Buttons — always visible */}
+        <div className="flex items-center gap-[14px] mt-1 justify-center">
+          <Link
+            href={detailsHref}
+            className="px-5 py-2 bg-[#0166a5] rounded-full text-white text-sm font-medium font-['Space_Grotesk'] text-center hover:bg-[#015490] transition-colors whitespace-nowrap"
+          >
+            Learn more
+          </Link>
+          <a
+            href={isUnavailable ? undefined : buyHref}
+            target={isUnavailable ? undefined : '_blank'}
+            rel="noopener noreferrer"
+            aria-disabled={isUnavailable}
+            className={`text-sm font-medium font-['Space_Grotesk'] whitespace-nowrap transition-colors ${
+              isUnavailable
+                ? 'text-[#0166a5]/40 pointer-events-none'
+                : 'text-[#0166a5] hover:text-[#015490]'
+            }`}
+          >
+            Buy &gt;
+          </a>
+        </div>
       </div>
     </div>
   );

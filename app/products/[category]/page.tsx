@@ -56,10 +56,10 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   return (
     <main className="w-full bg-white flex flex-col">
       {/* Hero */}
-      <div className="w-full bg-stone-50 px-6 md:px-20 pt-12 pb-8 flex flex-col items-center gap-3 text-center">
-        <h1 className="text-sky-700 text-3xl md:text-5xl font-bold font-['Montserrat']">{name}</h1>
+      <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
+        <h1 className="breadcrumb-title-lock">{name}</h1>
         {description && (
-          <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-lg">{description}</p>
+          <p className="breadcrumb-description-lock max-w-[531px]">{description}</p>
         )}
       </div>
 

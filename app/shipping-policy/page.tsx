@@ -25,8 +25,8 @@ export default function ShippingPolicyPage() {
             <div className="flex flex-col gap-4">
               {DELIVERY_TIMEFRAMES.map((item) => (
                 <div key={item.area} className="pl-4 border-l-4 border-sky-700 flex flex-col gap-1">
-                  <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Montserrat']">{item.area}</p>
-                  <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat']">{item.time}</p>
+                  <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Onest']">{item.area}</p>
+                  <p className="text-zinc-500 text-lg md:text-xl font-['Onest']">{item.time}</p>
                 </div>
               ))}
             </div>
@@ -38,7 +38,7 @@ export default function ShippingPolicyPage() {
             <div className="flex flex-col gap-4">
               <p>Shipping costs are calculated based on the weight and dimensions of your order, as well as your delivery location. The exact shipping cost will be displayed at checkout before you complete your purchase.</p>
               <div className="p-4 bg-sky-50 rounded-xl border border-sky-100">
-                <p className="text-sky-700 text-lg md:text-xl font-medium font-['Montserrat']">Free Shipping on orders above ₦500,000 within Lagos</p>
+                <p className="text-sky-700 text-lg md:text-xl font-medium font-['Onest']">Free Shipping on orders above ₦500,000 within Lagos</p>
               </div>
             </div>
           ),
@@ -56,13 +56,13 @@ export default function ShippingPolicyPage() {
           body: (
             <div className="flex flex-col gap-5">
               <div>
-                <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Montserrat'] mb-2">Delivery</p>
+                <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Onest'] mb-2">Delivery</p>
                 <ul className="list-disc pl-5 flex flex-col gap-1.5">
                   {['Available nationwide', 'Delivery fees vary by location', 'Timelines will be communicated at order confirmation'].map((i) => <li key={i}>{i}</li>)}
                 </ul>
               </div>
               <div>
-                <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Montserrat'] mb-2">Installation</p>
+                <p className="text-zinc-900 text-lg md:text-xl font-semibold font-['Onest'] mb-2">Installation</p>
                 <ul className="list-disc pl-5 flex flex-col gap-1.5">
                   {['Installation is not mandatory through PRAG', 'Customers are responsible for ensuring proper installation'].map((i) => <li key={i}>{i}</li>)}
                 </ul>

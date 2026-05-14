@@ -26,11 +26,11 @@ export default async function ResourcesPage({ searchParams }: Props) {
 
   return (
     <main className="w-full bg-white flex flex-col">
-      <div className="w-full px-6 md:px-10 pt-14 pb-10 bg-stone-50 flex flex-col items-center gap-4 text-center">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat']">
+      <div className="w-full px-6 md:px-20 breadcrumb-hero-shell bg-stone-50 flex flex-col items-center gap-4 text-center">
+        <h1 className="breadcrumb-title-lock">
           Product Documentation &amp; Technical Guides
         </h1>
-        <p className="text-sky-700 text-lg md:text-xl font-['Montserrat'] max-w-lg">
+        <p className="breadcrumb-description-lock max-w-[531px]">
           Download detailed specifications, installation manuals, and technical documentation for all PRAG products.
         </p>
       </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { ArrowRight } from 'lucide-react';
 import SolutionProductTags from '@/components/SolutionProductTags';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
@@ -106,63 +107,68 @@ export default async function SolutionsPage() {
   return (
     <main className="w-full">
       {/* Hero */}
-      <div className="flex flex-col items-center gap-3 text-center pt-14 pb-8 px-6 bg-stone-50">
-        <h1 className="text-sky-700 text-3xl md:text-4xl font-bold font-['Montserrat']">
+      <div className="breadcrumb-hero-shell flex flex-col items-center gap-3 text-center px-4 sm:px-6 bg-stone-50">
+        <h1 className="breadcrumb-title-lock">
           {heroTitle}
         </h1>
-        <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] max-w-sm leading-relaxed">
+        <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
           {heroDescription}
         </p>
       </div>
 
       {/* Solutions */}
-      <div className="max-w-5xl mx-auto px-6 md:px-10 flex flex-col gap-20 py-12 pb-20">
-        {mergedSolutions.map((s) => (
-          <div
-            key={s.tag}
-            className={`flex flex-col ${s.imageLeft ? 'md:flex-row' : 'md:flex-row-reverse'} gap-10 items-center`}
-          >
+      <div className="w-full px-4 sm:px-6 md:px-20 py-10 sm:py-12 pb-16 sm:pb-20">
+        <div className="max-w-[1280px] mx-auto flex flex-col gap-14 md:gap-20">
+          {mergedSolutions.map((s) => (
+            <div
+              key={s.tag}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-start"
+            >
             {/* Image */}
-            <div className="w-full md:w-[340px] shrink-0 rounded-2xl overflow-hidden aspect-[4/3] relative">
-              <Image src={s.image} alt={s.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 340px" />
+            <div className={`w-full h-[240px] sm:h-[300px] md:h-[450px] rounded-xl overflow-hidden relative ${s.imageLeft ? 'md:order-1' : 'md:order-2'}`}>
+              <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
             </div>
 
             {/* Content */}
-            <div className="flex-1 flex flex-col gap-4">
+            <div className={`flex flex-col gap-5 ${s.imageLeft ? 'md:order-2' : 'md:order-1'}`}>
               {/* Tag */}
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-sky-700 rounded-sm shrink-0" />
-                <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">
+              <div className="flex items-center gap-[6px]">
+                <div className="w-4 h-4 bg-[#0166a5] rounded-sm shrink-0" />
+                <span className="text-[#1a1a1a] font-['Space_Grotesk'] text-[16px] font-normal uppercase tracking-wide">
                   {s.tag}
                 </span>
               </div>
 
-              <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-['Montserrat'] leading-snug">{s.title}</h2>
+              <h2 className="text-[#1a1a1a] text-[32px] font-bold font-['Onest'] leading-[36px]">{s.title}</h2>
 
-              <div className="flex flex-col gap-1">
-                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Challenge:</p>
-                <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{s.challenge}</p>
-              </div>
+              {/* Challenge + Solutions block */}
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Challenge:</p>
+                  <p className="text-[#888888] text-[16px] font-['Space_Grotesk'] leading-[21px]">{s.challenge}</p>
+                </div>
 
-              <div className="flex flex-col gap-1">
-                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Our Solutions:</p>
-                <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{s.solution}</p>
-              </div>
+                <div className="flex flex-col gap-1">
+                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Our Solutions:</p>
+                  <p className="text-[#888888] text-[16px] font-['Space_Grotesk'] leading-[21px]">{s.solution}</p>
+                </div>
 
-              <div className="flex flex-col gap-2">
-                <p className="text-zinc-800 text-lg md:text-xl font-semibold font-['Montserrat']">Recommended Products:</p>
-                <SolutionProductTags tags={s.products} />
+                <div className="flex flex-col gap-2">
+                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Recommended Products:</p>
+                  <SolutionProductTags tags={s.products} />
+                </div>
               </div>
 
               <Link
                 href={s.href}
-                className="flex items-center gap-1 text-sky-700 text-base font-medium font-['Montserrat'] hover:gap-2 transition-all w-fit"
+                className="inline-flex items-center gap-[3px] text-[#0166a5] text-[14px] font-semibold font-['DM_Sans'] hover:gap-1.5 transition-all w-fit"
               >
-                Learn More →
+                Learn More <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );

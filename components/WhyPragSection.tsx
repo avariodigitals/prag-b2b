@@ -43,30 +43,30 @@ const REASONS = [
 export default async function WhyPragSection() {
   const reasons = await getWhyPragContent();
   return (
-    <section className="w-full bg-[#f3f4f6] py-16 md:py-20 px-6 md:px-20">
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
+    <section className="w-full bg-white py-16 md:py-20 px-6 md:px-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-12">
 
         {/* Header */}
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center gap-3 text-center">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-            <span className="text-zinc-500 text-xs font-semibold font-['Montserrat'] uppercase tracking-widest">The Prag Difference</span>
+            <div className="w-3 h-3 bg-sky-700 rounded-[1px] shrink-0" />
+            <span className="text-black text-[16px] font-normal [font-family:var(--font-space-grotesk)] uppercase leading-normal">The Prag Difference</span>
           </div>
-          <h2 className="text-zinc-900 text-3xl md:text-5xl font-bold font-['Montserrat'] leading-tight md:hidden">
+          <h2 className="text-black text-3xl md:text-[48px] font-bold font-['Onest'] leading-[1.2] tracking-[-2px] md:hidden">
             Why Leading Homes<br />and Businesses Choose<br />PRAG
           </h2>
-          <h2 className="hidden md:block text-zinc-900 md:text-5xl font-bold font-['Montserrat'] leading-tight">
+          <h2 className="hidden md:block text-black md:text-[48px] font-bold font-['Onest'] leading-[1.2] tracking-[-2px]">
             Why Leading Homes and<br />Businesses Choose PRAG
           </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat']">
+          <p className="text-zinc-500 text-base md:text-lg font-['Onest']">
             Our work is guided by a commitment to quality, precision, and long-term performance.
           </p>
         </div>
 
         {/* 2x2 Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
           {reasons.map((r) => (
-            <div key={r.title} className="relative h-96 md:h-[30rem] rounded-2xl overflow-hidden group">
+            <div key={r.title} className="relative min-h-[320px] md:min-h-[360px] h-full rounded-2xl outline outline-[0.30px] outline-offset-[-0.30px] outline-zinc-500/50 overflow-hidden group">
               <Image
                 src={r.image}
                 alt={r.title}
@@ -74,12 +74,12 @@ export default async function WhyPragSection() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/10" />
-              {/* Text */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7 flex flex-col gap-2">
-                <h3 className="text-white text-2xl md:text-lg lg:text-xl font-bold font-['Montserrat'] leading-snug">{r.title}</h3>
-                <p className="hidden md:block text-white/85 text-lg md:text-xl font-['Montserrat'] leading-relaxed">{r.desc}</p>
+              <div className="absolute inset-0 bg-gradient-to-b from-white/0 to-black/80" />
+              <div className="absolute inset-0 self-stretch px-6 pt-48 pb-6 bg-gradient-to-b from-white/0 to-black/80 rounded-2xl inline-flex flex-col justify-start items-start">
+                <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                  <div className="self-stretch justify-start text-white text-lg md:text-[18px] lg:text-[20px] font-medium font-['Space_Grotesk'] leading-normal whitespace-nowrap">{r.title}</div>
+                  <div className="self-stretch justify-start text-white text-base md:text-lg font-normal font-['Space_Grotesk'] leading-relaxed md:leading-normal">{r.desc}</div>
+                </div>
               </div>
             </div>
           ))}
