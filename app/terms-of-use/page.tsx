@@ -125,7 +125,7 @@ export default function TermsOfUsePage() {
           heading: 'Important Notice',
           body: (
             <div className="p-4 bg-sky-50 rounded-xl border border-sky-100">
-              <p className="text-sky-700 text-lg md:text-xl font-medium font-['Montserrat']">
+              <p className="text-sky-700 text-lg md:text-xl font-medium font-['Onest']">
                 PRAG is not liable for indirect or consequential losses, including damage to connected appliances or loss of business.
               </p>
             </div>

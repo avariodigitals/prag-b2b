@@ -66,8 +66,8 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
         <div className="w-[280px] overflow-hidden rounded-2xl border border-emerald-100 bg-white/95 shadow-2xl backdrop-blur">
           <div className="bg-gradient-to-br from-[#25D366] to-[#12B76A] px-4 py-3 text-white flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-lg md:text-xl font-semibold font-['Montserrat'] truncate">{title}</p>
-              <p className="mt-0.5 text-xs text-white/85 font-['Montserrat'] line-clamp-2">{subtitle}</p>
+              <p className="text-lg md:text-xl font-semibold font-['Onest'] truncate">{title}</p>
+              <p className="mt-0.5 text-xs text-white/85 font-['Onest'] line-clamp-2">{subtitle}</p>
             </div>
             <button
               type="button"
@@ -83,7 +83,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
           </div>
 
           <div className="px-3 pt-3 pb-3">
-            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide uppercase text-zinc-500 font-['Montserrat']">
+            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide uppercase text-zinc-500 font-['Onest']">
               Choose an option
             </p>
 
@@ -99,9 +99,9 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
                     className="group rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-left transition-colors hover:border-emerald-200 hover:bg-emerald-50/60"
                   >
                     <div className="min-w-0">
-                      <p className="text-lg md:text-xl font-semibold text-zinc-900 font-['Montserrat'] truncate">{option.label}</p>
+                      <p className="text-lg md:text-xl font-semibold text-zinc-900 font-['Onest'] truncate">{option.label}</p>
                       {optionSubtitle && (
-                        <p className="mt-0.5 text-lg md:text-xl text-zinc-600 font-['Montserrat'] truncate">{optionSubtitle}</p>
+                        <p className="mt-0.5 text-lg md:text-xl text-zinc-600 font-['Onest'] truncate">{optionSubtitle}</p>
                       )}
                     </div>
                   </button>
@@ -113,7 +113,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
               href={startChatHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#25D366] to-[#12B76A] text-white px-4 py-2.5 text-sm font-semibold font-['Montserrat'] shadow-lg shadow-emerald-200/50 transition-transform duration-200 hover:scale-[1.02]"
+              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#25D366] to-[#12B76A] text-white px-4 py-2.5 text-sm font-semibold font-['Onest'] shadow-lg shadow-emerald-200/50 transition-transform duration-200 hover:scale-[1.02]"
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4" aria-hidden="true">
                 <path

@@ -27,8 +27,11 @@ interface Toast { type: 'success' | 'error'; message: string }
 
 function FormToast({ toast, onClose }: { toast: Toast; onClose: () => void }) {
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-start gap-3 px-5 py-4 rounded-xl shadow-2xl max-w-sm w-[calc(100vw-3rem)] ${toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'} text-white`}
-      role="alert" aria-live="assertive">
+    <div
+      className={`fixed bottom-6 right-6 z-50 flex items-start gap-3 px-5 py-4 rounded-xl shadow-2xl max-w-sm w-[calc(100vw-3rem)] ${toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'} text-white`}
+      role="alert"
+      aria-live="assertive"
+    >
       <div className="mt-0.5 shrink-0">
         {toast.type === 'success' ? (
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -41,10 +44,10 @@ function FormToast({ toast, onClose }: { toast: Toast; onClose: () => void }) {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-lg md:text-xl font-bold font-['Montserrat']">
+        <p className="text-base font-bold font-['Space_Grotesk']">
           {toast.type === 'success' ? 'Message Sent!' : 'Submission Failed'}
         </p>
-        <p className="text-lg md:text-xl font-['Montserrat'] opacity-90 mt-0.5 leading-snug">{toast.message}</p>
+        <p className="text-sm font-['Space_Grotesk'] opacity-90 mt-0.5 leading-snug">{toast.message}</p>
       </div>
       <button onClick={onClose} aria-label="Dismiss" className="ml-1 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -86,52 +89,97 @@ export default function ContactForm() {
     }
   }
 
-  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-base font-['Montserrat'] focus:border-sky-700 outline-none transition-colors";
+  const labelCls = "text-[#1a1a1a] text-sm font-medium font-['Space_Grotesk']";
+  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-[#eeeeee] text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors placeholder:text-[#888888]";
 
   return (
     <>
       {toast && <FormToast toast={toast} onClose={() => setToast(null)} />}
-      <form onSubmit={handleSubmit} noValidate className="flex-1 bg-stone-50 rounded-2xl p-8 md:p-10 flex flex-col gap-5">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-base font-['Montserrat']">Full Name *</label>
-          <input required type="text" value={form.name} onChange={set('name')} maxLength={100} className={inputCls} />
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        className="w-full bg-white rounded-xl border border-[#eeeeee] p-6 flex flex-col gap-5"
+      >
+        <div className="flex flex-col gap-2">
+          <label className={labelCls}>Full Name *</label>
+          <input
+            required
+            type="text"
+            value={form.name}
+            onChange={set('name')}
+            maxLength={100}
+            className={inputCls}
+            aria-label="Full Name"
+          />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-base font-['Montserrat']">Email Address *</label>
-          <input required type="email" value={form.email} onChange={set('email')} className={inputCls} />
+        <div className="flex flex-col gap-2">
+          <label className={labelCls}>Email Address *</label>
+          <input
+            required
+            type="email"
+            value={form.email}
+            onChange={set('email')}
+            className={inputCls}
+            aria-label="Email Address"
+          />
         </div>
 
-        <div className="flex gap-4">
-          <div className="flex-1 flex flex-col gap-1.5">
-            <label className="text-zinc-900 text-base font-['Montserrat']">Phone Number</label>
-            <input type="tel" value={form.phone} onChange={set('phone')} maxLength={25} className={inputCls} />
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 flex flex-col gap-2">
+            <label className={labelCls}>Phone Number</label>
+            <input
+              type="tel"
+              value={form.phone}
+              onChange={set('phone')}
+              maxLength={25}
+              className={inputCls}
+              aria-label="Phone Number"
+            />
           </div>
-          <div className="flex-1 flex flex-col gap-1.5">
-            <label className="text-zinc-900 text-base font-['Montserrat']">Company</label>
-            <input type="text" value={form.company} onChange={set('company')} maxLength={150} className={inputCls} />
+          <div className="flex-1 flex flex-col gap-2">
+            <label className={labelCls}>Company</label>
+            <input
+              type="text"
+              value={form.company}
+              onChange={set('company')}
+              maxLength={150}
+              className={inputCls}
+              aria-label="Company"
+            />
           </div>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-base font-['Montserrat']">Enquiry Type</label>
-          <select value={form.enquiry_type} onChange={set('enquiry_type')} className={inputCls}>
+        <div className="flex flex-col gap-2">
+          <label className={labelCls}>Enquiry Type</label>
+          <select
+            value={form.enquiry_type}
+            onChange={set('enquiry_type')}
+            className={inputCls}
+            aria-label="Enquiry Type"
+          >
             <option value=""></option>
             {ENQUIRY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-zinc-900 text-base font-['Montserrat']">Message *</label>
-          <textarea required value={form.message} onChange={set('message')} rows={5} maxLength={2000}
-            className="w-full p-3 bg-white rounded-lg border border-stone-200 text-zinc-900 text-base font-['Montserrat'] focus:border-sky-700 outline-none transition-colors resize-none"
+        <div className="flex flex-col gap-2">
+          <label className={labelCls}>Message *</label>
+          <textarea
+            required
+            value={form.message}
+            onChange={set('message')}
+            rows={5}
+            maxLength={2000}
+            className="w-full p-3 bg-white rounded-lg border border-[#eeeeee] text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors resize-none"
+            aria-label="Message"
           />
         </div>
 
         <button
           type="submit"
           disabled={sending}
-          className="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Montserrat'] rounded-lg transition-colors disabled:opacity-60"
+          className="w-full py-3 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
         >
           {sending ? 'Sending...' : 'Send Enquiry'}
         </button>

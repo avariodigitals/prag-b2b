@@ -53,7 +53,7 @@ export default function ProductsView({ allProducts, productsByCategory, categori
           <button
             key={cat.slug}
             onClick={() => handleTopChange(cat.slug)}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium font-['Montserrat'] border transition-colors ${
+            className={`px-5 py-2.5 rounded-full text-sm font-medium font-['Onest'] border transition-colors ${
               activeTop === cat.slug
                 ? 'bg-sky-700 text-white border-sky-700'
                 : 'bg-white text-zinc-700 border-zinc-300 hover:border-sky-700 hover:text-sky-700'
@@ -69,7 +69,7 @@ export default function ProductsView({ allProducts, productsByCategory, categori
         <div className="flex items-center gap-6 border-b border-zinc-200 overflow-x-auto pb-0">
           <button
             onClick={() => setActiveSub(null)}
-            className={`pb-3 text-sm font-medium font-['Montserrat'] whitespace-nowrap border-b-2 transition-colors ${
+            className={`pb-3 text-sm font-medium font-['Onest'] whitespace-nowrap border-b-2 transition-colors ${
               !activeSub
                 ? 'border-sky-700 text-sky-700'
                 : 'border-transparent text-zinc-500 hover:text-zinc-800'
@@ -81,7 +81,7 @@ export default function ProductsView({ allProducts, productsByCategory, categori
             <button
               key={sub.id}
               onClick={() => setActiveSub(sub.slug)}
-              className={`pb-3 text-sm font-medium font-['Montserrat'] whitespace-nowrap border-b-2 transition-colors ${
+              className={`pb-3 text-sm font-medium font-['Onest'] whitespace-nowrap border-b-2 transition-colors ${
                 activeSub === sub.slug
                   ? 'border-sky-700 text-sky-700'
                   : 'border-transparent text-zinc-500 hover:text-zinc-800'
@@ -95,7 +95,7 @@ export default function ProductsView({ allProducts, productsByCategory, categori
 
       {/* Grid */}
       {products.length === 0 ? (
-        <p className="text-zinc-400 text-center py-16 font-['Montserrat']">No products found.</p>
+        <p className="text-zinc-400 text-center py-16 font-['Onest']">No products found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
           {products.map(product => (

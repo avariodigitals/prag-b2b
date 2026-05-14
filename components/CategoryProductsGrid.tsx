@@ -112,20 +112,27 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
     <div className="flex flex-col gap-6">
       {/* Toolbar */}
       <div className="flex flex-col gap-4">
-        {/* Subcategory tabs — desktop */}
-        <div className="hidden md:flex border-b border-zinc-200 overflow-x-auto flex-1">
-          {tabs.map(tab => {
-            const isActive = tab.slug ? activeSub === tab.slug : !activeSub;
-            return (
-              <button key={tab.label} onClick={() => navigate({ sub: tab.slug })}
-                className="inline-flex flex-col items-center shrink-0">
-                <span className={`px-4 py-3 text-sm font-medium font-['Montserrat'] whitespace-nowrap ${isActive ? 'text-sky-700' : 'text-zinc-500 hover:text-zinc-700'}`}>
-                  {tab.label}
-                </span>
-                <div className={`h-0.5 w-full ${isActive ? 'bg-sky-700' : 'bg-transparent'}`} />
-              </button>
-            );
-          })}
+        {/* Subcategory tabs — desktop with category label prefix */}
+        <div className="hidden md:flex items-start gap-4 overflow-x-auto">
+          {subs.length > 0 && (
+            <span className="text-[#0166a5] text-base font-medium font-['Space_Grotesk'] whitespace-nowrap pt-3 shrink-0 capitalize">
+              {allLabel.replace(/^All /, '')}:
+            </span>
+          )}
+          <div className="flex items-stretch gap-0 border-b border-[#e4e7ec] flex-1 overflow-x-auto">
+            {tabs.map(tab => {
+              const isActive = tab.slug ? activeSub === tab.slug : !activeSub;
+              return (
+                <button key={tab.label} onClick={() => navigate({ sub: tab.slug })}
+                  className="inline-flex flex-col items-center shrink-0">
+                  <span className={`px-4 py-3 text-sm font-medium font-['Space_Grotesk'] whitespace-nowrap ${isActive ? 'text-[#0166a5]' : 'text-[#888888] hover:text-[#444444]'}`}>
+                    {tab.label}
+                  </span>
+                  <div className={`h-[2px] w-full ${isActive ? 'bg-[#0166a5]' : 'bg-[#e4e7ec]'}`} />
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Mobile subcategory pills */}
@@ -138,7 +145,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
                   key={tab.label}
                   type="button"
                   onClick={() => navigate({ sub: tab.slug })}
-                  className={`shrink-0 rounded-full px-6 py-3.5 text-lg font-semibold font-['Montserrat'] leading-none whitespace-nowrap transition-colors ${isActive ? 'bg-sky-700 text-white' : 'bg-sky-50 text-sky-700 hover:bg-sky-100'}`}
+                  className={`shrink-0 rounded-full px-6 py-3.5 text-lg font-semibold font-['Onest'] leading-none whitespace-nowrap transition-colors ${isActive ? 'bg-sky-700 text-white' : 'bg-sky-50 text-sky-700 hover:bg-sky-100'}`}
                 >
                   {tab.label}
                 </button>
@@ -160,9 +167,9 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
           ))}
         </div>
       ) : products.length === 0 ? (
-        <p className="text-zinc-400 text-center py-16 font-['Montserrat']">No products found.</p>
+        <p className="text-zinc-400 text-center py-16 font-['Onest']">No products found.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
           {products.map(p => <B2BProductCard key={p.id} product={p} listingMode />)}
         </div>
       )}
@@ -178,7 +185,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
         </div>
       )}
       {!hasMore && products.length > 0 && (
-        <p className="text-center text-zinc-400 text-lg md:text-xl font-['Montserrat'] py-2">All products loaded</p>
+        <p className="text-center text-zinc-400 text-lg md:text-xl font-['Onest'] py-2">All products loaded</p>
       )}
     </div>
   );

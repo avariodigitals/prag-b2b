@@ -30,6 +30,17 @@ const ICON = (
   </svg>
 );
 
+function getProblemIcon(problem: Problem): string | null {
+  const id = (problem.id || '').toLowerCase();
+  if (!id.startsWith('industrial-')) return null;
+
+  if (id.includes('voltage')) return '/images/ix_voltage.svg';
+  if (id.includes('downtime')) return '/images/arcticons_chuden-power-outage-infomation.svg';
+  if (id.includes('generator')) return '/images/ph_solar-panel-bold.svg';
+  if (id.includes('quality')) return '/images/streamline-plump_disable-protection-remix.svg';
+  return '/images/ix_voltage.svg';
+}
+
 function ProblemCard({
   problem,
   active,
@@ -39,29 +50,37 @@ function ProblemCard({
   active: boolean;
   onClick: () => void;
 }) {
+  const iconSrc = getProblemIcon(problem);
+
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left p-6 rounded-2xl border flex flex-col gap-4 transition-all duration-300 focus:outline-none ${
+      className={`w-full min-h-[270px] md:min-h-[300px] text-left p-6 rounded-2xl border flex flex-col transition-all duration-300 focus:outline-none ${
         active
-          ? 'bg-white border-sky-300 shadow-md'
-          : 'bg-white border-zinc-200 hover:border-sky-200'
+          ? 'bg-[#F9F9F9] border-[#0166A5] shadow-md'
+          : 'bg-[#F9F9F9] border-zinc-200 hover:border-[#0166A5]'
       }`}
     >
       {/* Icon */}
-      <div className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors duration-200 ${active ? 'border-sky-400 bg-sky-50' : 'border-sky-200'}`}>
-        {ICON}
+      <div className="w-10 h-10 flex items-center justify-start shrink-0">
+        {iconSrc ? (
+          <Image src={iconSrc} alt="" width={36} height={36} className="w-9 h-9 object-contain" aria-hidden="true" />
+        ) : (
+          ICON
+        )}
       </div>
 
       {/* Title — always visible */}
-      <h3 className={`text-lg font-semibold font-['Montserrat'] leading-snug transition-colors duration-200 ${active ? 'text-sky-700' : 'text-zinc-900'}`}>
+      <h3 className={`mt-4 w-full max-w-full break-words text-[24px] font-medium font-['Onest'] leading-[1] tracking-[0] min-h-[48px] md:min-h-[40px] transition-colors duration-200 ${active ? 'text-sky-700' : 'text-zinc-900'}`}>
         {problem.title}
       </h3>
 
-      {/* Body — always visible */}
-      <p className="text-zinc-500 text-lg md:text-xl font-['Montserrat'] leading-relaxed">
-        {problem.body}
-      </p>
+      {/* Body — anchored to the bottom with consistent start position */}
+      <div className="mt-auto w-full">
+        <p className="text-zinc-600 text-[18px] font-normal font-['Onest'] leading-[1] tracking-[0]">
+          {problem.body}
+        </p>
+      </div>
     </button>
   );
 }
@@ -174,7 +193,7 @@ export default function ProblemsCarousel({
           onScroll={syncActiveFromScroll}
         >
           {problems.map((problem, index) => (
-            <div key={problem.id ?? `${problem.title}-${index}`} className="shrink-0 w-[88%] md:w-[60%] lg:w-[46%]">
+            <div key={problem.id ?? `${problem.title}-${index}`} className="shrink-0 w-[82%] sm:w-[70%] md:w-[52%] lg:w-[34%]">
               <ProblemCard
                 problem={problem}
                 active={activeIndex === index}
@@ -201,8 +220,8 @@ export default function ProblemsCarousel({
       <div className="mt-6 flex flex-col gap-8 transition-all duration-300">
         {/* Impact */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">The Impact</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-base md:text-lg font-['Montserrat'] leading-relaxed">
+          <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Impact</h2>
+          <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
             {activeProblem.impact.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -211,8 +230,8 @@ export default function ProblemsCarousel({
 
         {/* Solution */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">The Solution</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-base md:text-lg font-['Montserrat'] leading-relaxed">
+          <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Solution</h2>
+          <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
             {activeProblem.solution.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -220,24 +239,24 @@ export default function ProblemsCarousel({
         </div>
 
         {/* Image under solution */}
-        <div className="w-full rounded-2xl overflow-hidden aspect-[16/7] relative">
+        <div className="w-full rounded-2xl overflow-hidden relative h-[220px] md:h-[360px] lg:h-[440px] bg-[#F9F9F9]">
           <Image
             src={activeProblem.image}
             alt={activeProblem.title}
             fill
             className="object-cover"
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 1280px"
           />
         </div>
 
         {/* Technologies & Products */}
         <div className="flex flex-col gap-6">
-          <h2 className="text-sky-700 text-2xl font-bold font-['Montserrat']">Technologies &amp; Products</h2>
+          <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">Technologies &amp; Products</h2>
           <ul className="flex flex-col gap-3">
             {activeProblem.technologies.map((tech) => (
               <li key={tech} className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-sky-700 shrink-0" />
-                <span className="text-zinc-700 text-base md:text-lg font-['Montserrat']">{tech}</span>
+                <span className="text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">{tech}</span>
               </li>
             ))}
           </ul>
@@ -250,16 +269,18 @@ export default function ProblemsCarousel({
                   <Link
                     key={product.id}
                     href={`/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`}
-                    className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center hover:shadow-md transition-shadow"
+                    className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center bg-[#F9F9F9] hover:shadow-md transition-shadow"
                   >
                     {img ? (
-                      <Image
-                        src={img.src}
-                        alt={img.alt || product.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
-                        className="object-contain p-6"
-                      />
+                      <div className="relative w-[58%] h-[58%] md:w-[56%] md:h-[56%]">
+                        <Image
+                          src={img.src}
+                          alt={img.alt || product.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                          className="object-contain mix-blend-multiply"
+                        />
+                      </div>
                     ) : (
                       <div className="w-16 h-16 bg-zinc-200 rounded-full" />
                     )}

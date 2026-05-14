@@ -35,7 +35,7 @@ function Dropdown({ items }: { items: { label: string; href: string }[] }) {
         <Link
           key={item.href}
           href={item.href}
-          className="block px-4 py-2.5 text-base text-zinc-700 font-['Montserrat'] hover:bg-sky-50 hover:text-sky-700 transition-colors"
+          className="block px-4 py-2.5 text-base text-zinc-700 font-['Onest'] hover:bg-sky-50 hover:text-sky-700 transition-colors"
         >
           {item.label}
         </Link>
@@ -61,7 +61,7 @@ function NavItem({ label, items, href }: { label: string; items?: { label: strin
     return (
       <Link
         href={href ?? '#'}
-        className="text-zinc-800 text-base font-medium font-['Montserrat'] hover:text-sky-700 transition-colors"
+        className="text-zinc-800 text-base font-medium font-['Onest'] hover:text-sky-700 transition-colors"
       >
         {label}
       </Link>
@@ -70,7 +70,7 @@ function NavItem({ label, items, href }: { label: string; items?: { label: strin
 
   return (
     <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-      <button className="flex items-center gap-1 text-zinc-800 text-base font-medium font-['Montserrat'] hover:text-sky-700 transition-colors">
+      <button className="flex items-center gap-1 text-zinc-800 text-base font-medium font-['Onest'] hover:text-sky-700 transition-colors">
         {label}
         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
@@ -89,7 +89,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: { la
     <div className="border-b border-gray-100 last:border-0">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between py-4 text-base font-semibold text-zinc-800 font-['Montserrat']"
+        className="w-full flex items-center justify-between py-4 text-base font-semibold text-zinc-800 font-['Onest']"
       >
         {label}
         <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
@@ -101,7 +101,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: { la
               key={i.href}
               href={i.href}
               onClick={onClose}
-              className="py-2 pl-4 text-base text-zinc-500 font-['Montserrat'] hover:text-sky-700 hover:pl-5 transition-all"
+              className="py-2 pl-4 text-base text-zinc-500 font-['Onest'] hover:text-sky-700 hover:pl-5 transition-all"
             >
               {i.label}
             </Link>
@@ -142,9 +142,9 @@ function MobileMenu({
             <Image
               src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
               alt="Prag"
-              width={100}
-              height={32}
-              className="h-10 w-auto"
+              width={135}
+              height={39}
+              className="h-10 w-auto object-contain"
               style={{ width: 'auto' }}
             />
           </Link>
@@ -160,14 +160,14 @@ function MobileMenu({
           <Link
             href="/contact"
             onClick={onClose}
-            className="py-4 text-base font-semibold text-zinc-800 font-['Montserrat'] border-b border-gray-100 hover:text-sky-700 transition-colors"
+            className="py-4 text-base font-semibold text-zinc-800 font-['Onest'] border-b border-gray-100 hover:text-sky-700 transition-colors"
           >
             Contact
           </Link>
           <Link
             href={cta.href}
             onClick={onClose}
-            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-base font-medium font-['Montserrat'] hover:bg-zinc-700 transition-colors"
+            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-zinc-800 text-white text-base font-medium font-['Onest'] hover:bg-sky-700 transition-colors"
           >
             {cta.label}
           </Link>
@@ -184,47 +184,49 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
     : [];
   const companyItems = configuredCompany && configuredCompany.length > 0 ? configuredCompany : COMPANY;
   const cta = {
-    label: settings?.header?.ctaLabel?.trim() || 'Shop',
+    label: 'Shop',
     href: settings?.header?.ctaHref?.trim() || '/products',
   };
 
   return (
-    <header className="w-full bg-white sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+    <header className="w-full bg-white sticky top-0 z-50 border-b border-[rgba(1,102,165,0.10)]">
+      <div className="w-full px-6 md:px-20">
+        <div className="max-w-[1280px] mx-auto h-16 flex items-center justify-between">
 
-        {/* Logo */}
-        <Link href="/" className="shrink-0">
-          <Image
-            src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
-            alt="Prag"
-            width={100}
-            height={32}
-            priority
-            className="h-10 md:h-8 w-auto"
-            style={{ width: 'auto' }}
-          />
-        </Link>
+          {/* Logo */}
+          <Link href="/" className="shrink-0">
+            <Image
+              src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
+              alt="Prag"
+              width={135}
+              height={39}
+              priority
+              className="h-10 w-auto object-contain"
+              style={{ width: 'auto' }}
+            />
+          </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          <NavItem label="Solutions" items={SOLUTIONS} />
-          <NavItem label="Products" items={PRODUCTS} />
-          <NavItem label="Company" items={companyItems} />
-          <NavItem label="Contact" href="/contact" />
-        </nav>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            <NavItem label="Solutions" items={SOLUTIONS} />
+            <NavItem label="Products" items={PRODUCTS} />
+            <NavItem label="Company" items={companyItems} />
+            <NavItem label="Contact" href="/contact" />
+          </nav>
 
-        {/* Shop Button */}
-        <Link
-          href={cta.href}
-          className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Montserrat'] hover:bg-zinc-800 hover:text-white transition-colors"
-        >
-          {cta.label}
-        </Link>
+          {/* Shop Button */}
+          <Link
+            href={cta.href}
+            className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Onest'] hover:bg-sky-700 hover:border-sky-700 hover:text-white transition-colors"
+          >
+            {cta.label}
+          </Link>
 
-        {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
-          <Menu className="w-6 h-6 text-zinc-800" />
-        </button>
+          {/* Mobile Toggle */}
+          <button className="md:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
+            <Menu className="w-6 h-6 text-zinc-800" />
+          </button>
+        </div>
       </div>
 
       <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} companyItems={companyItems} cta={cta} />
