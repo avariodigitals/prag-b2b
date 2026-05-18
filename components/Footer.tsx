@@ -127,7 +127,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const socials = contact?.socials ?? {};
 
   const salesPhone = contact?.contactPhone?.trim() || '+2348032170129';
-  const supportPhone = contact?.whatsappPhone?.trim() || salesPhone;
+  const supportPhone = salesPhone;
   const email = contact?.contactEmail?.trim() || 'sales@prag.global';
   const address = contact?.address?.trim() || '4, Obanikoro Street, Via Falemi House, Off Ikorodu Road, Lagos';
   const whatsappNumber = (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
