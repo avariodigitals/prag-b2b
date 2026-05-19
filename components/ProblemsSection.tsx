@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 const STATS = [
   { label: 'Trusted across\n36 states', weight: 'medium' },
@@ -43,6 +44,25 @@ const PROBLEMS = [
   },
 ];
 
+async function getHomepageProblemsContent() {
+  const content = await getB2BPublicContent();
+  const page = findB2BPage(content, '/');
+  const sections = findVisibleSectionsByType(page, 'problem');
+
+  const mapped = sections.slice(0, PROBLEMS.length).map((section, index) => {
+    const fallback = PROBLEMS[index];
+    return {
+      icon: section.imageUrl?.trim() || fallback.icon,
+      title: section.summary?.trim() || section.title?.trim() || fallback.title,
+      desc: section.content?.trim() || fallback.desc,
+      cta: section.ctaLabel?.trim() || fallback.cta,
+      href: section.ctaHref?.trim() || fallback.href,
+    };
+  });
+
+  return PROBLEMS.map((fallback, index) => mapped[index] ?? fallback);
+}
+
 function ArrowIcon() {
   return (
     <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 10" fill="none" aria-hidden="true">
@@ -52,7 +72,9 @@ function ArrowIcon() {
   );
 }
 
-export default function ProblemsSection() {
+export default async function ProblemsSection() {
+  const problems = await getHomepageProblemsContent();
+
   return (
     <section className="w-full bg-white">
       {/* Stats Bar */}
@@ -109,7 +131,7 @@ export default function ProblemsSection() {
 
           {/* Problem Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {PROBLEMS.map((p) => (
+            {problems.map((p) => (
               <div
                 key={p.title}
                 className="rounded-3xl border border-[#888888] px-6 pt-6 pb-5 flex flex-col justify-start items-start gap-5 md:gap-6 bg-white"
