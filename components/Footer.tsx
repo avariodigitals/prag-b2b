@@ -114,6 +114,14 @@ function InstagramIcon({ className = '' }: { className?: string }) {
   );
 }
 
+function XIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M18.901 2H22l-6.768 7.737L23.2 22h-6.24l-4.887-7.498L5.51 22H2.4l7.24-8.275L2 2h6.398l4.418 6.83L18.901 2zm-1.095 18h1.717L7.47 3.895H5.628L17.806 20z" />
+    </svg>
+  );
+}
+
 function LinkedinIcon({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -139,15 +147,49 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const whatsappDisplay = whatsappNumber ? `+${whatsappNumber}` : salesPhone;
   const footerCopyright = footer?.copyright?.trim() || `© Copyright ${new Date().getFullYear()} PRAG Power Solutions. All rights reserved.`;
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
+  const footerCtaTitle = footer?.ctaTitle?.trim() || 'Stop Losing Money to Bad Power';
+  const footerCtaDescription = footer?.ctaDescription?.trim() || 'Talk to a PRAG engineer today and fix your power issues permanently.';
+  const footerPrimaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a Free Power Assessment';
+  const footerPrimaryCtaHref = footer?.primaryCtaHref?.trim() || '/power-calculator';
+  const footerSecondaryCtaLabel = footer?.secondaryCtaLabel?.trim() || 'WhatsApp Us Now';
+  const footerSecondaryCtaHref = footer?.secondaryCtaHref?.trim() || whatsappHref;
   const facebook = socials.facebook?.trim() || 'https://facebook.com';
+  const xSocial = 'https://x.com/PRAG_Ng';
   const instagram = socials.instagram?.trim() || 'https://instagram.com';
   const linkedin = socials.linkedin?.trim() || 'https://linkedin.com';
 
   return (
     <footer className="bg-[#082F53] font-[family-name:var(--font-space-grotesk)] text-white">
+      <section className="bg-[#f1f2f3] px-4 py-10 text-center md:px-6 md:py-16">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-5">
+          <h2 className="max-w-[320px] text-[46px] font-bold font-['Onest'] leading-[1.02] tracking-[-0.02em] text-[#0166A5] md:max-w-[620px] md:text-[62px] md:leading-[1.0]">
+            {footerCtaTitle}
+          </h2>
+          <p className="text-[20px] leading-[1.35] text-zinc-700">
+            {footerCtaDescription}
+          </p>
+          <div className="mt-2 flex w-full max-w-[560px] flex-col items-center gap-3 md:w-auto md:max-w-none md:flex-row">
+            <Link
+              href={footerPrimaryCtaHref}
+              className="w-full rounded-full bg-[#0166A5] px-6 py-3 text-center text-[16px] font-semibold text-white transition-colors hover:bg-[#01558a] md:w-auto"
+            >
+              {footerPrimaryCtaLabel}
+            </Link>
+            <a
+              href={footerSecondaryCtaHref}
+              target={footerSecondaryCtaHref.startsWith('http') ? '_blank' : undefined}
+              rel={footerSecondaryCtaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="w-full rounded-full border border-[#0166A5] bg-transparent px-6 py-3 text-center text-[16px] font-semibold text-[#0166A5] transition-colors hover:bg-[#0166A5] hover:text-white md:w-auto"
+            >
+              {footerSecondaryCtaLabel}
+            </a>
+          </div>
+        </div>
+      </section>
+
       <div className="px-4 pb-6 pt-7 sm:px-6 md:px-14 md:pb-0 md:pt-7 xl:px-14">
         <div className="mx-auto max-w-[1280px]">
-          <div className="rounded-[2px] border border-white bg-[#0d3d67] px-4 py-3 md:px-6 md:py-3">
+          <div className="hidden rounded-[2px] border border-white bg-[#0d3d67] px-4 py-3 md:hidden">
             <div className="flex flex-col divide-y divide-white md:flex-row md:divide-x md:divide-y-0">
               <Link href="/contact" className="flex flex-1 items-center gap-3 py-3 first:pt-0 last:pb-0 md:px-4 md:py-1.5 md:first:pl-0 md:last:pr-0">
                 <img
@@ -192,8 +234,8 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             </div>
           </div>
 
-          <div className="mt-6 border-b border-white pb-8 md:mt-[40px] md:grid md:grid-cols-[228px_minmax(0,1fr)] md:gap-10 md:pb-7 lg:gap-10">
-            <div className="md:border-r md:border-white md:pr-6">
+          <div className="mt-6 pb-8 md:mt-[40px] md:grid md:grid-cols-[228px_minmax(0,1fr)] md:gap-10 md:pb-7 lg:gap-10">
+            <div className="md:self-start md:border-r md:border-white md:pr-6">
               <div className="relative mt-[5px] h-[34px] w-[118px] md:mt-0 md:h-[38px] md:w-[128px]">
                 <Image
                   src="/images/PRAGC70a-A01aT07a-Z%202.png"
@@ -209,7 +251,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 <p>Inverters, Batteries, Stabilizers, Solar Solutions. Built for Africa</p>
               </div>
 
-              <div className="mt-5 border-t border-white pt-4">
+              <div className="hidden mt-5 border-t border-white pt-4 md:hidden">
                 <h3 className="text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] md:text-[1.35rem]">Contact Us</h3>
                 <ul className="mt-4 space-y-3 text-white/94 md:space-y-2.5">
                   <li className="flex items-start gap-2.5">
@@ -264,51 +306,77 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   </li>
                 </ul>
               </div>
+
+              <div className="mt-5 pt-4 md:border-t md:border-white">
+                <ul className="space-y-2.5 text-white/94">
+                  <li className="flex items-center gap-2.5">
+                    <WhatsAppIcon className="h-4 w-4 shrink-0 text-white/92" />
+                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="text-[0.92rem] leading-[1.3] text-white/88 transition-colors hover:text-white">
+                      {whatsappDisplay}
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <Mail className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
+                    <a href={`mailto:${email}`} className="text-[0.92rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                      {email}
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <MapPin className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
+                    <p className="text-[0.92rem] leading-[1.3] text-white/88">Lagos, Nigeria</p>
+                  </li>
+                </ul>
+              </div>
+
+              <Link
+                href="/distributor"
+                className="mt-6 flex min-h-[96px] items-center gap-3 rounded-[2px] border-[0.5px] border-white px-4 py-4 transition-colors hover:bg-white/5 md:hidden"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white text-white">
+                    <Handshake className="h-4.5 w-4.5" strokeWidth={2} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[1.28rem] font-semibold leading-none">Become a Partner</p>
+                    <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78">Join our network of resellers and installers across Nigeria</p>
+                    <div className="mt-3 flex items-center gap-2.5 text-[1.08rem] font-semibold">
+                      <span>Partner with PRAG</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
 
-            <div className="mt-8 md:mt-0 md:flex md:flex-col md:gap-7 lg:gap-6">
+            <div className="mt-8 md:mt-0">
               <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-8">
                 <FooterColumn title="Products" links={productLinks} />
                 <FooterColumn title="Solutions" links={solutionLinks} />
                 <FooterColumn title="Support" links={supportLinks} />
                 <FooterColumn title="Company" links={companyLinks} />
               </div>
+            </div>
+          </div>
 
-              <div className="mt-12 grid gap-8 border-t-0 pt-0 md:mt-[80px] md:border-t md:border-white md:pt-5 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start lg:gap-8 lg:border-t-0 lg:pt-2">
-                <Link
-                  href="/distributor"
-                  className="flex min-h-[96px] items-center gap-3 rounded-[2px] border-[0.5px] border-white px-4 py-4 transition-colors hover:bg-white/5 md:min-h-[110px]"
-                >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white text-white md:h-12 md:w-12">
-                    <Handshake className="h-4.5 w-4.5" strokeWidth={2} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[1.28rem] font-semibold leading-none md:text-[1.15rem]">Become a Partner</p>
-                    <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78 md:text-[0.84rem]">Join our network of resellers and installers across Nigeria</p>
-                    <div className="mt-3 flex items-center gap-2.5 text-[1.08rem] font-semibold md:text-[1rem]">
-                      <span>Partner with PRAG</span>
-                      <ArrowRight className="h-4 w-4 shrink-0" />
-                    </div>
-                  </div>
-                </Link>
-
-                <div className="lg:border-l lg:border-white lg:pl-8">
-                  <h3 className="inline-block border-b border-white pb-2 pr-6 text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] md:block md:pr-0 md:text-[1.35rem]">Nationwide Presence</h3>
-                  <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-3 md:gap-x-6">
-                    {nationwidePresence.map((location, index) => (
-                      <div key={location} className="flex items-center gap-2 text-[0.74rem] uppercase tracking-[0.03em] text-white/92 md:text-[0.78rem]">
-                        {index > 0 && <span className="inline-block h-3.5 w-px bg-white/45" aria-hidden="true" />}
-                        <MapPin className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
-                        <span>{location}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="mt-12 max-w-[36rem] text-[0.95rem] leading-[1.3] text-white/88 md:mt-4 md:text-[0.97rem]">
-                    Trusted by Thousands of Homes and Businesses Nationwide
-                  </p>
+          <div className="mt-12 hidden border-t-0 pt-0 md:mt-[38px] md:block md:pt-0 lg:pt-0">
+            <Link
+              href="/distributor"
+              className="flex min-h-[96px] items-center gap-3 rounded-[2px] border-[0.5px] border-white px-4 py-4 transition-colors hover:bg-white/5 md:min-h-[188px] md:justify-between md:border md:border-[#1873AB] md:bg-[#0E416F] md:px-12 md:py-7"
+            >
+              <div className="flex items-center gap-3 md:gap-9">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white text-white md:h-[136px] md:w-[136px] md:border-[1.5px]">
+                  <Handshake className="h-4.5 w-4.5 md:h-[56px] md:w-[56px]" strokeWidth={2} />
+                </div>
+                <div className="min-w-0 md:max-w-[700px]">
+                  <p className="text-[1.28rem] font-semibold leading-none md:text-[36px] md:leading-[1]">Become a Partner</p>
+                  <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78 md:mt-2 md:text-[28px] md:leading-[1.22] md:tracking-[0.01em] md:text-white/85">Join our network of resellers and<br className="hidden md:block" />installers across Nigeria</p>
                 </div>
               </div>
-            </div>
+              <div className="mt-3 flex items-center gap-2.5 text-[1.08rem] font-semibold md:mt-0 md:rounded-[16px] md:border md:border-white md:px-8 md:py-4 md:text-[1.18rem] md:leading-none md:whitespace-nowrap md:transition-colors md:hover:bg-[#0166A5]">
+                <span>Partner with PRAG</span>
+                <ArrowRight className="h-4 w-4 shrink-0 md:h-9 md:w-9" />
+              </div>
+            </Link>
           </div>
 
           <div className="flex flex-col items-center gap-4 py-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left">
@@ -336,6 +404,9 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             <div className="flex items-center gap-5 text-white">
               <a href={facebook} aria-label="Facebook" className="transition-colors hover:text-white/75">
                 <FacebookIcon className="h-4.5 w-4.5" />
+              </a>
+              <a href={xSocial} target="_blank" rel="noopener noreferrer" aria-label="X" className="transition-colors hover:text-white/75">
+                <XIcon className="h-4.5 w-4.5" />
               </a>
               <a href={instagram} aria-label="Instagram" className="transition-colors hover:text-white/75">
                 <InstagramIcon className="h-4.5 w-4.5" />
