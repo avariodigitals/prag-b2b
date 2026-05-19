@@ -17,28 +17,28 @@ const PROBLEMS = [
     icon: '/images/ix_voltage.svg',
     title: 'Low, High, or Fluctuating Voltage',
     desc: 'Protect your appliances and equipment from silent damage.',
-    cta: 'Get a Stabilization Solution',
+    cta: 'Get PRAG Stabilizers',
     href: '/products/all-prag-stabilizers',
   },
   {
     icon: '/images/arcticons_chuden-power-outage-infomation.svg',
     title: 'Frequent Power Outages',
     desc: 'Keep your home or business running without interruption.',
-    cta: 'Get Backup Power',
+    cta: 'Get PRAG Inverters',
     href: '/products/inverters',
   },
   {
     icon: '/images/ph_solar-panel-bold.svg',
     title: 'No Reliable Power Source',
     desc: 'Generate your own electricity with a dependable solar system.',
-    cta: 'Go Solar with PRAG',
+    cta: 'Go PRAG Solar',
     href: '/products/solar',
   },
   {
     icon: '/images/streamline-plump_disable-protection-remix.svg',
-    title: 'Poor Energy Storage',
+    title: 'Reliable Energy Storage',
     desc: 'Ensure consistent power with high-performance battery systems.',
-    cta: 'Upgrade Your Storage',
+    cta: 'Get PRAG Lithium Batteries',
     href: '/products/batteries',
   },
 ];
@@ -127,7 +127,7 @@ export default function ProblemsSection() {
                 </div>
                 <Link
                   href={p.href}
-                  className="inline-flex items-center gap-[10px] text-[#0166A5] text-[16px] font-normal font-['Onest'] leading-normal hover:gap-3 transition-all group"
+                  className="inline-flex items-center gap-[10px] text-[#0166A5] text-[19px] font-bold font-['Onest'] leading-normal hover:gap-3 transition-all group"
                   aria-label={p.cta}
                 >
                   <span>{p.cta}</span>
