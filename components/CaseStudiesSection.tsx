@@ -72,8 +72,8 @@ export default async function CaseStudiesSection() {
               <div className="grid grid-cols-2 gap-2">
                 {featuredStudy.results.map((r) => (
                   <div key={`${r.label}-${r.value}`} className="p-2 sm:p-3 bg-stone-50 rounded-xl border border-neutral-500/30 flex flex-col gap-1 sm:gap-2">
-                    <span className="text-neutral-500 text-[10px] sm:text-xs font-normal font-['Onest'] leading-normal uppercase">{r.label}</span>
-                    <span className="text-neutral-700 text-base sm:text-lg font-normal font-['Onest'] leading-normal">{r.value}</span>
+                    <span className="text-neutral-500 text-[10px] sm:text-xs font-bold font-['Onest'] leading-normal uppercase">{r.label}</span>
+                    <span className="text-neutral-700 text-base sm:text-lg font-bold font-['Onest'] leading-normal">{r.value}</span>
                   </div>
                 ))}
               </div>

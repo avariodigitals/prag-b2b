@@ -96,16 +96,16 @@ export default async function WhyPragSection() {
               {/* Text */}
               <div className="absolute inset-x-0 bottom-0 px-5 pb-5 flex flex-col gap-2">
                 <div>
-                  <h3 className="text-white text-[17px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
+                  <h3 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
                     {r.title}
                   </h3>
                   {r.subtitle && (
-                    <h4 className="text-white text-[17px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
+                    <h4 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
                       {r.subtitle}
                     </h4>
                   )}
                 </div>
-                <p className="text-white/90 text-[13px] font-normal [font-family:var(--font-space-grotesk)] leading-relaxed drop-shadow-sm">
+                <p className="text-white/90 text-[15px] md:text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-normal drop-shadow-sm">
                   {r.desc}
                 </p>
               </div>

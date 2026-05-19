@@ -64,14 +64,16 @@ type FooterLink = {
 function FooterColumn({ title, links, showUnderline = true }: { title: string; links: FooterLink[]; showUnderline?: boolean }) {
   return (
     <div className="min-w-0">
-      <h3
-        className={`inline-block pb-2 pr-6 text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] text-white md:block md:pr-0 md:text-[1.35rem] ${
-          showUnderline ? 'border-b border-white' : ''
-        }`}
-      >
+      <h3 className="text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] text-white md:text-[1.35rem]">
         {title}
       </h3>
-      <ul className="mt-4 space-y-2.5 md:space-y-2">
+      {showUnderline && (
+        <>
+          <div className="mt-2 h-px w-[38%] bg-white md:hidden" />
+          <div className="mt-2 hidden h-px w-full bg-white/75 md:block" />
+        </>
+      )}
+      <ul className="mt-5 space-y-4 md:space-y-4">
         {links.map((link) => (
           <li key={`${title}-${link.label}`}>
             <Link
@@ -154,7 +156,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   className="h-10 w-10 shrink-0 md:h-11 md:w-11"
                 />
                 <div className="min-w-0">
-                  <p className="max-w-[11rem] text-[0.86rem] leading-[1.2] text-white/90 md:max-w-none md:text-[0.92rem]">Need help choosing the right power solution</p>
+                  <p className="max-w-[14rem] text-[18px] leading-[1.2] text-white/90 md:max-w-none md:text-[17px]">Need help choosing the right power solution</p>
                   <div className="mt-2 flex items-center gap-3 text-[18px] font-semibold leading-none">
                     <span>Talk to an Expert</span>
                     <ArrowRight className="h-4 w-4 shrink-0" />
@@ -183,16 +185,16 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 <WhatsAppIcon className="h-10 w-10 shrink-0 text-[#25D366] md:h-11 md:w-11" />
                 <div className="min-w-0">
                   <p className="text-[0.84rem] text-white/90 md:text-[0.9rem]">Chat with us on WhatsApp</p>
-                  <p className="mt-1 text-[18px] font-semibold leading-none">{whatsappDisplay}</p>
+                  <p className="mt-1 text-[26px] font-semibold leading-none tracking-[0.03em] md:text-[24px] md:tracking-[0.02em]">{whatsappDisplay}</p>
                   <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.9rem]">Quick replies. Real people</p>
                 </div>
               </a>
             </div>
           </div>
 
-          <div className="mt-6 border-b border-white pb-8 md:mt-[40px] md:grid md:grid-cols-[244px_minmax(0,1fr)] md:gap-8 md:pb-7 lg:gap-8">
-            <div className="md:border-r md:border-white md:pr-8">
-              <div className="relative h-[34px] w-[118px] md:h-[38px] md:w-[128px]">
+          <div className="mt-6 border-b border-white pb-8 md:mt-[40px] md:grid md:grid-cols-[228px_minmax(0,1fr)] md:gap-10 md:pb-7 lg:gap-10">
+            <div className="md:border-r md:border-white md:pr-6">
+              <div className="relative mt-[5px] h-[34px] w-[118px] md:mt-0 md:h-[38px] md:w-[128px]">
                 <Image
                   src="/images/PRAGC70a-A01aT07a-Z%202.png"
                   alt="PRAG"
@@ -264,8 +266,8 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
               </div>
             </div>
 
-            <div className="mt-8 md:mt-0 md:flex md:flex-col md:gap-6 lg:gap-5">
-              <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
+            <div className="mt-8 md:mt-0 md:flex md:flex-col md:gap-7 lg:gap-6">
+              <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-8">
                 <FooterColumn title="Products" links={productLinks} />
                 <FooterColumn title="Solutions" links={solutionLinks} />
                 <FooterColumn title="Support" links={supportLinks} />
@@ -292,9 +294,10 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
                 <div className="lg:border-l lg:border-white lg:pl-8">
                   <h3 className="inline-block border-b border-white pb-2 pr-6 text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] md:block md:pr-0 md:text-[1.35rem]">Nationwide Presence</h3>
-                  <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 md:gap-x-6">
-                    {nationwidePresence.map((location) => (
-                      <div key={location} className="flex items-center gap-1.5 text-[0.86rem] uppercase tracking-[0.03em] text-white/92 md:text-[0.9rem]">
+                  <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-3 md:gap-x-6">
+                    {nationwidePresence.map((location, index) => (
+                      <div key={location} className="flex items-center gap-2 text-[0.74rem] uppercase tracking-[0.03em] text-white/92 md:text-[0.78rem]">
+                        {index > 0 && <span className="inline-block h-3.5 w-px bg-white/45" aria-hidden="true" />}
                         <MapPin className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
                         <span>{location}</span>
                       </div>

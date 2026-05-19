@@ -64,7 +64,7 @@ export default function ProblemsSection() {
               className="flex items-center justify-center min-h-[60px] px-2 md:px-4 py-0 md:py-5"
             >
               <span
-                className={`text-[#0166A5] text-[14px] sm:text-[16px] md:text-[34px] leading-[1.15] md:leading-[1.08] tracking-[0] text-center font-['Onest'] ${
+                className={`text-[#0166A5] text-[17px] md:text-[34px] leading-[1.15] md:leading-[1.08] tracking-[0] text-center font-['Onest'] ${
                   s.mobileWeight === 'bold' ? 'font-bold md:font-medium' : s.weight === 'light' ? 'font-light' : 'font-medium'
                 }`}
               >
@@ -99,7 +99,7 @@ export default function ProblemsSection() {
               <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1] tracking-[-2px] max-w-[660px] md:max-w-[740px]">
                 Power Problems Cost You <br className="hidden md:block" />More Than You Think
               </h2>
-              <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-[20px] font-normal font-['Onest'] leading-[1.6] max-w-[600px] md:max-w-[520px]">
+              <p className="text-[#787878] text-[16px] md:text-[20px] font-normal font-['Onest'] leading-[1.6] max-w-[600px] md:max-w-[520px]">
                 Unstable electricity leads to damaged equipment, costly downtime, and reduced efficiency.
                 PRAG delivers reliable solutions—from voltage stabilizers and UPS systems to hybrid inverters
                 and solar power—designed to keep your home or business running without interruption.
@@ -118,7 +118,7 @@ export default function ProblemsSection() {
                   <Image src={p.icon} alt="" width={32} height={32} className="w-8 h-8 object-contain" aria-hidden="true" />
                 </div>
                 <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                  <h3 className="self-stretch text-black text-[22px] sm:text-2xl font-medium font-['Onest'] leading-snug">
+                  <h3 className="self-stretch text-black text-[22px] sm:text-2xl font-bold font-['Onest'] leading-snug">
                     {p.title}
                   </h3>
                   <p className="self-stretch text-[#787878] text-[16px] sm:text-lg font-normal font-['Onest'] leading-normal">

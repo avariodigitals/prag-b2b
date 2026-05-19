@@ -129,7 +129,7 @@ export default function TechnologiesSection() {
                 <span className="hidden md:inline">Four Technologies. One Complete System.</span>
               </h2>
               {/* Description */}
-              <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
+              <p className="text-[#787878] text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
                 Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.
               </p>
             </div>
@@ -139,7 +139,7 @@ export default function TechnologiesSection() {
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className="flex gap-0 sm:gap-5 md:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-3 sm:gap-5 md:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {technologies.map((tech) => (
               <Link
@@ -164,7 +164,7 @@ export default function TechnologiesSection() {
                   aria-hidden="true"
                 />
                 {/* Label */}
-                <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-start px-6 md:px-7">
+                <div className="absolute inset-x-0 bottom-5 md:bottom-8 flex justify-center px-6 md:px-7 text-center">
                   <span className="text-white text-2xl md:text-3xl font-semibold font-['Onest'] leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
                     {tech.name}
                   </span>

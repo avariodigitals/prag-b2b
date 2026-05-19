@@ -83,27 +83,29 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
           )}
         </div>
 
-        {/* Buttons — always visible */}
-        <div className="flex items-center gap-[14px] mt-1 justify-center">
+        {/* Buttons */}
+        <div className="flex items-center mt-1 justify-center">
           <Link
             href={detailsHref}
             className="px-5 py-2 bg-[#0166a5] rounded-full text-white text-sm font-medium font-['Space_Grotesk'] text-center hover:bg-[#015490] transition-colors whitespace-nowrap"
           >
             Learn more
           </Link>
-          <a
-            href={isUnavailable ? undefined : buyHref}
-            target={isUnavailable ? undefined : '_blank'}
-            rel="noopener noreferrer"
-            aria-disabled={isUnavailable}
-            className={`text-sm font-medium font-['Space_Grotesk'] whitespace-nowrap transition-colors ${
-              isUnavailable
-                ? 'text-[#0166a5]/40 pointer-events-none'
-                : 'text-[#0166a5] hover:text-[#015490]'
-            }`}
-          >
-            Buy &gt;
-          </a>
+          {!listingMode && (
+            <a
+              href={isUnavailable ? undefined : buyHref}
+              target={isUnavailable ? undefined : '_blank'}
+              rel="noopener noreferrer"
+              aria-disabled={isUnavailable}
+              className={`ml-[14px] text-sm font-medium font-['Space_Grotesk'] whitespace-nowrap transition-colors ${
+                isUnavailable
+                  ? 'text-[#0166a5]/40 pointer-events-none'
+                  : 'text-[#0166a5] hover:text-[#015490]'
+              }`}
+            >
+              Buy &gt;
+            </a>
+          )}
         </div>
       </div>
     </div>
