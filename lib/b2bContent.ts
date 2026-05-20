@@ -1,7 +1,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { unstable_noStore as noStore } from 'next/cache';
-import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
+
+const B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS = 60;
 
 export interface PublicB2BPageSection {
   id?: string;
@@ -170,7 +171,10 @@ async function getB2BContentFromLocalStore(): Promise<PublicB2BContent | null> {
 async function getB2BContentFromAdminPublicApi(baseUrl: string): Promise<PublicB2BContent | null> {
   try {
     const res = await fetch(`${baseUrl}/api/public/b2b-content`, {
-      cache: 'no-store',
+      next: {
+        revalidate: B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS,
+        tags: ['b2b-public-content'],
+      },
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return null;
@@ -191,8 +195,11 @@ async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
     };
 
     const res = await fetch(`${wpApiUrl}/prag-core/v1/admin-config`, {
-      cache: 'no-store',
       headers,
+      next: {
+        revalidate: B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS,
+        tags: ['b2b-public-content'],
+      },
       signal: AbortSignal.timeout(8000),
     });
 
@@ -213,9 +220,7 @@ export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
   return getB2BPublicContentCached();
 }
 
-const getB2BPublicContentCached = cache(async (): Promise<PublicB2BContent | null> => {
-  noStore();
-
+const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent | null> => {
   // Local file fallback is useful in local dev, but avoid it on Vercel where
   // the Prag-Admin workspace path does not exist and adds unnecessary latency.
   if (!process.env.VERCEL) {
@@ -233,6 +238,8 @@ const getB2BPublicContentCached = cache(async (): Promise<PublicB2BContent | nul
   if (wpContent) return wpContent;
 
   return null;
+}, ['b2b-public-content'], {
+  revalidate: B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS,
 });
 
 export function findB2BPage(content: PublicB2BContent | null, route: string): PublicB2BPage | null {
