@@ -36,9 +36,18 @@ async function getHeroContent() {
 
 export default async function Hero() {
   const hero = await getHeroContent();
+  // Always split into three lines for mobile: first, second, and 'Get PRAG'
+  // Use the question mark to split, or fallback to default lines
+  let mobileLines: string[];
   const questionMarkIndex = hero.title.indexOf('?');
-  const firstLine = questionMarkIndex >= 0 ? hero.title.slice(0, questionMarkIndex + 1) : hero.title;
-  const secondLine = questionMarkIndex >= 0 ? hero.title.slice(questionMarkIndex + 1).trim() : '';
+  if (questionMarkIndex >= 0) {
+    const first = hero.title.slice(0, questionMarkIndex + 1);
+    const second = hero.title.slice(questionMarkIndex + 1).trim();
+    mobileLines = [first, second, 'Get PRAG'];
+  } else {
+    // fallback: use the full title, then 'Get PRAG'
+    mobileLines = [hero.title, '', 'Get PRAG'];
+  }
   const desktopHeadlineLines = ['Low or High Voltage?', 'Unreliable or No Power?', 'Get PRAG'];
   const normalizedCtaLabel = hero.ctaLabel.replace(/\s+/g, ' ').trim().toLowerCase();
   const resolvedCtaHref = normalizedCtaLabel === 'get a free power assessment'
@@ -95,8 +104,11 @@ export default async function Hero() {
         {/* Text */}
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <h1 className="text-white text-center font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2">
-            <span className="block md:hidden">{firstLine}</span>
-            {secondLine && <span className="block md:hidden">{secondLine}</span>}
+            {/* Mobile: always three lines */}
+            <span className="block md:hidden">{mobileLines[0]}</span>
+            <span className="block md:hidden">{mobileLines[1]}</span>
+            <span className="block md:hidden">{mobileLines[2]}</span>
+            {/* Desktop: three lines as before */}
             <span className="hidden md:block">{desktopHeadlineLines[0]}</span>
             <span className="hidden md:block">{desktopHeadlineLines[1]}</span>
             <span className="hidden md:block">{desktopHeadlineLines[2]}</span>
