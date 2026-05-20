@@ -64,7 +64,7 @@ export default async function WhyPragSection() {
           <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[500px] md:max-w-[600px]">
             Why Leading Homes and Businesses Choose PRAG
           </h2>
-          <p className="text-zinc-500 text-[14px] sm:text-base md:text-lg font-['Onest'] max-w-[480px]">
+          <p className="text-zinc-500 text-[16px] md:text-[20px] font-['Onest'] max-w-[480px]">
             Our work is guided by a commitment to quality, precision, and long-term performance.
           </p>
         </div>

@@ -83,30 +83,7 @@ export default async function KnowledgeCenterSection() {
             <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px]">
               Power Insights &amp; Expert Guides
             </h2>
-            {/* View all link — shown below title on mobile */}
-            <Link
-              href="/knowledge-center"
-              className="md:hidden inline-flex items-center gap-[10px] text-[#0166A5] text-[16px] font-normal font-['Onest'] leading-normal hover:gap-3 transition-all w-fit"
-            >
-              <span>View all articles</span>
-              <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                <path d="M1 5h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M8 1.5L12.5 5 8 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
           </div>
-
-          {/* View all — desktop only (aligned to bottom-right) */}
-          <Link
-            href="/knowledge-center"
-            className="hidden md:inline-flex items-center gap-[10px] text-[#0166A5] text-base font-normal font-['Onest'] hover:gap-3 transition-all shrink-0 mb-1"
-          >
-            <span>View all articles</span>
-            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-              <path d="M1 5h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M8 1.5L12.5 5 8 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
         </div>
 
         {/* Cards */}
@@ -121,6 +98,19 @@ export default async function KnowledgeCenterSection() {
         ) : (
           <p className="text-zinc-400 text-center py-10 font-['Onest']">No articles found.</p>
         )}
+
+        <Link
+          href="/knowledge-center"
+          className="px-6 py-4 bg-[#0166A5] rounded-3xl inline-flex justify-center items-center gap-2.5 hover:bg-sky-800 transition-colors min-w-[200px] self-center"
+        >
+          <span className="text-white text-base font-medium [font-family:var(--font-space-grotesk)]">
+            View all articles
+          </span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
       </div>
     </section>
   );

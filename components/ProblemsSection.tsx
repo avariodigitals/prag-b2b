@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
@@ -134,12 +133,9 @@ export default async function ProblemsSection() {
             {problems.map((p) => (
               <div
                 key={p.title}
-                className="rounded-3xl border border-[#888888] px-6 pt-6 pb-5 flex flex-col justify-start items-start gap-5 md:gap-6 bg-white"
+                className="rounded-3xl border border-[#888888] px-6 pt-6 pb-5 flex flex-col justify-start items-center gap-5 md:gap-6 bg-white text-center"
               >
-                <div className="w-8 h-8 flex items-center justify-start overflow-hidden shrink-0">
-                  <Image src={p.icon} alt="" width={32} height={32} className="w-8 h-8 object-contain" aria-hidden="true" />
-                </div>
-                <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch flex flex-col justify-start items-center gap-4">
                   <h3 className="self-stretch text-black text-[22px] sm:text-2xl font-bold font-['Onest'] leading-snug">
                     {p.title}
                   </h3>

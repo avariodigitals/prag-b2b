@@ -32,6 +32,7 @@ const solutionLinks = [
 
 const supportLinks = [
   { label: 'Warranty', href: '/terms-of-use#warranty-policy' },
+  { label: 'Power Calculator', href: '/power-calculator' },
   { label: 'Technical Support', href: '/contact' },
   { label: 'FAQs', href: '/contact' },
   { label: 'Downloads', href: '/resources' },
@@ -149,7 +150,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
   const footerCtaTitle = footer?.ctaTitle?.trim() || 'Stop Losing Money to Bad Power';
   const footerCtaDescription = footer?.ctaDescription?.trim() || 'Talk to a PRAG engineer today and fix your power issues permanently.';
-  const footerPrimaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a Free Power Assessment';
+  const footerPrimaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a free Power Reccomendation';
   const footerPrimaryCtaHref = footer?.primaryCtaHref?.trim() || '/power-calculator';
   const footerSecondaryCtaLabel = footer?.secondaryCtaLabel?.trim() || 'WhatsApp Us Now';
   const footerSecondaryCtaHref = footer?.secondaryCtaHref?.trim() || whatsappHref;

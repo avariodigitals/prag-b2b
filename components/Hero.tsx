@@ -39,6 +39,11 @@ export default async function Hero() {
   const questionMarkIndex = hero.title.indexOf('?');
   const firstLine = questionMarkIndex >= 0 ? hero.title.slice(0, questionMarkIndex + 1) : hero.title;
   const secondLine = questionMarkIndex >= 0 ? hero.title.slice(questionMarkIndex + 1).trim() : '';
+  const desktopHeadlineLines = ['Low or High Voltage?', 'Unreliable or No Power?', 'Get PRAG'];
+  const normalizedCtaLabel = hero.ctaLabel.replace(/\s+/g, ' ').trim().toLowerCase();
+  const resolvedCtaHref = normalizedCtaLabel === 'get a free power assessment'
+    ? '/free-power-assessment'
+    : hero.ctaHref;
 
   return (
     <section className="relative overflow-hidden w-full min-h-[420px] md:h-[704px] flex flex-col justify-center items-center text-center px-4 sm:px-6 md:px-20 pt-[150px] pb-10">
@@ -90,8 +95,11 @@ export default async function Hero() {
         {/* Text */}
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <h1 className="text-white text-center font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2">
-            <span className="block">{firstLine}</span>
-            {secondLine && <span className="block">{secondLine}</span>}
+            <span className="block md:hidden">{firstLine}</span>
+            {secondLine && <span className="block md:hidden">{secondLine}</span>}
+            <span className="hidden md:block">{desktopHeadlineLines[0]}</span>
+            <span className="hidden md:block">{desktopHeadlineLines[1]}</span>
+            <span className="hidden md:block">{desktopHeadlineLines[2]}</span>
           </h1>
           <p className="text-white text-center [font-family:var(--font-space-grotesk)] text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[480px] md:max-w-[760px]">
             {hero.body}
@@ -101,7 +109,7 @@ export default async function Hero() {
         {/* CTAs */}
         <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[700px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 md:gap-4">
           <Link
-            href={hero.ctaHref}
+            href={resolvedCtaHref}
             className="flex-1 sm:flex-none w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors text-center"
           >
             {hero.ctaLabel}

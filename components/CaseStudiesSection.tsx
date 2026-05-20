@@ -30,7 +30,7 @@ export default async function CaseStudiesSection() {
               </span>
             ))}
           </h2>
-          <p className="text-zinc-500 text-[14px] sm:text-base md:text-lg font-['Onest'] max-w-xl text-center">
+          <p className="text-zinc-500 text-[16px] md:text-[20px] font-['Onest'] max-w-xl text-center">
             {content.sectionDescription}
           </p>
         </div>

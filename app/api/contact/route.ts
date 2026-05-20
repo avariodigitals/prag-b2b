@@ -83,6 +83,9 @@ function resolveB2BAdminUrl() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const submissionRoute = typeof body?.route === 'string' && body.route.trim()
+      ? body.route.trim()
+      : '/contact';
     const wpUrl = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
     const res = await fetch(`${wpUrl}/prag-core/v1/contact`, {
       method: 'POST',
@@ -99,7 +102,7 @@ export async function POST(req: NextRequest) {
           const intakeRes = await fetch(`${adminUrl}/api/admin/b2b/intake`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...body, kind: 'contact', route: '/contact' }),
+            body: JSON.stringify({ ...body, kind: 'contact', route: submissionRoute }),
           });
           syncedToAdmin = intakeRes.ok;
         } catch {

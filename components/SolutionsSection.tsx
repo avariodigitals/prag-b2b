@@ -46,7 +46,7 @@ export default function SolutionsSection() {
           <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[600px] md:max-w-[631px]">
             Complete Power Systems Designed for Nigeria
           </h2>
-          <p className="text-[#787878] text-[14px] sm:text-[16px] md:text-xl font-normal font-['Onest'] leading-snug max-w-[600px]">
+          <p className="text-[#787878] text-[16px] md:text-[20px] font-normal font-['Onest'] leading-snug max-w-[600px]">
             We design, supply, and install integrated solutions using:{' '}
             <span className="inline-block">Stabilizers • Inverters • Solar • Batteries</span>
           </p>
