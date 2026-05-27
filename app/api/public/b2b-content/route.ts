@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 60;
 
 type B2BStoreShape = {
   settings?: unknown;
@@ -68,7 +68,7 @@ async function readWordPressB2BStore() {
     };
 
     const res = await fetch(`${wpApiUrl}/prag-core/v1/admin-config`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers,
       signal: AbortSignal.timeout(8000),
     });
@@ -99,9 +99,7 @@ export async function GET() {
   if (localData) {
     return NextResponse.json(localData, {
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        Pragma: 'no-cache',
-        Expires: '0',
+        'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
         'X-B2B-Content-Source': 'local-store',
       },
     });
@@ -113,15 +111,13 @@ export async function GET() {
   }
 
   try {
-    const upstream = await fetch(`${baseUrl}/api/public/b2b-content`, { cache: 'no-store' });
+    const upstream = await fetch(`${baseUrl}/api/public/b2b-content`, { next: { revalidate: 60 } });
     if (!upstream.ok) {
       const wpData = await readWordPressB2BStore();
       if (wpData) {
         return NextResponse.json(wpData, {
           headers: {
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            Pragma: 'no-cache',
-            Expires: '0',
+            'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
             'X-B2B-Content-Source': 'wordpress-fallback',
           },
         });
@@ -132,9 +128,7 @@ export async function GET() {
     const data = await upstream.json();
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        Pragma: 'no-cache',
-        Expires: '0',
+        'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
         'X-B2B-Content-Source': 'upstream-api',
       },
     });
@@ -143,9 +137,7 @@ export async function GET() {
     if (wpData) {
       return NextResponse.json(wpData, {
         headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-          Pragma: 'no-cache',
-          Expires: '0',
+          'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
           'X-B2B-Content-Source': 'wordpress-fallback',
         },
       });

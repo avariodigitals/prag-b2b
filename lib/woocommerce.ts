@@ -266,7 +266,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 export async function getStores(): Promise<Store[]> {
   try {
     const url = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
-    const res = await fetch(`${url}/wp/v2/prag_store?per_page=100&_fields=id,title,meta`, { cache: 'no-store' });
+    const res = await fetch(`${url}/wp/v2/prag_store?per_page=100&_fields=id,title,meta`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     const data = await res.json() as Array<{ id: number; title: { rendered: string }; meta: Record<string, string> }>;
     return data.map((s) => ({
