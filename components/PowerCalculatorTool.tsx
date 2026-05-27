@@ -113,7 +113,7 @@ export default function PowerCalculatorTool({ products }: Props) {
         seen.add(item.product.id);
         return true;
       })
-      .map((item) => ({ ...item.product, detectedKva: item.detectedKva }));
+      .map((item) => ({ ...item.product, detectedKva: item.detectedKva }))
     );
   }, [products, assessmentRequested, appliancesAdded, recommendedKva]);
 
