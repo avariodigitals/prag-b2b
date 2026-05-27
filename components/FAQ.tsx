@@ -64,30 +64,57 @@ export default function FAQSection() {
   }
 
   return (
+    <FAQSectionContent
+      kicker="FAQ"
+      title="Frequently asked questions"
+      items={FAQ_ITEMS}
+      openIndex={openIndex}
+      onToggle={toggle}
+    />
+  );
+}
+
+function FAQSectionContent({
+  kicker,
+  title,
+  items,
+  openIndex,
+  onToggle,
+  hideHeader,
+}: {
+  kicker: string;
+  title: string;
+  items: FAQItem[];
+  openIndex: number;
+  onToggle: (index: number) => void;
+  hideHeader?: boolean;
+}) {
+  return (
     <section className="w-full px-6 md:px-20 py-20">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
-        {/* Kicker + heading */}
-        <div className="flex flex-col items-center gap-4 text-center">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-[#0166a5] rounded-sm flex-shrink-0" aria-hidden="true" />
-            <span className="text-[#1a1a1a] text-base font-normal font-['Space_Grotesk']">FAQ</span>
+        {!hideHeader && (
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[#0166a5] rounded-sm flex-shrink-0" aria-hidden="true" />
+              <span className="text-[#1a1a1a] text-base font-normal font-['Space_Grotesk']">{kicker}</span>
+            </div>
+            <h2 className="text-[#1a1a1a] text-4xl md:text-[48px] font-bold font-['Onest'] leading-tight tracking-[-2px]">
+              {title}
+            </h2>
           </div>
-          <h2 className="text-[#1a1a1a] text-4xl md:text-[48px] font-bold font-['Onest'] leading-tight tracking-[-2px]">
-            Frequently asked questions
-          </h2>
-        </div>
+        )}
 
         {/* Accordion */}
         <div className="w-full max-w-[904px] mx-auto flex flex-col gap-4">
-          {FAQ_ITEMS.map((item, index) => {
+          {items.map((item, index) => {
             const isOpen = openIndex === index;
             return (
               <div
-                key={index}
+                key={`${item.question}-${index}`}
                 className={`rounded-[14px] border border-[#eeeeee] transition-all duration-200 ${isOpen ? 'bg-white' : 'bg-white'}`}
               >
                 <button
-                  onClick={() => toggle(index)}
+                  onClick={() => onToggle(index)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${index}`}
@@ -115,5 +142,34 @@ export default function FAQSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function ManagedFAQSection({
+  kicker,
+  title,
+  items,
+  hideHeader,
+}: {
+  kicker?: string;
+  title?: string;
+  items: FAQItem[];
+  hideHeader?: boolean;
+}) {
+  const [openIndex, setOpenIndex] = useState<number>(0);
+
+  function toggle(index: number) {
+    setOpenIndex((prev) => (prev === index ? -1 : index));
+  }
+
+  return (
+    <FAQSectionContent
+      kicker={kicker?.trim() || 'FAQ'}
+      title={title?.trim() || 'Frequently asked questions'}
+      items={items.length > 0 ? items : FAQ_ITEMS}
+      openIndex={openIndex}
+      onToggle={toggle}
+      hideHeader={hideHeader}
+    />
   );
 }

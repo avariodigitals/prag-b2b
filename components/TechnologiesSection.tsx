@@ -35,6 +35,11 @@ export default function TechnologiesSection() {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [technologies, setTechnologies] = useState(TECHNOLOGIES);
+  const [header, setHeader] = useState({
+    kicker: 'Our Technologies',
+    title: 'Four Technologies. One Complete System.',
+    description: 'Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.',
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -45,10 +50,19 @@ export default function TechnologiesSection() {
         if (!res.ok) return;
         const data = await res.json();
         const page = data?.pages?.find((entry: { route: string; sections?: Array<{ type: string; imageUrl?: string; summary?: string; title?: string; ctaHref?: string }> }) => entry.route === '/');
+        const headerSection = Array.isArray(page?.sections)
+          ? page.sections.find((section: { type?: string; visible?: boolean; kicker?: string; summary?: string; title?: string; content?: string }) => section.type === 'technology-header' && section.visible !== false)
+          : undefined;
         const technologySections = Array.isArray(page?.sections)
           ? page.sections.filter((section: { type?: string; visible?: boolean }) => section.type === 'technology' && section.visible !== false)
           : [];
         if (cancelled) return;
+
+        setHeader((current) => ({
+          kicker: headerSection?.kicker?.trim() || headerSection?.title?.trim() || current.kicker,
+          title: headerSection?.summary?.trim() || current.title,
+          description: headerSection?.content?.trim() || current.description,
+        }));
 
         setTechnologies((current) => current.map((item, index) => {
           const section = technologySections[index];
@@ -115,22 +129,17 @@ export default function TechnologiesSection() {
             <div className="flex items-center gap-[6px]">
               <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
               <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase tracking-wide">
-                Our Technologies
+                {header.kicker}
               </span>
             </div>
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-10">
               {/* Title */}
               <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[600px] md:max-w-[680px]">
-                <span className="block md:hidden">
-                  Four Technologies.
-                  <br />
-                  One Complete System.
-                </span>
-                <span className="hidden md:inline">Four Technologies. One Complete System.</span>
+                {header.title}
               </h2>
               {/* Description */}
               <p className="text-[#787878] text-[16px] md:text-xl font-normal font-['Onest'] leading-normal max-w-[600px] md:max-w-[520px]">
-                Every PRAG solution is built from the right combination of technologies — engineered, installed, and warranted by our team.
+                {header.description}
               </p>
             </div>
           </div>

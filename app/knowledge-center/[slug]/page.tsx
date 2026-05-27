@@ -65,6 +65,22 @@ function LinkedInIcon() {
   );
 }
 
+function XIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.901 2H22l-6.768 7.737L23.2 22h-6.24l-4.887-7.498L5.51 22H2.4l7.24-8.275L2 2h6.398l4.418 6.83L18.901 2zm-1.095 18h1.717L7.47 3.895H5.628L17.806 20z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20.52 3.48A11.8 11.8 0 0012.04 0C5.62 0 .39 5.23.39 11.65c0 2.06.54 4.08 1.57 5.86L0 24l6.66-1.88a11.6 11.6 0 005.37 1.37h.01c6.42 0 11.65-5.22 11.65-11.64a11.6 11.6 0 00-3.17-8.37zM12.05 21.5h-.01a9.66 9.66 0 01-4.93-1.35l-.35-.21-3.95 1.12 1.06-3.85-.23-.39a9.67 9.67 0 01-1.49-5.16c0-5.34 4.35-9.68 9.7-9.68 2.59 0 5.02 1.01 6.85 2.84a9.61 9.61 0 012.84 6.84c0 5.34-4.35 9.69-9.69 9.69zm5.31-7.27c-.29-.15-1.72-.85-1.99-.94-.27-.1-.46-.15-.66.15-.19.29-.76.94-.93 1.13-.17.19-.34.22-.63.08-.29-.15-1.22-.45-2.33-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.08-.15-.66-1.6-.9-2.19-.24-.57-.49-.49-.66-.5l-.56-.01c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43 0 1.44 1.05 2.83 1.2 3.02.14.19 2.07 3.16 5.01 4.43.7.3 1.25.48 1.67.61.7.23 1.33.19 1.83.12.56-.09 1.72-.71 1.96-1.39.24-.68.24-1.26.17-1.39-.07-.12-.26-.19-.56-.34z" />
+    </svg>
+  );
+}
+
 function RelatedCard({
   post,
   categories,
@@ -284,6 +300,24 @@ export default async function KnowledgeCenterPost({ params }: Props) {
                     className="hover:text-[#0166a5] transition-colors"
                   >
                     <LinkedInIcon />
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on X"
+                    className="hover:text-[#0166a5] transition-colors"
+                  >
+                    <XIcon />
+                  </a>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`${title} ${shareUrl}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on WhatsApp"
+                    className="hover:text-[#0166a5] transition-colors"
+                  >
+                    <WhatsAppIcon />
                   </a>
                 </div>
               </div>

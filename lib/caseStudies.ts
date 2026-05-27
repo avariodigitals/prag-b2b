@@ -42,6 +42,8 @@ export interface CaseStudiesContent {
   processSteps: CaseStudyProcessStep[];
   installationsCtaLabel: string;
   installationsCtaHref: string;
+  solutionSectionLabel: string;
+  resultsSectionLabel: string;
   categories: CaseStudyCategory[];
   studies: CaseStudyRecord[];
 }
@@ -98,6 +100,8 @@ export const DEFAULT_CASE_STUDIES_CONTENT: CaseStudiesContent = {
   ],
   installationsCtaLabel: 'Start Your Installation →',
   installationsCtaHref: '/contact',
+  solutionSectionLabel: 'Solution Deployed',
+  resultsSectionLabel: 'Result/Outcome',
   categories: ['Residential', 'Commercial', 'Industrial'],
   studies: [
     {
@@ -253,6 +257,8 @@ function mergeCaseStudiesContent(content?: Partial<CaseStudiesContent> | null): 
     processKicker: String(content?.processKicker ?? DEFAULT_CASE_STUDIES_CONTENT.processKicker),
     processTitle: String(content?.processTitle ?? DEFAULT_CASE_STUDIES_CONTENT.processTitle),
     processSteps: processSteps.length > 0 ? processSteps : DEFAULT_CASE_STUDIES_CONTENT.processSteps,
+    solutionSectionLabel: String(content?.solutionSectionLabel ?? DEFAULT_CASE_STUDIES_CONTENT.solutionSectionLabel),
+    resultsSectionLabel: String(content?.resultsSectionLabel ?? DEFAULT_CASE_STUDIES_CONTENT.resultsSectionLabel),
     categories: ['Residential', 'Commercial', 'Industrial'],
     studies,
   };

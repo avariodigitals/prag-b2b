@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
-import SolutionProductTags from '@/components/SolutionProductTags';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
@@ -18,12 +17,6 @@ const SOLUTIONS = [
       'Industrial operations have zero tolerance for power problems. Voltage fluctuations can destroy motors, VFDs, and CNC machines. Unexpected outages halt production lines and cause massive losses.',
     solution:
       "PRAG's Industrial division handles complex, high-load power installations. We work directly with factory engineers to design systems that integrate with existing infrastructure.",
-    products: [
-      'Industrial Stabilizers (100–500kVA)',
-      'Three-Phase Inverter Systems',
-      'Power Factor Correction Units',
-      'Large-Scale Solar + Storage',
-    ],
     href: '/solutions/industrial',
     image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
     imageLeft: true,
@@ -35,12 +28,6 @@ const SOLUTIONS = [
       'For businesses, every hour of downtime costs money. Voltage surges can destroy servers, POS systems, and refrigeration. Power interruptions kill productivity and customer experience.',
     solution:
       'We engineer power reliability systems for offices, retail outlets, hospitals, hotels, and educational institutions — sized for your actual load and growth plans.',
-    products: [
-      'Commercial Voltage Stabilizers (10–100kVA)',
-      'Three-Phase Hybrid Inverters',
-      'Commercial Solar Systems (10–500kW)',
-      'UPS Systems for Critical Loads',
-    ],
     href: '/solutions/commercial',
     image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
     imageLeft: false,
@@ -52,12 +39,6 @@ const SOLUTIONS = [
       'Most Nigerian homes deal with power that comes unpredictably, appliances that get damaged, and generators that run all night. You deserve better.',
     solution:
       'PRAG designs complete home power systems that combine voltage stabilisation, solar generation, and battery storage — so your home stays powered whether NEPA is around or not.',
-    products: [
-      'Automatic Voltage Stabilizers (1–5kVA)',
-      'Hybrid Solar Inverter Systems',
-      'Lithium Battery Banks (100–400Ah)',
-      'Monocrystalline Solar Panels',
-    ],
     href: '/solutions/residential',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png',
     imageLeft: true,
@@ -153,10 +134,6 @@ export default async function SolutionsPage() {
                   <p className="text-[#888888] text-[16px] font-['Space_Grotesk'] leading-[21px]">{s.solution}</p>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Recommended Products:</p>
-                  <SolutionProductTags tags={s.products} />
-                </div>
               </div>
 
               <Link

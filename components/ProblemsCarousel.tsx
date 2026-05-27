@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
 interface Problem {
   id: string;
@@ -20,6 +21,8 @@ interface CarouselProduct {
   id: number;
   name: string;
   slug: string;
+  price?: string;
+  attributes?: { id: number; name: string; options: string[] }[];
   images: { src: string; alt: string }[];
   categories: { id: number; name: string; slug: string }[];
 }
@@ -89,10 +92,12 @@ export default function ProblemsCarousel({
   problems,
   products,
   recommendedProductsByProblem,
+  showProductsSection = true,
 }: {
   problems: Problem[];
   products: CarouselProduct[];
   recommendedProductsByProblem?: Record<string, CarouselProduct[]>;
+  showProductsSection?: boolean;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -111,9 +116,10 @@ export default function ProblemsCarousel({
     ? productsByIds
     : products.filter((product) =>
       product.categories?.some((cat) => activeProblem.productCategories.includes(cat.slug))
-    ))
-    .slice(0, 4);
-  const displayProducts = filteredProducts.length > 0 ? filteredProducts : products.slice(0, 4);
+    ));
+  const displayProducts = sortProductsBySizeThenPrice(
+    filteredProducts.length > 0 ? filteredProducts : products
+  ).slice(0, 4);
 
   const handleCard = (index: number) => {
     setActiveIndex(index);
@@ -249,47 +255,48 @@ export default function ProblemsCarousel({
           />
         </div>
 
-        {/* Technologies & Products */}
-        <div className="flex flex-col gap-6">
-          <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">Technologies &amp; Products</h2>
-          <ul className="flex flex-col gap-3">
-            {activeProblem.technologies.map((tech) => (
-              <li key={tech} className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-sky-700 shrink-0" />
-                <span className="text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">{tech}</span>
-              </li>
-            ))}
-          </ul>
+        {showProductsSection && (
+          <div className="flex flex-col gap-6">
+            <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">Technologies &amp; Products</h2>
+            <ul className="flex flex-col gap-3">
+              {activeProblem.technologies.map((tech) => (
+                <li key={tech} className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-sky-700 shrink-0" />
+                  <span className="text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">{tech}</span>
+                </li>
+              ))}
+            </ul>
 
-          {displayProducts.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {displayProducts.map((product) => {
-                const img = product.images?.[0];
-                return (
-                  <Link
-                    key={product.id}
-                    href={`/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`}
-                    className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center bg-[#F9F9F9] hover:shadow-md transition-shadow"
-                  >
-                    {img ? (
-                      <div className="relative w-[58%] h-[58%] md:w-[56%] md:h-[56%]">
-                        <Image
-                          src={img.src}
-                          alt={img.alt || product.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
-                          className="object-contain mix-blend-multiply"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-16 h-16 bg-zinc-200 rounded-full" />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
+            {displayProducts.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {displayProducts.map((product) => {
+                  const img = product.images?.[0];
+                  return (
+                    <Link
+                      key={product.id}
+                      href={`/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`}
+                      className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center bg-[#F9F9F9] hover:shadow-md transition-shadow"
+                    >
+                      {img ? (
+                        <div className="relative w-[58%] h-[58%] md:w-[56%] md:h-[56%]">
+                          <Image
+                            src={img.src}
+                            alt={img.alt || product.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                            className="object-contain mix-blend-multiply"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-16 bg-zinc-200 rounded-full" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

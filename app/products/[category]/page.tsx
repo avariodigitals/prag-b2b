@@ -50,7 +50,13 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   if (!category_id && !DISPLAY[category]) notFound();
 
-  const { products, total } = await getProducts({ category_id, per_page: 16, page: 1 });
+  const { products, total } = await getProducts({
+    category_id,
+    per_page: 16,
+    page: 1,
+    orderby: 'title',
+    order: 'asc',
+  });
 
   const { name, description } = DISPLAY[category] ?? { name: category, description: '' };
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { submitContactForm } from '@/lib/woocommerce';
 
-const ENQUIRY_TYPES = ['General Enquiry', 'Product Enquiry', 'Technical Support', 'Partnership', 'Bulk Order'];
+const ENQUIRY_TYPES = ['General Enquiry', 'Product Enquiry', 'Technical Support', 'Partnership', 'Order'];
 const ALLOWED_ENQUIRY = new Set(ENQUIRY_TYPES);
 const EMPTY_FORM = { name: '', email: '', phone: '', company: '', enquiry_type: '', message: '' };
 

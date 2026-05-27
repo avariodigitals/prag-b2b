@@ -77,10 +77,14 @@ export async function getProducts({
   category_id,
   per_page = 20,
   page = 1,
+  orderby,
+  order,
 }: {
   category_id?: number;
   per_page?: number;
   page?: number;
+  orderby?: 'title' | 'date' | 'id' | 'slug' | 'price' | 'popularity' | 'rating' | 'menu_order';
+  order?: 'asc' | 'desc';
 } = {}): Promise<{ products: Product[]; total: number }> {
   const qs = new URLSearchParams({
     status: 'publish',
@@ -88,6 +92,8 @@ export async function getProducts({
     page: String(page),
     _fields: 'id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
     ...(category_id ? { category: String(category_id) } : {}),
+    ...(orderby ? { orderby } : {}),
+    ...(order ? { order } : {}),
   });
   try {
     const sep = '?';

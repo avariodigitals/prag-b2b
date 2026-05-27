@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Product } from '@/lib/woocommerce';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
+import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
 const APPLIANCES = [
   { name: 'Ceiling Fan', watts: 60 },
@@ -105,13 +106,15 @@ export default function PowerCalculatorTool({ products }: Props) {
     }
 
     const seen = new Set<number>();
-    return shortlist
+    return sortProductsBySizeThenPrice(
+      shortlist
       .filter((item) => {
         if (seen.has(item.product.id)) return false;
         seen.add(item.product.id);
         return true;
       })
       .map((item) => ({ ...item.product, detectedKva: item.detectedKva }));
+    );
   }, [products, assessmentRequested, appliancesAdded, recommendedKva]);
 
   const rows: typeof APPLIANCES[] = [];

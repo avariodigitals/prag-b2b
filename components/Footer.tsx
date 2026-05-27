@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import type { PublicB2BContent } from '@/lib/b2bContent';
 
-const productLinks = [
+const defaultProductLinks = [
   { label: 'Inverters', href: '/products/inverters' },
   { label: 'Lithium Batteries', href: '/products/batteries' },
   { label: 'Voltage Stabilizers', href: '/products/all-prag-stabilizers' },
@@ -21,25 +21,26 @@ const productLinks = [
   { label: 'Hybrid Energy Solutions', href: '/solutions' },
 ];
 
-const solutionLinks = [
+const defaultSolutionLinks = [
   { label: 'For Homes', href: '/solutions/residential' },
   { label: 'For Offices', href: '/solutions/commercial' },
   { label: 'For Commercial', href: '/solutions/commercial' },
   { label: 'For Industrial', href: '/solutions/industrial' },
+  { label: 'Power Stabilization & Protection', href: '/products/all-prag-stabilizers' },
   { label: 'Renewable Energy Solutions', href: '/solutions' },
   { label: 'Energy Backup Solutions', href: '/solutions' },
 ];
 
-const supportLinks = [
+const defaultSupportLinks = [
   { label: 'Warranty', href: '/terms-of-use#warranty-policy' },
   { label: 'Power Calculator', href: '/power-calculator' },
   { label: 'Technical Support', href: '/contact' },
-  { label: 'FAQs', href: '/contact' },
+  { label: 'FAQs', href: '/faq' },
   { label: 'Downloads', href: '/resources' },
   { label: 'Contact Us', href: '/contact' },
 ];
 
-const companyLinks = [
+const defaultCompanyLinks = [
   { label: 'About PRAG', href: '/about' },
   { label: 'Our Impact', href: '/about' },
   { label: 'Become a Reseller', href: '/distributor' },
@@ -47,7 +48,7 @@ const companyLinks = [
   { label: 'News & Insights', href: '/knowledge-center' },
 ];
 
-const legalLinks = [
+const defaultLegalLinks = [
   { label: 'Privacy', href: '/privacy' },
   { label: 'Terms of use', href: '/terms-of-use' },
   { label: 'Warranty Policy', href: '/terms-of-use#warranty-policy' },
@@ -61,6 +62,13 @@ type FooterLink = {
   label: string;
   href: string;
 };
+
+const defaultFooterColumns: Array<{ title: string; items: FooterLink[] }> = [
+  { title: 'Products', items: defaultProductLinks },
+  { title: 'Solutions', items: defaultSolutionLinks },
+  { title: 'Support', items: defaultSupportLinks },
+  { title: 'Company', items: defaultCompanyLinks },
+];
 
 function FooterColumn({ title, links, showUnderline = true }: { title: string; links: FooterLink[]; showUnderline?: boolean }) {
   return (
@@ -146,18 +154,66 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
     ? `https://wa.me/${whatsappNumber}`
     : contact?.whatsapp?.trim() || 'https://wa.me/2348032170129';
   const whatsappDisplay = whatsappNumber ? `+${whatsappNumber}` : salesPhone;
-  const footerCopyright = footer?.copyright?.trim() || `© Copyright ${new Date().getFullYear()} PRAG Power Solutions. All rights reserved.`;
+  const footerCopyright = footer?.copyright?.trim() || '© Copyright 2026 PRAG. All rights reserved.';
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
   const footerCtaTitle = footer?.ctaTitle?.trim() || 'Stop Losing Money to Bad Power';
   const footerCtaDescription = footer?.ctaDescription?.trim() || 'Talk to a PRAG engineer today and fix your power issues permanently.';
-  const footerPrimaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a free Power Reccomendation';
+  const footerPrimaryCtaLabel = footer?.primaryCtaLabel?.trim() || 'Get a Free Power Assessment';
   const footerPrimaryCtaHref = footer?.primaryCtaHref?.trim() || '/power-calculator';
   const footerSecondaryCtaLabel = footer?.secondaryCtaLabel?.trim() || 'WhatsApp Us Now';
   const footerSecondaryCtaHref = footer?.secondaryCtaHref?.trim() || whatsappHref;
+  const footerCompanyName = footer?.companyName?.trim() || 'PRAG Power Engineering Ltd';
+  const footerCompanyRegistration = footer?.companyRegistration?.trim() || 'RC: 1234567.';
+  const footerTagline = footer?.tagline?.trim() || 'Nigeria\'s leading power engineering company delivering reliable power systems for homes, businesses, and industries nationwide.';
+  const whatsappChatTitle = integrations?.whatsappChatText?.trim() || 'Chat with us on WhatsApp';
+  const supportCardLeadText = footer?.supportCardLeadText?.trim() || 'Need help choosing the right power solution';
+  const supportCardCtaText = footer?.supportCardCtaText?.trim() || 'Talk to an Expert';
+  const trustCardTitle = footer?.trustCardTitle?.trim() || 'Trusted Power Solutions for Homes and Businesses Across Nigeria';
+  const trustCardSubtitle = footer?.trustCardSubtitle?.trim() || 'Reliable. Efficient. Built for Africa';
+  const whatsappHelperText = footer?.whatsappHelperText?.trim() || 'Quick replies. Real people';
+  const partnerTitle = footer?.partnerTitle?.trim() || 'Become a Partner';
+  const partnerDescription = footer?.partnerDescription?.trim() || 'Join our network of resellers and installers across Nigeria';
+  const partnerCtaText = footer?.partnerCtaText?.trim() || 'Partner with PRAG';
+  const partnerHref = footer?.partnerHref?.trim() || '/distributor';
+  const contactHeading = footer?.contactHeading?.trim() || 'Contact Us';
+  const headOfficeLabel = footer?.headOfficeLabel?.trim() || 'Head Office';
+  const salesHotlineLabel = footer?.salesHotlineLabel?.trim() || 'Sales Hotline';
+  const customerSupportLabel = footer?.customerSupportLabel?.trim() || 'Customer Support';
+  const whatsappLabel = footer?.whatsappLabel?.trim() || 'Whatsapp';
+  const emailLabel = footer?.emailLabel?.trim() || 'Email';
+  const workingHoursLabel = footer?.workingHoursLabel?.trim() || 'Working Hours';
+  const workingHoursText = footer?.workingHoursText?.trim() || 'Mon- Sat: 8:00am - 6:00pm';
   const facebook = socials.facebook?.trim() || 'https://facebook.com';
-  const xSocial = 'https://x.com/PRAG_Ng';
+  const xSocial = socials.twitter?.trim() || 'https://x.com/PRAG_Ng';
   const instagram = socials.instagram?.trim() || 'https://instagram.com';
   const linkedin = socials.linkedin?.trim() || 'https://linkedin.com';
+  const configuredColumns = Array.isArray(footer?.columns)
+    ? footer.columns
+      .map((column) => {
+        const title = String(column?.title ?? '').trim();
+        const items = Array.isArray(column?.items)
+          ? column.items
+            .map((item) => ({
+              label: String(item?.label ?? '').trim(),
+              href: String(item?.href ?? '').trim(),
+            }))
+            .filter((item) => item.label && item.href)
+          : [];
+
+        return { title, items };
+      })
+      .filter((column) => column.title && column.items.length > 0)
+    : [];
+  const footerColumns = configuredColumns.length > 0 ? configuredColumns : defaultFooterColumns;
+  const configuredLegalLinks = Array.isArray(footer?.legalLinks)
+    ? footer.legalLinks
+      .map((item) => ({
+        label: String(item?.label ?? '').trim(),
+        href: String(item?.href ?? '').trim(),
+      }))
+      .filter((item) => item.label && item.href)
+    : [];
+  const legalLinks = configuredLegalLinks.length > 0 ? configuredLegalLinks : defaultLegalLinks;
 
   return (
     <footer className="bg-[#082F53] font-[family-name:var(--font-space-grotesk)] text-white">
@@ -199,9 +255,9 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   className="h-10 w-10 shrink-0 md:h-11 md:w-11"
                 />
                 <div className="min-w-0">
-                  <p className="max-w-[14rem] text-[18px] leading-[1.2] text-white/90 md:max-w-none md:text-[17px]">Need help choosing the right power solution</p>
+                  <p className="max-w-[14rem] text-[18px] leading-[1.2] text-white/90 md:max-w-none md:text-[17px]">{supportCardLeadText}</p>
                   <div className="mt-2 flex items-center gap-3 text-[18px] font-semibold leading-none">
-                    <span>Talk to an Expert</span>
+                    <span>{supportCardCtaText}</span>
                     <ArrowRight className="h-4 w-4 shrink-0" />
                   </div>
                 </div>
@@ -212,10 +268,8 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <ShieldCheck className="h-5 w-5" strokeWidth={2} />
                 </div>
                 <div className="min-w-0">
-                  <p className="max-w-[22rem] text-[18px] font-semibold leading-[1.18]">
-                    Trusted Power Solutions for Homes and Businesses Across Nigeria
-                  </p>
-                  <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.92rem]">Reliable. Efficient. Built for Africa</p>
+                  <p className="max-w-[22rem] text-[18px] font-semibold leading-[1.18]">{trustCardTitle}</p>
+                  <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.92rem]">{trustCardSubtitle}</p>
                 </div>
               </div>
 
@@ -227,9 +281,9 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
               >
                 <WhatsAppIcon className="h-10 w-10 shrink-0 text-[#25D366] md:h-11 md:w-11" />
                 <div className="min-w-0">
-                  <p className="text-[0.84rem] text-white/90 md:text-[0.9rem]">Chat with us on WhatsApp</p>
+                  <p className="text-[0.84rem] text-white/90 md:text-[0.9rem]">{whatsappChatTitle}</p>
                   <p className="mt-1 text-[26px] font-semibold leading-none tracking-[0.03em] md:text-[24px] md:tracking-[0.02em]">{whatsappDisplay}</p>
-                  <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.9rem]">Quick replies. Real people</p>
+                  <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.9rem]">{whatsappHelperText}</p>
                 </div>
               </a>
             </div>
@@ -248,24 +302,24 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
               </div>
 
               <div className="mt-3 space-y-3 text-[0.95rem] leading-[1.24] text-white/92 md:text-[0.97rem]">
-                <p>Delivering Reliable power and energy solutions that keep homes, businesses and industries running.</p>
-                <p>Inverters, Batteries, Stabilizers, Solar Solutions. Built for Africa</p>
+                <p>{footerTagline}</p>
+                <p>{footerCompanyName} {footerCompanyRegistration}</p>
               </div>
 
               <div className="hidden mt-5 border-t border-white pt-4 md:hidden">
-                <h3 className="text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] md:text-[1.35rem]">Contact Us</h3>
+                <h3 className="text-[1.6rem] font-bold uppercase leading-none tracking-[-0.02em] md:text-[1.35rem]">{contactHeading}</h3>
                 <ul className="mt-4 space-y-3 text-white/94 md:space-y-2.5">
                   <li className="flex items-start gap-2.5">
                     <MapPin className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Head Office</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{headOfficeLabel}</p>
                       <p className="mt-1 text-[0.95rem] leading-[1.3] text-white/88 md:text-[0.92rem]">{address}</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <Phone className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Sales Hotline</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{salesHotlineLabel}</p>
                       <a href={`tel:${salesPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
                         {salesPhone}
                       </a>
@@ -274,7 +328,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <li className="flex items-start gap-2.5">
                     <Headphones className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Customer Support</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{customerSupportLabel}</p>
                       <a href={`tel:${supportPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
                         {supportPhone}
                       </a>
@@ -283,7 +337,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <li className="flex items-start gap-2.5">
                     <WhatsAppIcon className="mt-1 h-4 w-4 shrink-0 text-white/92" />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Whatsapp</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{whatsappLabel}</p>
                       <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
                         {whatsappDisplay}
                       </a>
@@ -292,7 +346,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <li className="flex items-start gap-2.5">
                     <Mail className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Email</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{emailLabel}</p>
                       <a href={`mailto:${email}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white md:text-[0.92rem]">
                         {email}
                       </a>
@@ -301,8 +355,8 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <li className="flex items-start gap-2.5">
                     <Clock3 className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
-                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">Working Hours</p>
-                      <p className="mt-1 text-[0.95rem] leading-[1.3] text-white/88 md:text-[0.92rem]">Mon- Sat: 8:00am - 6:00pm</p>
+                      <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{workingHoursLabel}</p>
+                      <p className="mt-1 text-[0.95rem] leading-[1.3] text-white/88 md:text-[0.92rem]">{workingHoursText}</p>
                     </div>
                   </li>
                 </ul>
@@ -324,13 +378,13 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   </li>
                   <li className="flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <p className="text-[0.92rem] leading-[1.3] text-white/88">Lagos, Nigeria</p>
+                    <p className="text-[0.92rem] leading-[1.3] text-white/88">{address}</p>
                   </li>
                 </ul>
               </div>
 
               <Link
-                href="/distributor"
+                href={partnerHref}
                 className="mt-6 flex min-h-[96px] items-center gap-3 rounded-[2px] border-[0.5px] border-white px-4 py-4 transition-colors hover:bg-white/5 md:hidden"
               >
                 <div className="flex items-center gap-3">
@@ -338,10 +392,10 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <Handshake className="h-4.5 w-4.5" strokeWidth={2} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[1.28rem] font-semibold leading-none">Become a Partner</p>
-                    <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78">Join our network of resellers and installers across Nigeria</p>
+                    <p className="text-[1.28rem] font-semibold leading-none">{partnerTitle}</p>
+                    <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78">{partnerDescription}</p>
                     <div className="mt-3 flex items-center gap-2.5 text-[1.08rem] font-semibold">
-                      <span>Partner with PRAG</span>
+                      <span>{partnerCtaText}</span>
                       <ArrowRight className="h-4 w-4 shrink-0" />
                     </div>
                   </div>
@@ -351,17 +405,16 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
             <div className="mt-8 md:mt-0">
               <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-8">
-                <FooterColumn title="Products" links={productLinks} />
-                <FooterColumn title="Solutions" links={solutionLinks} />
-                <FooterColumn title="Support" links={supportLinks} />
-                <FooterColumn title="Company" links={companyLinks} />
+                {footerColumns.map((column) => (
+                  <FooterColumn key={column.title} title={column.title} links={column.items} />
+                ))}
               </div>
             </div>
           </div>
 
           <div className="mt-12 hidden border-t-0 pt-0 md:mt-[38px] md:block md:pt-0 lg:pt-0">
             <Link
-              href="/distributor"
+              href={partnerHref}
               className="flex min-h-[96px] items-center gap-3 rounded-[2px] border-[0.5px] border-white px-4 py-4 transition-colors hover:bg-white/5 md:min-h-[188px] md:justify-between md:border md:border-[#1873AB] md:bg-[#0E416F] md:px-12 md:py-7"
             >
               <div className="flex items-center gap-3 md:gap-9">
@@ -369,12 +422,12 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   <Handshake className="h-4.5 w-4.5 md:h-[56px] md:w-[56px]" strokeWidth={2} />
                 </div>
                 <div className="min-w-0 md:max-w-[700px]">
-                  <p className="text-[1.28rem] font-semibold leading-none md:text-[36px] md:leading-[1]">Become a Partner</p>
-                  <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78 md:mt-2 md:text-[28px] md:leading-[1.22] md:tracking-[0.01em] md:text-white/85">Join our network of resellers and<br className="hidden md:block" />installers across Nigeria</p>
+                  <p className="text-[1.28rem] font-semibold leading-none md:text-[36px] md:leading-[1]">{partnerTitle}</p>
+                  <p className="mt-1.5 text-[0.82rem] leading-[1.3] text-white/78 md:mt-2 md:text-[28px] md:leading-[1.22] md:tracking-[0.01em] md:text-white/85">{partnerDescription}</p>
                 </div>
               </div>
               <div className="mt-3 flex items-center gap-2.5 text-[1.08rem] font-semibold md:mt-0 md:rounded-[16px] md:border md:border-white md:px-8 md:py-4 md:text-[1.18rem] md:leading-none md:whitespace-nowrap md:transition-colors md:hover:bg-[#0166A5]">
-                <span>Partner with PRAG</span>
+                <span>{partnerCtaText}</span>
                 <ArrowRight className="h-4 w-4 shrink-0 md:h-9 md:w-9" />
               </div>
             </Link>

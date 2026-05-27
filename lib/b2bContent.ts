@@ -13,6 +13,8 @@ export interface PublicB2BPageSection {
   kicker?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
   imageUrl?: string;
   imageAlt?: string;
   visible?: boolean;
@@ -25,12 +27,23 @@ export interface PublicB2BPage {
   sections?: PublicB2BPageSection[];
 }
 
+export interface PublicB2BHeaderMenuItem {
+  label?: string;
+  href?: string;
+  children?: PublicB2BHeaderMenuItem[];
+}
+
 export interface PublicB2BHeaderSettings {
   brandLabel?: string;
   announcement?: string;
   ctaLabel?: string;
   ctaHref?: string;
-  menuItems?: Array<{ label: string; href: string }>;
+  solutionsMenuItems?: PublicB2BHeaderMenuItem[];
+  productsMenuItems?: PublicB2BHeaderMenuItem[];
+  companyMenuItems?: PublicB2BHeaderMenuItem[];
+  contactLabel?: string;
+  contactHref?: string;
+  menuItems?: PublicB2BHeaderMenuItem[];
 }
 
 export interface PublicB2BFooterSettings {
@@ -43,6 +56,23 @@ export interface PublicB2BFooterSettings {
   companyName?: string;
   companyRegistration?: string;
   tagline?: string;
+  supportCardLeadText?: string;
+  supportCardCtaText?: string;
+  trustCardTitle?: string;
+  trustCardSubtitle?: string;
+  whatsappHelperText?: string;
+  partnerTitle?: string;
+  partnerDescription?: string;
+  partnerCtaText?: string;
+  partnerHref?: string;
+  contactHeading?: string;
+  headOfficeLabel?: string;
+  salesHotlineLabel?: string;
+  customerSupportLabel?: string;
+  whatsappLabel?: string;
+  emailLabel?: string;
+  workingHoursLabel?: string;
+  workingHoursText?: string;
   copyright?: string;
   disclaimerText?: string;
   legalLinks?: Array<{ label: string; href: string }>;

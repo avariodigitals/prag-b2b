@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getPosts, getPostCategories, postImage, postDate, readTime, stripHtml, type WPPost, type WPCategory } from '@/lib/wordpress';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 function sanitize(html: string) {
   return html
@@ -63,7 +64,15 @@ function PostCard({ post, categories }: { post: WPPost; categories: WPCategory[]
 }
 
 export default async function KnowledgeCenterSection() {
-  const [{ posts }, categories] = await Promise.all([getPosts({ perPage: 3 }), getPostCategories()]);
+  const [{ posts }, categories, b2bContent] = await Promise.all([getPosts({ perPage: 3 }), getPostCategories(), getB2BPublicContent()]);
+  const homepage = findB2BPage(b2bContent, '/');
+  const headerSection = findVisibleSectionsByType(homepage, 'knowledge-header')[0];
+  const header = {
+    kicker: headerSection?.kicker?.trim() || headerSection?.title?.trim() || 'Knowledge Center',
+    title: headerSection?.summary?.trim() || 'Power Insights & Expert Guides',
+    ctaLabel: headerSection?.ctaLabel?.trim() || 'View all articles',
+    ctaHref: headerSection?.ctaHref?.trim() || '/knowledge-center',
+  };
 
   return (
     <section className="w-full bg-[#FAFAFA] py-12 md:py-16 px-4 sm:px-6 md:px-20">
@@ -76,12 +85,12 @@ export default async function KnowledgeCenterSection() {
             <div className="flex items-center gap-[6px]">
               <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
               <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase tracking-wide">
-                Knowledge Center
+                {header.kicker}
               </span>
             </div>
             {/* Title */}
             <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px]">
-              Power Insights &amp; Expert Guides
+              {header.title}
             </h2>
           </div>
         </div>
@@ -100,11 +109,11 @@ export default async function KnowledgeCenterSection() {
         )}
 
         <Link
-          href="/knowledge-center"
+          href={header.ctaHref}
           className="px-6 py-4 bg-[#0166A5] rounded-3xl inline-flex justify-center items-center gap-2.5 hover:bg-sky-800 transition-colors min-w-[200px] self-center"
         >
           <span className="text-white text-base font-medium [font-family:var(--font-space-grotesk)]">
-            View all articles
+            {header.ctaLabel}
           </span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

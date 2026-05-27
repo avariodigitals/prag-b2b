@@ -6,21 +6,49 @@ export const revalidate = 300;
 const CATEGORY_SLUGS = ['inverters', 'all-prag-stabilizers', 'batteries', 'solar'];
 
 interface Props {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; cats?: string }>;
 }
 
 export default async function ProductsPage({ searchParams }: Props) {
   const sp = await searchParams;
   const query = String(sp.q ?? '').trim();
+  const requestedCats = String(sp.cats ?? '')
+    .split(',')
+    .map((slug) => slug.trim().toLowerCase())
+    .filter(Boolean);
   const categories = await getCategories();
+  const uniqueRequestedCats = Array.from(new Set(requestedCats));
+  const validRequestedCats = uniqueRequestedCats.filter((slug) => categories.some((c) => c.slug === slug));
+  const activeFilterNames = validRequestedCats
+    .map((slug) => categories.find((c) => c.slug === slug)?.name)
+    .filter((name): name is string => Boolean(name));
+
+  const baseAllProductsPromise = query
+    ? Promise.resolve({ products: await searchProducts(query), total: 0 })
+    : validRequestedCats.length > 0
+      ? Promise.all(
+          validRequestedCats.map(async (slug) => {
+            const cat = categories.find((c) => c.slug === slug);
+            if (!cat) return [] as Product[];
+            const { products } = await getProducts({ category_id: cat.id, per_page: 100, orderby: 'title', order: 'asc' });
+            return products;
+          })
+        ).then((groups) => {
+          const deduped = new Map<number, Product>();
+          groups.flat().forEach((product) => {
+            if (!deduped.has(product.id)) deduped.set(product.id, product);
+          });
+          return { products: Array.from(deduped.values()), total: deduped.size };
+        })
+      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' });
 
   // Fetch all products + per-category in parallel
   const [{ products: allProducts }, ...categoryResults] = await Promise.all([
-    query ? Promise.resolve({ products: await searchProducts(query), total: 0 }) : getProducts({ per_page: 100 }),
+    baseAllProductsPromise,
     ...CATEGORY_SLUGS.map(slug => {
       const cat = categories.find(c => c.slug === slug);
       return cat
-        ? getProducts({ category_id: cat.id, per_page: 50 })
+        ? getProducts({ category_id: cat.id, per_page: 50, orderby: 'title', order: 'asc' })
         : Promise.resolve({ products: [] as Product[], total: 0 });
     }),
   ]);
@@ -39,7 +67,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   );
 
   const subResults = await Promise.all(
-    subcategories.map(sub => getProducts({ category_id: sub.id, per_page: 50 }))
+    subcategories.map(sub => getProducts({ category_id: sub.id, per_page: 50, orderby: 'title', order: 'asc' }))
   );
   subcategories.forEach((sub, i) => {
     productsByCategory[sub.slug] = subResults[i].products;
@@ -57,6 +85,13 @@ export default async function ProductsPage({ searchParams }: Props) {
 
         {/* Products */}
         <div className="w-full px-6 md:px-20 py-12">
+          {activeFilterNames.length > 0 && (
+            <div className="mb-6 flex items-center justify-center">
+              <p className="rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-medium text-sky-700 font-['Onest'] text-center">
+                Showing: {activeFilterNames.join(' + ')}
+              </p>
+            </div>
+          )}
           <ProductsView
             allProducts={allProducts}
             productsByCategory={productsByCategory}

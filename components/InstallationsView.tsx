@@ -1,25 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
 import type { CaseStudiesContent } from '@/lib/caseStudies';
 
 export default function InstallationsView({ content }: { content: CaseStudiesContent }) {
-  const [active, setActive] = useState<'All' | 'Residential' | 'Commercial' | 'Industrial'>('All');
-
-  const categories = useMemo(
-    () => ['All', ...content.categories] as const,
-    [content.categories],
-  );
-
   const available = useMemo(
     () => content.studies.filter((study) => study.active),
     [content.studies],
-  );
-
-  const filtered = useMemo(
-    () => (active === 'All' ? available : available.filter((study) => study.category === active)),
-    [active, available],
   );
 
   return (
@@ -34,31 +22,12 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
         </p>
       </div>
 
-      {/* ── Filter + Cards ── */}
+      {/* ── Cards ── */}
       <div className="w-full px-6 md:px-20 py-10 flex flex-col gap-10 max-w-[1280px] mx-auto">
-
-        {/* Category filter pills */}
-        <div className="-mx-6 md:mx-0 px-6 md:px-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex items-center gap-1 min-w-max md:min-w-0 md:flex-wrap md:justify-center">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={`shrink-0 px-5 py-2 rounded-full text-[14px] font-medium font-['Space_Grotesk'] transition-colors ${
-                  active === cat
-                    ? 'bg-[#0166a5] text-white'
-                    : 'bg-white border border-[#1a1a1a] text-[#444444] hover:border-[#0166a5] hover:text-[#0166a5]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Case study cards */}
         <div className="flex flex-col gap-4">
-          {filtered.map((item) => (
+          {available.map((item) => (
             <div
               key={item.id}
               /* Mobile: padded card (Figma: 24px radius, rgba border, 12px padding)
@@ -105,7 +74,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
                   {/* Solutions */}
                   <div className="flex flex-col gap-3">
                     <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#0166a5]/10 text-[#0166a5] text-[14px] font-medium font-['Onest'] uppercase tracking-wide w-fit">
-                      Solutions
+                      {content.solutionSectionLabel}
                     </span>
                     <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-[1.7]">
                       {item.solution}
@@ -127,7 +96,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
 
                 {/* Results */}
                 <div className="flex flex-col gap-3">
-                  <span className="text-[#1a1a1a] text-[16px] font-normal font-['Onest']">RESULTS</span>
+                  <span className="text-[#1a1a1a] text-[16px] font-normal font-['Onest'] uppercase">{content.resultsSectionLabel}</span>
                   <div className="grid grid-cols-2 gap-2">
                     {item.results.map((result, index) => (
                       <div

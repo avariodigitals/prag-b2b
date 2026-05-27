@@ -3,9 +3,16 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 async function getWhyPragContent() {
   const content = await getB2BPublicContent();
   const page = findB2BPage(content, '/');
+  const headerSection = findVisibleSectionsByType(page, 'reason-header')[0];
   const reasonSections = findVisibleSectionsByType(page, 'reason');
 
-  return REASONS.map((fallback, index) => {
+  const header = {
+    kicker: headerSection?.kicker?.trim() || headerSection?.title?.trim() || 'The PRAG Difference',
+    title: headerSection?.summary?.trim() || 'Why Leading Homes and Businesses Choose PRAG',
+    description: headerSection?.content?.trim() || 'Our work is guided by a commitment to quality, precision, and long-term performance.',
+  };
+
+  const reasons = REASONS.map((fallback, index) => {
     const section = reasonSections[index];
     if (!section) return fallback;
     let title = section.summary?.trim() || section.title?.trim() || fallback.title;
@@ -20,6 +27,8 @@ async function getWhyPragContent() {
       desc: section.content?.trim() || fallback.desc,
     };
   });
+
+  return { header, reasons };
 }
 
 const REASONS = [
@@ -47,7 +56,7 @@ const REASONS = [
 ];
 
 export default async function WhyPragSection() {
-  const reasons = await getWhyPragContent();
+  const content = await getWhyPragContent();
 
   return (
     <section className="w-full bg-white py-12 md:py-20 px-4 sm:px-6 md:px-20">
@@ -58,20 +67,20 @@ export default async function WhyPragSection() {
           <div className="flex items-center gap-[6px]">
             <div className="w-4 h-4 bg-[#0166A5] shrink-0" aria-hidden="true" />
             <span className="text-black text-[14px] font-normal [font-family:var(--font-space-grotesk)] uppercase tracking-wide">
-              The PRAG Difference
+              {content.header.kicker}
             </span>
           </div>
           <h2 className="text-black text-[28px] sm:text-[34px] md:text-[48px] font-bold font-['Onest'] leading-[1.1] tracking-[-2px] max-w-[500px] md:max-w-[600px]">
-            Why Leading Homes and Businesses Choose PRAG
+            {content.header.title}
           </h2>
           <p className="text-zinc-500 text-[16px] md:text-[20px] font-['Onest'] max-w-[480px]">
-            Our work is guided by a commitment to quality, precision, and long-term performance.
+            {content.header.description}
           </p>
         </div>
 
         {/* Cards Grid — single column on mobile, 2 columns on md+ */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-          {reasons.map((r) => (
+          {content.reasons.map((r) => (
             <div
               key={r.title}
               className="relative min-h-[300px] sm:min-h-[340px] md:min-h-[380px] h-full rounded-2xl overflow-hidden group"

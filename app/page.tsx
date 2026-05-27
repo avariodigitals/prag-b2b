@@ -1,7 +1,6 @@
 import Hero from '@/components/Hero';
 import ProblemsSection from '@/components/ProblemsSection';
 import SolutionsSection from '@/components/SolutionsSection';
-import TechnologiesSection from '@/components/TechnologiesSection';
 import WhyPragSection from '@/components/WhyPragSection';
 import CaseStudiesSection from '@/components/CaseStudiesSection';
 import KnowledgeCenterSection from '@/components/KnowledgeCenterSection';
@@ -12,7 +11,6 @@ export default function HomePage() {
       <Hero />
       <ProblemsSection />
       <SolutionsSection />
-      <TechnologiesSection />
       <WhyPragSection />
       <CaseStudiesSection />
       <KnowledgeCenterSection />

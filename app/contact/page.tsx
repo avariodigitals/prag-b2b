@@ -4,7 +4,6 @@ import { getStores, getSiteSettings } from '@/lib/woocommerce';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 import ContactForm from '@/components/ContactForm';
 import StoresGrid from '@/components/StoresGrid';
-import FAQSection from '@/components/FAQ';
 
 export const metadata: Metadata = { title: 'Get in Touch' };
 
@@ -27,6 +26,12 @@ function SocialIcon({ network }: { network: string }) {
     return (
       <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M6.94 8.5H3.56V20h3.38zM5.25 3a1.97 1.97 0 1 0 0 3.94A1.97 1.97 0 0 0 5.25 3M20.44 20h-3.37v-5.6c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95V20H9.7V8.5h3.24v1.57h.05c.45-.86 1.56-1.77 3.2-1.77 3.43 0 4.06 2.26 4.06 5.2z" />
+      </svg>
+    );
+  if (network === 'twitter')
+    return (
+      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M18.244 2H21l-6.022 6.885L22 22h-5.48l-4.29-5.994L6.98 22H4.22l6.44-7.362L2 2h5.62l3.878 5.422zM17.31 20h1.527L6.79 3.895H5.152z" />
       </svg>
     );
   return null;
@@ -52,10 +57,11 @@ export default async function ContactPage() {
     : (b2bContact?.whatsapp?.trim() || 'https://wa.me/2348032170129');
 
   const socialLinks = [
-    { label: 'Facebook', href: socials?.facebook || settings.socials?.facebook, network: 'facebook' },
-    { label: 'Instagram', href: socials?.instagram || settings.socials?.instagram, network: 'instagram' },
-    { label: 'Linkedin', href: socials?.linkedin || settings.socials?.linkedin, network: 'linkedin' },
-  ].filter((s) => Boolean(s.href));
+    { label: 'Facebook', href: socials?.facebook || settings.socials?.facebook || 'https://facebook.com', network: 'facebook' },
+    { label: 'Instagram', href: socials?.instagram || settings.socials?.instagram || 'https://instagram.com', network: 'instagram' },
+    { label: 'LinkedIn', href: socials?.linkedin || settings.socials?.linkedin || 'https://linkedin.com', network: 'linkedin' },
+    { label: 'X (Twitter)', href: socials?.twitter || settings.socials?.twitter || 'https://x.com/PRAG_Ng', network: 'twitter' },
+  ];
 
   const pragStores = stores.filter((s) => s.type === 'prag');
   const onlineStores = stores.filter((s) => s.type === 'online');
@@ -149,15 +155,12 @@ export default async function ContactPage() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 shrink-0 hover:opacity-80 transition-opacity"
+                      className="flex items-center shrink-0 hover:opacity-80 transition-opacity"
                       aria-label={`Follow us on ${s.label}`}
                     >
                       <div className="w-10 h-10 bg-[#0166a5] rounded-full flex items-center justify-center shrink-0">
                         <SocialIcon network={s.network} />
                       </div>
-                      <span className="text-[#1a1a1a] text-[15px] md:text-sm font-normal font-['Space_Grotesk'] whitespace-nowrap">
-                        {s.label}
-                      </span>
                     </a>
                   ))}
                 </div>
@@ -181,8 +184,6 @@ export default async function ContactPage() {
         />
       </section>
 
-      {/* ── FAQ ── */}
-      <FAQSection />
     </main>
   );
 }

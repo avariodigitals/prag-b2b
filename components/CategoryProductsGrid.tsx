@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import B2BProductCard from './B2BProductCard';
 import type { Product } from '@/lib/woocommerce';
+import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
 const SECTION_TABS: Record<string, { label: string; slug: string }[]> = {
   'inverters': [
@@ -46,7 +47,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [products, setProducts] = useState<Product[]>(init);
+  const [products, setProducts] = useState<Product[]>(sortProductsBySizeThenPrice(init));
   const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(init.length < total);
@@ -65,7 +66,8 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
       const data = await res.json();
       setProducts(prev => {
         const ids = new Set(prev.map(p => p.id));
-        return [...prev, ...data.products.filter((p: Product) => !ids.has(p.id))];
+        const merged = [...prev, ...data.products.filter((p: Product) => !ids.has(p.id))];
+        return sortProductsBySizeThenPrice(merged);
       });
       setPage(p => p + 1);
       setHasMore(data.hasMore ?? false);
@@ -75,7 +77,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
   }
 
   useEffect(() => {
-    setProducts(init);
+    setProducts(sortProductsBySizeThenPrice(init));
     setPage(2);
     setHasMore(init.length < total);
     setLoading(false);

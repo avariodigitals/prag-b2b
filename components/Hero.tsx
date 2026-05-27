@@ -5,10 +5,12 @@ async function getHeroContent() {
   const fallback = {
     image: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
     mobileImage: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
-    title: 'Unstable Power? We Fix It Permanently.',
+    title: 'Low or High Voltage?\nUnreliable or No Power?\nGet PRAG',
     body: 'We design, install, and support reliable power systems for homes, businesses, and industries across Nigeria.',
     ctaLabel: 'Get a Free Power Assessment',
     ctaHref: '/contact',
+    secondaryCtaLabel: 'Chat on WhatsApp',
+    secondaryCtaHref: 'https://wa.me/2348032170129',
   };
 
   const content = await getB2BPublicContent();
@@ -31,24 +33,14 @@ async function getHeroContent() {
     body: hero.content?.trim() || fallback.body,
     ctaLabel: hero.ctaLabel?.trim() || fallback.ctaLabel,
     ctaHref: hero.ctaHref?.trim() || fallback.ctaHref,
+    secondaryCtaLabel: hero.secondaryCtaLabel?.trim() || fallback.secondaryCtaLabel,
+    secondaryCtaHref: hero.secondaryCtaHref?.trim() || fallback.secondaryCtaHref,
   };
 }
 
 export default async function Hero() {
   const hero = await getHeroContent();
-  // Always split into three lines for mobile: first, second, and 'Get PRAG'
-  // Use the question mark to split, or fallback to default lines
-  let mobileLines: string[];
-  const questionMarkIndex = hero.title.indexOf('?');
-  if (questionMarkIndex >= 0) {
-    const first = hero.title.slice(0, questionMarkIndex + 1);
-    const second = hero.title.slice(questionMarkIndex + 1).trim();
-    mobileLines = [first, second, 'Get PRAG'];
-  } else {
-    // fallback: use the full title, then 'Get PRAG'
-    mobileLines = [hero.title, '', 'Get PRAG'];
-  }
-  const desktopHeadlineLines = ['Low or High Voltage?', 'Unreliable or No Power?', 'Get PRAG'];
+  const titleLines = hero.title.replace(/\r\n/g, '\n').split('\n');
   const normalizedCtaLabel = hero.ctaLabel.replace(/\s+/g, ' ').trim().toLowerCase();
   const resolvedCtaHref = normalizedCtaLabel === 'get a free power assessment'
     ? '/free-power-assessment'
@@ -104,14 +96,21 @@ export default async function Hero() {
         {/* Text */}
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <h1 className="text-white text-center font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2">
-            {/* Mobile: always three lines */}
-            <span className="block md:hidden">{mobileLines[0]}</span>
-            <span className="block md:hidden">{mobileLines[1]}</span>
-            <span className="block md:hidden">{mobileLines[2]}</span>
-            {/* Desktop: three lines as before */}
-            <span className="hidden md:block">{desktopHeadlineLines[0]}</span>
-            <span className="hidden md:block">{desktopHeadlineLines[1]}</span>
-            <span className="hidden md:block">{desktopHeadlineLines[2]}</span>
+            {titleLines.map((line, index) => {
+              let marginBottom: string | undefined;
+              if (index === 0) marginBottom = '2pt';
+              if (index === 1) marginBottom = '3pt';
+
+              return (
+                <span
+                  key={`${line}-${index}`}
+                  className="block text-center"
+                  style={{ marginBottom }}
+                >
+                  {line.length > 0 ? line : '\u00A0'}
+                </span>
+              );
+            })}
           </h1>
           <p className="text-white text-center [font-family:var(--font-space-grotesk)] text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[480px] md:max-w-[760px]">
             {hero.body}
@@ -127,12 +126,12 @@ export default async function Hero() {
             {hero.ctaLabel}
           </Link>
           <a
-            href="https://wa.me/2348032170129"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={hero.secondaryCtaHref}
+            target={hero.secondaryCtaHref.startsWith('http') ? '_blank' : undefined}
+            rel={hero.secondaryCtaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
             className="flex-1 sm:flex-none w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-white hover:text-zinc-900 transition-colors"
           >
-            Chat on WhatsApp
+            {hero.secondaryCtaLabel}
           </a>
         </div>
       </div>

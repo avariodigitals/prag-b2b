@@ -38,6 +38,8 @@ export async function GET(req: NextRequest) {
     category_id,
     per_page,
     page,
+    orderby: 'title',
+    order: 'asc',
   });
 
   return NextResponse.json(

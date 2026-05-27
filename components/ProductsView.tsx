@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import B2BProductCard from './B2BProductCard';
 import type { Product, Category } from '@/lib/woocommerce';
+import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
 const TOP_CATEGORIES = [
   { label: 'All products', slug: 'all' },
@@ -39,6 +40,8 @@ export default function ProductsView({ allProducts, productsByCategory, categori
   } else {
     products = productsByCategory[activeTop] ?? [];
   }
+
+  products = sortProductsBySizeThenPrice(products);
 
   function handleTopChange(slug: string) {
     setActiveTop(slug);
