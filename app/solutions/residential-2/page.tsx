@@ -1,53 +1,54 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Residential Power Solutions',
-  description: 'Keep your home comfortable, secure, and fully powered with smart energy solutions designed for everyday living.',
+  title: 'Residential Power Solutions 2',
+  description: 'Residential solutions navigation with dedicated sections for backup, solar systems, and stabilization.',
 };
 
-export default async function ResidentialSolutionsPage() {
+export default async function ResidentialSolutionsTwoPage() {
   const content = await getSolutionCategoryContent('residential');
-  const activeProblems = content.problems.filter((problem) => problem.active);
-  const problems = activeProblems.length > 0 ? activeProblems : content.problems;
   const sections = [
     {
       title: 'Home Backup Power',
       description: 'Explore complete backup bundles, inverters, and batteries designed for uninterrupted home comfort.',
-      href: '/solutions/residential/home-backup-power',
+      href: '/solutions/residential-2/home-backup-power',
     },
     {
       title: 'Home Solar Systems',
       description: 'Browse residential solar-ready bundles and storage options that reduce fuel dependence.',
-      href: '/solutions/residential/home-solar-systems',
+      href: '/solutions/residential-2/home-solar-systems',
     },
     {
       title: 'Power Stabilization & Protection',
       description: 'Find stabilizers and voltage protection products to keep home electronics safe from fluctuations.',
-      href: '/solutions/residential/power-stabilization-protection',
+      href: '/solutions/residential-2/power-stabilization-protection',
     },
   ];
 
   return (
     <main className="w-full flex flex-col">
-      <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
-        <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
-          Reliable Power for
-          <br />
-          Modern Living
-        </h1>
-        <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
+      <div className="w-full px-6 md:px-20 py-4 border-b border-zinc-100">
+        <div className="max-w-[1280px] mx-auto flex items-center gap-2 flex-wrap">
+          <Link href="/" className="text-[#0166a5] font-['Onest'] text-sm font-medium hover:underline">Home</Link>
+          <span className="text-zinc-400">/</span>
+          <Link href="/solutions" className="text-[#0166a5] font-['Onest'] text-sm font-medium hover:underline">Solutions</Link>
+          <span className="text-zinc-400">/</span>
+          <span className="text-zinc-500 font-['Onest'] text-sm font-medium">Residential 2</span>
+        </div>
+      </div>
+
+      <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
+        <h1 className="breadcrumb-title-lock">Residential</h1>
+        <p className="breadcrumb-description-lock max-w-[600px] leading-relaxed">
           {content.heroDescription}
         </p>
       </div>
 
-      <div className="w-full px-4 sm:px-6 md:px-20 py-8 md:py-14">
+      <div className="w-full px-4 sm:px-6 md:px-20 py-10 md:py-14">
         <div className="max-w-[1280px] mx-auto">
-          <ProblemsCarousel problems={problems} products={[]} showProductsSection={false} />
-
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
             {sections.map((section) => (
               <Link
                 key={section.title}
@@ -59,15 +60,6 @@ export default async function ResidentialSolutionsPage() {
                 <span className="text-[#0166a5] text-[14px] font-semibold font-['Space_Grotesk']">View products</span>
               </Link>
             ))}
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
-            >
-              Talk to an Expert
-            </Link>
           </div>
         </div>
       </div>

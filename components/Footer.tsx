@@ -162,8 +162,9 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const footerPrimaryCtaHref = footer?.primaryCtaHref?.trim() || '/power-calculator';
   const footerSecondaryCtaLabel = footer?.secondaryCtaLabel?.trim() || 'WhatsApp Us Now';
   const footerSecondaryCtaHref = footer?.secondaryCtaHref?.trim() || whatsappHref;
-  const footerCompanyName = footer?.companyName?.trim() || 'PRAG Power Engineering Ltd';
-  const footerCompanyRegistration = footer?.companyRegistration?.trim() || 'RC: 1234567.';
+  const footerCompanyName = footer?.companyName?.trim() ?? 'PRAG Power Engineering Ltd';
+  const footerCompanyRegistration = footer?.companyRegistration?.trim() ?? 'RC: 1234567.';
+  const footerCompanyLine = [footerCompanyName, footerCompanyRegistration].filter((value) => value).join(' ');
   const footerTagline = footer?.tagline?.trim() || 'Nigeria\'s leading power engineering company delivering reliable power systems for homes, businesses, and industries nationwide.';
   const whatsappChatTitle = integrations?.whatsappChatText?.trim() || 'Chat with us on WhatsApp';
   const supportCardLeadText = footer?.supportCardLeadText?.trim() || 'Need help choosing the right power solution';
@@ -303,7 +304,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
               <div className="mt-3 space-y-3 text-[0.95rem] leading-[1.24] text-white/92 md:text-[0.97rem]">
                 <p>{footerTagline}</p>
-                <p>{footerCompanyName} {footerCompanyRegistration}</p>
+                {footerCompanyLine ? <p>{footerCompanyLine}</p> : null}
               </div>
 
               <div className="hidden mt-5 border-t border-white pt-4 md:hidden">

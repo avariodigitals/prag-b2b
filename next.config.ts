@@ -1,6 +1,30 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/solutions/residential-2',
+        destination: '/solutions/residential',
+        permanent: true,
+      },
+      {
+        source: '/solutions/residential-2/home-backup-power',
+        destination: '/solutions/residential/home-backup-power',
+        permanent: true,
+      },
+      {
+        source: '/solutions/residential-2/home-solar-systems',
+        destination: '/solutions/residential/home-solar-systems',
+        permanent: true,
+      },
+      {
+        source: '/solutions/residential-2/power-stabilization-protection',
+        destination: '/solutions/residential/power-stabilization-protection',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

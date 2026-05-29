@@ -125,14 +125,6 @@ export default async function SolutionsSection() {
           ))}
         </div>
 
-        <div className="flex justify-center">
-          <Link
-            href={content.header.ctaHref}
-            className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
-          >
-            {content.header.ctaLabel}
-          </Link>
-        </div>
       </div>
     </section>
   );

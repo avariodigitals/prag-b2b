@@ -1,13 +1,42 @@
 import Link from 'next/link';
 import { getCaseStudiesContent } from '@/lib/caseStudies';
 
+function hasNumericSignal(text: string) {
+  return /\d|%|₦|kva|kw|kwh/i.test(text);
+}
+
+function getNarrativeOutcome(study: {
+  category: string;
+  title: string;
+  problem: string;
+  solution: string;
+  results: Array<{ label: string; value: string }>;
+}) {
+  const qualitativeResult = study.results.find(
+    (item) => !hasNumericSignal(item.value) && item.value.trim().length >= 20,
+  );
+  if (qualitativeResult) return qualitativeResult.value.trim();
+
+  const category = study.category.toLowerCase();
+  if (category === 'industrial') {
+    return 'Operations became more stable and predictable, so teams could focus on production targets instead of emergency power interruptions.';
+  }
+  if (category === 'commercial') {
+    return 'Daily operations became smoother for staff and customers, with fewer disruptions and stronger confidence in business continuity.';
+  }
+  return 'The home environment became noticeably more comfortable and dependable, with less stress around outages and equipment safety.';
+}
+
 export default async function CaseStudiesSection() {
   const content = await getCaseStudiesContent();
-  const featuredStudy = content.studies.find((study) => study.featured && study.active)
-    ?? content.studies.find((study) => study.active)
+  const activeStudies = content.studies.filter((study) => study.active);
+  const featuredStudy = activeStudies.find((study) => study.featured)
+    ?? activeStudies[0]
     ?? content.studies[0];
 
-  if (!featuredStudy) return null;
+  const displayStudies = featuredStudy ? [featuredStudy] : [];
+
+  if (displayStudies.length === 0) return null;
 
   const sectionTitleLines = content.sectionTitle.includes('Real Projects')
     ? [content.sectionTitle.replace(/\s*Real Projects\s*$/, '').trim(), 'Real Projects']
@@ -35,50 +64,49 @@ export default async function CaseStudiesSection() {
           </p>
         </div>
 
-        {/* Case Study Card */}
-        <div className="self-stretch w-full p-4 sm:p-6 bg-white rounded-3xl border border-zinc-500/40 flex flex-col lg:flex-row justify-start items-start gap-6">
-          {/* Image */}
-          <div className="relative w-full lg:w-[546px] lg:max-w-[546px] shrink-0 h-[240px] sm:h-[300px] lg:h-[458px] rounded-2xl overflow-hidden">
-            <img
-              src={featuredStudy.imageUrl}
-              alt={featuredStudy.imageAlt || featuredStudy.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Content */}
-          <div className="w-full lg:flex-1 flex flex-col justify-start items-start gap-6 lg:gap-10">
-            <div className="self-stretch flex flex-col justify-start items-start gap-4">
-              <h3 className="self-stretch text-black text-[18px] sm:text-xl font-medium font-['Onest'] leading-snug">
-                {featuredStudy.title}
-              </h3>
-              <p className="self-stretch text-neutral-500 text-[14px] sm:text-base font-normal font-['Onest'] leading-normal">
-                {featuredStudy.problem}
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1">
-                {featuredStudy.tags.map((tag) => (
-                  <span key={tag} className="px-2 py-1 bg-stone-50 rounded-[32px] border border-neutral-500/30 inline-flex items-center">
-                    <span className="text-neutral-500 text-[11px] sm:text-xs font-normal font-['Onest'] leading-normal">{tag}</span>
-                  </span>
-                ))}
+        {/* Case Study Cards */}
+        <div className="self-stretch w-full flex flex-col gap-6">
+          {displayStudies.map((study) => (
+            <article
+              key={study.id}
+              className="w-full p-4 sm:p-6 bg-white rounded-3xl border border-zinc-300/60 flex flex-col lg:flex-row justify-start items-stretch gap-6"
+            >
+              <div className="relative w-full lg:w-[52%] lg:max-w-none shrink-0 h-[280px] sm:h-[340px] lg:h-auto lg:min-h-[500px] rounded-2xl overflow-hidden">
+                <img
+                  src={study.imageUrl}
+                  alt={study.imageAlt || study.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            </div>
 
-            {/* Results */}
-            <div className="self-stretch flex flex-col gap-3">
-              <span className="text-black text-sm font-normal font-['Onest'] leading-normal uppercase tracking-[0.08em]">Results</span>
-              <div className="grid grid-cols-2 gap-2">
-                {featuredStudy.results.map((r) => (
-                  <div key={`${r.label}-${r.value}`} className="p-2 sm:p-3 bg-stone-50 rounded-xl border border-neutral-500/30 flex flex-col gap-1 sm:gap-2">
-                    <span className="text-neutral-500 text-[10px] sm:text-xs font-bold font-['Onest'] leading-normal uppercase">{r.label}</span>
-                    <span className="text-neutral-700 text-base sm:text-lg font-bold font-['Onest'] leading-normal">{r.value}</span>
+              <div className="w-full lg:flex-1 flex flex-col justify-start items-start gap-5 lg:gap-6">
+                <div className="inline-flex items-center px-3 py-1 rounded-full border border-[#0166A5]/30 bg-[#0166A5]/5">
+                  <span className="text-[#0166A5] text-xs uppercase tracking-[0.09em] font-semibold font-['Space_Grotesk']">{study.category}</span>
+                </div>
+
+                <h3 className="self-stretch text-black text-[20px] sm:text-2xl font-semibold font-['Onest'] leading-snug">
+                  {study.title}
+                </h3>
+
+                <div className="self-stretch grid grid-cols-1 gap-4">
+                  <div className="rounded-2xl border border-zinc-200 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Problem</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{study.problem}</p>
                   </div>
-                ))}
+
+                  <div className="rounded-2xl border border-zinc-200 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Solution</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{study.solution}</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-[#0166A5]/25 bg-[#0166A5]/5 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
+                    <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{getNarrativeOutcome(study)}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </article>
+          ))}
         </div>
 
         {/* CTA */}

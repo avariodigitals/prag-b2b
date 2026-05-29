@@ -1,0 +1,62 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import SolutionProductTabs from '@/components/SolutionProductTabs';
+import { getProductsForCategoryCode } from '@/app/solutions/residential/_data';
+
+interface Props {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export const metadata: Metadata = {
+  title: 'Home Backup Power',
+  description: 'Complete backup systems, inverters, and batteries for reliable residential power continuity.',
+};
+
+export default async function HomeBackupPowerPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const [completeSystems, inverters, batteries] = await Promise.all([
+    getProductsForCategoryCode('Complete Systems HBP'),
+    getProductsForCategoryCode('inverters'),
+    getProductsForCategoryCode('batteries'),
+  ]);
+
+  const tabs = [
+    { key: 'complete-systems', label: 'Complete Systems', products: completeSystems },
+    { key: 'inverters', label: 'Inverters', products: inverters },
+    { key: 'batteries', label: 'Batteries', products: batteries },
+  ];
+
+  return (
+    <main className="w-full bg-white flex flex-col">
+      <div className="w-full px-6 md:px-20 py-4 border-b border-zinc-100">
+        <div className="max-w-[1280px] mx-auto flex items-center gap-2 flex-wrap">
+          <Link href="/" className="text-[#0166a5] font-['Onest'] text-sm font-medium hover:underline">Home</Link>
+          <span className="text-zinc-400">/</span>
+          <Link href="/solutions" className="text-[#0166a5] font-['Onest'] text-sm font-medium hover:underline">Solutions</Link>
+          <span className="text-zinc-400">/</span>
+          <Link href="/solutions/residential-2" className="text-[#0166a5] font-['Onest'] text-sm font-medium hover:underline">Residential 2</Link>
+          <span className="text-zinc-400">/</span>
+          <span className="text-zinc-500 font-['Onest'] text-sm font-medium">Home Backup Power</span>
+        </div>
+      </div>
+
+      <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
+        <h1 className="breadcrumb-title-lock">Home Backup Power</h1>
+        <p className="breadcrumb-description-lock max-w-[700px]">
+          Find bundled backup systems, inverters, and batteries built to keep your home powered during outages.
+        </p>
+      </div>
+
+      <div className="w-full px-6 md:px-20 py-10">
+        <div className="max-w-[1280px] mx-auto">
+          <SolutionProductTabs
+            basePath="/solutions/residential-2/home-backup-power"
+            tabs={tabs}
+            activeTab={sp.tab}
+            emptyMessage="No products available in this Home Backup Power tab yet."
+          />
+        </div>
+      </div>
+    </main>
+  );
+}

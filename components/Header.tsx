@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { Building2, ChevronDown, Handshake, Menu, ShieldCheck, X } from 'lucide-react';
 import type { PublicB2BContent } from '@/lib/b2bContent';
 
 type HeaderMenuItem = {
@@ -19,32 +19,32 @@ const SOLUTIONS = [
     children: [
       {
         label: 'Home Backup Power',
-        href: '/solutions/residential#home-backup-power',
+        href: '/solutions/residential/home-backup-power',
         children: [
-          { label: 'Complete Systems', href: '/solutions/residential' },
-          { label: 'Inverters', href: '/products/inverters' },
-          { label: 'Batteries', href: '/products/batteries' },
+          { label: 'Complete Systems', href: '/solutions/residential/home-backup-power?tab=complete-systems' },
+          { label: 'Inverters', href: '/solutions/residential/home-backup-power?tab=inverters' },
+          { label: 'Batteries', href: '/solutions/residential/home-backup-power?tab=batteries' },
         ],
       },
       {
         label: 'Home Solar Systems',
-        href: '/solutions/residential#home-solar-systems',
+        href: '/solutions/residential/home-solar-systems',
         children: [
-          { label: 'Complete Systems', href: '/solutions/residential' },
-          { label: 'Inverters', href: '/products/inverters' },
-          { label: 'Batteries', href: '/products/batteries' },
+          { label: 'Complete Systems', href: '/solutions/residential/home-solar-systems?tab=complete-systems' },
+          { label: 'Inverters', href: '/solutions/residential/home-solar-systems?tab=inverters' },
+          { label: 'Batteries', href: '/solutions/residential/home-solar-systems?tab=batteries' },
           { label: 'Solar Panels', href: '/products/solar' },
         ],
       },
       {
         label: 'Power Stabilization & Protection',
-        href: '/solutions/residential#power-stabilization-protection',
+        href: '/solutions/residential/power-stabilization-protection',
         children: [
-          { label: 'All Stabilizers', href: '/products/all-prag-stabilizers' },
-          { label: 'Relay Stabilizers', href: '/products/all-prag-stabilizers#relay' },
-          { label: 'Servo Stabilizers', href: '/products/all-prag-stabilizers#servo' },
-          { label: 'Thyristor Stabilizers', href: '/products/all-prag-stabilizers#thyristor' },
-          { label: '3 Phase Stabilizers', href: '/products/all-prag-stabilizers#3-phase' },
+          { label: 'All Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=all' },
+          { label: 'Relay Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=relay' },
+          { label: 'Servo Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=servo' },
+          { label: 'Thyristor Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=thyristor' },
+          { label: '3 Phase Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=three-phase' },
         ],
       },
     ],
@@ -55,32 +55,32 @@ const SOLUTIONS = [
     children: [
       {
         label: 'Office Backup Power',
-        href: '/solutions/commercial#office-backup-power',
+        href: '/solutions/commercial/office-backup-power',
         children: [
-          { label: 'Complete Systems', href: '/solutions/commercial' },
-          { label: 'Inverters', href: '/products/inverters' },
-          { label: 'Batteries', href: '/products/batteries' },
+          { label: 'Complete Systems', href: '/solutions/commercial/office-backup-power?tab=complete-systems' },
+          { label: 'Inverters', href: '/solutions/commercial/office-backup-power?tab=inverters' },
+          { label: 'Batteries', href: '/solutions/commercial/office-backup-power?tab=batteries' },
         ],
       },
       {
         label: 'Solar for Businesses',
-        href: '/solutions/commercial#solar-for-businesses',
+        href: '/solutions/commercial/solar-for-businesses',
         children: [
-          { label: 'Complete Systems', href: '/solutions/commercial' },
-          { label: 'Inverters', href: '/products/inverters' },
-          { label: 'Batteries', href: '/products/batteries' },
-          { label: 'Solar Panels', href: '/products/solar' },
+          { label: 'Complete Systems', href: '/solutions/commercial/solar-for-businesses?tab=complete-systems' },
+          { label: 'Inverters', href: '/solutions/commercial/solar-for-businesses?tab=inverters' },
+          { label: 'Batteries', href: '/solutions/commercial/solar-for-businesses?tab=batteries' },
+          { label: 'Solar Panels', href: '/solutions/commercial/solar-for-businesses?tab=solar' },
         ],
       },
       {
         label: 'Power Stabilization & Protection',
-        href: '/solutions/commercial#power-stabilization-protection',
+        href: '/solutions/commercial/power-stabilization-protection',
         children: [
-          { label: 'All Stabilizers', href: '/products/all-prag-stabilizers' },
-          { label: 'Relay Stabilizers', href: '/products/all-prag-stabilizers#relay' },
-          { label: 'Servo Stabilizers', href: '/products/all-prag-stabilizers#servo' },
-          { label: 'Thyristor Stabilizers', href: '/products/all-prag-stabilizers#thyristor' },
-          { label: '3 Phase Stabilizers', href: '/products/all-prag-stabilizers#3-phase' },
+          { label: 'All Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=all' },
+          { label: 'Relay Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=relay' },
+          { label: 'Servo Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=servo' },
+          { label: 'Thyristor Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=thyristor' },
+          { label: '3 Phase Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=three-phase' },
         ],
       },
     ],
@@ -118,14 +118,57 @@ function applyCompleteSystemsLinkRules(items: HeaderMenuItem[], trail: string[] 
   return items.map((item) => {
     const label = item.label.trim().toLowerCase();
     const parentLabel = trail[trail.length - 1]?.trim().toLowerCase() ?? '';
+    const grandParentLabel = trail[trail.length - 2]?.trim().toLowerCase() ?? '';
 
     let href = item.href;
-    if (label === 'complete systems') {
-      if (parentLabel === 'home backup power' || parentLabel === 'office backup power') {
-        href = '/products?cats=inverters,batteries';
-      } else if (parentLabel === 'home solar systems' || parentLabel === 'solar for businesses') {
-        href = '/products?cats=inverters,batteries,solar';
-      }
+    if (label === 'home backup power') href = '/solutions/residential/home-backup-power';
+    if (label === 'home solar systems') href = '/solutions/residential/home-solar-systems';
+    if (label === 'office backup power') href = '/solutions/commercial/office-backup-power';
+    if (label === 'solar for businesses') href = '/solutions/commercial/solar-for-businesses';
+    if (label === 'power stabilization & protection' && parentLabel === 'residential') {
+      href = '/solutions/residential/power-stabilization-protection';
+    }
+    if (label === 'power stabilization & protection' && parentLabel === 'commercial') {
+      href = '/solutions/commercial/power-stabilization-protection';
+    }
+
+    if (parentLabel === 'home backup power') {
+      if (label === 'complete systems') href = '/solutions/residential/home-backup-power?tab=complete-systems';
+      if (label === 'inverters') href = '/solutions/residential/home-backup-power?tab=inverters';
+      if (label === 'batteries') href = '/solutions/residential/home-backup-power?tab=batteries';
+    }
+
+    if (parentLabel === 'home solar systems') {
+      if (label === 'complete systems') href = '/solutions/residential/home-solar-systems?tab=complete-systems';
+      if (label === 'inverters') href = '/solutions/residential/home-solar-systems?tab=inverters';
+      if (label === 'batteries') href = '/solutions/residential/home-solar-systems?tab=batteries';
+      if (label === 'solar panels') href = '/solutions/residential/home-solar-systems?tab=solar';
+    }
+
+    if (parentLabel === 'office backup power') {
+      if (label === 'complete systems') href = '/solutions/commercial/office-backup-power?tab=complete-systems';
+      if (label === 'inverters') href = '/solutions/commercial/office-backup-power?tab=inverters';
+      if (label === 'batteries') href = '/solutions/commercial/office-backup-power?tab=batteries';
+    }
+
+    if (parentLabel === 'solar for businesses') {
+      if (label === 'complete systems') href = '/solutions/commercial/solar-for-businesses?tab=complete-systems';
+      if (label === 'inverters') href = '/solutions/commercial/solar-for-businesses?tab=inverters';
+      if (label === 'batteries') href = '/solutions/commercial/solar-for-businesses?tab=batteries';
+      if (label === 'solar panels') href = '/solutions/commercial/solar-for-businesses?tab=solar';
+    }
+
+    if (parentLabel === 'power stabilization & protection') {
+      const isResidential = grandParentLabel === 'residential';
+      const base = isResidential
+        ? '/solutions/residential/power-stabilization-protection'
+        : '/solutions/commercial/power-stabilization-protection';
+
+      if (label === 'all stabilizers') href = `${base}?tab=all`;
+      if (label === 'relay stabilizers') href = `${base}?tab=relay`;
+      if (label === 'servo stabilizers') href = `${base}?tab=servo`;
+      if (label === 'thyristor stabilizers') href = `${base}?tab=thyristor`;
+      if (label === '3 phase stabilizers' || label === '3-phase stabilizers') href = `${base}?tab=three-phase`;
     }
 
     const children = Array.isArray(item.children)
@@ -138,31 +181,35 @@ function applyCompleteSystemsLinkRules(items: HeaderMenuItem[], trail: string[] 
   });
 }
 
-function DesktopMenuNode({ item }: { item: HeaderMenuItem }) {
+function MobileMenuNode({ item, onClose, depth = 0 }: { item: HeaderMenuItem; onClose: () => void; depth?: number }) {
   const hasChildren = Array.isArray(item.children) && item.children.length > 0;
   const [open, setOpen] = useState(false);
+  const indent = depth * 14;
 
   if (!hasChildren) {
     return (
-      <Link
-        href={item.href}
-        className="block rounded-md px-3 py-1.5 text-sm text-zinc-600 hover:bg-sky-50 hover:text-sky-700 transition-colors whitespace-nowrap"
-      >
-        {item.label}
-      </Link>
+      <div className="border-b border-zinc-100 last:border-0" style={{ marginLeft: indent }}>
+        <Link
+          href={item.href}
+          onClick={onClose}
+          className="block py-2.5 text-sm text-zinc-600 hover:text-sky-700 transition-colors"
+        >
+          {item.label}
+        </Link>
+      </div>
     );
   }
 
   return (
-    <div className="px-1 py-1.5">
+    <div className="border-b border-zinc-100 last:border-0" style={{ marginLeft: indent }}>
       <div className="flex items-center justify-between gap-2">
-        <Link href={item.href} className="text-sm font-semibold text-zinc-800 hover:text-sky-700 transition-colors whitespace-nowrap">
+        <Link href={item.href} onClick={onClose} className="py-2.5 text-sm font-semibold text-zinc-700 hover:text-sky-700 transition-colors">
           {item.label}
         </Link>
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full text-zinc-500 hover:text-sky-700 transition-colors"
+          className="inline-flex h-7 w-7 items-center justify-center text-zinc-500 hover:text-sky-700 transition-colors"
           aria-label={open ? `Collapse ${item.label}` : `Expand ${item.label}`}
         >
           <ChevronDown className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -170,9 +217,9 @@ function DesktopMenuNode({ item }: { item: HeaderMenuItem }) {
       </div>
 
       {open ? (
-        <div className="mt-1.5 space-y-1.5 pl-3">
+        <div className="pt-0.5">
           {item.children?.map((child, index) => (
-            <DesktopMenuNode key={`${child.href}-${index}`} item={child} />
+            <MobileMenuNode key={`${child.href}-${index}`} item={child} onClose={onClose} depth={depth + 1} />
           ))}
         </div>
       ) : null}
@@ -180,83 +227,143 @@ function DesktopMenuNode({ item }: { item: HeaderMenuItem }) {
   );
 }
 
-function MobileMenuNode({ item, onClose }: { item: HeaderMenuItem; onClose: () => void }) {
-  const hasChildren = Array.isArray(item.children) && item.children.length > 0;
-  const [open, setOpen] = useState(false);
+type DesktopMegaKind = 'solutions' | 'products' | 'company';
 
-  if (!hasChildren) {
-    return (
-      <Link
-        href={item.href}
-        onClick={onClose}
-        className="block rounded-lg px-2 py-1.5 text-sm text-zinc-600 hover:text-sky-700 transition-colors"
-      >
-        {item.label}
-      </Link>
-    );
+const REAL_PRODUCT_IMAGES = {
+  stabilizerWhite: 'https://central.prag.global/wp-content/uploads/2026/04/7ee70985fdddba92a39a6e67f80ec4773cbf34fd.png',
+  stabilizerBlack: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
+  residentialStabilizer: 'https://central.prag.global/wp-content/uploads/2024/11/PRAG-LVG45-30K-STABILIZER-2-2000x2000.jpg',
+  commercialInverter: 'https://central.prag.global/wp-content/uploads/2025/02/LF-inverter-4-1-2500x2500.jpg',
+  voltageStabilizer5kva: 'https://central.prag.global/wp-content/uploads/2024/11/Untitled-design-8-2-500x500.jpg',
+  inverterWhite: 'https://central.prag.global/wp-content/uploads/2026/04/eebd514c0d3e75e4f32cb8fd691c7b3613fd99d5-1.png',
+  highKvaInverter: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
+  lithium48v15kwh: 'https://central.prag.global/wp-content/uploads/2026/04/dd4b835690b546ee636b7659added08cd02d9891.png',
+  solar: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
+};
+
+function getMainItems(items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
+  return items.map((item) => ({ label: item.label, href: item.href }));
+}
+
+function getOrderedMainItems(kind: DesktopMegaKind, items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
+  const mainItems = getMainItems(items).slice(0, 4);
+  return [...mainItems].reverse();
+}
+
+function getCompanyIcon(label: string) {
+  const key = label.toLowerCase();
+  if (key.includes('about')) return Building2;
+  if (key.includes('distributor') || key.includes('partner')) return Handshake;
+  return ShieldCheck;
+}
+
+function getShowcaseImage(label: string, kind: Exclude<DesktopMegaKind, 'company'>): string {
+  const key = label.toLowerCase();
+  if (kind === 'solutions') {
+    if (key.includes('residential')) return REAL_PRODUCT_IMAGES.residentialStabilizer;
+    if (key.includes('commercial')) return REAL_PRODUCT_IMAGES.commercialInverter;
+    return REAL_PRODUCT_IMAGES.inverterWhite;
   }
+  if (key.includes('voltage') || key.includes('stabilizer')) return REAL_PRODUCT_IMAGES.voltageStabilizer5kva;
+  if (key.includes('inverter')) return REAL_PRODUCT_IMAGES.inverterWhite;
+  if (key.includes('lithium') || key.includes('battery')) return REAL_PRODUCT_IMAGES.lithium48v15kwh;
+  if (key.includes('solar')) return REAL_PRODUCT_IMAGES.solar;
+  return REAL_PRODUCT_IMAGES.inverterWhite;
+}
+
+function DesktopMegaPanel({
+  label,
+  kind,
+  items,
+}: {
+  label: string;
+  kind: DesktopMegaKind;
+  items: HeaderMenuItem[];
+}) {
+  const mainItems = getOrderedMainItems(kind, items);
+  const introTitle =
+    kind === 'solutions'
+      ? 'Power Solutions For Every Space'
+      : kind === 'products'
+        ? 'Explore PRAG Products'
+        : 'About PRAG';
+  const introBody =
+    kind === 'solutions'
+      ? 'Smart and sustainable systems tailored for homes and businesses.'
+      : kind === 'products'
+        ? 'Built for Nigerian power conditions with performance and reliability in mind.'
+        : 'Learn more about our company, network, and what we stand for.';
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-2">
-      <div className="flex items-center justify-between gap-2">
-        <Link href={item.href} onClick={onClose} className="text-sm font-semibold text-zinc-700 hover:text-sky-700 transition-colors">
-          {item.label}
-        </Link>
-        <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-500 hover:border-sky-200 hover:text-sky-700 transition-colors"
-          aria-label={open ? `Collapse ${item.label}` : `Expand ${item.label}`}
+    <div className="w-full rounded-b-xl rounded-t-none bg-transparent px-0 py-3">
+      <div className="flex items-start gap-5">
+        <div className="w-[280px] shrink-0 pt-2">
+          <h3 className="text-zinc-800 text-[16px] leading-tight font-semibold font-['Onest'] whitespace-nowrap">{introTitle}</h3>
+          <p className="mt-2 text-zinc-500 text-sm leading-5 font-normal font-['Space_Grotesk']">{introBody}</p>
+        </div>
+        <div
+          className={`flex-1 flex flex-row-reverse flex-nowrap items-stretch justify-start gap-2.5 pr-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+            kind === 'company' ? '' : 'translate-x-3'
+          }`}
         >
-          <ChevronDown className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`} />
-        </button>
-      </div>
+          {mainItems.map((item) => {
+            if (kind === 'company') {
+              const Icon = getCompanyIcon(item.label);
+              return (
+                <div key={item.href} className="contents">
+                  <Link
+                    href={item.href}
+                    className="min-w-[170px] rounded-lg border border-zinc-300/70 bg-transparent px-2.5 py-2.5 flex flex-row items-center justify-start gap-2.5 text-left transition-colors"
+                  >
+                    <span className="h-9 w-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="text-zinc-800 text-sm font-medium font-['Onest'] leading-snug">{item.label}</span>
+                  </Link>
+                </div>
+              );
+            }
 
-      {open ? (
-        <div className="mt-2 space-y-1.5 border-l border-zinc-200 pl-3">
-          {item.children?.map((child, index) => (
-            <MobileMenuNode key={`${child.href}-${index}`} item={child} onClose={onClose} />
-          ))}
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="min-w-[170px] rounded-lg bg-transparent px-2.5 py-2.5 flex flex-col items-center justify-center gap-2 text-center transition-colors"
+              >
+                <div className="h-12 w-full flex items-center justify-center shrink-0">
+                  <Image
+                    src={getShowcaseImage(item.label, kind)}
+                    alt={item.label}
+                    width={120}
+                    height={96}
+                    className="max-h-12 w-auto object-contain"
+                  />
+                </div>
+                <span className="text-zinc-800 text-sm font-medium font-['Onest'] leading-snug">{item.label}</span>
+              </Link>
+            );
+          })}
         </div>
-      ) : null}
-    </div>
-  );
-}
-
-function Dropdown({ items }: { items: HeaderMenuItem[] }) {
-  return (
-    <div className="w-full rounded-xl border border-zinc-200 bg-white p-3 shadow-xl">
-      <div className="max-h-[70vh] space-y-1 overflow-y-auto pr-1">
-        {items.map((item, index) => (
-          <DesktopMenuNode key={`${item.href}-${index}`} item={item} />
-        ))}
       </div>
     </div>
   );
 }
 
-function hasLongMenuLabel(items: HeaderMenuItem[], threshold = 24): boolean {
-  for (const item of items) {
-    if (item.label.length >= threshold) return true;
-    if (item.children && hasLongMenuLabel(item.children, threshold)) return true;
-  }
-  return false;
-}
-
-function NavItem({ label, items, href }: { label: string; items?: HeaderMenuItem[]; href?: string }) {
-  const [open, setOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dropdownWidthClass = items && hasLongMenuLabel(items) ? 'w-[19rem] max-w-[19rem]' : 'w-[15rem] max-w-[15rem]';
-
-  function handleEnter() {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpen(true);
-  }
-
-  function handleLeave() {
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
-  }
-
+function NavItem({
+  label,
+  items,
+  href,
+  megaKind,
+  activeMega,
+  onMegaEnter,
+}: {
+  label: string;
+  items?: HeaderMenuItem[];
+  href?: string;
+  megaKind?: DesktopMegaKind;
+  activeMega?: DesktopMegaKind | null;
+  onMegaEnter?: (kind: DesktopMegaKind) => void;
+}) {
   if (!items) {
     return (
       <Link
@@ -269,16 +376,11 @@ function NavItem({ label, items, href }: { label: string; items?: HeaderMenuItem
   }
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className="relative" onMouseEnter={() => megaKind && onMegaEnter?.(megaKind)}>
       <button className="flex items-center gap-1 text-zinc-800 text-base font-medium font-['Onest'] hover:text-sky-700 transition-colors">
         {label}
-        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMega === megaKind ? 'rotate-180' : ''}`} />
       </button>
-      {open && (
-        <div className={`absolute top-full left-0 pt-2 z-50 ${dropdownWidthClass}`} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-          <Dropdown items={items} />
-        </div>
-      )}
     </div>
   );
 }
@@ -297,7 +399,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: Head
       {open && (
         <div className="pb-3 flex flex-col gap-2">
           {items.map((item, index) => (
-            <MobileMenuNode key={`${item.href}-${index}`} item={item} onClose={onClose} />
+            <MobileMenuNode key={`${item.href}-${index}`} item={item} onClose={onClose} depth={0} />
           ))}
         </div>
       )}
@@ -378,6 +480,17 @@ function MobileMenu({
 
 export default function Header({ settings }: { settings?: PublicB2BContent['settings'] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState<DesktopMegaKind | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleMegaEnter(kind: DesktopMegaKind) {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setActiveMega(kind);
+  }
+
+  function handleMegaLeave() {
+    closeTimerRef.current = setTimeout(() => setActiveMega(null), 100);
+  }
   const configuredSolutions = normalizeMenuItems(settings?.header?.solutionsMenuItems);
   const configuredProducts = normalizeMenuItems(settings?.header?.productsMenuItems);
   const configuredCompany = normalizeMenuItems(settings?.header?.companyMenuItems).length > 0
@@ -394,6 +507,9 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
     label: settings?.header?.ctaLabel?.trim() || 'Shop',
     href: settings?.header?.ctaHref?.trim() || '/products',
   };
+
+  const activeLabel = activeMega === 'solutions' ? 'Solutions' : activeMega === 'products' ? 'Products' : 'Company';
+  const activeItems = activeMega === 'solutions' ? solutionsItems : activeMega === 'products' ? productItems : companyItems;
 
   return (
     <header className="w-full bg-white sticky top-0 z-50 border-b border-[rgba(1,102,165,0.10)]">
@@ -413,21 +529,23 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
             />
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            <NavItem label="Solutions" items={solutionsItems} />
-            <NavItem label="Products" items={productItems} />
-            <NavItem label="Company" items={companyItems} />
-            <NavItem label={contact.label} href={contact.href} />
-          </nav>
+          <div className="hidden md:flex items-center gap-5 ml-auto" onMouseLeave={handleMegaLeave}>
+            {/* Desktop Nav */}
+            <nav className="flex items-center gap-6">
+              <NavItem label="Solutions" items={solutionsItems} megaKind="solutions" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+              <NavItem label="Products" items={productItems} megaKind="products" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+              <NavItem label="Company" items={companyItems} megaKind="company" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+              <NavItem label={contact.label} href={contact.href} />
+            </nav>
 
-          {/* Shop Button */}
-          <Link
-            href={cta.href}
-            className="hidden md:inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Onest'] hover:bg-sky-700 hover:border-sky-700 hover:text-white transition-colors"
-          >
-            {cta.label}
-          </Link>
+            {/* Shop Button */}
+            <Link
+              href={cta.href}
+              className="inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Onest'] hover:bg-sky-700 hover:border-sky-700 hover:text-white transition-colors"
+            >
+              {cta.label}
+            </Link>
+          </div>
 
           {/* Mobile Toggle */}
           <button className="md:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
@@ -435,6 +553,14 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
           </button>
         </div>
       </div>
+
+      {activeMega && (
+        <div className="hidden md:block w-full px-6 md:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
+          <div className="max-w-[1280px] mx-auto">
+            <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} />
+          </div>
+        </div>
+      )}
 
       <MobileMenu
         open={mobileOpen}

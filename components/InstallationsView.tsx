@@ -4,6 +4,29 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import type { CaseStudiesContent } from '@/lib/caseStudies';
 
+function hasNumericSignal(text: string) {
+  return /\d|%|₦|kva|kw|kwh/i.test(text);
+}
+
+function getNarrativeOutcome(item: {
+  category: string;
+  results: Array<{ label: string; value: string }>;
+}) {
+  const qualitativeResult = item.results.find(
+    (result) => !hasNumericSignal(result.value) && result.value.trim().length >= 20,
+  );
+  if (qualitativeResult) return qualitativeResult.value.trim();
+
+  const category = item.category.toLowerCase();
+  if (category === 'industrial') {
+    return 'Operations became more stable and predictable, so teams could focus on production targets instead of emergency power interruptions.';
+  }
+  if (category === 'commercial') {
+    return 'Daily operations became smoother for staff and customers, with fewer disruptions and stronger confidence in business continuity.';
+  }
+  return 'The home environment became noticeably more comfortable and dependable, with less stress around outages and equipment safety.';
+}
+
 export default function InstallationsView({ content }: { content: CaseStudiesContent }) {
   const available = useMemo(
     () => content.studies.filter((study) => study.active),
@@ -28,20 +51,14 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
         {/* Case study cards */}
         <div className="flex flex-col gap-4">
           {available.map((item) => (
-            <div
+            <article
               key={item.id}
-              /* Mobile: padded card (Figma: 24px radius, rgba border, 12px padding)
-                 Desktop: edge-to-edge image in a standard card */
-              className="w-full rounded-[24px] border border-[rgba(136,136,136,0.4)] p-3 flex flex-col gap-6
-                         md:rounded-2xl md:border-zinc-200 md:p-0 md:overflow-hidden md:flex-row"
+              className="w-full p-4 sm:p-6 bg-white rounded-3xl border border-zinc-300/60 flex flex-col lg:flex-row justify-start items-stretch gap-6"
             >
-              {/* Image — always on top on mobile; left/right on desktop per imageLeft */}
               <div
-                className={`relative shrink-0 rounded-2xl overflow-hidden h-[246px]
-                            md:rounded-none md:h-auto md:w-[400px] lg:w-[480px]
+                className={`relative w-full lg:w-[52%] lg:max-w-none shrink-0 h-[280px] sm:h-[340px] lg:h-auto lg:min-h-[500px] rounded-2xl overflow-hidden
                             ${!item.imageLeft ? 'md:order-2' : 'md:order-1'}`}
               >
-                {/* Use <img> because imageUrl is an external https URL */}
                 <img
                   src={item.imageUrl}
                   alt={item.imageAlt || item.title}
@@ -49,72 +66,42 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
                 />
               </div>
 
-              {/* Content */}
               <div
-                className={`flex flex-col gap-6 md:gap-5 md:p-6 lg:p-8 flex-1
+                className={`w-full lg:flex-1 flex flex-col justify-start items-start gap-5 lg:gap-6
                             ${!item.imageLeft ? 'md:order-1' : 'md:order-2'}`}
               >
-                {/* Title + Problem + Solutions + Tags */}
-                <div className="flex flex-col gap-3">
-                  {/* Title */}
-                  <h2 className="text-[#1a1a1a] text-[18px] font-medium font-['Onest'] leading-snug">
-                    {item.title}
-                  </h2>
+                <div className="inline-flex items-center px-3 py-1 rounded-full border border-[#0166A5]/30 bg-[#0166A5]/5">
+                  <span className="text-[#0166A5] text-xs uppercase tracking-[0.09em] font-semibold font-['Space_Grotesk']">{item.category}</span>
+                </div>
 
-                  {/* Problem */}
-                  <div className="flex flex-col gap-3">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#0166a5]/10 text-[#0166a5] text-[14px] font-medium font-['Onest'] w-fit">
-                      Problem
-                    </span>
-                    <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-[1.7]">
+                <h2 className="self-stretch text-black text-[20px] sm:text-2xl font-semibold font-['Onest'] leading-snug">
+                  {item.title}
+                </h2>
+
+                <div className="self-stretch grid grid-cols-1 gap-4">
+                  <div className="rounded-2xl border border-zinc-200 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Problem</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
                       {item.problem}
                     </p>
                   </div>
 
-                  {/* Solutions */}
-                  <div className="flex flex-col gap-3">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#0166a5]/10 text-[#0166a5] text-[14px] font-medium font-['Onest'] uppercase tracking-wide w-fit">
-                      {content.solutionSectionLabel}
-                    </span>
-                    <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-[1.7]">
+                  <div className="rounded-2xl border border-zinc-200 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Solution</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
                       {item.solution}
                     </p>
                   </div>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 rounded-full border border-[#444444]/30 text-[#444444] text-[12px] font-normal font-['Onest']"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Results */}
-                <div className="flex flex-col gap-3">
-                  <span className="text-[#1a1a1a] text-[16px] font-normal font-['Onest'] uppercase">{content.resultsSectionLabel}</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    {item.results.map((result, index) => (
-                      <div
-                        key={`${item.id}-${result.label}-${index}`}
-                        className="bg-[#f8f8f8] rounded-[12px] border border-[#444444]/30 px-2 py-2 flex flex-col gap-2"
-                      >
-                        <span className="text-[#444444] text-[12px] font-normal font-['Onest'] uppercase tracking-wide leading-tight">
-                          {result.label}
-                        </span>
-                        <span className="text-[#444444] text-[14px] font-normal font-['Onest']">
-                          {result.value}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="rounded-2xl border border-[#0166A5]/25 bg-[#0166A5]/5 p-4">
+                    <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
+                    <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
+                      {getNarrativeOutcome(item)}
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

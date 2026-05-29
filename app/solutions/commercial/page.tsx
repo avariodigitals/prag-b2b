@@ -12,6 +12,23 @@ export default async function CommercialSolutionsPage() {
   const content = await getSolutionCategoryContent('commercial');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
+  const sections = [
+    {
+      title: 'Office Backup Power',
+      description: 'Explore complete backup bundles, inverters, and batteries tailored for uninterrupted business operations.',
+      href: '/solutions/commercial/office-backup-power',
+    },
+    {
+      title: 'Solar for Businesses',
+      description: 'Browse commercial solar-ready systems and storage options to reduce diesel dependence and operating costs.',
+      href: '/solutions/commercial/solar-for-businesses',
+    },
+    {
+      title: 'Power Stabilization & Protection',
+      description: 'Find stabilizers and power-protection products built for sensitive commercial equipment and systems.',
+      href: '/solutions/commercial/power-stabilization-protection',
+    },
+  ];
 
   return (
     <main className="w-full flex flex-col">
@@ -27,6 +44,20 @@ export default async function CommercialSolutionsPage() {
       <div className="w-full px-4 sm:px-6 md:px-20 py-8 md:py-14">
         <div className="max-w-[1280px] mx-auto">
           <ProblemsCarousel problems={problems} products={[]} showProductsSection={false} />
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
+            {sections.map((section) => (
+              <Link
+                key={section.title}
+                href={section.href}
+                className="rounded-2xl border border-zinc-200 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+              >
+                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
+                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{section.description}</p>
+                <span className="text-[#0166a5] text-[14px] font-semibold font-['Space_Grotesk']">View products</span>
+              </Link>
+            ))}
+          </div>
 
           <div className="mt-10 flex justify-center">
             <Link

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 async function getWhyPragContent() {
@@ -120,6 +121,15 @@ export default async function WhyPragSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center pt-2">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
+          >
+            Talk to an Expert
+          </Link>
         </div>
       </div>
     </section>
