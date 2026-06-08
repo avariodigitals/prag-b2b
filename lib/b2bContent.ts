@@ -246,15 +246,10 @@ async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
   }
 }
 
-export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
-  return getB2BPublicContentCached();
-}
-
-const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent | null> => {
+async function getB2BPublicContentFresh(): Promise<PublicB2BContent | null> {
   // Local file fallback is useful in local dev, but avoid it on Vercel where
   // the Prag-Admin workspace path does not exist and adds unnecessary latency.
-  // Also skip local file when B2B_USE_WORDPRESS_CONTENT is set to fetch live data.
-  if (!process.env.VERCEL && !process.env.B2B_USE_WORDPRESS_CONTENT) {
+  if (!process.env.VERCEL) {
     const localContent = await getB2BContentFromLocalStore();
     if (localContent) return localContent;
   }
@@ -269,6 +264,18 @@ const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BCont
   if (wpContent) return wpContent;
 
   return null;
+}
+
+export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
+  // In development, always read fresh content so Prag-Admin edits are visible immediately.
+  if (process.env.NODE_ENV === 'development') {
+    return getB2BPublicContentFresh();
+  }
+  return getB2BPublicContentCached();
+}
+
+const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent | null> => {
+  return getB2BPublicContentFresh();
 }, ['b2b-public-content'], {
   revalidate: B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS,
 });
