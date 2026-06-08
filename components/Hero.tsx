@@ -7,10 +7,10 @@ async function getHeroContent() {
     image: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
     mobileImage: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
     title: 'Low or High Voltage?\nUnreliable or No Power?\nGet PRAG',
-    body: 'We design, install, and support reliable power systems for homes, businesses, and industries across Nigeria.',
+    body: 'Reliable power solutions for homes, businesses, and industries across Nigeria.',
     ctaLabel: 'Get a Free Power Assessment',
-    ctaHref: '/contact',
-    secondaryCtaLabel: 'Chat on WhatsApp',
+    ctaHref: '/free-power-assessment',
+    secondaryCtaLabel: 'Phone/WhatsApp',
     secondaryCtaHref: 'https://wa.me/2348032170129',
   };
 

@@ -17,35 +17,35 @@ const PROBLEM_HEADER_DEFAULT = {
   kicker: 'Power Issues We Solve',
   title: 'Power Problems Cost You\nMore Than You Think',
   description:
-    'Unstable electricity leads to damaged equipment, costly downtime, and reduced efficiency. PRAG delivers reliable solutions-from voltage stabilizers and UPS systems to hybrid inverters and solar power-designed to keep your home or business running without interruption.',
+    'Unstable electricity leads to damaged equipment, costly downtime, and reduced efficiency. PRAG delivers reliable solutions—from voltage stabilizers, hybrid inverters, and solar power',
 };
 
 const PROBLEMS = [
   {
     icon: '/images/ix_voltage.svg',
     title: 'Low, High, or Fluctuating Voltage',
-    desc: 'Protect your appliances and equipment from silent damage.',
+    desc: 'Stable Power & Protection for your appliances and equipment.',
     cta: 'Get PRAG Stabilizers',
     href: '/products/all-prag-stabilizers',
   },
   {
     icon: '/images/arcticons_chuden-power-outage-infomation.svg',
     title: 'Frequent Power Outages',
-    desc: 'Keep your home or business running without interruption.',
+    desc: 'Keep your home or business powered without interruption.',
     cta: 'Get PRAG Inverters',
     href: '/products/inverters',
   },
   {
     icon: '/images/ph_solar-panel-bold.svg',
-    title: 'No Reliable Power Source',
-    desc: 'Generate your own electricity with a dependable solar system.',
+    title: 'Generate Your Own Electricity',
+    desc: 'Achieve Energy Independence.',
     cta: 'Go PRAG Solar',
     href: '/products/solar',
   },
   {
     icon: '/images/streamline-plump_disable-protection-remix.svg',
     title: 'Reliable Energy Storage',
-    desc: 'Ensure consistent power with high-performance battery systems.',
+    desc: 'Ensure dependable backup power with high-performance battery systems.',
     cta: 'Get PRAG Lithium Batteries',
     href: '/products/batteries',
   },
