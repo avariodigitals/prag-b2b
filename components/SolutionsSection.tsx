@@ -1,4 +1,23 @@
 import Link from 'next/link';
+function BoldFirstSentence({ text }: { text: string }) {
+  let idx = -1;
+  for (let i = 0; i < text.length - 1; i++) {
+    if (text[i] === '.' && /\s/.test(text[i + 1])) {
+      idx = i;
+      break;
+    }
+  }
+  if (idx === -1) return <>{text}</>;
+  const first = text.slice(0, idx + 1);
+  const rest = text.slice(idx + 2).trimStart();
+  return (
+    <>
+      <span className="font-semibold text-[#444444]">{first}</span>
+      <br />
+      <span>{rest}</span>
+    </>
+  );
+}
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 const SOLUTIONS = [
@@ -60,7 +79,7 @@ async function getHomepageSolutionsContent() {
 
 function ArrowIcon() {
   return (
-    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+    <svg className="w-[18px] h-[18px] shrink-0" viewBox="0 0 14 10" fill="none" aria-hidden="true">
       <path d="M1 5h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M8 1.5L12.5 5 8 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -95,7 +114,7 @@ export default async function SolutionsSection() {
           {content.cards.map((s) => (
             <div
               key={s.title}
-              className="w-full rounded-2xl overflow-hidden flex flex-col bg-white border border-zinc-500/40"
+              className="w-full rounded-2xl overflow-hidden flex flex-col bg-white border border-[#888888]"
             >
               {/* Image */}
               <div className="relative w-full h-56 md:h-60 overflow-hidden rounded-tl-2xl rounded-tr-2xl">
@@ -110,11 +129,11 @@ export default async function SolutionsSection() {
               <div className="px-6 py-6 flex flex-col gap-4 flex-1">
                 <div className="flex flex-col gap-4">
                   <h3 className="text-black text-2xl font-medium font-['Onest'] leading-normal">{s.title}</h3>
-                  <p className="text-[#787878] text-base md:text-lg font-normal font-['Onest'] leading-normal">{s.desc}</p>
+                  <p className="text-[#787878] text-base md:text-lg font-normal font-['Onest'] leading-normal"><BoldFirstSentence text={s.desc} /></p>
                 </div>
                 <Link
                   href={s.href}
-                  className="inline-flex items-center gap-[10px] text-[#0166A5] text-[16px] font-normal font-['Onest'] leading-normal hover:gap-3 transition-all mt-auto"
+                  className="inline-flex items-center gap-[10px] text-[#0166A5] text-[20px] font-normal font-['Onest'] leading-normal hover:gap-3 transition-all mt-auto"
                   aria-label={`Learn more about ${s.title} solutions`}
                 >
                   <span>{s.ctaLabel}</span>

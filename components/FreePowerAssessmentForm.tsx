@@ -6,7 +6,6 @@ import { submitContactForm } from '@/lib/woocommerce';
 const EMPTY_FORM = {
   name: '',
   phone: '',
-  whatsappNumber: '',
   email: '',
   preferredContactMethod: '',
 };
@@ -25,8 +24,7 @@ function validate(form: typeof EMPTY_FORM): string | null {
   if (!form.name.trim() || form.name.trim().length > 100) return 'Enter a valid name (max 100 characters).';
   if (INJECTION_RE.test(form.name)) return 'Name contains invalid characters.';
   if (!EMAIL_RE.test(form.email.trim())) return 'Enter a valid email address.';
-  if (!PHONE_RE.test(form.phone)) return 'Enter a valid phone number.';
-  if (!PHONE_RE.test(form.whatsappNumber)) return 'Enter a valid WhatsApp number.';
+  if (!PHONE_RE.test(form.phone)) return 'Enter a valid phone / WhatsApp number.';
   if (!CONTACT_METHODS.includes(form.preferredContactMethod)) return 'Select a preferred contact method.';
   return null;
 }
@@ -92,7 +90,7 @@ export default function FreePowerAssessmentForm() {
     setSending(true);
     const message = [
       'Free Power Assessment Request',
-      `WhatsApp Number: ${form.whatsappNumber.trim()}`,
+      `Phone / WhatsApp Number: ${form.phone.trim()}`,
       `Preferred Contact Method: ${form.preferredContactMethod}`,
     ].join('\n');
 
@@ -141,7 +139,7 @@ export default function FreePowerAssessmentForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelCls}>Phone Number *</label>
+          <label className={labelCls}>Phone / WhatsApp Number *</label>
           <input
             required
             type="tel"
@@ -149,20 +147,7 @@ export default function FreePowerAssessmentForm() {
             onChange={set('phone')}
             maxLength={25}
             className={inputCls}
-            aria-label="Phone Number"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label className={labelCls}>WhatsApp Number *</label>
-          <input
-            required
-            type="tel"
-            value={form.whatsappNumber}
-            onChange={set('whatsappNumber')}
-            maxLength={25}
-            className={inputCls}
-            aria-label="WhatsApp Number"
+            aria-label="Phone / WhatsApp Number"
           />
         </div>
 

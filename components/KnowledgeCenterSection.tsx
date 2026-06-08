@@ -15,7 +15,7 @@ function PostCard({ post, categories }: { post: WPPost; categories: WPCategory[]
   const secondaryCat = categories.find(c => post.categories.includes(c.id) && c.id !== cat?.id);
 
   return (
-    <div className="rounded-2xl flex flex-col overflow-hidden bg-white border border-zinc-200">
+    <div className="rounded-2xl flex flex-col overflow-hidden bg-white border border-[#888888]">
       {img && (
         <div className="relative h-48 shrink-0 overflow-hidden">
           <img

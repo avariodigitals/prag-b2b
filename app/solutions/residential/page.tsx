@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
@@ -39,7 +40,7 @@ export default async function ResidentialSolutionsPage() {
           Modern Living
         </h1>
         <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
-          {content.heroDescription}
+          <SentenceText text={content.heroDescription} />
         </p>
       </div>
 
@@ -59,15 +60,6 @@ export default async function ResidentialSolutionsPage() {
                 <span className="text-[#0166a5] text-[14px] font-semibold font-['Space_Grotesk']">View products</span>
               </Link>
             ))}
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
-            >
-              Talk to an Expert
-            </Link>
           </div>
         </div>
       </div>

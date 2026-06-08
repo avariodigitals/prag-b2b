@@ -95,7 +95,8 @@ async function readWordPressB2BStore() {
 }
 
 export async function GET() {
-  const localData = await readLocalB2BStore();
+  const useWordPressContent = process.env.B2B_USE_WORDPRESS_CONTENT === 'true';
+  const localData = !useWordPressContent ? await readLocalB2BStore() : null;
   if (localData) {
     return NextResponse.json(localData, {
       headers: {

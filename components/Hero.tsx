@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 async function getHeroContent() {
@@ -97,15 +98,17 @@ export default async function Hero() {
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <h1 className="text-white text-center font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2">
             {titleLines.map((line, index) => {
-              let marginBottom: string | undefined;
-              if (index === 0) marginBottom = '2pt';
-              if (index === 1) marginBottom = '3pt';
+              const marginClass =
+                index === 0
+                  ? 'mb-1 md:mb-2'
+                  : index === 1
+                    ? 'mb-5 md:mb-8'
+                    : '';
 
               return (
                 <span
                   key={`${line}-${index}`}
-                  className="block text-center"
-                  style={{ marginBottom }}
+                  className={`block text-center ${marginClass}`}
                 >
                   {line.length > 0 ? line : '\u00A0'}
                 </span>
@@ -113,7 +116,7 @@ export default async function Hero() {
             })}
           </h1>
           <p className="text-white text-center [font-family:var(--font-space-grotesk)] text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[480px] md:max-w-[760px]">
-            {hero.body}
+            <SentenceText text={hero.body} />
           </p>
         </div>
 

@@ -253,7 +253,8 @@ export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
 const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent | null> => {
   // Local file fallback is useful in local dev, but avoid it on Vercel where
   // the Prag-Admin workspace path does not exist and adds unnecessary latency.
-  if (!process.env.VERCEL) {
+  // Also skip local file when B2B_USE_WORDPRESS_CONTENT is set to fetch live data.
+  if (!process.env.VERCEL && !process.env.B2B_USE_WORDPRESS_CONTENT) {
     const localContent = await getB2BContentFromLocalStore();
     if (localContent) return localContent;
   }

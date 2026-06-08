@@ -1,5 +1,6 @@
 'use client';
 
+import { SentenceText } from '@/lib/sentenceText';
 import { useState } from 'react';
 
 interface FAQItem {
@@ -132,7 +133,7 @@ function FAQSectionContent({
                     className="px-6 pb-5"
                   >
                     <p className="text-[#6b6b6b] text-base font-normal font-['Space_Grotesk'] leading-[23.8px]">
-                      {item.answer}
+                      <SentenceText text={item.answer} />
                     </p>
                   </div>
                 )}

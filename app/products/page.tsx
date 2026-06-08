@@ -1,4 +1,5 @@
 import ProductsView from '@/components/ProductsView';
+import { SentenceText } from '@/lib/sentenceText';
 import { getCategories, getProducts, searchProducts, type Product } from '@/lib/woocommerce';
 
 export const revalidate = 300;
@@ -79,7 +80,7 @@ export default async function ProductsPage({ searchParams }: Props) {
         <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
           <h1 className="breadcrumb-title-lock">Our Products</h1>
           <p className="breadcrumb-description-lock max-w-[531px]">
-            Browse our full range of voltage stabilizers, inverters, batteries, and solar systems — engineered for Nigerian conditions.
+            <SentenceText text="Browse our full range of voltage stabilizers, inverters, batteries, and solar systems — engineered for Nigerian conditions." />
           </p>
         </div>
 

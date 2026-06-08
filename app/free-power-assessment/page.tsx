@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import FreePowerAssessmentForm from '@/components/FreePowerAssessmentForm';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = { title: 'Free Power Assessment' };
@@ -30,7 +31,7 @@ export default async function FreePowerAssessmentPage() {
       <div className="w-full bg-stone-50 px-6 breadcrumb-hero-shell flex flex-col items-center gap-4 text-center">
         <h1 className="breadcrumb-title-lock">{pageContent.title}</h1>
         <p className="breadcrumb-description-lock max-w-[690px]">
-          {pageContent.description}
+          <SentenceText text={pageContent.description} />
         </p>
       </div>
 

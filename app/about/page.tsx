@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import CountUp from '@/components/CountUp';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata = { title: 'About Us' };
@@ -56,7 +57,7 @@ export default async function AboutPage() {
           {heroTitle}
         </h1>
         <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
-          {heroDescription}
+          <SentenceText text={heroDescription} />
         </p>
       </div>
 
@@ -143,7 +144,7 @@ export default async function AboutPage() {
             <div className="flex-1 flex flex-col gap-6">
               {storyParas.map((para, i) => (
                 <p key={i} className="text-[#888888] text-[18px] md:text-[20px] font-normal font-['Space_Grotesk'] leading-relaxed">
-                  {para}
+                  <SentenceText text={para} />
                 </p>
               ))}
             </div>
@@ -198,7 +199,7 @@ export default async function AboutPage() {
                   </h3>
                 </div>
                 <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-relaxed">
-                  {val.body}
+                  <SentenceText text={val.body} />
                 </p>
               </div>
             ))}

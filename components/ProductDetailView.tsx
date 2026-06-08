@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
 import type { Product, ProductReview, TechDocument } from '@/lib/woocommerce';
@@ -51,9 +51,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
   const [reviewForm, setReviewForm] = useState({ reviewer: '', reviewer_email: '', rating: 5, review: '' });
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewNotice, setReviewNotice] = useState('');
-  const [pageUrl, setPageUrl] = useState('');
-
-  useEffect(() => { setPageUrl(window.location.href); }, []);
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const image = product.images?.[0];
   const buyNowHref = getShopProductUrl(product);
@@ -143,16 +141,16 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
         <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-8 md:gap-10 items-start">
 
           {/* Product Image */}
-          <div className="w-full md:w-[44%] shrink-0">
-            <div className="w-full aspect-[536/438] bg-[#f5f5f5] rounded-[16px] flex items-center justify-center overflow-hidden">
+          <div className="w-full md:w-[52%] shrink-0">
+            <div className="w-full aspect-[302/275] rounded-[16px] flex items-center justify-center overflow-hidden">
               {image ? (
                 <img
                   src={image.src}
                   alt={image.alt || product.name}
-                  className="w-full h-full object-contain p-8 mix-blend-multiply"
+                  className="w-full h-full object-contain p-3 mix-blend-multiply"
                 />
               ) : (
-                <div className="w-24 h-24 bg-zinc-200 rounded-full" />
+                <div className="w-24 h-24 bg-white rounded-full" />
               )}
             </div>
           </div>
@@ -193,7 +191,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
 
             {/* Quantity Stepper */}
             <div
-              className="flex items-center justify-between w-[158px] h-[50px] rounded-[24px] border border-[rgba(136,136,136,0.4)] bg-[#f9f9f9] px-5"
+              className="flex items-center justify-between w-[158px] h-[50px] rounded-[24px] border border-[rgba(136,136,136,0.4)] px-5"
               role="group"
               aria-label="Quantity"
             >
@@ -480,7 +478,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     <p className="text-[#888888] font-['Space_Grotesk'] text-[18px]">No reviews yet.</p>
                   )}
 
-                  <form onSubmit={handleSubmitReview} className="flex flex-col gap-4 p-6 bg-stone-50 rounded-2xl">
+                  <form onSubmit={handleSubmitReview} className="flex flex-col gap-4 p-6 rounded-2xl border border-[#e4e7ec]">
                     <h3 className="text-[#1a1a1a] text-lg font-semibold font-['Onest']">Write a Review</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

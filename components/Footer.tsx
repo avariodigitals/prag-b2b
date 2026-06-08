@@ -170,7 +170,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const supportCardLeadText = footer?.supportCardLeadText?.trim() || 'Need help choosing the right power solution';
   const supportCardCtaText = footer?.supportCardCtaText?.trim() || 'Talk to an Expert';
   const trustCardTitle = footer?.trustCardTitle?.trim() || 'Trusted Power Solutions for Homes and Businesses Across Nigeria';
-  const trustCardSubtitle = footer?.trustCardSubtitle?.trim() || 'Reliable. Efficient. Built for Africa';
+  const trustCardSubtitle = footer?.trustCardSubtitle?.trim() || 'Voltage Stabilizers • Inverters • Lithium Batteries • Solar Solutions';
   const whatsappHelperText = footer?.whatsappHelperText?.trim() || 'Quick replies. Real people';
   const partnerTitle = footer?.partnerTitle?.trim() || 'Become a Partner';
   const partnerDescription = footer?.partnerDescription?.trim() || 'Join our network of resellers and installers across Nigeria';

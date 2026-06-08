@@ -1,7 +1,7 @@
 import { getProducts, searchProducts } from '@/lib/woocommerce';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
-export type SolutionCategoryKey = 'residential' | 'commercial' | 'industrial';
+export type SolutionCategoryKey = 'residential' | 'commercial' | 'industrial' | 'voltage-stabilization-protection' | 'backup-power' | 'solar-energy';
 
 export interface SolutionProblem {
   id: string;
@@ -157,16 +157,33 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
     secondaryCtaHref: '/products',
     problems: [
       {
-        id: 'commercial-operational-downtime',
-        title: 'Operational Downtime',
-        body: 'Frequent outages interrupt workflows, delay services, and reduce productivity.',
+        id: 'commercial-low-high-voltage',
+        title: 'Low or High Voltage?',
+        body: 'Low or high voltage can affect equipment performance and reduce operational efficiency.',
         impact: [
-          'Outages can halt customer-facing and back-office operations, reducing output and revenue.',
-          'Downtime weakens customer confidence and increases recovery costs.',
+          'Voltage abnormalities can cause air conditioners, computers, networking equipment, refrigeration systems, and other business-critical assets to operate inefficiently or fail prematurely.',
+          'Over time, unstable voltage can increase maintenance costs and disrupt business operations.',
         ],
         solution: [
-          'PRAG deploys continuity-focused backup systems so critical operations remain powered during outages.',
-          'We size inverter and battery capacity around your actual business load profile.',
+          'PRAG provides voltage stabilization solutions that deliver consistent, reliable power to your business.',
+          'Our systems help improve equipment performance, extend asset lifespan, and reduce voltage-related disruptions.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Commercial Voltage Stabilizers', 'Servo and Relay Voltage Regulators', 'Power Conditioning Units'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+      {
+        id: 'commercial-power-outages',
+        title: 'Power Outages?',
+        body: 'Power outages can disrupt business operations, affect customer service, and reduce productivity.',
+        impact: [
+          'Unexpected power interruptions can affect computers, internet connectivity, communications systems, security infrastructure, and other business-critical operations.',
+          'For offices, retail stores, clinics, schools, and service businesses, even short outages can interrupt workflows, delay customer transactions, and reduce operational efficiency.',
+        ],
+        solution: [
+          'PRAG provides business backup power solutions designed to keep essential operations running when utility power is unavailable.',
+          'Our systems are tailored to support critical loads such as computers, networking equipment, communications systems, security infrastructure, and other business-essential services — helping maintain productivity and continuity during outages.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Three-Phase Hybrid Inverter Systems', 'Commercial Battery Storage', 'Automatic Changeover Controls'],
@@ -174,53 +191,53 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         active: true,
       },
       {
-        id: 'commercial-high-energy-expenses',
-        title: 'High Energy Expenses',
-        body: 'Generator-heavy operations increase fuel and maintenance costs, reducing profitability.',
+        id: 'commercial-equipment-failure-downtime',
+        title: 'Equipment Failure & Downtime?',
+        body: 'Power-related equipment failures can disrupt operations and increase business costs.',
         impact: [
-          'Unpredictable energy bills make planning and expansion decisions harder.',
-          'High recurring energy costs limit reinvestment and growth.',
+          'Unexpected equipment failures can result in lost productivity, delayed service delivery, dissatisfied customers, and unplanned repair expenses.',
+          'For many businesses, downtime directly impacts revenue and profitability.',
         ],
         solution: [
-          'PRAG designs cost-optimized systems to reduce diesel dependence with inverter, battery, and solar integration.',
-          'This improves cost predictability while maintaining continuity and power quality.',
+          'PRAG helps protect critical equipment through professionally engineered power stabilization and protection solutions.',
+          'Our systems are designed to improve power quality and reduce the risk of costly power-related failures.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
-        technologies: ['Commercial Solar Systems (10-500kW)', 'High-Efficiency Inverter Platforms', 'Lithium Battery Storage Solution'],
-        productCategories: ['solar', 'inverters', 'batteries'],
-        active: true,
-      },
-      {
-        id: 'commercial-unstable-equipment-performance',
-        title: 'Unstable Equipment Performance',
-        body: 'Voltage instability affects servers, POS systems, and other critical office equipment.',
-        impact: [
-          'Unstable voltage shortens equipment lifespan and increases failure events.',
-          'Abrupt outages can interrupt transactions and damage data integrity.',
-        ],
-        solution: [
-          'PRAG implements voltage regulation and protection layers for sensitive business loads.',
-          'From stabilizers to surge protection, we reduce stress on equipment and prevent avoidable failures.',
-        ],
-        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
-        technologies: ['Commercial Voltage Stabilizers (10-100kVA)', 'Power Conditioning and Surge Protection', 'UPS Systems for Critical Loads'],
+        technologies: ['UPS Systems for Critical Loads', 'Power Conditioning and Surge Protection', 'Voltage Stabilizers'],
         productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'inverters'],
         active: true,
       },
       {
-        id: 'commercial-inconsistent-customer-experience',
-        title: 'Inconsistent Customer Experience',
-        body: 'Power interruptions in service environments reduce satisfaction and brand trust.',
+        id: 'commercial-rising-operating-costs',
+        title: 'Rising Operating Costs?',
+        body: 'Increasing energy and fuel costs place growing pressure on business profitability.',
         impact: [
-          'Outages in retail and hospitality directly affect payment systems, cooling, and service delivery.',
-          'Repeated interruptions reduce repeat business and customer confidence.',
+          'Generator fuel, electricity costs, and equipment operating expenses can significantly increase the cost of running a business.',
+          'These recurring costs reduce margins and limit opportunities for growth and investment.',
         ],
         solution: [
-          'PRAG builds continuity-first power systems that keep front-of-house and core operations live.',
-          'We prioritize service-critical loads to maintain smooth operations during grid instability.',
+          'PRAG provides solar energy solutions that help businesses reduce long-term energy costs and improve energy efficiency.',
+          'Our systems are designed to balance performance, reliability, and return on investment.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
-        technologies: ['Hybrid Inverter + Battery Systems', 'Commercial Solar Integration', 'Energy Monitoring Dashboards'],
+        technologies: ['Commercial Solar Systems', 'High-Efficiency Inverter Platforms', 'Lithium Battery Storage'],
+        productCategories: ['solar', 'inverters', 'batteries'],
+        active: true,
+      },
+      {
+        id: 'commercial-generator-dependence',
+        title: 'Generator Dependence?',
+        body: 'Heavy reliance on generators can increase costs, maintenance requirements, and operational complexity.',
+        impact: [
+          'Generator-based operations often involve fuel management, maintenance schedules, noise concerns, and rising operating expenses.',
+          'For many businesses, generators become an expensive and inefficient long-term power strategy.',
+        ],
+        solution: [
+          'PRAG helps businesses reduce dependence on generators through integrated backup power and solar energy solutions.',
+          'Our systems provide cleaner, quieter, and more cost-effective alternatives for reliable business operations.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Hybrid Inverter + Battery Systems', 'Solar Integration for Businesses', 'Automatic Transfer Systems'],
         productCategories: ['inverters', 'solar', 'batteries'],
         active: true,
       },
@@ -238,16 +255,16 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
     secondaryCtaHref: '/products',
     problems: [
       {
-        id: 'industrial-voltage-instability',
-        title: 'Voltage Instability & Equipment Damage',
-        body: 'Unstable power causes spikes and drops that damage critical machinery and disrupt operations.',
+        id: 'industrial-low-high-voltage',
+        title: 'Low or High Voltage?',
+        body: 'Low or high voltage can affect machinery performance, process efficiency, and operational reliability.',
         impact: [
-          'Sensitive industrial equipment is vulnerable to unstable supply and repeated fluctuations.',
-          'Frequent incidents increase repair costs, downtime, and delivery risk.',
+          'Voltage abnormalities can reduce equipment efficiency, affect process stability, and increase stress on critical machinery.',
+          'Over time, unstable voltage can contribute to higher maintenance costs, reduced productivity, and unexpected operational disruptions.',
         ],
         solution: [
-          'PRAG delivers regulated power architecture to protect sensitive loads and maintain continuity.',
-          'We combine advanced stabilizers, surge protection, and monitoring for long-term stability.',
+          'PRAG provides industrial voltage stabilization solutions that deliver consistent, reliable power to production equipment and critical systems.',
+          'Our solutions help improve equipment performance, operational efficiency, and system reliability.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
         technologies: ['Industrial Automatic Voltage Regulators', 'Servo and Relay Voltage Stabilizers', 'Power Quality Monitoring'],
@@ -255,33 +272,33 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         active: true,
       },
       {
-        id: 'industrial-unplanned-downtime',
-        title: 'Unplanned Downtime',
-        body: 'Frequent outages interrupt production workflows and cause costly downtime.',
+        id: 'industrial-equipment-failure-downtime',
+        title: 'Equipment Failure & Production Losses?',
+        body: 'Power-related equipment failures can disrupt production and create significant operational costs.',
         impact: [
-          'Every minute of outage can translate into delayed production and lost revenue.',
-          'In continuity-critical operations, brief outages can have cascading operational impact.',
+          'Unexpected equipment failures can halt operations, affect product quality, and result in costly repairs or replacement expenses.',
+          'For industrial facilities, a single equipment failure can have far-reaching consequences across production, logistics, and customer commitments.',
         ],
         solution: [
-          'PRAG installs high-capacity inverter and backup systems with automatic switchover.',
-          'Our systems are sized to keep critical equipment powered through outage events.',
+          'PRAG helps protect critical industrial assets through professionally engineered power stabilization and protection solutions.',
+          'Our systems are designed to improve power quality and reduce the risk of power-related equipment failures.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
-        technologies: ['High Capacity Inverter Systems', 'Lithium Battery Storage Solution', 'Automatic Transfer Systems'],
-        productCategories: ['inverters', 'batteries'],
+        technologies: ['Power Conditioning and Surge Protection', 'UPS Systems for Critical Loads', 'Voltage Stabilizers'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'inverters'],
         active: true,
       },
       {
-        id: 'industrial-high-generator-dependence',
-        title: 'High Generator Dependence',
-        body: 'Heavy reliance on diesel generators increases cost, noise, and emissions.',
+        id: 'industrial-generator-dependence',
+        title: 'Generator Dependence?',
+        body: 'Heavy reliance on generators can increase fuel costs, maintenance requirements, and operational complexity.',
         impact: [
-          'Generator-first strategies create high recurring fuel and service costs.',
-          'Noise, emissions, and inconsistent output introduce additional operational risk.',
+          'Generator-dependent operations often face rising fuel costs, maintenance challenges, operational complexity, and exposure to fuel supply disruptions.',
+          'For many facilities, generators become an expensive long-term energy strategy.',
         ],
         solution: [
-          'PRAG replaces generator dependence with hybrid inverter and battery systems.',
-          'Solar + storage integration reduces fuel exposure while preserving reliability.',
+          'PRAG provides solar energy solutions that help reduce dependence on generators and lower long-term energy costs.',
+          'Our systems are designed to improve energy reliability while reducing fuel consumption and operating expenses.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
         technologies: ['Hybrid Power Systems', 'Solar + Inverter Integration', 'Lithium Battery Storage Solution'],
@@ -289,20 +306,211 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         active: true,
       },
       {
-        id: 'industrial-power-quality-issues',
-        title: 'Power Quality Issues',
-        body: 'Harmonics, surges, and poor power factor degrade performance and increase energy costs.',
+        id: 'industrial-rising-energy-costs',
+        title: 'Rising Energy Costs?',
+        body: 'Increasing energy costs place growing pressure on operating margins and long-term competitiveness.',
         impact: [
-          'Poor power quality reduces equipment lifespan and can cause precision process errors.',
-          'Energy waste and demand inefficiency increase overall operating cost.',
+          'Higher electricity tariffs, fuel expenses, and inefficient energy usage can significantly increase production and facility operating costs.',
+          'Over time, rising energy costs can affect profitability, investment capacity, and business growth.',
         ],
         solution: [
-          'PRAG deploys power-factor correction, filtering, and voltage regulation to clean and stabilize supply.',
-          'Facilities gain safer operations, longer equipment life, and improved energy efficiency.',
+          'PRAG provides industrial solar energy solutions that help reduce long-term energy costs and improve energy efficiency.',
+          'Our systems are designed to balance operational requirements, performance, and return on investment.',
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
-        technologies: ['Power Factor Correction Systems', 'Harmonic Filtering', 'Advanced Voltage Regulation'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'inverters'],
+        technologies: ['Commercial Solar Systems', 'High-Efficiency Inverter Platforms', 'Power Factor Correction Systems'],
+        productCategories: ['solar', 'inverters', 'batteries'],
+        active: true,
+      },
+    ],
+  },
+  'voltage-stabilization-protection': {
+    key: 'voltage-stabilization-protection',
+    label: 'Voltage Stabilization & Protection',
+    route: '/solutions/voltage-stabilization-protection',
+    heroTitle: 'Voltage Stabilization & Protection Solutions',
+    heroDescription: 'Protect your equipment from voltage fluctuations with PRAG stabilization and protection systems.',
+    ctaLabel: 'Get a Custom Quote',
+    ctaHref: '/contact',
+    secondaryCtaLabel: 'Browse All Products →',
+    secondaryCtaHref: '/products',
+    problems: [
+      {
+        id: 'vsp-low-high-voltage',
+        title: 'Low or High Voltage?',
+        body: 'Low or high voltage can affect equipment performance, shorten equipment lifespan, and increase the risk of costly damage.',
+        impact: [
+          'Voltage levels outside the recommended operating range can cause appliances, equipment, and machinery to perform poorly or fail prematurely.',
+          'Over time, unstable voltage can result in increased maintenance costs, reduced efficiency, and unplanned equipment replacement.',
+        ],
+        solution: [
+          'PRAG provides voltage stabilization solutions designed to deliver consistent, reliable power despite fluctuations in utility supply.',
+          'Our systems help improve equipment performance, extend asset lifespan, and support reliable day-to-day operations.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Power Conditioning Units'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+      {
+        id: 'vsp-equipment-appliance-damage',
+        title: 'Equipment & Appliance Damage?',
+        body: 'Power fluctuations can damage valuable appliances, electronics, and business-critical equipment.',
+        impact: [
+          'Voltage spikes, surges, and prolonged overvoltage conditions can affect air conditioners, refrigerators, computers, production equipment, and other sensitive devices.',
+          'Unexpected failures can result in costly repairs, replacements, and operational disruption.',
+        ],
+        solution: [
+          'PRAG helps protect valuable equipment through professionally engineered voltage stabilization and protection solutions.',
+          'Our systems are designed to reduce the risk of voltage-related damage and improve long-term equipment reliability.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Surge Protection Devices', 'Voltage Stabilizers', 'Power Conditioning Units'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+      {
+        id: 'vsp-poor-equipment-performance',
+        title: 'Poor Equipment Performance?',
+        body: 'Inadequate voltage can reduce the efficiency and performance of connected equipment.',
+        impact: [
+          'Air conditioners may cool poorly, motors may struggle to start, refrigeration systems may operate inefficiently, and sensitive electronics may experience instability.',
+          'These issues can affect comfort, productivity, and overall operational performance.',
+        ],
+        solution: [
+          'PRAG stabilizers help ensure equipment receives voltage within an acceptable operating range, improving performance and supporting reliable operation.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Clean Power Distribution'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+      {
+        id: 'vsp-frequent-equipment-breakdowns',
+        title: 'Frequent Equipment Breakdowns?',
+        body: 'Repeated exposure to unstable voltage can increase equipment wear and maintenance requirements.',
+        impact: [
+          'Voltage abnormalities place additional stress on electrical and electronic components, increasing the likelihood of faults and premature failure.',
+          'This can lead to recurring maintenance expenses and unnecessary downtime.',
+        ],
+        solution: [
+          'PRAG provides voltage stabilization solutions that help reduce electrical stress on equipment and support longer service life.',
+          'Our systems are designed to improve reliability while reducing maintenance and replacement costs.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Voltage Stabilizers', 'Power Conditioning', 'Surge Protection'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+      {
+        id: 'vsp-unstable-utility-power',
+        title: 'Unstable Utility Power?',
+        body: 'Utility voltage conditions can vary significantly throughout the day, affecting reliability and performance.',
+        impact: [
+          'Low voltage, high voltage, and voltage fluctuations can create uncertainty for homes, businesses, and industrial facilities that depend on stable electricity.',
+          'Without proper voltage regulation, these conditions can negatively affect equipment and operations.',
+        ],
+        solution: [
+          'PRAG delivers voltage stabilization solutions engineered for Nigerian power conditions.',
+          'Our systems help maintain consistent voltage levels and provide dependable power for homes, businesses, and industrial facilities.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Power Quality Monitoring'],
+        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        active: true,
+      },
+    ],
+  },
+  'backup-power': {
+    key: 'backup-power',
+    label: 'Backup Power',
+    route: '/solutions/backup-power',
+    heroTitle: 'Reliable Backup Power Solutions',
+    heroDescription: 'Stay powered during outages with PRAG inverter and battery backup systems.',
+    ctaLabel: 'Get a Custom Quote',
+    ctaHref: '/contact',
+    secondaryCtaLabel: 'Browse All Products →',
+    secondaryCtaHref: '/products',
+    problems: [
+      {
+        id: 'bp-power-outages',
+        title: 'Power Outages?',
+        body: 'Frequent power outages disrupt comfort, productivity, connectivity, and everyday activities.',
+        impact: [
+          'Power interruptions can affect lighting, internet access, communications, security systems, refrigeration, and other essential services.',
+          'For homes and offices, unreliable electricity creates inconvenience, lost productivity, and operational challenges.',
+        ],
+        solution: [
+          'PRAG provides backup power solutions designed to keep essential systems running when utility power is unavailable.',
+          'Our systems are tailored to your requirements, helping maintain comfort, connectivity, security, and productivity during outages.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Hybrid Inverter Systems', 'Lithium Battery Banks', 'Automatic Changeover Controls'],
+        productCategories: ['inverters', 'batteries'],
+        active: true,
+      },
+      {
+        id: 'bp-generator-dependence',
+        title: 'Dependence on Generators?',
+        body: 'Generators can be expensive, noisy, and inconvenient for meeting everyday power needs.',
+        impact: [
+          'Fuel costs, maintenance requirements, noise, and operational complexity can increase the cost and inconvenience of maintaining reliable electricity.',
+          'For many homes and offices, generators become an expensive long-term dependency.',
+        ],
+        solution: [
+          'PRAG backup power solutions help reduce reliance on generators while providing dependable electricity during outages.',
+          'Our systems deliver quieter, cleaner, and more convenient backup power.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Hybrid Inverter + Battery Systems', 'Smart Backup Prioritization', 'Energy Monitoring'],
+        productCategories: ['inverters', 'batteries'],
+        active: true,
+      },
+    ],
+  },
+  'solar-energy': {
+    key: 'solar-energy',
+    label: 'Solar Energy',
+    route: '/solutions/solar-energy',
+    heroTitle: 'Solar Energy Solutions',
+    heroDescription: 'Reduce energy costs and generator dependence with PRAG solar power systems.',
+    ctaLabel: 'Get a Custom Quote',
+    ctaHref: '/contact',
+    secondaryCtaLabel: 'Browse All Products →',
+    secondaryCtaHref: '/products',
+    problems: [
+      {
+        id: 'se-rising-energy-costs',
+        title: 'Rising Energy Costs?',
+        body: 'Rising electricity and fuel costs place increasing pressure on household and business budgets.',
+        impact: [
+          'Higher utility bills and generator fuel expenses can significantly increase the cost of maintaining reliable power.',
+          'Over time, these recurring expenses reduce financial flexibility, profitability, and long-term planning capacity.',
+        ],
+        solution: [
+          'PRAG provides solar energy solutions that help reduce dependence on grid electricity and generator fuel.',
+          'Our systems are designed to lower long-term energy costs while providing reliable, sustainable power.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Monocrystalline Solar Panels', 'High-Efficiency Inverter Platforms', 'Lithium Battery Storage'],
+        productCategories: ['solar', 'inverters', 'batteries'],
+        active: true,
+      },
+      {
+        id: 'se-generator-dependence',
+        title: 'Dependence on Generators?',
+        body: 'Heavy reliance on generators can increase fuel costs, maintenance requirements, noise, and operational inconvenience.',
+        impact: [
+          'Generators require ongoing fuel purchases, regular maintenance, and operational oversight.',
+          'For many homes and businesses, generator dependence becomes an expensive and inefficient long-term power strategy.',
+        ],
+        solution: [
+          'PRAG solar energy solutions help reduce reliance on generators by providing a cleaner, quieter, and more cost-effective source of electricity.',
+          'Our systems are tailored to your energy requirements, helping improve energy independence and reduce operating costs.',
+        ],
+        image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
+        technologies: ['Commercial Solar Systems', 'Solar + Inverter Integration', 'Battery Storage Solutions'],
+        productCategories: ['solar', 'inverters', 'batteries'],
         active: true,
       },
     ],
@@ -310,7 +518,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
 };
 
 function normalizeCategoryKey(value: string | undefined): SolutionCategoryKey {
-  if (value === 'commercial' || value === 'industrial') return value;
+  if (value === 'commercial' || value === 'industrial' || value === 'voltage-stabilization-protection' || value === 'backup-power' || value === 'solar-energy') return value;
   return 'residential';
 }
 
@@ -360,6 +568,9 @@ export async function getSolutionCategoryContent(key: SolutionCategoryKey): Prom
       residential: '/solutions/residential',
       commercial: '/solutions/commercial',
       industrial: '/solutions/industrial',
+      'voltage-stabilization-protection': '/solutions/voltage-stabilization-protection',
+      'backup-power': '/solutions/backup-power',
+      'solar-energy': '/solutions/solar-energy',
     };
     const route = routeByKey[key];
     const page = Array.isArray(data?.pages)

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 async function getWhyPragContent() {
@@ -116,7 +117,7 @@ export default async function WhyPragSection() {
                   )}
                 </div>
                 <p className="text-white/90 text-[15px] md:text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-normal drop-shadow-sm">
-                  {r.desc}
+                  <SentenceText text={r.desc} />
                 </p>
               </div>
             </div>

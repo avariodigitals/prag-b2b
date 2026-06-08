@@ -5,29 +5,30 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Commercial Power Solutions',
-  description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
+  title: 'Backup Power Solutions',
+  description: 'Stay powered during outages with PRAG inverter and battery backup systems.',
 };
 
-export default async function CommercialSolutionsPage() {
-  const content = await getSolutionCategoryContent('commercial');
+export default async function BackupPowerPage() {
+  const content = await getSolutionCategoryContent('backup-power');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
+
   const sections = [
     {
-      title: 'Business Backup Power',
-      description: 'Maintain productivity, connectivity, and essential operations during power outages.',
+      title: 'Power During Outages',
+      description: 'Keep essential appliances, equipment, and systems running during power outages.',
       href: '/products/inverters',
     },
     {
-      title: 'Commercial Solar Solutions',
-      description: 'Reduce operating costs and generator dependence with reliable solar energy solutions.',
-      href: '/products/solar',
+      title: 'Continuity & Productivity',
+      description: 'Maintain comfort, connectivity, security, and productivity when utility power is unavailable.',
+      href: '/products/inverters',
     },
     {
-      title: 'Voltage Stabilization & Protection',
-      description: 'Maintain stable power across your facility and help protect valuable equipment from damaging voltage conditions.',
-      href: '/products/all-prag-stabilizers',
+      title: 'Reduced Generator Dependence',
+      description: 'Reduce reliance on generators with quieter, cleaner, and more convenient backup power solutions.',
+      href: '/products/inverters',
     },
   ];
 

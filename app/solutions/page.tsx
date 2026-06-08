@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
@@ -93,7 +94,7 @@ export default async function SolutionsPage() {
           {heroTitle}
         </h1>
         <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
-          {heroDescription}
+          <SentenceText text={heroDescription} />
         </p>
       </div>
 
@@ -115,7 +116,7 @@ export default async function SolutionsPage() {
               {/* Tag */}
               <div className="flex items-center gap-[6px]">
                 <div className="w-4 h-4 bg-[#0166a5] rounded-sm shrink-0" />
-                <span className="text-[#1a1a1a] font-['Space_Grotesk'] text-[16px] font-normal uppercase tracking-wide">
+                <span className="text-[#1a1a1a] font-['Space_Grotesk'] text-[18px] font-normal uppercase tracking-wide">
                   {s.tag}
                 </span>
               </div>
@@ -125,22 +126,22 @@ export default async function SolutionsPage() {
               {/* Challenge + Solutions block */}
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Challenge:</p>
-                  <p className="text-[#888888] text-[16px] font-['Space_Grotesk'] leading-[21px]">{s.challenge}</p>
+                  <p className="text-[#0166a5] text-[16px] font-medium font-['Space_Grotesk'] leading-[20px]">Challenge:</p>
+                  <p className="text-[#888888] text-[18px] font-['Space_Grotesk'] leading-[24px]"><SentenceText text={s.challenge} /></p>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <p className="text-[#0166a5] text-[14px] font-medium font-['Space_Grotesk'] leading-[16px]">Our Solutions:</p>
-                  <p className="text-[#888888] text-[16px] font-['Space_Grotesk'] leading-[21px]">{s.solution}</p>
+                  <p className="text-[#0166a5] text-[16px] font-medium font-['Space_Grotesk'] leading-[20px]">Our Solutions:</p>
+                  <p className="text-[#888888] text-[18px] font-['Space_Grotesk'] leading-[24px]"><SentenceText text={s.solution} /></p>
                 </div>
 
               </div>
 
               <Link
                 href={s.href}
-                className="inline-flex items-center gap-[3px] text-[#0166a5] text-[14px] font-semibold font-['DM_Sans'] hover:gap-1.5 transition-all w-fit"
+                className="inline-flex items-center gap-[6px] text-[#0166a5] text-[18px] font-semibold font-['DM_Sans'] hover:gap-3 transition-all w-fit"
               >
-                Learn More <ArrowRight className="w-3.5 h-3.5" />
+                Learn More <ArrowRight className="w-[18px] h-[18px]" />
               </Link>
             </div>
             </div>

@@ -1,4 +1,5 @@
 import DistributorForm from '@/components/DistributorForm';
+import { SentenceText } from '@/lib/sentenceText';
 import { LayoutGrid, Tag, GraduationCap, Headphones, BadgeCheck, Users } from 'lucide-react';
 
 export const metadata = { title: 'Become a Distributor' };
@@ -28,7 +29,7 @@ export default function DistributorPage() {
             Sell the Solutions Nigeria Needs.
           </h1>
           <p className="breadcrumb-description-lock max-w-[531px]">
-            Partner with PRAG and build a profitable business distributing Nigeria&apos;s most trusted power engineering products.
+            <SentenceText text="Partner with PRAG and build a profitable business distributing Nigeria&apos;s most trusted power engineering products." />
           </p>
         </div>
 
@@ -49,7 +50,7 @@ export default function DistributorPage() {
               <div key={title} className="p-6 rounded-2xl border border-zinc-200 flex flex-col gap-3">
                 <Icon className="w-6 h-6 text-sky-700" />
                 <h3 className="text-zinc-900 text-base font-semibold font-['Onest']">{title}</h3>
-                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed">{body}</p>
+                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed"><SentenceText text={body} /></p>
               </div>
             ))}
             </div>
@@ -75,7 +76,7 @@ export default function DistributorPage() {
                   <span className="text-white text-sm font-bold font-['Onest']">{i + 1}</span>
                 </div>
                 <h3 className="text-zinc-900 text-base font-semibold font-['Onest']">{tier.title}</h3>
-                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed">{tier.body}</p>
+                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed"><SentenceText text={tier.body} /></p>
               </div>
             ))}
             </div>

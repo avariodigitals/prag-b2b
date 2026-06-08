@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 const STATS = [
@@ -153,12 +154,12 @@ export default async function ProblemsSection() {
                 {content.header.title.split('\n').map((line, index, lines) => (
                   <span key={`${line}-${index}`}>
                     {line}
-                    {index < lines.length - 1 ? <br className="hidden md:block" /> : null}
+                    {index < lines.length - 1 ? <br /> : null}
                   </span>
                 ))}
               </h2>
               <p className="text-[#787878] text-[16px] md:text-[20px] font-normal font-['Onest'] leading-[1.6] max-w-[600px] md:max-w-[520px]">
-                {content.header.description}
+                <SentenceText text={content.header.description} />
               </p>
             </div>
           </div>
@@ -175,7 +176,7 @@ export default async function ProblemsSection() {
                     {p.title}
                   </h3>
                   <p className="self-stretch text-[#787878] text-[16px] sm:text-lg font-normal font-['Onest'] leading-normal">
-                    {p.desc}
+                    <SentenceText text={p.desc} />
                   </p>
                 </div>
                 <Link

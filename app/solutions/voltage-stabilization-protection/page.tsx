@@ -5,28 +5,29 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Commercial Power Solutions',
-  description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
+  title: 'Voltage Stabilization & Protection Solutions',
+  description: 'Protect your equipment from voltage fluctuations with PRAG stabilization and protection systems.',
 };
 
-export default async function CommercialSolutionsPage() {
-  const content = await getSolutionCategoryContent('commercial');
+export default async function VoltageStabilizationProtectionPage() {
+  const content = await getSolutionCategoryContent('voltage-stabilization-protection');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
+
   const sections = [
     {
-      title: 'Business Backup Power',
-      description: 'Maintain productivity, connectivity, and essential operations during power outages.',
-      href: '/products/inverters',
+      title: 'Stable Power',
+      description: 'Improve equipment performance and operational reliability with consistent voltage.',
+      href: '/products/all-prag-stabilizers',
     },
     {
-      title: 'Commercial Solar Solutions',
-      description: 'Reduce operating costs and generator dependence with reliable solar energy solutions.',
-      href: '/products/solar',
+      title: 'Equipment Protection',
+      description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.',
+      href: '/products/all-prag-stabilizers',
     },
     {
-      title: 'Voltage Stabilization & Protection',
-      description: 'Maintain stable power across your facility and help protect valuable equipment from damaging voltage conditions.',
+      title: 'Facility-Wide Coverage',
+      description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.',
       href: '/products/all-prag-stabilizers',
     },
   ];

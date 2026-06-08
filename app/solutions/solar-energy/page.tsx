@@ -5,29 +5,30 @@ import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
-  title: 'Commercial Power Solutions',
-  description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
+  title: 'Solar Energy Solutions',
+  description: 'Reduce energy costs and generator dependence with PRAG solar power systems.',
 };
 
-export default async function CommercialSolutionsPage() {
-  const content = await getSolutionCategoryContent('commercial');
+export default async function SolarEnergyPage() {
+  const content = await getSolutionCategoryContent('solar-energy');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
+
   const sections = [
     {
-      title: 'Business Backup Power',
-      description: 'Maintain productivity, connectivity, and essential operations during power outages.',
-      href: '/products/inverters',
-    },
-    {
-      title: 'Commercial Solar Solutions',
-      description: 'Reduce operating costs and generator dependence with reliable solar energy solutions.',
+      title: 'Lower Energy Costs',
+      description: 'Reduce electricity and generator fuel costs with solar energy solutions designed for long-term savings.',
       href: '/products/solar',
     },
     {
-      title: 'Voltage Stabilization & Protection',
-      description: 'Maintain stable power across your facility and help protect valuable equipment from damaging voltage conditions.',
-      href: '/products/all-prag-stabilizers',
+      title: 'Reduced Generator Dependence',
+      description: 'Reduce reliance on generators with cleaner, quieter, and more sustainable power generation.',
+      href: '/products/solar',
+    },
+    {
+      title: 'Energy Independence',
+      description: 'Generate your own electricity and reduce dependence on unreliable utility power.',
+      href: '/products/solar',
     },
   ];
 

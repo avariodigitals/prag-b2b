@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
 export const metadata: Metadata = {
@@ -42,7 +43,7 @@ export default async function ResidentialSolutionsTwoPage() {
       <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
         <h1 className="breadcrumb-title-lock">Residential</h1>
         <p className="breadcrumb-description-lock max-w-[600px] leading-relaxed">
-          {content.heroDescription}
+          <SentenceText text={content.heroDescription} />
         </p>
       </div>
 

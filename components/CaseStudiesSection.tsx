@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import { getCaseStudiesContent } from '@/lib/caseStudies';
 
 function hasNumericSignal(text: string) {
@@ -69,7 +70,7 @@ export default async function CaseStudiesSection() {
           {displayStudies.map((study) => (
             <article
               key={study.id}
-              className="w-full p-4 sm:p-6 bg-white rounded-3xl border border-zinc-300/60 flex flex-col lg:flex-row justify-start items-stretch gap-6"
+              className="w-full p-4 sm:p-6 bg-white rounded-3xl border border-[#888888] flex flex-col lg:flex-row justify-start items-stretch gap-6"
             >
               <div className="relative w-full lg:w-[52%] lg:max-w-none shrink-0 h-[280px] sm:h-[340px] lg:h-auto lg:min-h-[500px] rounded-2xl overflow-hidden">
                 <img
@@ -91,17 +92,17 @@ export default async function CaseStudiesSection() {
                 <div className="self-stretch grid grid-cols-1 gap-4">
                   <div className="rounded-2xl border border-zinc-200 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Problem</p>
-                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{study.problem}</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={study.problem} /></p>
                   </div>
 
                   <div className="rounded-2xl border border-zinc-200 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Solution</p>
-                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{study.solution}</p>
+                    <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={study.solution} /></p>
                   </div>
 
                   <div className="rounded-2xl border border-[#0166A5]/25 bg-[#0166A5]/5 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
-                    <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">{getNarrativeOutcome(study)}</p>
+                    <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={getNarrativeOutcome(study)} /></p>
                   </div>
                 </div>
               </div>

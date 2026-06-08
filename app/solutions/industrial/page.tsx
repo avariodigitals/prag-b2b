@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 
@@ -13,6 +14,24 @@ export default async function IndustrialSolutionsPage() {
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
 
+  const sections = [
+    {
+      title: 'Voltage Stabilization & Protection',
+      description: 'Maintain stable power across production equipment and help protect critical assets from damaging voltage conditions.',
+      href: '/products/all-prag-stabilizers',
+    },
+    {
+      title: 'Industrial Solar Solutions',
+      description: 'Reduce energy costs, lower generator fuel consumption, and improve long-term energy efficiency.',
+      href: '/products/solar',
+    },
+    {
+      title: 'Power Systems Engineering',
+      description: "Power solutions designed around your facility's operational requirements, equipment loads, and growth plans.",
+      href: '/free-power-assessment',
+    },
+  ];
+
   return (
     <main className="w-full flex flex-col">
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
@@ -20,7 +39,7 @@ export default async function IndustrialSolutionsPage() {
           {content.heroTitle}
         </h1>
         <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
-          {content.heroDescription}
+          <SentenceText text={content.heroDescription} />
         </p>
       </div>
 
@@ -28,13 +47,20 @@ export default async function IndustrialSolutionsPage() {
         <div className="max-w-[1280px] mx-auto">
           <ProblemsCarousel problems={problems} products={[]} showProductsSection={false} />
 
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
-            >
-              Talk to an Expert
-            </Link>
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
+            {sections.map((section) => (
+              <Link
+                key={section.title}
+                href={section.href}
+                className="rounded-2xl border border-zinc-200 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+              >
+                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
+                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{section.description}</p>
+                <span className="text-[#0166a5] text-[14px] font-semibold font-['Space_Grotesk']">
+                  {section.href === '/free-power-assessment' ? 'Contact an Expert →' : 'View Products →'}
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

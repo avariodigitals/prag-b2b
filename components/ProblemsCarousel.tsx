@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { SentenceText } from '@/lib/sentenceText';
 import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
 interface Problem {
@@ -30,6 +31,18 @@ interface CarouselProduct {
 const ICON = (
   <svg className="w-5 h-5 text-sky-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+  </svg>
+);
+
+const ArrowLeftIcon = (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+);
+
+const ArrowRightIcon = (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 18l6-6-6-6" />
   </svg>
 );
 
@@ -81,7 +94,7 @@ function ProblemCard({
       {/* Body — anchored to the bottom with consistent start position */}
       <div className="mt-auto w-full">
         <p className="text-zinc-600 text-[18px] font-normal font-['Onest'] leading-[1] tracking-[0]">
-          {problem.body}
+          <SentenceText text={problem.body} />
         </p>
       </div>
     </button>
@@ -102,30 +115,6 @@ export default function ProblemsCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef({ isDragging: false, startX: 0, startScrollLeft: 0 });
-
-  if (problems.length === 0) return null;
-
-  const activeProblem = problems[activeIndex];
-  const queriedProducts = activeProblem?.id ? (recommendedProductsByProblem?.[activeProblem.id] ?? []) : [];
-  const productsByIds = Array.isArray(activeProblem?.productIds) && activeProblem.productIds.length > 0
-    ? products.filter((product) => activeProblem.productIds?.includes(product.id))
-    : [];
-  const filteredProducts = (queriedProducts.length > 0
-    ? queriedProducts
-    : productsByIds.length > 0
-    ? productsByIds
-    : products.filter((product) =>
-      product.categories?.some((cat) => activeProblem.productCategories.includes(cat.slug))
-    ));
-  const displayProducts = sortProductsBySizeThenPrice(
-    filteredProducts.length > 0 ? filteredProducts : products
-  ).slice(0, 4);
-
-  const handleCard = (index: number) => {
-    setActiveIndex(index);
-    const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
-    card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-  };
 
   const syncActiveFromScroll = () => {
     const track = trackRef.current;
@@ -153,6 +142,40 @@ export default function ProblemsCarousel({
     syncActiveFromScroll();
   }, [problems.length]);
 
+  if (problems.length === 0) return null;
+
+  const activeProblem = problems[activeIndex];
+  const queriedProducts = activeProblem?.id ? (recommendedProductsByProblem?.[activeProblem.id] ?? []) : [];
+  const productsByIds = Array.isArray(activeProblem?.productIds) && activeProblem.productIds.length > 0
+    ? products.filter((product) => activeProblem.productIds?.includes(product.id))
+    : [];
+  const filteredProducts = (queriedProducts.length > 0
+    ? queriedProducts
+    : productsByIds.length > 0
+    ? productsByIds
+    : products.filter((product) =>
+      product.categories?.some((cat) => activeProblem.productCategories.includes(cat.slug))
+    ));
+  const displayProducts = sortProductsBySizeThenPrice(
+    filteredProducts.length > 0 ? filteredProducts : products
+  ).slice(0, 4);
+
+  const handleCard = (index: number) => {
+    setActiveIndex(index);
+    const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
+    card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  };
+
+  const scrollToCard = (index: number) => {
+    const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    setActiveIndex(index);
+  };
+
+  const scrollPrev = () => scrollToCard(Math.max(0, activeIndex - 1));
+  const scrollNext = () => scrollToCard(Math.min(problems.length - 1, activeIndex + 1));
+
   const handleTrackMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     if (!track) return;
@@ -175,6 +198,28 @@ export default function ProblemsCarousel({
     dragStateRef.current.isDragging = false;
   };
 
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    if (!track) return;
+    dragStateRef.current = {
+      isDragging: true,
+      startX: event.touches[0].clientX,
+      startScrollLeft: track.scrollLeft,
+    };
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    if (!track || !dragStateRef.current.isDragging) return;
+    const delta = event.touches[0].clientX - dragStateRef.current.startX;
+    track.scrollLeft = dragStateRef.current.startScrollLeft - delta;
+    syncActiveFromScroll();
+  };
+
+  const handleTouchEnd = () => {
+    dragStateRef.current.isDragging = false;
+  };
+
   const handleTrackWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     if (!track) return;
@@ -187,7 +232,7 @@ export default function ProblemsCarousel({
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="overflow-hidden">
+      <div className="relative overflow-hidden">
         <div
           ref={trackRef}
           className="flex gap-0 sm:gap-5 overflow-x-auto snap-x snap-mandatory pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none"
@@ -195,6 +240,9 @@ export default function ProblemsCarousel({
           onMouseMove={handleTrackMouseMove}
           onMouseUp={stopDragging}
           onMouseLeave={stopDragging}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           onWheel={handleTrackWheel}
           onScroll={syncActiveFromScroll}
         >
@@ -208,6 +256,26 @@ export default function ProblemsCarousel({
             </div>
           ))}
         </div>
+
+        {/* Arrow buttons */}
+        <button
+          type="button"
+          onClick={scrollPrev}
+          disabled={activeIndex === 0}
+          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Previous problem"
+        >
+          {ArrowLeftIcon}
+        </button>
+        <button
+          type="button"
+          onClick={scrollNext}
+          disabled={activeIndex === problems.length - 1}
+          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Next problem"
+        >
+          {ArrowRightIcon}
+        </button>
       </div>
 
       {/* Dots — one per problem, indicator only */}
@@ -229,7 +297,7 @@ export default function ProblemsCarousel({
           <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Impact</h2>
           <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
             {activeProblem.impact.map((para, i) => (
-              <p key={i}>{para}</p>
+              <p key={i}><SentenceText text={para} /></p>
             ))}
           </div>
         </div>
@@ -239,7 +307,7 @@ export default function ProblemsCarousel({
           <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Solution</h2>
           <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
             {activeProblem.solution.map((para, i) => (
-              <p key={i}>{para}</p>
+              <p key={i}><SentenceText text={para} /></p>
             ))}
           </div>
         </div>
