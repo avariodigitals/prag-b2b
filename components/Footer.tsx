@@ -270,7 +270,8 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 </div>
                 <div className="min-w-0">
                   <p className="max-w-[22rem] text-[18px] font-semibold leading-[1.18]">{trustCardTitle}</p>
-                  <p className="mt-1 text-[0.84rem] text-white/75 md:text-[0.92rem]">{trustCardSubtitle}</p>
+                  <br />
+                  <p className="text-[0.84rem] leading-[1.3] text-white/75 md:text-[0.92rem]">{trustCardSubtitle}</p>
                 </div>
               </div>
 

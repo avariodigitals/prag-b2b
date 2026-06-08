@@ -13,78 +13,12 @@ type HeaderMenuItem = {
 };
 
 const SOLUTIONS = [
-  {
-    label: 'Residential',
-    href: '/solutions/residential',
-    children: [
-      {
-        label: 'Home Backup Power',
-        href: '/solutions/residential/home-backup-power',
-        children: [
-          { label: 'Complete Systems', href: '/solutions/residential/home-backup-power?tab=complete-systems' },
-          { label: 'Inverters', href: '/solutions/residential/home-backup-power?tab=inverters' },
-          { label: 'Batteries', href: '/solutions/residential/home-backup-power?tab=batteries' },
-        ],
-      },
-      {
-        label: 'Home Solar Systems',
-        href: '/solutions/residential/home-solar-systems',
-        children: [
-          { label: 'Complete Systems', href: '/solutions/residential/home-solar-systems?tab=complete-systems' },
-          { label: 'Inverters', href: '/solutions/residential/home-solar-systems?tab=inverters' },
-          { label: 'Batteries', href: '/solutions/residential/home-solar-systems?tab=batteries' },
-          { label: 'Solar Panels', href: '/products/solar' },
-        ],
-      },
-      {
-        label: 'Power Stabilization & Protection',
-        href: '/solutions/residential/power-stabilization-protection',
-        children: [
-          { label: 'All Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=all' },
-          { label: 'Relay Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=relay' },
-          { label: 'Servo Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=servo' },
-          { label: 'Thyristor Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=thyristor' },
-          { label: '3 Phase Stabilizers', href: '/solutions/residential/power-stabilization-protection?tab=three-phase' },
-        ],
-      },
-    ],
-  },
-  {
-    label: 'Commercial',
-    href: '/solutions/commercial',
-    children: [
-      {
-        label: 'Office Backup Power',
-        href: '/solutions/commercial/office-backup-power',
-        children: [
-          { label: 'Complete Systems', href: '/solutions/commercial/office-backup-power?tab=complete-systems' },
-          { label: 'Inverters', href: '/solutions/commercial/office-backup-power?tab=inverters' },
-          { label: 'Batteries', href: '/solutions/commercial/office-backup-power?tab=batteries' },
-        ],
-      },
-      {
-        label: 'Solar for Businesses',
-        href: '/solutions/commercial/solar-for-businesses',
-        children: [
-          { label: 'Complete Systems', href: '/solutions/commercial/solar-for-businesses?tab=complete-systems' },
-          { label: 'Inverters', href: '/solutions/commercial/solar-for-businesses?tab=inverters' },
-          { label: 'Batteries', href: '/solutions/commercial/solar-for-businesses?tab=batteries' },
-          { label: 'Solar Panels', href: '/solutions/commercial/solar-for-businesses?tab=solar' },
-        ],
-      },
-      {
-        label: 'Power Stabilization & Protection',
-        href: '/solutions/commercial/power-stabilization-protection',
-        children: [
-          { label: 'All Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=all' },
-          { label: 'Relay Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=relay' },
-          { label: 'Servo Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=servo' },
-          { label: 'Thyristor Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=thyristor' },
-          { label: '3 Phase Stabilizers', href: '/solutions/commercial/power-stabilization-protection?tab=three-phase' },
-        ],
-      },
-    ],
-  },
+  { label: 'For Homes', href: '/solutions/residential' },
+  { label: 'For Commercial', href: '/solutions/commercial' },
+  { label: 'For Industrial', href: '/solutions/industrial' },
+  { label: 'Voltage Stabilization & Protection', href: '/solutions/voltage-stabilization-protection' },
+  { label: 'Solar Energy', href: '/solutions/solar-energy' },
+  { label: 'Backup Power', href: '/solutions/backup-power' },
 ];
 
 const PRODUCTS = [
@@ -239,6 +173,7 @@ const REAL_PRODUCT_IMAGES = {
   highKvaInverter: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
   lithium48v15kwh: 'https://central.prag.global/wp-content/uploads/2026/04/dd4b835690b546ee636b7659added08cd02d9891.png',
   solar: 'https://central.prag.global/wp-content/uploads/2026/04/b5564cf299de3eea9dbe804a547cf74e99bc41a7.png',
+  industrial: 'https://central.prag.global/wp-content/uploads/2021/08/PRAG-Axpert-Max-II-Pantone-2925C-R-side-600-by-600-8KW-Ads-Modular-600x600.jpg',
 };
 
 function getMainItems(items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
@@ -246,7 +181,7 @@ function getMainItems(items: HeaderMenuItem[]): Array<{ label: string; href: str
 }
 
 function getOrderedMainItems(kind: DesktopMegaKind, items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
-  const mainItems = getMainItems(items).slice(0, 4);
+  const mainItems = getMainItems(items);
   return [...mainItems].reverse();
 }
 
@@ -260,8 +195,12 @@ function getCompanyIcon(label: string) {
 function getShowcaseImage(label: string, kind: Exclude<DesktopMegaKind, 'company'>): string {
   const key = label.toLowerCase();
   if (kind === 'solutions') {
-    if (key.includes('residential')) return REAL_PRODUCT_IMAGES.residentialStabilizer;
+    if (key.includes('homes') || key.includes('residential')) return REAL_PRODUCT_IMAGES.residentialStabilizer;
     if (key.includes('commercial')) return REAL_PRODUCT_IMAGES.commercialInverter;
+    if (key.includes('industrial')) return REAL_PRODUCT_IMAGES.industrial;
+    if (key.includes('voltage') || key.includes('stabilization') || key.includes('protection')) return REAL_PRODUCT_IMAGES.voltageStabilizer5kva;
+    if (key.includes('backup')) return REAL_PRODUCT_IMAGES.lithium48v15kwh;
+    if (key.includes('solar')) return REAL_PRODUCT_IMAGES.solar;
     return REAL_PRODUCT_IMAGES.inverterWhite;
   }
   if (key.includes('voltage') || key.includes('stabilizer')) return REAL_PRODUCT_IMAGES.voltageStabilizer5kva;
@@ -302,8 +241,8 @@ function DesktopMegaPanel({
           <p className="mt-2 text-zinc-500 text-sm leading-5 font-normal font-['Space_Grotesk']">{introBody}</p>
         </div>
         <div
-          className={`flex-1 flex flex-row-reverse flex-nowrap items-stretch justify-start gap-2.5 pr-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
-            kind === 'company' ? '' : 'translate-x-3'
+          className={`flex-1 flex flex-row-reverse flex-nowrap items-stretch justify-start gap-1 pr-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+            kind === 'company' ? '' : ''
           }`}
         >
           {mainItems.map((item) => {
@@ -328,7 +267,7 @@ function DesktopMegaPanel({
               <Link
                 key={item.href}
                 href={item.href}
-                className="min-w-[170px] rounded-lg bg-transparent px-2.5 py-2.5 flex flex-col items-center justify-center gap-2 text-center transition-colors"
+                className="min-w-[150px] rounded-lg bg-transparent px-1.5 py-2 flex flex-col items-center justify-center gap-2 text-center transition-colors"
               >
                 <div className="h-12 w-full flex items-center justify-center shrink-0">
                   <Image
