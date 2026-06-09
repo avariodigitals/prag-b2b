@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
   title: 'Voltage Stabilization & Protection Solutions',
@@ -15,23 +16,25 @@ export default async function VoltageStabilizationProtectionPage() {
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
 
-  const sections = [
-    {
-      title: 'Stable Power',
-      description: 'Improve equipment performance and operational reliability with consistent voltage.',
-      href: '/products/all-prag-stabilizers',
-    },
-    {
-      title: 'Equipment Protection',
-      description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.',
-      href: '/products/all-prag-stabilizers',
-    },
-    {
-      title: 'Facility-Wide Coverage',
-      description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.',
-      href: '/products/all-prag-stabilizers',
-    },
+  const b2bContent = await getB2BPublicContent();
+  const page = findB2BPage(b2bContent, '/solutions/voltage-stabilization-protection');
+  const cardSections = findVisibleSectionsByType(page, 'solution-card');
+
+  const fallbackCards = [
+    { title: 'Stable Power', description: 'Improve equipment performance and operational reliability with consistent voltage.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
+    { title: 'Equipment Protection', description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
+    { title: 'Facility-Wide Coverage', description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
   ];
+
+  const cards = fallbackCards.map((fallback, index) => {
+    const section = cardSections[index];
+    return {
+      title: section?.summary?.trim() || fallback.title,
+      description: section?.content?.trim() || fallback.description,
+      href: section?.ctaHref?.trim() || fallback.href,
+      ctaLabel: section?.ctaLabel?.trim() || fallback.ctaLabel,
+    };
+  });
 
   return (
     <main className="w-full flex flex-col">
@@ -49,16 +52,16 @@ export default async function VoltageStabilizationProtectionPage() {
           <ProblemsCarousel problems={problems} products={[]} showProductsSection={false} />
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
-            {sections.map((section) => (
+            {cards.map((card) => (
               <Link
-                key={section.title}
-                href={section.href}
+                key={card.title}
+                href={card.href}
                 className="rounded-2xl border border-zinc-200 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
-                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
-                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{section.description}</p>
+                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
+                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{card.description}</p>
                 <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
-                  View Products
+                  {card.ctaLabel}
                   <ArrowRight className="w-5 h-5" />
                 </span>
               </Link>

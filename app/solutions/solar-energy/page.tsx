@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
   title: 'Solar Energy Solutions',
@@ -15,23 +16,25 @@ export default async function SolarEnergyPage() {
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
 
-  const sections = [
-    {
-      title: 'Lower Energy Costs',
-      description: 'Reduce electricity and generator fuel costs with solar energy solutions designed for long-term savings.',
-      href: '/products/solar',
-    },
-    {
-      title: 'Reduced Generator Dependence',
-      description: 'Reduce reliance on generators with cleaner, quieter, and more sustainable power generation.',
-      href: '/products/solar',
-    },
-    {
-      title: 'Energy Independence',
-      description: 'Generate your own electricity and reduce dependence on unreliable utility power.',
-      href: '/products/solar',
-    },
+  const b2bContent = await getB2BPublicContent();
+  const page = findB2BPage(b2bContent, '/solutions/solar-energy');
+  const cardSections = findVisibleSectionsByType(page, 'solution-card');
+
+  const fallbackCards = [
+    { title: 'Lower Energy Costs', description: 'Reduce electricity and generator fuel costs with solar energy solutions designed for long-term savings.', href: '/products/solar', ctaLabel: 'View Products' },
+    { title: 'Reduced Generator Dependence', description: 'Reduce reliance on generators with cleaner, quieter, and more sustainable power generation.', href: '/products/solar', ctaLabel: 'View Products' },
+    { title: 'Energy Independence', description: 'Generate your own electricity and reduce dependence on unreliable utility power.', href: '/products/solar', ctaLabel: 'View Products' },
   ];
+
+  const cards = fallbackCards.map((fallback, index) => {
+    const section = cardSections[index];
+    return {
+      title: section?.summary?.trim() || fallback.title,
+      description: section?.content?.trim() || fallback.description,
+      href: section?.ctaHref?.trim() || fallback.href,
+      ctaLabel: section?.ctaLabel?.trim() || fallback.ctaLabel,
+    };
+  });
 
   return (
     <main className="w-full flex flex-col">
@@ -49,16 +52,16 @@ export default async function SolarEnergyPage() {
           <ProblemsCarousel problems={problems} products={[]} showProductsSection={false} />
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
-            {sections.map((section) => (
+            {cards.map((card) => (
               <Link
-                key={section.title}
-                href={section.href}
+                key={card.title}
+                href={card.href}
                 className="rounded-2xl border border-zinc-200 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
-                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
-                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{section.description}</p>
+                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
+                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{card.description}</p>
                 <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
-                  View Products
+                  {card.ctaLabel}
                   <ArrowRight className="w-5 h-5" />
                 </span>
               </Link>

@@ -111,27 +111,19 @@ export default async function ProblemsSection() {
     <section className="w-full bg-white">
       {/* Stats Bar */}
       <div className="w-full px-4 sm:px-6 md:px-20 pt-6 pb-6 md:pt-[93px] md:pb-[39px] bg-white">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-3 divide-x divide-[#0166A5] text-center gap-0 w-full items-stretch">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-3 divide-x divide-[#0166A5] text-center gap-0 w-full">
           {content.stats.map((s) => (
             <div
               key={s.label}
-              className="flex items-center justify-center min-h-[60px] px-2 md:px-4 py-0 md:py-5"
+              className="flex items-center justify-center px-2 md:px-4 py-3 md:py-5"
             >
               <span
-                className={`text-[#0166A5] text-[17px] md:text-[34px] leading-[1.15] md:leading-[1.08] tracking-[0] text-center font-['Onest'] ${
+                className={`text-[#0166A5] text-sm sm:text-[17px] md:text-[34px] leading-[1.2] md:leading-[1.08] tracking-[0] text-center font-['Onest'] whitespace-pre-line break-words max-w-full ${
                   s.mobileWeight === 'bold' ? 'font-bold md:font-medium' : s.weight === 'light' ? 'font-light' : 'font-medium'
                 }`}
               >
-                <span className="block md:hidden">
-                  {s.label.split('\n').map((line, i) => (
-                    <span key={i} className="block">{line}</span>
-                  ))}
-                </span>
-                <span className="hidden md:block">
-                  {(s.desktopLabel ?? s.label).split('\n').map((line, i) => (
-                    <span key={i} className="block">{line}</span>
-                  ))}
-                </span>
+                <span className="block md:hidden">{s.label}</span>
+                <span className="hidden md:block">{s.desktopLabel ?? s.label}</span>
               </span>
             </div>
           ))}
