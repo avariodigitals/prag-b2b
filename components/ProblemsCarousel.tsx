@@ -115,8 +115,10 @@ export default function ProblemsCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef({ isDragging: false, startX: 0, startScrollLeft: 0 });
+  const programmaticScrollRef = useRef(false);
 
   const syncActiveFromScroll = () => {
+    if (programmaticScrollRef.current) return;
     const track = trackRef.current;
     if (!track) return;
 
@@ -162,15 +164,21 @@ export default function ProblemsCarousel({
 
   const handleCard = (index: number) => {
     setActiveIndex(index);
-    const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
-    card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
+      card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
   };
 
   const scrollToCard = (index: number) => {
     const card = trackRef.current?.children?.[index] as HTMLElement | undefined;
     if (!card) return;
+    programmaticScrollRef.current = true;
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     setActiveIndex(index);
+    window.setTimeout(() => {
+      programmaticScrollRef.current = false;
+    }, 500);
   };
 
   const scrollPrev = () => scrollToCard(Math.max(0, activeIndex - 1));
@@ -262,7 +270,7 @@ export default function ProblemsCarousel({
           type="button"
           onClick={scrollPrev}
           disabled={activeIndex === 0}
-          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="absolute left-2 md:left-4 top-[58%] -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label="Previous problem"
         >
           {ArrowLeftIcon}
@@ -271,7 +279,7 @@ export default function ProblemsCarousel({
           type="button"
           onClick={scrollNext}
           disabled={activeIndex === problems.length - 1}
-          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="absolute right-2 md:right-4 top-[58%] -translate-y-1/2 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0166a5] text-white flex items-center justify-center shadow-lg hover:bg-[#015490] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label="Next problem"
         >
           {ArrowRightIcon}

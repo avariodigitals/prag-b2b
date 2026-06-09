@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
 import { getSolutionCategoryContent } from '@/lib/solutions';
@@ -56,8 +57,9 @@ export default async function IndustrialSolutionsPage() {
               >
                 <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
                 <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{section.description}</p>
-                <span className="text-[#0166a5] text-[14px] font-semibold font-['Space_Grotesk']">
-                  {section.href === '/free-power-assessment' ? 'Contact an Expert →' : 'View Products →'}
+                <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
+                  {section.href === '/free-power-assessment' ? 'Contact an Expert' : 'View Products'}
+                  <ArrowRight className="w-5 h-5" />
                 </span>
               </Link>
             ))}

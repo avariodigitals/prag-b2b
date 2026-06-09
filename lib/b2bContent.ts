@@ -106,6 +106,7 @@ export interface PublicB2BContactSettings {
   contactPhone?: string;
   contactEmail?: string;
   address?: string;
+  mapLink?: string;
   /**
    * Legacy location for WhatsApp link. Prefer `settings.integrations.whatsappChatLink`.
    */

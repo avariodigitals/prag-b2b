@@ -17,15 +17,10 @@ async function getWhyPragContent() {
   const reasons = REASONS.map((fallback, index) => {
     const section = reasonSections[index];
     if (!section) return fallback;
-    let title = section.summary?.trim() || section.title?.trim() || fallback.title;
-    // Remove any "(Design..." part from the title if it contains the full text
-    if (index === 1) {
-      title = title.replace(/\s*\(Design.*\)/, '').trim();
-    }
+    const title = section.summary?.trim() || section.title?.trim() || fallback.title;
     return {
       image: section.imageUrl?.trim() || fallback.image,
-      title: title,
-      subtitle: fallback.subtitle,
+      title,
       desc: section.content?.trim() || fallback.desc,
     };
   });
@@ -42,7 +37,6 @@ const REASONS = [
   {
     image: 'https://central.prag.global/wp-content/uploads/2026/05/8d3cd2d330451451580f7d3cb8661c92c954a0fa-scaled.jpg',
     title: 'End-to-End Delivery',
-    subtitle: '(Design → Installation → Support)',
     desc: 'From initial consultation and system design to professional installation and ongoing maintenance, we manage the entire process so you can enjoy a seamless, stress-free experience.',
   },
   {
@@ -106,16 +100,9 @@ export default async function WhyPragSection() {
               />
               {/* Text */}
               <div className="absolute inset-x-0 bottom-0 px-5 pb-5 flex flex-col gap-2">
-                <div>
-                  <h3 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
-                    {r.title}
-                  </h3>
-                  {r.subtitle && (
-                    <h4 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
-                      {r.subtitle}
-                    </h4>
-                  )}
-                </div>
+                <h3 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
+                  {r.title}
+                </h3>
                 <p className="text-white/90 text-[15px] md:text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-normal drop-shadow-sm">
                   <SentenceText text={r.desc} />
                 </p>

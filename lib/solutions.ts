@@ -1,7 +1,7 @@
 import { getProducts, searchProducts } from '@/lib/woocommerce';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
-export type SolutionCategoryKey = 'residential' | 'commercial' | 'industrial' | 'voltage-stabilization-protection' | 'backup-power' | 'solar-energy';
+export type SolutionCategoryKey = string;
 
 export interface SolutionProblem {
   id: string;
@@ -17,7 +17,7 @@ export interface SolutionProblem {
 }
 
 export interface SolutionCategoryContent {
-  key: SolutionCategoryKey;
+  key: string;
   label: string;
   route: string;
   heroTitle: string;
@@ -517,9 +517,24 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
   },
 };
 
-function normalizeCategoryKey(value: string | undefined): SolutionCategoryKey {
-  if (value === 'commercial' || value === 'industrial' || value === 'voltage-stabilization-protection' || value === 'backup-power' || value === 'solar-energy') return value;
-  return 'residential';
+function normalizeCategoryKey(value: string | undefined): string {
+  const sanitized = String(value ?? '').trim();
+  return sanitized || 'new-category';
+}
+
+function makeDefaultCategory(key: string): SolutionCategoryContent {
+  return {
+    key,
+    label: key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+    route: `/solutions/${key}`,
+    heroTitle: '',
+    heroDescription: '',
+    ctaLabel: '',
+    ctaHref: '',
+    secondaryCtaLabel: '',
+    secondaryCtaHref: '',
+    problems: [],
+  };
 }
 
 function mergeCategory(defaultCategory: SolutionCategoryContent, raw?: NonNullable<PublicSolutionsPayload['categories']>[number]): SolutionCategoryContent {
@@ -553,8 +568,8 @@ function mergeCategory(defaultCategory: SolutionCategoryContent, raw?: NonNullab
   };
 }
 
-export async function getSolutionCategoryContent(key: SolutionCategoryKey): Promise<SolutionCategoryContent> {
-  const defaultCategory = DEFAULT_SOLUTIONS[key];
+export async function getSolutionCategoryContent(key: string): Promise<SolutionCategoryContent> {
+  const defaultCategory = DEFAULT_SOLUTIONS[key as keyof typeof DEFAULT_SOLUTIONS] ?? makeDefaultCategory(key);
   const data = await getB2BPublicContent();
   if (!data) return defaultCategory;
 
@@ -564,15 +579,7 @@ export async function getSolutionCategoryContent(key: SolutionCategoryKey): Prom
     const entry = incoming.find((category) => normalizeCategoryKey(category?.key) === key);
     const merged = mergeCategory(defaultCategory, entry);
 
-    const routeByKey: Record<SolutionCategoryKey, string> = {
-      residential: '/solutions/residential',
-      commercial: '/solutions/commercial',
-      industrial: '/solutions/industrial',
-      'voltage-stabilization-protection': '/solutions/voltage-stabilization-protection',
-      'backup-power': '/solutions/backup-power',
-      'solar-energy': '/solutions/solar-energy',
-    };
-    const route = routeByKey[key];
+    const route = merged.route;
     const page = Array.isArray(data?.pages)
       ? (data.pages as Array<{ route?: string; sections?: Array<{ type?: string; summary?: string; content?: string; ctaLabel?: string; ctaHref?: string; visible?: boolean }> }>).find((item) => item?.route === route)
       : null;

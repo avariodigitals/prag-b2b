@@ -149,6 +149,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const supportPhone = salesPhone;
   const email = contact?.contactEmail?.trim() || 'sales@prag.global';
   const address = contact?.address?.trim() || '4, Obanikoro Street, Via Falemi House, Off Ikorodu Road, Lagos';
+  const mapLink = contact?.mapLink?.trim() || 'https://maps.app.goo.gl/6MUDUGwKQC7stPZ56';
   const whatsappNumber = (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
   const whatsappHref = whatsappNumber
     ? `https://wa.me/${whatsappNumber}`
@@ -380,7 +381,9 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   </li>
                   <li className="flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <p className="text-[0.92rem] leading-[1.3] text-white/88">{address}</p>
+                    <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-[0.92rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                      {address}
+                    </a>
                   </li>
                 </ul>
               </div>

@@ -54,20 +54,49 @@ interface SentenceTextProps {
 }
 
 export function SentenceText({ text, className, as: Tag = 'span' }: SentenceTextProps) {
-  const sentences = splitSentences(text);
+  if (!text || typeof text !== 'string') return <Tag className={className}>{text}</Tag>;
 
-  if (sentences.length <= 1) {
-    return <Tag className={className}>{text}</Tag>;
+  const lines = text.split('\n');
+
+  if (lines.length <= 1) {
+    const sentences = splitSentences(text);
+    if (sentences.length <= 1) {
+      return <Tag className={className}>{text}</Tag>;
+    }
+    return (
+      <Tag className={className}>
+        {sentences.map((sentence, i) => (
+          <React.Fragment key={i}>
+            {sentence}
+            {i < sentences.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </Tag>
+    );
   }
 
   return (
     <Tag className={className}>
-      {sentences.map((sentence, i) => (
-        <React.Fragment key={i}>
-          {sentence}
-          {i < sentences.length - 1 && <br />}
-        </React.Fragment>
-      ))}
+      {lines.map((line, lineIndex) => {
+        const sentences = splitSentences(line);
+        return (
+          <React.Fragment key={lineIndex}>
+            {sentences.length <= 1 ? (
+              line
+            ) : (
+              <>
+                {sentences.map((sentence, i) => (
+                  <React.Fragment key={i}>
+                    {sentence}
+                    {i < sentences.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </>
+            )}
+            {lineIndex < lines.length - 1 && <br />}
+          </React.Fragment>
+        );
+      })}
     </Tag>
   );
 }
