@@ -12,6 +12,8 @@ async function getWhyPragContent() {
     kicker: headerSection?.kicker?.trim() || headerSection?.title?.trim() || 'The PRAG Difference',
     title: headerSection?.summary?.trim() || 'Why Leading Homes and Businesses Choose PRAG',
     description: headerSection?.content?.trim() || 'Our work is guided by a commitment to quality, precision, and long-term performance.',
+    ctaLabel: headerSection?.ctaLabel?.trim() || 'Talk to an Expert',
+    ctaHref: headerSection?.ctaHref?.trim() || '/contact',
   };
 
   const reasons = REASONS.map((fallback, index) => {
@@ -100,7 +102,7 @@ export default async function WhyPragSection() {
               />
               {/* Text */}
               <div className="absolute inset-x-0 bottom-0 px-5 pb-5 flex flex-col gap-2">
-                <h3 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm">
+                <h3 className="text-white text-[19px] md:text-[20px] font-semibold [font-family:var(--font-space-grotesk)] leading-snug drop-shadow-sm whitespace-pre-line">
                   {r.title}
                 </h3>
                 <p className="text-white/90 text-[15px] md:text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-normal drop-shadow-sm">
@@ -113,10 +115,10 @@ export default async function WhyPragSection() {
 
         <div className="flex justify-center pt-2">
           <Link
-            href="/contact"
+            href={content.header.ctaHref}
             className="inline-flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors"
           >
-            Talk to an Expert
+            {content.header.ctaLabel}
           </Link>
         </div>
       </div>
