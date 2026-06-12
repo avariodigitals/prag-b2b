@@ -47,10 +47,10 @@ export default function DistributorPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {BENEFITS.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="p-6 rounded-2xl border border-zinc-300 flex flex-col gap-3">
+              <div key={title} className="p-6 rounded-2xl border border-zinc-300 md:border-zinc-500 flex flex-col gap-3">
                 <Icon className="w-6 h-6 text-sky-700" />
                 <h3 className="text-zinc-900 text-base font-semibold font-['Onest']">{title}</h3>
-                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed"><SentenceText text={body} /></p>
+                <p className="text-zinc-500 text-base font-['Onest'] leading-relaxed"><SentenceText text={body} /></p>
               </div>
             ))}
             </div>
@@ -71,12 +71,12 @@ export default function DistributorPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
-              <div key={tier.title} className="p-6 bg-white rounded-2xl border border-zinc-300 flex flex-col gap-4">
+              <div key={tier.title} className="p-6 bg-white rounded-2xl border border-zinc-300 md:border-zinc-500 flex flex-col gap-4">
                 <div className="w-9 h-9 rounded-full bg-sky-700 flex items-center justify-center shrink-0">
                   <span className="text-white text-sm font-bold font-['Onest']">{i + 1}</span>
                 </div>
                 <h3 className="text-zinc-900 text-base font-semibold font-['Onest']">{tier.title}</h3>
-                <p className="text-zinc-500 text-sm font-['Onest'] leading-relaxed"><SentenceText text={tier.body} /></p>
+                <p className="text-zinc-500 text-base font-['Onest'] leading-relaxed"><SentenceText text={tier.body} /></p>
               </div>
             ))}
             </div>
