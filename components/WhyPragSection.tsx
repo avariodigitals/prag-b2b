@@ -97,7 +97,7 @@ export default async function WhyPragSection() {
               {/* Gradient: mostly transparent on top, dark only at bottom text area */}
               <div
                 className="absolute inset-0"
-                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.60) 80%, rgba(0,0,0,0.92) 100%)' }}
+                style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.88) 100%)' }}
                 aria-hidden="true"
               />
               {/* Text */}
