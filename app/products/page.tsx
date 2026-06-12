@@ -1,5 +1,6 @@
 import ProductsView from '@/components/ProductsView';
 import { SentenceText } from '@/lib/sentenceText';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getProducts, searchProducts, type Product } from '@/lib/woocommerce';
 
 export const revalidate = 300;
@@ -12,6 +13,13 @@ interface Props {
 
 export default async function ProductsPage({ searchParams }: Props) {
   const sp = await searchParams;
+
+  const content = await getB2BPublicContent();
+  const page = findB2BPage(content, '/products');
+  const hero = findVisibleSectionsByType(page, 'hero')[0];
+
+  const heroTitle = hero?.summary?.trim() || 'Products';
+  const heroDescription = hero?.content?.trim() || 'Browse all PRAG product categories and power technologies.';
   const query = String(sp.q ?? '').trim();
   const requestedCats = String(sp.cats ?? '')
     .split(',')
@@ -78,9 +86,9 @@ export default async function ProductsPage({ searchParams }: Props) {
     <main className="w-full bg-white flex flex-col">
         {/* Hero */}
         <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
-          <h1 className="breadcrumb-title-lock">Our Products</h1>
+          <h1 className="breadcrumb-title-lock">{heroTitle}</h1>
           <p className="breadcrumb-description-lock max-w-[531px]">
-            <SentenceText text="Browse our full range of voltage stabilizers, inverters, batteries, and solar systems — engineered for Nigerian conditions." />
+            <SentenceText text={heroDescription} />
           </p>
         </div>
 
