@@ -298,3 +298,22 @@ export async function submitContactForm(data: {
     return { success: false };
   }
 }
+
+export async function submitCareersForm(data: {
+  name: string; email: string; phone: string; location: string; position: string; experience: string; education: string; portfolio?: string; coverLetter?: string;
+}): Promise<{ success: boolean; message?: string }> {
+  try {
+    const res = await fetch('/api/careers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      return { success: false, message: data?.message || 'Submission failed.' };
+    }
+    return { success: true };
+  } catch {
+    return { success: false, message: 'Network error. Please try again shortly.' };
+  }
+}
