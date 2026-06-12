@@ -9,17 +9,20 @@ async function getPageContent() {
   const fallback = {
     title: 'Get a Free Power Assessment',
     description: 'Kindly provide your details and we will contact you shortly to provide a free power assesment.',
+    submitLabel: 'Get a Free Power Assessment',
   };
 
   const content = await getB2BPublicContent();
   const page = findB2BPage(content, '/free-power-assessment');
   const hero = findVisibleSectionsByType(page, 'hero')[0];
+  const ctaSection = findVisibleSectionsByType(page, 'cta')[0];
 
   if (!hero) return fallback;
 
   return {
     title: hero.summary?.trim() || page?.title?.trim() || fallback.title,
     description: hero.content?.trim() || page?.description?.trim() || fallback.description,
+    submitLabel: ctaSection?.ctaLabel?.trim() || fallback.submitLabel,
   };
 }
 
@@ -37,7 +40,7 @@ export default async function FreePowerAssessmentPage() {
 
       <section className="w-full px-4 sm:px-6 md:px-20 py-8 md:py-20">
         <div className="max-w-[760px] mx-auto">
-          <FreePowerAssessmentForm />
+          <FreePowerAssessmentForm submitLabel={pageContent.submitLabel} />
         </div>
       </section>
     </main>

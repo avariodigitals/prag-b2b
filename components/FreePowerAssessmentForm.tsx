@@ -62,7 +62,11 @@ function FormToast({ toast, onClose }: { toast: Toast; onClose: () => void }) {
   );
 }
 
-export default function FreePowerAssessmentForm() {
+interface Props {
+  submitLabel?: string;
+}
+
+export default function FreePowerAssessmentForm({ submitLabel }: Props) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -184,7 +188,7 @@ export default function FreePowerAssessmentForm() {
           disabled={sending}
           className="w-full py-3 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
         >
-          {sending ? 'Submitting...' : 'Get a Free Power Assessment'}
+          {sending ? 'Submitting...' : (submitLabel?.trim() || 'Get a Free Power Assessment')}
         </button>
       </form>
     </>
