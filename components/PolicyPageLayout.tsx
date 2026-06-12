@@ -12,8 +12,8 @@ export default function PolicyPageLayout({ title, sections }: Props) {
   return (
     <main className="w-full flex flex-col">
       {/* Breadcrumb + title */}
-      <div className="w-full px-6 md:px-20 py-6 md:py-10 bg-stone-50 flex flex-col gap-3 md:gap-5">
-        <h1 className="text-sky-700 text-2xl md:text-4xl font-bold font-['Onest']">{title}</h1>
+      <div className="w-full px-6 md:px-20 py-6 md:py-10 bg-stone-50 flex flex-col items-center text-center gap-3 md:gap-5">
+        <h1 className="text-black text-2xl md:text-4xl font-bold font-['Onest']">{title}</h1>
       </div>
 
       {/* Content */}
