@@ -4,10 +4,9 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 
 export const metadata = { title: 'About Us' };
 
-const STATS = [
+const FALLBACK_STATS = [
   { display: 50, suffix: 'K+', label: 'System Installed' },
   { display: 20, suffix: '+', label: 'Years Active' },
-  { display: 500, suffix: '+', label: 'Happy Clients' },
   { display: 36, suffix: '', label: 'States Covered' },
 ];
 
@@ -56,6 +55,15 @@ export default async function AboutPage() {
       }))
     : VALUES;
 
+  const statSections = findVisibleSectionsByType(aboutPage, 'stat');
+  const stats = statSections.length > 0
+    ? statSections.map((s) => ({
+        display: parseInt(s.summary?.trim() || '0', 10) || 0,
+        suffix: s.content?.trim() || '',
+        label: s.title?.trim() || '',
+      }))
+    : FALLBACK_STATS;
+
   return (
     <main className="w-full bg-white flex flex-col">
 
@@ -96,7 +104,7 @@ export default async function AboutPage() {
 
               {/* Stats — n_98039: Onest 48px 300, n_10871: Onest 28px 400, both #0166a5 */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center text-center">
-                {STATS.map(stat => (
+                {stats.map((stat: typeof FALLBACK_STATS[0]) => (
                   <div key={stat.label} className="flex flex-col items-center gap-[2px]">
                     <span className="text-[#0166a5] text-[40px] md:text-[48px] font-light font-['Onest'] leading-none">
                       <CountUp value={stat.display} suffix={stat.suffix} />
