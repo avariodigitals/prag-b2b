@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import CountUp from '@/components/CountUp';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
@@ -31,10 +30,11 @@ export default async function AboutPage() {
   const aboutPage = findB2BPage(content, '/about');
   const heroSection = findVisibleSectionsByType(aboutPage, 'hero')[0];
   const contentSections = findVisibleSectionsByType(aboutPage, 'content');
+  const valueSections = findVisibleSectionsByType(aboutPage, 'value');
 
   const aboutMain = contentSections[0];
   const storyMain = contentSections[1];
-  const valuesMain = contentSections[2];
+  const valuesHeader = findVisibleSectionsByType(aboutPage, 'section-header').find((s) => String(s.id).includes('values'));
 
   const heroTitle = heroSection?.summary?.trim() || 'Engineering Reliable Power Solutions for Real-World Challenges';
   const heroDescription = heroSection?.content?.trim() || 'PRAG is a power solutions company focused on designing and delivering systems that solve unstable electricity problems for homes, businesses, and industries.';
@@ -46,7 +46,15 @@ export default async function AboutPage() {
   const storyParas = storyMain?.content?.trim()
     ? storyMain.content.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean)
     : STORY_PARAS;
-  const valuesTitle = valuesMain?.summary?.trim() || 'Built on Principles That Deliver Reliable Results';
+  const valuesTitle = valuesHeader?.summary?.trim() || 'Built on Principles That Deliver Reliable Results';
+  const valuesSubtitle = valuesHeader?.content?.trim() || 'Our work is guided by a commitment to quality, precision, and long-term performance.';
+
+  const values = valueSections.length > 0
+    ? valueSections.map((s) => ({
+        title: s.summary?.trim() || '',
+        body: s.content?.trim() || '',
+      }))
+    : VALUES;
 
   return (
     <main className="w-full bg-white flex flex-col">
@@ -168,15 +176,15 @@ export default async function AboutPage() {
             </h2>
             {/* n_316b9: Onest 20px 400 #444444 */}
             <p className="text-[#444444] text-[18px] md:text-[20px] font-normal font-['Onest'] max-w-lg">
-              Our work is guided by a commitment to quality, precision, and long-term performance.
+              {valuesSubtitle}
             </p>
           </div>
 
           {/* Value cards grid */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VALUES.map(val => (
+            {values.map((val, i) => (
               <div
-                key={val.title}
+                key={`${val.title}-${i}`}
                 /* n_af255: border-radius 24px, border 0.3px solid rgba(136,136,136,0.5), gap 60px */
                 className="p-6 bg-white rounded-[24px] border border-[#888888] flex flex-col gap-10 md:gap-[60px]"
               >
