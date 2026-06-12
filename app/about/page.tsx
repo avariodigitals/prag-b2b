@@ -57,11 +57,17 @@ export default async function AboutPage() {
 
   const statSections = findVisibleSectionsByType(aboutPage, 'stat');
   const stats = statSections.length > 0
-    ? statSections.map((s) => ({
-        display: parseInt(s.summary?.trim() || '0', 10) || 0,
-        suffix: s.content?.trim() || '',
-        label: s.title?.trim() || '',
-      }))
+    ? statSections.map((s) => {
+        const summary = s.summary?.trim() || '';
+        const content = s.content?.trim() || '';
+        // Admin auto-fills empty content with summary; treat same-value as empty suffix
+        const suffix = content === summary ? '' : content;
+        return {
+          display: parseInt(summary, 10) || 0,
+          suffix,
+          label: s.title?.trim() || '',
+        };
+      })
     : FALLBACK_STATS;
 
   return (
