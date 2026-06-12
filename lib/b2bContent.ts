@@ -44,6 +44,12 @@ export interface PublicB2BHeaderSettings {
   contactLabel?: string;
   contactHref?: string;
   menuItems?: PublicB2BHeaderMenuItem[];
+  solutionsMegaTitle?: string;
+  solutionsMegaBody?: string;
+  productsMegaTitle?: string;
+  productsMegaBody?: string;
+  companyMegaTitle?: string;
+  companyMegaBody?: string;
 }
 
 export interface PublicB2BFooterSettings {

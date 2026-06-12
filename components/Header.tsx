@@ -214,24 +214,27 @@ function DesktopMegaPanel({
   label,
   kind,
   items,
+  settings,
 }: {
   label: string;
   kind: DesktopMegaKind;
   items: HeaderMenuItem[];
+  settings?: PublicB2BContent['settings'];
 }) {
   const mainItems = getOrderedMainItems(kind, items);
+  const header = settings?.header;
   const introTitle =
     kind === 'solutions'
-      ? 'Power Solutions For Every Space'
+      ? (header?.solutionsMegaTitle ?? 'Power Solutions For Every Space')
       : kind === 'products'
-        ? 'Explore PRAG Products'
-        : 'About PRAG';
+        ? (header?.productsMegaTitle ?? 'Explore PRAG Products')
+        : (header?.companyMegaTitle ?? 'About PRAG');
   const introBody =
     kind === 'solutions'
-      ? 'Smart and sustainable systems tailored for homes and businesses.'
+      ? (header?.solutionsMegaBody ?? 'Smart and sustainable systems tailored for homes and businesses.')
       : kind === 'products'
-        ? 'Built for Nigerian power conditions with performance and reliability in mind.'
-        : 'Learn more about our company, network, and what we stand for.';
+        ? (header?.productsMegaBody ?? 'Built for Nigerian power conditions with performance and reliability in mind.')
+        : (header?.companyMegaBody ?? 'Learn more about our company, network, and what we stand for.');
 
   return (
     <div className="w-full rounded-b-xl rounded-t-none bg-transparent px-0 py-3">
@@ -468,9 +471,9 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
             />
           </Link>
 
-          <div className="hidden md:flex items-center gap-5 ml-auto" onMouseLeave={handleMegaLeave}>
+          <div className="hidden md:flex items-center gap-14 ml-auto" onMouseLeave={handleMegaLeave}>
             {/* Desktop Nav */}
-            <nav className="flex items-center gap-6">
+            <nav className="flex items-center gap-14">
               <NavItem label="Solutions" items={solutionsItems} megaKind="solutions" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
               <NavItem label="Products" items={productItems} megaKind="products" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
               <NavItem label="Company" items={companyItems} megaKind="company" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
@@ -496,7 +499,7 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
       {activeMega && (
         <div className="hidden md:block w-full px-6 md:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
           <div className="max-w-[1280px] mx-auto">
-            <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} />
+            <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} settings={settings} />
           </div>
         </div>
       )}

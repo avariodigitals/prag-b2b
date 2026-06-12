@@ -18,6 +18,16 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
   const detailsHref = `/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`;
   const buyHref = getShopProductUrl(product);
 
+  const splitName = (() => {
+    if (!listingMode) return null;
+    const idx = product.name.indexOf('(');
+    if (idx === -1 || product.name.length < 30) return null;
+    return {
+      before: product.name.slice(0, idx).trim(),
+      after: product.name.slice(idx),
+    };
+  })();
+
   return (
     <div className="w-full relative flex flex-col gap-0 group">
       {/* Image container */}
@@ -61,7 +71,14 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
         {/* Name */}
         <Link href={detailsHref} aria-label={`View details for ${product.name}`}>
           <p className="text-[#1a1a1a] text-[18px] font-medium font-['Onest'] leading-snug line-clamp-2 text-center group-hover:text-[#0166a5] transition-colors">
-            {product.name}
+            {splitName ? (
+              <>
+                <span className="hidden md:inline">{splitName.before}</span>
+                <br className="hidden md:block" />
+                <span className="hidden md:inline">{splitName.after}</span>
+                <span className="md:hidden">{product.name}</span>
+              </>
+            ) : product.name}
           </p>
         </Link>
 

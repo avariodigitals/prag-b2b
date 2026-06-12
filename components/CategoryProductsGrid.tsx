@@ -114,20 +114,15 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
     <div className="flex flex-col gap-6">
       {/* Toolbar */}
       <div className="flex flex-col gap-4">
-        {/* Subcategory tabs — desktop with category label prefix */}
+        {/* Subcategory tabs — desktop */}
         <div className="hidden md:flex items-start gap-4 overflow-x-auto">
-          {subs.length > 0 && (
-            <span className="text-[#0166a5] text-base font-medium font-['Space_Grotesk'] whitespace-nowrap pt-3 shrink-0 capitalize">
-              {allLabel.replace(/^All /, '')}:
-            </span>
-          )}
           <div className="flex items-stretch gap-0 border-b border-[#e4e7ec] flex-1 overflow-x-auto">
             {tabs.map(tab => {
               const isActive = tab.slug ? activeSub === tab.slug : !activeSub;
               return (
                 <button key={tab.label} onClick={() => navigate({ sub: tab.slug })}
                   className="inline-flex flex-col items-center shrink-0">
-                  <span className={`px-4 py-3 text-sm font-medium font-['Space_Grotesk'] whitespace-nowrap ${isActive ? 'text-[#0166a5]' : 'text-[#888888] hover:text-[#444444]'}`}>
+                  <span className={`px-4 py-3 text-base font-medium font-['Space_Grotesk'] whitespace-nowrap ${isActive ? 'text-[#0166a5]' : 'text-[#888888] hover:text-[#444444]'}`}>
                     {tab.label}
                   </span>
                   <div className={`h-[2px] w-full ${isActive ? 'bg-[#0166a5]' : 'bg-[#e4e7ec]'}`} />
@@ -185,9 +180,6 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
             <path className="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
           </svg>
         </div>
-      )}
-      {!hasMore && products.length > 0 && (
-        <p className="text-center text-zinc-400 text-lg md:text-xl font-['Onest'] py-2">All products loaded</p>
       )}
     </div>
   );
