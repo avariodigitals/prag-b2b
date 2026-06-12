@@ -88,16 +88,16 @@ export default async function WhyPragSection() {
                 alt={r.title}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              {/* Base dark tint over whole card */}
+              {/* Light base tint over whole card */}
               <div
                 className="absolute inset-0"
-                style={{ background: 'rgba(0,0,0,0.28)' }}
+                style={{ background: 'rgba(0,0,0,0.10)' }}
                 aria-hidden="true"
               />
-              {/* Stronger gradient for text area */}
+              {/* Gradient: mostly transparent on top, dark only at bottom text area */}
               <div
                 className="absolute inset-0"
-                style={{ background: 'linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.72) 65%, rgba(0,0,0,0.90) 100%)' }}
+                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.60) 80%, rgba(0,0,0,0.92) 100%)' }}
                 aria-hidden="true"
               />
               {/* Text */}
