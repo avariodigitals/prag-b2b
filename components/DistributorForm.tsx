@@ -137,7 +137,7 @@ export default function DistributorForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-zinc-900 text-base font-['Onest']">Preferred Partnership Tier</label>
+          <label className="text-zinc-900 text-base font-['Onest']">Preferred Partnership Type</label>
           <select value={form.tier} onChange={set('tier')} className={inputCls}>
             <option value="">Select Type</option>
             {TIERS.map(t => <option key={t} value={t}>{t}</option>)}
