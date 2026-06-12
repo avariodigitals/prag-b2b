@@ -149,7 +149,7 @@ const EMPTY_FORM = {
   position: '',
   experience: '',
   education: '',
-  cvLink: '',
+  cvFileName: '',
   coverLetter: '',
 };
 
@@ -175,6 +175,7 @@ function validateStep(step: number, form: FormData): string | null {
 export default function CareersForm() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>(EMPTY_FORM);
+  const [cvFile, setCvFile] = useState<File | null>(null);
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -183,6 +184,19 @@ export default function CareersForm() {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
     };
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    if (file) {
+      const maxMB = 5;
+      if (file.size > maxMB * 1024 * 1024) {
+        setToast({ type: 'error', message: `File too large. Max size is ${maxMB}MB.` });
+        return;
+      }
+      setCvFile(file);
+      setForm((prev) => ({ ...prev, cvFileName: file.name }));
+    }
   }
 
   function nextStep() {
@@ -208,7 +222,17 @@ export default function CareersForm() {
     }
 
     setSending(true);
-    const result = await submitCareersForm(form);
+    const fd = new FormData();
+    fd.append('name', form.name);
+    fd.append('email', form.email);
+    fd.append('phone', form.phone);
+    fd.append('location', form.location);
+    fd.append('position', form.position);
+    fd.append('experience', form.experience);
+    fd.append('education', form.education);
+    fd.append('coverLetter', form.coverLetter);
+    if (cvFile) fd.append('cv', cvFile);
+    const result = await submitCareersForm(fd);
     setSending(false);
 
     if (result.success) {
@@ -244,7 +268,7 @@ export default function CareersForm() {
             </p>
           </div>
           <button
-            onClick={() => { setSubmitted(false); setForm(EMPTY_FORM); setStep(0); }}
+            onClick={() => { setSubmitted(false); setForm(EMPTY_FORM); setCvFile(null); setStep(0); }}
             className="px-6 py-3 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors"
           >
             Submit Another Application
@@ -354,8 +378,16 @@ export default function CareersForm() {
                 </select>
               </div>
               <div className="flex flex-col gap-2">
-                <label className={labelCls}>CV / Resume Link</label>
-                <input type="url" value={form.cvLink} onChange={setField('cvLink')} maxLength={300} className={inputCls} placeholder="Google Drive, Dropbox, or LinkedIn profile link" />
+                <label className={labelCls}>Upload CV / Resume <span className="text-zinc-400 text-sm">(PDF, DOC, DOCX — max 5MB)</span></label>
+                <label className={`${inputCls} flex items-center cursor-pointer gap-3 ${form.cvFileName ? 'border-[#0166a5]' : ''}`}>
+                  <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} className="hidden" />
+                  <svg className="w-5 h-5 text-[#0166a5] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 10" />
+                  </svg>
+                  <span className={`truncate ${form.cvFileName ? 'text-[#1a1a1a]' : 'text-[#888888]'}`}>
+                    {form.cvFileName || 'Choose file...'}
+                  </span>
+                </label>
               </div>
               <div className="flex flex-col gap-2">
                 <label className={labelCls}>Cover Letter</label>
@@ -397,10 +429,10 @@ export default function CareersForm() {
                   <span className="text-zinc-500 text-sm">Education</span>
                   <p className="text-[#1a1a1a] font-medium">{form.education}</p>
                 </div>
-                {form.cvLink && (
+                {form.cvFileName && (
                   <div>
-                    <span className="text-zinc-500 text-sm">CV / Resume Link</span>
-                    <p className="text-[#1a1a1a] font-medium">{form.cvLink}</p>
+                    <span className="text-zinc-500 text-sm">CV / Resume</span>
+                    <p className="text-[#1a1a1a] font-medium">{form.cvFileName}</p>
                   </div>
                 )}
                 {form.coverLetter && (

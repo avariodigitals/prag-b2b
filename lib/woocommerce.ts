@@ -299,14 +299,11 @@ export async function submitContactForm(data: {
   }
 }
 
-export async function submitCareersForm(data: {
-  name: string; email: string; phone: string; location: string; position: string; experience: string; education: string; cvLink?: string; coverLetter?: string;
-}): Promise<{ success: boolean; message?: string }> {
+export async function submitCareersForm(formData: FormData): Promise<{ success: boolean; message?: string }> {
   try {
     const res = await fetch('/api/careers', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: formData,
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));

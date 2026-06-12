@@ -16,7 +16,6 @@ type LocalSubmissionRecord = {
   position?: string;
   experience?: string;
   education?: string;
-  cvLink?: string;
   subject?: string;
   message: string;
   source: 'public-form' | 'admin';
@@ -50,7 +49,6 @@ async function persistCareersLocally(body: Record<string, unknown>) {
     position: body?.position ? String(body.position) : undefined,
     experience: body?.experience ? String(body.experience) : undefined,
     education: body?.education ? String(body.education) : undefined,
-    cvLink: body?.cvLink ? String(body.cvLink) : undefined,
     subject: body?.position ? `Position: ${String(body.position)}` : 'Careers Application',
     message: String(body?.message ?? ''),
     source: 'public-form',
@@ -92,33 +90,58 @@ function resolveB2BAdminUrl() {
   return null;
 }
 
-export async function POST(req: Request) {
-  const body = await req.json();
+async function fileToBase64(file: File): Promise<{ base64: string; filename: string; type: string }> {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  return {
+    base64: buffer.toString('base64'),
+    filename: file.name,
+    type: file.type || 'application/octet-stream',
+  };
+}
 
-  if (!body.name || !body.email || !body.phone || !body.position) {
+export async function POST(req: Request) {
+  const formData = await req.formData();
+
+  const name = String(formData.get('name') ?? '');
+  const email = String(formData.get('email') ?? '');
+  const phone = String(formData.get('phone') ?? '');
+  const location = String(formData.get('location') ?? '');
+  const position = String(formData.get('position') ?? '');
+  const experience = String(formData.get('experience') ?? '');
+  const education = String(formData.get('education') ?? '');
+  const coverLetter = String(formData.get('coverLetter') ?? '');
+
+  if (!name || !email || !phone || !position) {
     return NextResponse.json(
       { message: 'Name, email, phone and position are required.' },
       { status: 400 }
     );
   }
 
+  const cvFile = formData.get('cv') as File | null;
+  let cvPayload: { base64: string; filename: string; type: string } | undefined;
+  if (cvFile && cvFile.size > 0) {
+    cvPayload = await fileToBase64(cvFile);
+  }
+
   const message = [
     `Careers Application`,
-    `Position: ${body.position}`,
-    `Location: ${body.location || 'Not provided'}`,
-    `Experience: ${body.experience || 'Not provided'}`,
-    `Education: ${body.education || 'Not provided'}`,
-    `CV/Resume: ${body.cvLink || 'Not provided'}`,
+    `Position: ${position}`,
+    `Location: ${location || 'Not provided'}`,
+    `Experience: ${experience || 'Not provided'}`,
+    `Education: ${education || 'Not provided'}`,
+    `CV/Resume: ${cvPayload ? cvPayload.filename : 'Not provided'}`,
     '',
     'Cover Letter:',
-    body.coverLetter || 'Not provided',
+    coverLetter || 'Not provided',
   ].join('\n');
 
   const wpBody = {
-    name: body.name,
-    email: body.email,
-    phone: body.phone,
-    subject: `Careers Application: ${body.position}`,
+    name,
+    email,
+    phone,
+    subject: `Careers Application: ${position}`,
     message,
     route: '/careers',
   };
@@ -142,11 +165,11 @@ export async function POST(req: Request) {
             ...wpBody,
             kind: 'careers',
             route: '/careers',
-            company: body.position,
-            location: body.location,
-            experience: body.experience,
-            education: body.education,
-            cvLink: body.cvLink,
+            company: position,
+            location,
+            experience,
+            education,
+            ...(cvPayload && { cvBase64: cvPayload.base64, cvFilename: cvPayload.filename, cvType: cvPayload.type }),
           }),
         });
         syncedToAdmin = intakeRes.ok;
@@ -157,7 +180,9 @@ export async function POST(req: Request) {
 
     if (!syncedToAdmin && !process.env.VERCEL) {
       try {
-        await persistCareersLocally(body as Record<string, unknown>);
+        await persistCareersLocally({
+          name, email, phone, location, position, experience, education, coverLetter, message,
+        });
       } catch {
         // Ignore local persistence failures so public submission still succeeds.
       }
