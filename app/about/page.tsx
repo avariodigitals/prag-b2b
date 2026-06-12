@@ -220,7 +220,7 @@ export default async function AboutPage() {
                     {val.title}
                   </h3>
                 </div>
-                <p className="text-[#444444] text-[14px] font-normal font-['Onest'] leading-relaxed">
+                <p className="text-[#444444] text-[16px] font-normal font-['Onest'] leading-relaxed">
                   <SentenceText text={val.body} />
                 </p>
               </div>
