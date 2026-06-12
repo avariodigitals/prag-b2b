@@ -92,33 +92,54 @@ function sortPragStores(stores: Store[]): Store[] {
   const cityOrder = ['Lagos', 'Abuja', 'Port Harcourt'];
   const lagosOrder = ['Obanikoro', 'Island', 'Alaba'];
 
+  function getCityRank(store: Store): number {
+    const city = store.city.trim().toLowerCase();
+    const name = store.name.trim().toLowerCase();
+    for (let i = 0; i < cityOrder.length; i++) {
+      const key = cityOrder[i].toLowerCase();
+      if (city === key || city.includes(key) || name.includes(key)) return i;
+    }
+    return -1;
+  }
+
+  function isLagos(store: Store): boolean {
+    const city = store.city.trim().toLowerCase();
+    const name = store.name.trim().toLowerCase();
+    return city === 'lagos' || city.includes('lagos') || name.includes('lagos');
+  }
+
+  function getLagosSubRank(store: Store): number {
+    const name = store.name.trim().toLowerCase();
+    const city = store.city.trim().toLowerCase();
+    for (let i = 0; i < lagosOrder.length; i++) {
+      const key = lagosOrder[i].toLowerCase();
+      if (name.includes(key) || city.includes(key)) return i;
+    }
+    return -1;
+  }
+
   return [...stores].sort((a, b) => {
-    const aCity = a.city.trim();
-    const bCity = b.city.trim();
-    const aName = a.name.trim();
-    const bName = b.name.trim();
+    const aRank = getCityRank(a);
+    const bRank = getCityRank(b);
 
-    const aCityIdx = cityOrder.indexOf(aCity);
-    const bCityIdx = cityOrder.indexOf(bCity);
-
-    if (aCityIdx !== -1 && bCityIdx !== -1 && aCityIdx !== bCityIdx) {
-      return aCityIdx - bCityIdx;
+    if (aRank !== -1 && bRank !== -1 && aRank !== bRank) {
+      return aRank - bRank;
     }
 
-    if (aCity === 'Lagos' && bCity === 'Lagos') {
-      const aNameIdx = lagosOrder.findIndex((n) => aName.toLowerCase().includes(n.toLowerCase()));
-      const bNameIdx = lagosOrder.findIndex((n) => bName.toLowerCase().includes(n.toLowerCase()));
-      if (aNameIdx !== -1 && bNameIdx !== -1 && aNameIdx !== bNameIdx) {
-        return aNameIdx - bNameIdx;
+    if (isLagos(a) && isLagos(b)) {
+      const aSub = getLagosSubRank(a);
+      const bSub = getLagosSubRank(b);
+      if (aSub !== -1 && bSub !== -1 && aSub !== bSub) {
+        return aSub - bSub;
       }
-      if (aNameIdx !== -1) return -1;
-      if (bNameIdx !== -1) return 1;
+      if (aSub !== -1) return -1;
+      if (bSub !== -1) return 1;
     }
 
-    if (aCityIdx !== -1 && bCityIdx === -1) return -1;
-    if (aCityIdx === -1 && bCityIdx !== -1) return 1;
+    if (aRank !== -1 && bRank === -1) return -1;
+    if (aRank === -1 && bRank !== -1) return 1;
 
-    return aName.localeCompare(bName);
+    return a.name.trim().localeCompare(b.name.trim());
   });
 }
 

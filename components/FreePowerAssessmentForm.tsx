@@ -114,8 +114,8 @@ export default function FreePowerAssessmentForm() {
     setToast({ type: 'error', message: 'Something went wrong. Please try again shortly.' });
   }
 
-  const labelCls = "text-[#1a1a1a] text-sm font-medium font-['Space_Grotesk']";
-  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-zinc-300 text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors placeholder:text-[#888888]";
+  const labelCls = "text-[#1a1a1a] text-base font-medium font-['Space_Grotesk']";
+  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-zinc-300 text-[#1a1a1a] text-base font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors placeholder:text-[#888888]";
 
   return (
     <>

@@ -91,10 +91,10 @@ export default async function ContactPage() {
                 <Mail className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[#1a1a1a] text-base font-medium font-['Space_Grotesk']">Email</span>
+                <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Email</span>
                 <a
                   href={`mailto:${email}`}
-                  className="text-[#6b6b6b] text-base font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
+                  className="text-[#6b6b6b] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
                 >
                   {email}
                 </a>
@@ -107,10 +107,10 @@ export default async function ContactPage() {
                 <Phone className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[#1a1a1a] text-base font-medium font-['Space_Grotesk']">Phone</span>
+                <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Phone</span>
                 <a
                   href={`tel:${phone}`}
-                  className="text-[#888888] text-base font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
+                  className="text-[#888888] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
                 >
                   {phone}
                 </a>
@@ -123,8 +123,8 @@ export default async function ContactPage() {
                 <MapPin className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[#1a1a1a] text-base font-medium font-['Space_Grotesk']">Location</span>
-                <span className="text-[#6b6b6b] text-base font-['Space_Grotesk']">{address}</span>
+                <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Location</span>
+                <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{address}</span>
               </div>
             </div>
 
@@ -134,10 +134,10 @@ export default async function ContactPage() {
                 <Clock className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[#1a1a1a] text-base font-medium font-['Space_Grotesk']">Business Hours</span>
-                <span className="text-[#6b6b6b] text-base font-['Space_Grotesk']">{hoursWeekday}</span>
+                <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Business Hours</span>
+                <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{hoursWeekday}</span>
                 {hoursSaturday && (
-                  <span className="text-[#6b6b6b] text-base font-['Space_Grotesk']">{hoursSaturday}</span>
+                  <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{hoursSaturday}</span>
                 )}
               </div>
             </div>
@@ -145,7 +145,7 @@ export default async function ContactPage() {
             {/* Social Links */}
             {socialLinks.length > 0 && (
               <div className="p-4 md:p-5 rounded-[14px] border border-[#0166a5] md:border-zinc-300 flex flex-col gap-4">
-                <span className="text-[#1a1a1a] text-[15px] md:text-base font-medium font-['Space_Grotesk']">
+                <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">
                   Follow our socials
                 </span>
                 <div className="flex flex-nowrap md:flex-wrap items-center gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-1 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
