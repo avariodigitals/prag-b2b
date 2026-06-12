@@ -90,17 +90,17 @@ export default async function CaseStudiesSection() {
                 </h3>
 
                 <div className="self-stretch grid grid-cols-1 gap-4">
-                  <div className="rounded-2xl border border-zinc-200 p-4">
+                  <div className="rounded-2xl p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Problem</p>
                     <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={study.problem} /></p>
                   </div>
 
-                  <div className="rounded-2xl border border-zinc-200 p-4">
+                  <div className="rounded-2xl p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Solution</p>
                     <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={study.solution} /></p>
                   </div>
 
-                  <div className="rounded-2xl border border-[#0166A5]/25 bg-[#0166A5]/5 p-4">
+                  <div className="rounded-2xl bg-[#0166A5]/5 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
                     <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed"><SentenceText text={getNarrativeOutcome(study)} /></p>
                   </div>
