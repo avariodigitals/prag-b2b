@@ -59,7 +59,7 @@ export default async function VoltageStabilizationProtectionPage() {
                 className="rounded-2xl border border-zinc-300 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
                 <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
-                <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{card.description}</p>
+                <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
                 <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
                   {card.ctaLabel}
                   <ArrowRight className="w-5 h-5" />

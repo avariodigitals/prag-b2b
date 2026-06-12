@@ -303,7 +303,7 @@ export default function ProblemsCarousel({
         {/* Impact */}
         <div className="flex flex-col gap-3">
           <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Impact</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
+          <div className="flex flex-col gap-3 text-zinc-700 text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-[26px] tracking-[0]">
             {activeProblem.impact.map((para, i) => (
               <p key={i}><SentenceText text={para} /></p>
             ))}
@@ -313,7 +313,7 @@ export default function ProblemsCarousel({
         {/* Solution */}
         <div className="flex flex-col gap-3">
           <h2 className="text-sky-700 text-[24px] font-medium [font-family:var(--font-space-grotesk)] leading-[28px] tracking-[0]">The Solution</h2>
-          <div className="flex flex-col gap-3 text-zinc-700 text-[16px] font-normal [font-family:var(--font-space-grotesk)] leading-[20px] tracking-[0]">
+          <div className="flex flex-col gap-3 text-zinc-700 text-[18px] font-normal [font-family:var(--font-space-grotesk)] leading-[26px] tracking-[0]">
             {activeProblem.solution.map((para, i) => (
               <p key={i}><SentenceText text={para} /></p>
             ))}
