@@ -88,21 +88,56 @@ interface Props {
   chainStores: Store[];
 }
 
+function sortPragStores(stores: Store[]): Store[] {
+  const cityOrder = ['Lagos', 'Abuja', 'Port Harcourt'];
+  const lagosOrder = ['Obanikoro', 'Island', 'Alaba'];
+
+  return [...stores].sort((a, b) => {
+    const aCity = a.city.trim();
+    const bCity = b.city.trim();
+    const aName = a.name.trim();
+    const bName = b.name.trim();
+
+    const aCityIdx = cityOrder.indexOf(aCity);
+    const bCityIdx = cityOrder.indexOf(bCity);
+
+    if (aCityIdx !== -1 && bCityIdx !== -1 && aCityIdx !== bCityIdx) {
+      return aCityIdx - bCityIdx;
+    }
+
+    if (aCity === 'Lagos' && bCity === 'Lagos') {
+      const aNameIdx = lagosOrder.findIndex((n) => aName.toLowerCase().includes(n.toLowerCase()));
+      const bNameIdx = lagosOrder.findIndex((n) => bName.toLowerCase().includes(n.toLowerCase()));
+      if (aNameIdx !== -1 && bNameIdx !== -1 && aNameIdx !== bNameIdx) {
+        return aNameIdx - bNameIdx;
+      }
+      if (aNameIdx !== -1) return -1;
+      if (bNameIdx !== -1) return 1;
+    }
+
+    if (aCityIdx !== -1 && bCityIdx === -1) return -1;
+    if (aCityIdx === -1 && bCityIdx !== -1) return 1;
+
+    return aName.localeCompare(bName);
+  });
+}
+
 export default function StoresGrid({ pragStores, onlineStores, chainStores }: Props) {
   const hasStores = pragStores.length > 0 || onlineStores.length > 0 || chainStores.length > 0;
   if (!hasStores) return null;
 
+  const sortedPragStores = sortPragStores(pragStores);
   return (
     <div className="w-full flex flex-col gap-16">
       {/* PRAG Stores */}
-      {pragStores.length > 0 && (
+      {sortedPragStores.length > 0 && (
         <section className="w-full px-6 md:px-20">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
             <h2 className="text-[#1a1a1a] text-[40px] font-bold font-['Onest'] tracking-[-1px]">
               PRAG Stores
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pragStores.map((store) => (
+              {sortedPragStores.map((store) => (
                 <StoreCard key={store.id} store={store} />
               ))}
             </div>
