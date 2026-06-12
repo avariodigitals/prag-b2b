@@ -2,6 +2,7 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
+  sku?: string;
   permalink?: string;
   price: string;
   regular_price: string;
@@ -90,7 +91,7 @@ export async function getProducts({
     status: 'publish',
     per_page: String(per_page),
     page: String(page),
-    _fields: 'id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
+    _fields: 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
     ...(category_id ? { category: String(category_id) } : {}),
     ...(orderby ? { orderby } : {}),
     ...(order ? { order } : {}),
@@ -115,7 +116,7 @@ export async function getProducts({
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     const res = await fetch(
-      `${baseUrl()}/products?slug=${slug}&_fields=id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight&${authParams()}`,
+      `${baseUrl()}/products?slug=${slug}&_fields=id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight&${authParams()}`,
       { next: { revalidate: 120 } }
     );
     if (!res.ok) return null;
@@ -183,7 +184,7 @@ async function searchProductsRaw(query: string, per_page = 8): Promise<Product[]
       search: query,
       status: 'publish',
       per_page: String(per_page),
-      _fields: 'id,name,slug,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,attributes',
+      _fields: 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,attributes',
     });
     const res = await fetch(`${baseUrl()}/products?${qs}&${authParams()}`, { cache: 'no-store' });
     if (!res.ok) return [];

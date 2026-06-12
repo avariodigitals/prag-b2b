@@ -160,9 +160,16 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
 
             {/* Title + Price + Description */}
             <div className="flex flex-col gap-6">
-              <h1 className="text-black font-['Onest'] text-[28px] md:text-[40px] font-medium leading-tight">
-                {product.name}
-              </h1>
+              <div className="flex flex-col gap-1.5">
+                <h1 className="text-black font-['Onest'] text-[28px] md:text-[40px] font-medium leading-tight">
+                  {product.name}
+                </h1>
+                {product.sku && (
+                  <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-0.5 rounded-md bg-gray-100 text-gray-500 font-['Space_Grotesk'] text-[13px] font-medium tracking-wide">
+                    SKU: {product.sku}
+                  </span>
+                )}
+              </div>
 
               <div className="flex items-center gap-3 flex-wrap">
                 {product.on_sale && product.regular_price && (
