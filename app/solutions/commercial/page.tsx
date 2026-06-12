@@ -56,7 +56,7 @@ export default async function CommercialSolutionsPage() {
               <Link
                 key={card.title}
                 href={card.href}
-                className="rounded-2xl border border-zinc-200 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+                className="rounded-2xl border border-zinc-300 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
                 <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
                 <p className="text-[#6f6f6f] text-[16px] font-['Space_Grotesk'] leading-6">{card.description}</p>

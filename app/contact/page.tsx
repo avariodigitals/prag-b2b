@@ -144,7 +144,7 @@ export default async function ContactPage() {
 
             {/* Social Links */}
             {socialLinks.length > 0 && (
-              <div className="p-4 md:p-5 rounded-[14px] border border-[#0166a5] md:border-[#eeeeee] flex flex-col gap-4">
+              <div className="p-4 md:p-5 rounded-[14px] border border-[#0166a5] md:border-zinc-300 flex flex-col gap-4">
                 <span className="text-[#1a1a1a] text-[15px] md:text-sm font-medium font-['Space_Grotesk']">
                   Follow our socials
                 </span>

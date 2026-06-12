@@ -3,7 +3,7 @@ import type { Store } from '@/lib/woocommerce';
 
 function StoreCard({ store }: { store: Store }) {
   return (
-    <div className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-[#eeeeee] h-full">
+    <div className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-zinc-300 h-full">
       {/* Name + City */}
       <div className="flex flex-col gap-1">
         <h3 className="text-[#0166a5] text-[28px] font-bold font-['Onest'] leading-tight">{store.name}</h3>
@@ -60,7 +60,7 @@ interface OnlineChainCardProps {
 
 function OnlineChainCard({ name, logoSrc, logoAlt, href, buttonLabel }: OnlineChainCardProps) {
   return (
-    <div className="flex flex-col gap-4 p-5 bg-white rounded-2xl border border-[#eeeeee]">
+    <div className="flex flex-col gap-4 p-5 bg-white rounded-2xl border border-zinc-300">
       <h3 className="text-[#0166a5] text-[28px] font-bold font-['Onest'] leading-tight">{name}</h3>
       <div className="flex items-center justify-center h-[122px]">
         <img

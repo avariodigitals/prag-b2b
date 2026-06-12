@@ -90,7 +90,7 @@ export default function ContactForm() {
   }
 
   const labelCls = "text-[#1a1a1a] text-sm font-medium font-['Space_Grotesk']";
-  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-[#eeeeee] text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors placeholder:text-[#888888]";
+  const inputCls = "w-full h-12 px-3 bg-white rounded-lg border border-zinc-300 text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors placeholder:text-[#888888]";
 
   return (
     <>
@@ -98,7 +98,7 @@ export default function ContactForm() {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="w-full bg-white rounded-xl border border-[#eeeeee] p-6 flex flex-col gap-5"
+        className="w-full bg-white rounded-xl border border-zinc-300 p-6 flex flex-col gap-5"
       >
         <div className="flex flex-col gap-2">
           <label className={labelCls}>Full Name *</label>
@@ -171,7 +171,7 @@ export default function ContactForm() {
             onChange={set('message')}
             rows={5}
             maxLength={2000}
-            className="w-full p-3 bg-white rounded-lg border border-[#eeeeee] text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors resize-none"
+            className="w-full p-3 bg-white rounded-lg border border-zinc-300 text-[#1a1a1a] text-sm font-['Space_Grotesk'] focus:border-[#0166a5] focus:outline-none transition-colors resize-none"
             aria-label="Message"
           />
         </div>

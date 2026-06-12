@@ -106,7 +106,7 @@ function RelatedCard({
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-6 p-6 bg-white rounded-b-[16px] border-b border-l border-r border-[rgba(136,136,136,0.4)] flex-1">
+      <div className="flex flex-col gap-6 p-6 bg-white rounded-b-[16px] border-b border-l border-r border-[#888888] flex-1">
         <div className="flex flex-col gap-4">
           {/* Badge + read time */}
           <div className="flex items-center gap-3 flex-wrap">
@@ -249,7 +249,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
             <div className="bg-[#f9f9f9] rounded-[16px] p-4 flex flex-col gap-4">
 
               {/* Category row */}
-              <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#eeeeee]">
+              <div className="flex items-center justify-between gap-4 pb-4 border-b border-zinc-300">
                 <span className="text-[#888888] text-[18px] font-medium font-['Space_Grotesk'] shrink-0">
                   Category:
                 </span>
@@ -259,7 +259,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
               </div>
 
               {/* Date row */}
-              <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#eeeeee]">
+              <div className="flex items-center justify-between gap-4 pb-4 border-b border-zinc-300">
                 <span className="text-[#888888] text-[18px] font-medium font-['Space_Grotesk'] shrink-0">
                   Date:
                 </span>

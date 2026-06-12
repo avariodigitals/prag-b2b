@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 function StoreCard({ store }: { store: { id: number; name: string; city: string; address: string; phone: string; map_url: string } }) {
   return (
-    <div className="p-6 bg-white rounded-2xl border border-zinc-200 flex flex-col gap-4">
+    <div className="p-6 bg-white rounded-2xl border border-zinc-300 flex flex-col gap-4">
       <div className="flex flex-col gap-0.5">
         <h3 className="text-sky-700 text-lg font-bold font-['Onest']">{store.name}</h3>
         <span className="text-zinc-800 text-sm font-medium font-['Onest']">{store.city}</span>
@@ -73,7 +73,7 @@ export default async function FindADistributorPage() {
             <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-['Onest']">Online Stores</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {onlineStores.map((store) => (
-                <div key={store.id} className="p-5 bg-white border border-zinc-200 rounded-2xl flex flex-col gap-4">
+                <div key={store.id} className="p-5 bg-white border border-zinc-300 rounded-2xl flex flex-col gap-4">
                   <h3 className="text-sky-700 text-base font-bold font-['Onest']">{store.name}</h3>
                   <div className="flex-1 flex items-center justify-center py-4">
                     <img src={store.logo!.src} alt={store.logo!.alt} className="max-h-14 w-auto object-contain" />
@@ -94,7 +94,7 @@ export default async function FindADistributorPage() {
             <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-['Onest']">Chain Stores</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {chainStores.map((store) => (
-                <div key={store.id} className="p-5 bg-white border border-zinc-200 rounded-2xl flex flex-col gap-4">
+                <div key={store.id} className="p-5 bg-white border border-zinc-300 rounded-2xl flex flex-col gap-4">
                   <h3 className="text-sky-700 text-base font-bold font-['Onest']">{store.name}</h3>
                   <div className="flex-1 flex items-center justify-center py-4">
                     <img src={store.logo!.src} alt={store.logo!.alt} className="max-h-14 w-auto object-contain" />
