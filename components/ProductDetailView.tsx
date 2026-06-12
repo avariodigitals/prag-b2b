@@ -351,10 +351,10 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
       {/* ── Tabs ── */}
       <div className="w-full px-6 md:px-20 pb-12">
         <div className="max-w-[1280px] mx-auto">
-          <div className="w-full rounded-[16px] border border-[#e4e7ec] flex flex-col gap-6 p-8">
+          <div className="w-full rounded-[16px] border border-[#c4c7cc] flex flex-col gap-6 p-8">
 
             {/* Tab Bar */}
-            <div className="flex border-b border-[#e4e7ec] overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex border-b border-[#c4c7cc] overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {TABS.map(tab => {
                 const isActive = activeTab === tab;
                 return (
@@ -395,13 +395,13 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     <table className="w-full font-['Space_Grotesk'] text-[16px]">
                       <tbody>
                         {product.weight && (
-                          <tr className="border-b border-[#e4e7ec]">
+                          <tr className="border-b border-[#c4c7cc]">
                             <td className="py-3 pr-6 text-[#888888] font-medium w-40 md:w-56">Weight</td>
                             <td className="py-3 text-[#1a1a1a] break-words">{product.weight} kg</td>
                           </tr>
                         )}
                         {product.dimensions && (product.dimensions.length || product.dimensions.width || product.dimensions.height) && (
-                          <tr className="border-b border-[#e4e7ec]">
+                          <tr className="border-b border-[#c4c7cc]">
                             <td className="py-3 pr-6 text-[#888888] font-medium w-40 md:w-56">Dimensions</td>
                             <td className="py-3 text-[#1a1a1a] break-words">
                               {product.dimensions.length} × {product.dimensions.width} × {product.dimensions.height} cm
@@ -409,7 +409,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                           </tr>
                         )}
                         {product.attributes.map(attr => (
-                          <tr key={attr.id} className="border-b border-[#e4e7ec] last:border-0">
+                          <tr key={attr.id} className="border-b border-[#c4c7cc] last:border-0">
                             <td className="py-3 pr-6 text-[#888888] font-medium w-40 md:w-56">{attr.name}</td>
                             <td className="py-3 text-[#1a1a1a] break-words">{attr.options.join(', ')}</td>
                           </tr>
@@ -428,7 +428,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     {techDocs.map(doc => (
                       <div
                         key={doc.id}
-                        className="w-full rounded-2xl border border-[#e4e7ec] px-5 py-4 flex items-center justify-between gap-4 bg-white"
+                        className="w-full rounded-2xl border border-[#c4c7cc] px-5 py-4 flex items-center justify-between gap-4 bg-white"
                       >
                         <span className="text-[#1a1a1a] font-['Space_Grotesk'] text-[18px] font-medium">{doc.title}</span>
                         <a
@@ -453,7 +453,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     reviewItems.map((review) => {
                       const chunks = splitReviewContent(review.review);
                       return (
-                        <div key={review.id} className="flex flex-col gap-2.5 pb-7 border-b border-[#e4e7ec] last:border-0">
+                        <div key={review.id} className="flex flex-col gap-2.5 pb-7 border-b border-[#c4c7cc] last:border-0">
                           <span className="text-[#1a1a1a] text-lg md:text-xl font-semibold font-['Onest']">{review.reviewer}</span>
                           <div className="flex items-center gap-3">
                             <div className="flex gap-1">
@@ -478,7 +478,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     <p className="text-[#888888] font-['Space_Grotesk'] text-[18px]">No reviews yet.</p>
                   )}
 
-                  <form onSubmit={handleSubmitReview} className="flex flex-col gap-4 p-6 rounded-2xl border border-[#e4e7ec]">
+                  <form onSubmit={handleSubmitReview} className="flex flex-col gap-4 p-6 rounded-2xl border border-[#c4c7cc]">
                     <h3 className="text-[#1a1a1a] text-lg font-semibold font-['Onest']">Write a Review</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -487,7 +487,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                         onChange={(e) => setReviewForm((prev) => ({ ...prev, reviewer: e.target.value }))}
                         placeholder="Your name"
                         required
-                        className="h-11 px-4 rounded-[12px] border border-[#e4e7ec] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors"
+                        className="h-11 px-4 rounded-[12px] border border-[#c4c7cc] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors"
                       />
                       <input
                         type="email"
@@ -495,7 +495,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                         onChange={(e) => setReviewForm((prev) => ({ ...prev, reviewer_email: e.target.value }))}
                         placeholder="Your email"
                         required
-                        className="h-11 px-4 rounded-[12px] border border-[#e4e7ec] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors"
+                        className="h-11 px-4 rounded-[12px] border border-[#c4c7cc] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors"
                       />
                     </div>
 
@@ -504,7 +504,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                       <select
                         value={reviewForm.rating}
                         onChange={(e) => setReviewForm((prev) => ({ ...prev, rating: Number(e.target.value) }))}
-                        className="h-10 px-3 rounded-[12px] border border-[#e4e7ec] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5]"
+                        className="h-10 px-3 rounded-[12px] border border-[#c4c7cc] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5]"
                       >
                         <option value={5}>5 - Excellent</option>
                         <option value={4}>4 - Very Good</option>
@@ -520,7 +520,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                       placeholder="Share your experience with this product"
                       required
                       rows={4}
-                      className="w-full px-4 py-3 rounded-[12px] border border-[#e4e7ec] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors resize-y"
+                      className="w-full px-4 py-3 rounded-[12px] border border-[#c4c7cc] bg-white font-['Space_Grotesk'] text-sm outline-none focus:border-[#0166a5] transition-colors resize-y"
                     />
 
                     <div className="flex items-center justify-end gap-4">

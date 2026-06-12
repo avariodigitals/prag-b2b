@@ -33,7 +33,7 @@ export default function SolutionProductTabs({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="hidden md:flex items-center gap-0 border-b border-[#e4e7ec] overflow-x-auto">
+      <div className="hidden md:flex items-center gap-0 border-b border-[#c4c7cc] overflow-x-auto">
         {tabs.map((tab) => {
           const isActive = tab.key === resolvedActive;
           return (

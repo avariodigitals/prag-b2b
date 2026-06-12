@@ -178,7 +178,7 @@ export default async function AboutPage() {
               <div
                 key={val.title}
                 /* n_af255: border-radius 24px, border 0.3px solid rgba(136,136,136,0.5), gap 60px */
-                className="p-6 bg-white rounded-[24px] border border-[rgba(136,136,136,0.5)] flex flex-col gap-10 md:gap-[60px]"
+                className="p-6 bg-white rounded-[24px] border border-[#888888] flex flex-col gap-10 md:gap-[60px]"
               >
                 {/* Top: icon circle + title */}
                 <div className="flex flex-col gap-3">

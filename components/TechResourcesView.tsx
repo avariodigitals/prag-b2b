@@ -94,7 +94,7 @@ function TechDocumentsPanel({ product }: { product: Product }) {
       {!loading && docs.length > 0 && (
         <div className="flex flex-col gap-4">
           {docs.map(doc => (
-            <div key={doc.id} className="p-4 md:p-5 bg-white rounded-2xl border border-zinc-200 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div key={doc.id} className="p-4 md:p-5 bg-white rounded-2xl border border-zinc-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-sky-700 rounded-xl flex items-center justify-center shrink-0">
                   <FileText className="w-6 h-6 text-white" />

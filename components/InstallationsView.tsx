@@ -79,14 +79,14 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
                 </h2>
 
                 <div className="self-stretch grid grid-cols-1 gap-4">
-                  <div className="rounded-2xl border border-zinc-200 p-4">
+                  <div className="rounded-2xl border border-zinc-300 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Problem</p>
                     <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
                       {item.problem}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-zinc-200 p-4">
+                  <div className="rounded-2xl border border-zinc-300 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">The Solution</p>
                     <p className="mt-2 text-neutral-700 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
                       {item.solution}

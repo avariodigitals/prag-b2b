@@ -74,7 +74,7 @@ function ProblemCard({
       className={`w-full min-h-[270px] md:min-h-[300px] text-left p-6 rounded-2xl border flex flex-col transition-all duration-300 focus:outline-none ${
         active
           ? 'bg-[#F9F9F9] border-[#0166A5] shadow-md'
-          : 'bg-[#F9F9F9] border-zinc-200 hover:border-[#0166A5]'
+          : 'bg-[#F9F9F9] border-zinc-300 hover:border-[#0166A5]'
       }`}
     >
       {/* Icon */}

@@ -116,7 +116,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
       <div className="flex flex-col gap-4">
         {/* Subcategory tabs — desktop */}
         <div className="hidden md:flex items-start gap-4 overflow-x-auto">
-          <div className="flex items-stretch gap-0 border-b border-[#e4e7ec] flex-1 overflow-x-auto">
+          <div className="flex items-stretch gap-0 border-b border-[#c4c7cc] flex-1 overflow-x-auto">
             {tabs.map(tab => {
               const isActive = tab.slug ? activeSub === tab.slug : !activeSub;
               return (

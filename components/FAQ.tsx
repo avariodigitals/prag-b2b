@@ -112,7 +112,7 @@ function FAQSectionContent({
             return (
               <div
                 key={`${item.question}-${index}`}
-                className={`rounded-[14px] border border-[#eeeeee] transition-all duration-200 ${isOpen ? 'bg-white' : 'bg-white'}`}
+                className={`rounded-[14px] border border-zinc-300 transition-all duration-200 ${isOpen ? 'bg-white' : 'bg-white'}`}
               >
                 <button
                   onClick={() => onToggle(index)}

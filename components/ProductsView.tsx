@@ -71,7 +71,7 @@ export default function ProductsView({ allProducts, productsByCategory, categori
 
       {/* Subcategory tabs */}
       {subcategories.length > 0 && (
-        <div className="flex items-center gap-6 border-b border-zinc-200 overflow-x-auto pb-0">
+        <div className="flex items-center gap-6 border-b border-zinc-300 overflow-x-auto pb-0">
           <button
             onClick={() => setActiveSub(null)}
             className={`pb-3 text-sm font-medium font-['Onest'] whitespace-nowrap border-b-2 transition-colors ${

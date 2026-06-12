@@ -198,7 +198,7 @@ export default function PowerCalculatorTool({ products }: Props) {
       </div>
 
       {assessmentRequested && appliancesAdded > 0 && (
-        <div className="w-full rounded-2xl border border-zinc-200 p-5 md:p-6 flex flex-col gap-5">
+        <div className="w-full rounded-2xl border border-zinc-300 p-5 md:p-6 flex flex-col gap-5">
           <div className="flex flex-col gap-1">
             <h2 className="text-zinc-900 text-xl font-bold font-['Onest']">Likely Product Matches</h2>
             <p className="text-zinc-500 text-lg md:text-xl font-['Onest']">
@@ -212,7 +212,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                 const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
                 const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
                 return (
-                  <div key={product.id} className="rounded-xl border border-zinc-200 p-4 bg-white flex flex-col gap-3">
+                  <div key={product.id} className="rounded-xl border border-zinc-300 p-4 bg-white flex flex-col gap-3">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex flex-col gap-1">
                         <p className="text-zinc-900 text-lg md:text-xl font-bold font-['Onest'] leading-tight">{product.name}</p>
@@ -252,7 +252,7 @@ export default function PowerCalculatorTool({ products }: Props) {
               })}
             </div>
           ) : (
-            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 flex flex-col gap-3">
+            <div className="rounded-xl border border-zinc-300 bg-zinc-50 p-4 flex flex-col gap-3">
               <p className="text-zinc-600 text-lg md:text-xl font-['Onest']">
                 No direct product match was found for this exact capacity yet. Contact sales for a tailored recommendation.
               </p>
