@@ -300,7 +300,7 @@ export async function submitContactForm(data: {
 }
 
 export async function submitCareersForm(data: {
-  name: string; email: string; phone: string; location: string; position: string; experience: string; education: string; portfolio?: string; coverLetter?: string;
+  name: string; email: string; phone: string; location: string; position: string; experience: string; education: string; cvLink?: string; coverLetter?: string;
 }): Promise<{ success: boolean; message?: string }> {
   try {
     const res = await fetch('/api/careers', {

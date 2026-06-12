@@ -12,6 +12,11 @@ type LocalSubmissionRecord = {
   email: string;
   phone?: string;
   company?: string;
+  location?: string;
+  position?: string;
+  experience?: string;
+  education?: string;
+  cvLink?: string;
   subject?: string;
   message: string;
   source: 'public-form' | 'admin';
@@ -41,6 +46,11 @@ async function persistCareersLocally(body: Record<string, unknown>) {
     email: String(body?.email ?? ''),
     phone: body?.phone ? String(body.phone) : undefined,
     company: body?.position ? String(body.position) : undefined,
+    location: body?.location ? String(body.location) : undefined,
+    position: body?.position ? String(body.position) : undefined,
+    experience: body?.experience ? String(body.experience) : undefined,
+    education: body?.education ? String(body.education) : undefined,
+    cvLink: body?.cvLink ? String(body.cvLink) : undefined,
     subject: body?.position ? `Position: ${String(body.position)}` : 'Careers Application',
     message: String(body?.message ?? ''),
     source: 'public-form',
@@ -98,7 +108,7 @@ export async function POST(req: Request) {
     `Location: ${body.location || 'Not provided'}`,
     `Experience: ${body.experience || 'Not provided'}`,
     `Education: ${body.education || 'Not provided'}`,
-    `Portfolio/Resume: ${body.portfolio || 'Not provided'}`,
+    `CV/Resume: ${body.cvLink || 'Not provided'}`,
     '',
     'Cover Letter:',
     body.coverLetter || 'Not provided',
@@ -133,6 +143,10 @@ export async function POST(req: Request) {
             kind: 'careers',
             route: '/careers',
             company: body.position,
+            location: body.location,
+            experience: body.experience,
+            education: body.education,
+            cvLink: body.cvLink,
           }),
         });
         syncedToAdmin = intakeRes.ok;

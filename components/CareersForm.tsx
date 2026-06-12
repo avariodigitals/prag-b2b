@@ -47,6 +47,100 @@ function FormToast({ toast, onClose }: { toast: Toast; onClose: () => void }) {
 
 const STEPS = ['Personal Info', 'Application', 'Review'];
 
+const POSITION_GROUPS: { department: string; positions: string[] }[] = [
+  {
+    department: 'Engineering & Technical',
+    positions: [
+      'Electrical Engineer',
+      'Power Systems Engineer',
+      'Solar Installer',
+      'Inverter Technician',
+      'Battery Technician',
+      'Stabilizer Technician',
+      'Technical Support Engineer',
+      'R&D Engineer',
+      'Quality Control Inspector',
+      'Field Service Engineer',
+      'Project Engineer',
+    ],
+  },
+  {
+    department: 'Sales & Marketing',
+    positions: [
+      'Sales Officer',
+      'Sales Representative',
+      'Key Account Manager',
+      'Business Development Manager',
+      'Digital Marketer',
+      'Social Media Manager',
+      'Brand Manager',
+      'Marketing Manager',
+      'Product Marketing Specialist',
+    ],
+  },
+  {
+    department: 'Operations & Logistics',
+    positions: [
+      'Operations Manager',
+      'Logistics Coordinator',
+      'Warehouse Manager',
+      'Procurement Officer',
+      'Inventory Manager',
+      'Supply Chain Manager',
+      'Dispatch Officer',
+      'Fleet Manager',
+    ],
+  },
+  {
+    department: 'Customer Service',
+    positions: [
+      'Customer Support Representative',
+      'Call Center Agent',
+      'After-Sales Service Coordinator',
+      'Customer Success Manager',
+    ],
+  },
+  {
+    department: 'Finance & Accounting',
+    positions: [
+      'Accountant',
+      'Finance Manager',
+      'Accounts Officer',
+      'Auditor',
+      'Payroll Officer',
+    ],
+  },
+  {
+    department: 'Human Resources & Admin',
+    positions: [
+      'HR Manager',
+      'HR Officer',
+      'Administrative Assistant',
+      'Office Manager',
+      'Receptionist',
+      'Executive Assistant',
+    ],
+  },
+  {
+    department: 'Information Technology',
+    positions: [
+      'Software Developer',
+      'IT Support Specialist',
+      'Network Administrator',
+      'Web Developer',
+      'Data Analyst',
+      'Systems Administrator',
+    ],
+  },
+  {
+    department: 'Legal & Compliance',
+    positions: [
+      'Legal Officer',
+      'Compliance Officer',
+    ],
+  },
+];
+
 const EMPTY_FORM = {
   name: '',
   email: '',
@@ -55,7 +149,7 @@ const EMPTY_FORM = {
   position: '',
   experience: '',
   education: '',
-  portfolio: '',
+  cvLink: '',
   coverLetter: '',
 };
 
@@ -71,7 +165,7 @@ function validateStep(step: number, form: FormData): string | null {
     if (!form.location.trim()) return 'Enter your location / city.';
   }
   if (step === 1) {
-    if (!form.position.trim()) return 'Enter the position you are applying for.';
+    if (!form.position.trim()) return 'Select the position you are applying for.';
     if (!form.experience.trim()) return 'Enter your years of experience.';
     if (!form.education.trim()) return 'Enter your education background.';
   }
@@ -225,7 +319,16 @@ export default function CareersForm() {
               <h2 className="text-[#1a1a1a] text-[20px] font-medium font-['Space_Grotesk']">Application Details</h2>
               <div className="flex flex-col gap-2">
                 <label className={labelCls}>Position Applying For *</label>
-                <input type="text" value={form.position} onChange={setField('position')} maxLength={150} className={inputCls} placeholder="e.g. Electrical Engineer, Sales Manager" />
+                <select value={form.position} onChange={setField('position')} className={inputCls}>
+                  <option value="">Select a position</option>
+                  {POSITION_GROUPS.map((group) => (
+                    <optgroup key={group.department} label={group.department}>
+                      {group.positions.map((pos) => (
+                        <option key={pos} value={pos}>{pos}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label className={labelCls}>Years of Experience *</label>
@@ -251,8 +354,8 @@ export default function CareersForm() {
                 </select>
               </div>
               <div className="flex flex-col gap-2">
-                <label className={labelCls}>Portfolio / Resume Link</label>
-                <input type="url" value={form.portfolio} onChange={setField('portfolio')} maxLength={300} className={inputCls} placeholder="https://linkedin.com/in/yourprofile or Google Drive link" />
+                <label className={labelCls}>CV / Resume Link</label>
+                <input type="url" value={form.cvLink} onChange={setField('cvLink')} maxLength={300} className={inputCls} placeholder="Google Drive, Dropbox, or LinkedIn profile link" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className={labelCls}>Cover Letter</label>
@@ -294,10 +397,10 @@ export default function CareersForm() {
                   <span className="text-zinc-500 text-sm">Education</span>
                   <p className="text-[#1a1a1a] font-medium">{form.education}</p>
                 </div>
-                {form.portfolio && (
+                {form.cvLink && (
                   <div>
-                    <span className="text-zinc-500 text-sm">Portfolio / Resume</span>
-                    <p className="text-[#1a1a1a] font-medium">{form.portfolio}</p>
+                    <span className="text-zinc-500 text-sm">CV / Resume Link</span>
+                    <p className="text-[#1a1a1a] font-medium">{form.cvLink}</p>
                   </div>
                 )}
                 {form.coverLetter && (
