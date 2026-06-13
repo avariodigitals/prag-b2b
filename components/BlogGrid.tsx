@@ -171,7 +171,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
               const img = postImage(post);
               const catName = getCatName(post);
               return (
-                <div key={post.id} className="flex flex-col">
+                <Link key={post.id} href={`/knowledge-center/${post.slug}`} className="flex flex-col group cursor-pointer">
                   {/* Image — top-only rounded corners (Figma: border-radius 16px 16px 0 0) */}
                   {img && (
                     <div className="relative h-[229px] md:h-52 shrink-0 rounded-t-[16px] overflow-hidden">
@@ -179,7 +179,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                         src={img}
                         alt={stripHtml(post.title.rendered)}
                         fill
-                        className="object-cover"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
                         sizes="(max-width: 768px) 100vw, 33vw"
                         quality={90}
                       />
@@ -207,18 +207,15 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                     </p>
                     {/* Read link + date */}
                     <div className="flex items-center justify-between mt-auto">
-                      <Link
-                        href={`/knowledge-center/${post.slug}`}
-                        className="flex items-center gap-2 text-[#0166a5] text-[14px] font-normal font-['Onest'] hover:gap-3 transition-all"
-                      >
+                      <span className="flex items-center gap-2 text-[#0166a5] text-[14px] font-normal font-['Onest'] group-hover:gap-3 transition-all">
                         Read full Article <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
+                      </span>
                       <span className="text-[#888888] text-[14px] font-normal font-['Onest']" suppressHydrationWarning>
                         {postDate(post)}
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
