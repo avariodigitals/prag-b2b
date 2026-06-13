@@ -227,7 +227,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
 
             {/* Feature image */}
             {img && (
-              <div className="relative w-full max-h-[280px] sm:max-h-[320px] md:max-h-[380px] overflow-hidden">
+              <div className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] overflow-hidden">
                 <Image
                   src={img}
                   alt={title}
