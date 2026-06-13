@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -97,10 +98,13 @@ function RelatedCard({
       {/* Image */}
       <div className="relative h-[229px] rounded-t-[16px] overflow-hidden bg-stone-100 shrink-0">
         {img && (
-          <img
+          <Image
             src={img}
             alt={stripHtml(post.title.rendered)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={90}
           />
         )}
       </div>
@@ -223,12 +227,17 @@ export default async function KnowledgeCenterPost({ params }: Props) {
 
             {/* Feature image */}
             {img && (
-              <img
-                src={img}
-                alt={title}
-                className="w-full object-cover max-h-[280px] sm:max-h-[320px] md:max-h-[380px]"
-                style={{ borderRadius: 0 }}
-              />
+              <div className="relative w-full max-h-[280px] sm:max-h-[320px] md:max-h-[380px] overflow-hidden">
+                <Image
+                  src={img}
+                  alt={title}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  quality={90}
+                  priority
+                />
+              </div>
             )}
 
             {/* Article body */}

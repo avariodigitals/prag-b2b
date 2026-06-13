@@ -34,10 +34,13 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
       <div className="relative w-full aspect-[302/275] rounded-lg overflow-hidden flex items-center justify-center">
         <Link href={detailsHref} aria-label={`View details for ${product.name}`} className="block w-full h-full">
           {image ? (
-            <img
+            <Image
               src={image.src}
               alt={image.alt || product.name}
-              className="w-full h-full object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+              fill
+              className="object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 50vw, 25vw"
+              quality={90}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center rounded-lg">

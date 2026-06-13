@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
 import type { Product, ProductReview, TechDocument } from '@/lib/woocommerce';
@@ -142,12 +143,16 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
 
           {/* Product Image */}
           <div className="w-full md:w-[52%] shrink-0">
-            <div className="w-full aspect-[302/275] rounded-[16px] flex items-center justify-center overflow-hidden">
+            <div className="relative w-full aspect-[302/275] rounded-[16px] flex items-center justify-center overflow-hidden">
               {image ? (
-                <img
+                <Image
                   src={image.src}
                   alt={image.alt || product.name}
-                  className="w-full h-full object-contain p-3 mix-blend-multiply"
+                  fill
+                  className="object-contain p-3 mix-blend-multiply"
+                  sizes="(max-width: 768px) 100vw, 52vw"
+                  quality={90}
+                  priority
                 />
               ) : (
                 <div className="w-24 h-24 bg-white rounded-full" />

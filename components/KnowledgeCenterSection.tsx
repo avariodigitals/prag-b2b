@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts, getPostCategories, postImage, postDate, readTime, stripHtml, type WPPost, type WPCategory } from '@/lib/wordpress';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
@@ -18,10 +19,13 @@ function PostCard({ post, categories }: { post: WPPost; categories: WPCategory[]
     <div className="rounded-2xl flex flex-col overflow-hidden bg-white border border-[#888888]">
       {img && (
         <div className="relative h-48 shrink-0 overflow-hidden">
-          <img
+          <Image
             src={img}
-            alt={post.title.rendered}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            alt={stripHtml(post.title.rendered)}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={90}
           />
         </div>
       )}

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
@@ -44,10 +45,14 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
           <>
             {/* Mobile: full-height overlay card (Figma: h=376px, overlay style) */}
             <div className="md:hidden relative rounded-2xl overflow-hidden h-[376px]">
-              <img
+              <Image
                 src={postImage(featured) || ''}
-                alt={featured.title.rendered}
-                className="absolute inset-0 w-full h-full object-cover"
+                alt={stripHtml(featured.title.rendered)}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                quality={90}
+                priority
               />
               {/* Dark gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/80" />
@@ -88,10 +93,14 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
             <div className="hidden md:flex flex-row rounded-2xl overflow-hidden border border-zinc-500/20">
               {postImage(featured) && (
                 <div className="relative w-[540px] h-[380px] shrink-0">
-                  <img
+                  <Image
                     src={postImage(featured)!}
-                    alt={featured.title.rendered}
-                    className="w-full h-full object-cover"
+                    alt={stripHtml(featured.title.rendered)}
+                    fill
+                    className="object-cover"
+                    sizes="540px"
+                    quality={90}
+                    priority
                   />
                 </div>
               )}
@@ -166,10 +175,13 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                   {/* Image — top-only rounded corners (Figma: border-radius 16px 16px 0 0) */}
                   {img && (
                     <div className="relative h-[229px] md:h-52 shrink-0 rounded-t-[16px] overflow-hidden">
-                      <img
+                      <Image
                         src={img}
-                        alt={post.title.rendered}
-                        className="w-full h-full object-cover"
+                        alt={stripHtml(post.title.rendered)}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        quality={90}
                       />
                     </div>
                   )}
