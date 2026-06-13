@@ -226,7 +226,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
               <img
                 src={img}
                 alt={title}
-                className="w-full object-cover"
+                className="w-full object-cover max-h-[280px] sm:max-h-[320px] md:max-h-[380px]"
                 style={{ borderRadius: 0 }}
               />
             )}
@@ -250,27 +250,27 @@ export default async function KnowledgeCenterPost({ params }: Props) {
 
               {/* Category row */}
               <div className="flex items-center justify-between gap-4 pb-4 border-b border-zinc-300">
-                <span className="text-[#888888] text-[18px] font-medium font-['Space_Grotesk'] shrink-0">
+                <span className="text-[#888888] text-[20px] font-medium font-['Space_Grotesk'] shrink-0">
                   Category:
                 </span>
-                <span className="text-[#444444] text-[16px] font-medium font-['Space_Grotesk'] text-right">
+                <span className="text-[#444444] text-[18px] font-medium font-['Space_Grotesk'] text-right">
                   {catName}
                 </span>
               </div>
 
               {/* Date row */}
               <div className="flex items-center justify-between gap-4 pb-4 border-b border-zinc-300">
-                <span className="text-[#888888] text-[18px] font-medium font-['Space_Grotesk'] shrink-0">
+                <span className="text-[#888888] text-[20px] font-medium font-['Space_Grotesk'] shrink-0">
                   Date:
                 </span>
-                <span className="text-[#444444] text-[16px] font-medium font-['Space_Grotesk'] text-right">
+                <span className="text-[#444444] text-[18px] font-medium font-['Space_Grotesk'] text-right">
                   {postDateLong(post)}
                 </span>
               </div>
 
               {/* Share to row */}
               <div className="flex items-center justify-between gap-4">
-                <span className="text-[#888888] text-[18px] font-medium font-['Space_Grotesk'] shrink-0">
+                <span className="text-[#888888] text-[20px] font-medium font-['Space_Grotesk'] shrink-0">
                   Share to
                 </span>
                 <div className="flex items-center gap-3 text-[#444444]">
