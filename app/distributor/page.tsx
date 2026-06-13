@@ -50,6 +50,11 @@ export default async function DistributorPage() {
   const tiersKicker = tiersHeader?.kicker?.trim() || 'Partnership Tier';
   const tiersTitle = tiersHeader?.summary?.trim() || 'Choose the Tier That Fits Your Business';
 
+  const formHeader = sectionHeaders.find((s) => String(s.id).includes('form'));
+  const formKicker = formHeader?.kicker?.trim() || 'Application Form';
+  const formTitle = formHeader?.summary?.trim() || 'Start Your PRAG Partnership';
+  const formDescription = formHeader?.content?.trim() || 'Fill in the form below and our partnership team will contact you within 2 business days.';
+
   const tiers = tierSections.length > 0
     ? tierSections.map((s, i) => ({
         title: s.summary?.trim() || FALLBACK_TIERS[i]?.title || '',
@@ -126,11 +131,11 @@ export default async function DistributorPage() {
             <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-sky-700 rounded-sm shrink-0" />
-              <span className="section-kicker">Application Form</span>
+              <span className="section-kicker">{formKicker}</span>
             </div>
-            <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest']">Start Your PRAG Partnership</h2>
+            <h2 className="text-zinc-900 text-3xl md:text-4xl font-bold font-['Onest']">{formTitle}</h2>
             <p className="text-zinc-500 text-lg md:text-xl font-['Onest'] max-w-lg">
-              Fill in the form below and our partnership team will contact you within 2 business days.
+              {formDescription}
             </p>
             </div>
             <DistributorForm />
