@@ -66,6 +66,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://central.prag.global" />
+        <link rel="dns-prefetch" href="https://central.prag.global" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         {searchConsoleVerification && (
           <meta name="google-site-verification" content={searchConsoleVerification} />
         )}

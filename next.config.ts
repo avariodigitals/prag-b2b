@@ -1,6 +1,25 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
+  httpAgentOptions: {
+    keepAlive: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'central.prag.global',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.prag.global',
+      },
+    ],
+    qualities: [75, 80, 85, 90],
+    minimumCacheTTL: 86400,
+    formats: ['image/avif', 'image/webp'],
+  },
   async redirects() {
     return [
       {
@@ -49,18 +68,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'central.prag.global',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.prag.global',
-      },
-    ],
   },
 };
 

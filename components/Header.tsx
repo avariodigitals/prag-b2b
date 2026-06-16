@@ -118,7 +118,7 @@ function applyCompleteSystemsLinkRules(items: HeaderMenuItem[], trail: string[] 
 function MobileMenuNode({ item, onClose, depth = 0 }: { item: HeaderMenuItem; onClose: () => void; depth?: number }) {
   const hasChildren = Array.isArray(item.children) && item.children.length > 0;
   const [open, setOpen] = useState(false);
-  const indent = depth * 14;
+  const indent = depth * 24;
 
   if (!hasChildren) {
     return (
@@ -126,7 +126,7 @@ function MobileMenuNode({ item, onClose, depth = 0 }: { item: HeaderMenuItem; on
         <Link
           href={item.href}
           onClick={onClose}
-          className="block py-2.5 text-sm text-zinc-600 hover:text-sky-700 transition-colors"
+          className={`block py-2.5 text-base hover:text-sky-700 transition-colors ${depth > 0 ? 'text-zinc-950' : 'text-zinc-600'}`}
         >
           {item.label}
         </Link>
@@ -137,7 +137,7 @@ function MobileMenuNode({ item, onClose, depth = 0 }: { item: HeaderMenuItem; on
   return (
     <div className="border-b border-zinc-100 last:border-0" style={{ marginLeft: indent }}>
       <div className="flex items-center justify-between gap-2">
-        <Link href={item.href} onClick={onClose} className="py-2.5 text-sm font-semibold text-zinc-700 hover:text-sky-700 transition-colors">
+        <Link href={item.href} onClick={onClose} className={`py-2.5 text-base font-semibold hover:text-sky-700 transition-colors ${depth > 0 ? 'text-zinc-950' : 'text-zinc-700'}`}>
           {item.label}
         </Link>
         <button
@@ -333,7 +333,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: Head
     <div className="border-b border-gray-100 last:border-0">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between py-4 text-base font-semibold text-zinc-800 font-['Onest']"
+        className="w-full flex items-center justify-between py-4 text-lg font-semibold text-zinc-800 font-['Onest']"
       >
         {label}
         <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
@@ -341,7 +341,7 @@ function MobileAccordion({ label, items, onClose }: { label: string; items: Head
       {open && (
         <div className="pb-3 flex flex-col gap-2">
           {items.map((item, index) => (
-            <MobileMenuNode key={`${item.href}-${index}`} item={item} onClose={onClose} depth={0} />
+            <MobileMenuNode key={`${item.href}-${index}`} item={item} onClose={onClose} depth={1} />
           ))}
         </div>
       )}
@@ -403,14 +403,14 @@ function MobileMenu({
           <Link
             href={contact.href}
             onClick={onClose}
-            className="py-4 text-base font-semibold text-zinc-800 font-['Onest'] border-b border-gray-100 hover:text-sky-700 transition-colors"
+            className="py-4 text-lg font-semibold text-zinc-800 font-['Onest'] border-b border-gray-100 hover:text-sky-700 transition-colors"
           >
             {contact.label}
           </Link>
           <Link
             href={cta.href}
             onClick={onClose}
-            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-[#0166a5] text-white text-base font-medium font-['Onest'] hover:bg-sky-800 transition-colors"
+            className="mt-5 mb-4 text-center px-5 py-3 rounded-full bg-[#0166a5] text-white text-lg font-medium font-['Onest'] hover:bg-sky-800 transition-colors"
           >
             {cta.label}
           </Link>
