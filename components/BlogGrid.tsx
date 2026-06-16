@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -24,6 +25,81 @@ interface Props {
 export default function BlogGrid({ featured, posts, categories, activeCategory }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const [prevPosts, setPrevPosts] = useState<WPPost[]>(posts);
+  const [allPosts, setAllPosts] = useState<WPPost[]>(posts);
+  const [page, setPage] = useState(2);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(posts.length >= 9);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  if (posts !== prevPosts) {
+    setPrevPosts(posts);
+    setAllPosts(posts);
+    setPage(2);
+    setHasMore(posts.length >= 9);
+    setLoading(false);
+  }
+
+  async function loadMore() {
+    if (loading || !hasMore) return;
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (activeCategory) params.set('category', activeCategory);
+      params.set('page', String(page));
+      params.set('per_page', '10');
+
+      const res = await fetch(`/api/posts?${params}`);
+      if (!res.ok) {
+        setHasMore(false);
+        return;
+      }
+      const data = await res.json();
+      const newPosts: WPPost[] = data.posts || [];
+      if (newPosts.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      setAllPosts(prev => {
+        const existingIds = new Set(prev.map(p => p.id));
+        if (featured) existingIds.add(featured.id);
+        const filtered = newPosts.filter(p => !existingIds.has(p.id));
+        return [...prev, ...filtered];
+      });
+      setPage(p => p + 1);
+      if (newPosts.length < 10) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error(err);
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const loadMoreRef = useRef(loadMore);
+  useEffect(() => {
+    loadMoreRef.current = loadMore;
+  });
+
+  useEffect(() => {
+    if (!hasMore || loading) return;
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          loadMoreRef.current();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, loading]);
 
   function setCategory(slug?: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -81,7 +157,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                   </p>
                   <Link
                     href={`/knowledge-center/${featured.slug}`}
-                    className="flex items-center gap-2 text-[#0166a5] text-[14px] font-normal font-['Onest'] hover:gap-3 transition-all"
+                    className="flex items-center gap-2 text-white text-[14px] font-normal font-['Onest'] hover:gap-3 transition-all"
                   >
                     Read full Article <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
@@ -162,12 +238,12 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
         </div>
 
         {/* ── Article list ── */}
-        {posts.length === 0 ? (
+        {allPosts.length === 0 ? (
           <p className="text-zinc-400 text-lg font-['Onest'] text-center py-10">No articles found.</p>
         ) : (
           /* Mobile: 1 col stacked; Desktop: 3-col grid */
           <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => {
+            {allPosts.map((post) => {
               const img = postImage(post);
               const catName = getCatName(post);
               return (
@@ -218,6 +294,17 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                 </Link>
               );
             })}
+          </div>
+        )}
+
+        <div ref={sentinelRef} className="h-4" />
+
+        {loading && (
+          <div className="flex justify-center py-4">
+            <svg className="w-6 h-6 text-sky-700 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+              <path className="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+            </svg>
           </div>
         )}
       </div>
