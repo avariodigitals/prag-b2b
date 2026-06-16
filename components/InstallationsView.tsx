@@ -36,7 +36,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
   return (
     <main className="w-full bg-white flex flex-col">
       {/* ── Hero ── */}
-      <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-4 text-center">
+      <div className="w-full bg-stone-50 px-6 md:px-10 lg:px-20 breadcrumb-hero-shell flex flex-col items-center gap-4 text-center">
         <h1 className="text-[28px] md:text-[48px] font-bold font-['Onest'] text-[#0166a5] leading-tight max-w-2xl">
           {content.installationsHeroTitle}
         </h1>
@@ -46,7 +46,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
       </div>
 
       {/* ── Cards ── */}
-      <div className="w-full px-6 md:px-20 py-10 flex flex-col gap-10 max-w-[1280px] mx-auto">
+      <div className="w-full px-6 md:px-10 lg:px-20 py-10 flex flex-col gap-10 max-w-[1280px] mx-auto">
 
         {/* Case study cards */}
         <div className="flex flex-col gap-4">
@@ -107,7 +107,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
       </div>
 
       {/* ── Process section ── */}
-      <div className="w-full border-t border-zinc-100 py-10 md:py-16 px-6 md:px-20 flex flex-col gap-10">
+      <div className="w-full border-t border-zinc-100 py-10 md:py-16 px-6 md:px-10 lg:px-20 flex flex-col gap-10">
 
         {/* Kicker + heading */}
         <div className="flex flex-col gap-[30px] text-center">
@@ -123,7 +123,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
         </div>
 
         {/* Steps */}
-        <div className="w-full max-w-[1280px] mx-auto flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-8">
+        <div className="w-full max-w-[1280px] mx-auto flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {content.processSteps.map((step) => (
             <div key={step.id} className="flex flex-col gap-3">
               {/* Step number: Onest 44px 800 #0166a5 */}

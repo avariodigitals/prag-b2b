@@ -152,7 +152,7 @@ export default function StoresGrid({ pragStores, onlineStores, chainStores }: Pr
     <div className="w-full flex flex-col gap-16">
       {/* PRAG Stores */}
       {sortedPragStores.length > 0 && (
-        <section className="w-full px-6 md:px-20">
+        <section className="w-full px-6 md:px-10 lg:px-20">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
             <h2 className="text-[#1a1a1a] text-[40px] font-bold font-['Onest'] tracking-[-1px]">
               PRAG Stores
@@ -168,7 +168,7 @@ export default function StoresGrid({ pragStores, onlineStores, chainStores }: Pr
 
       {/* Online Stores */}
       {onlineStores.length > 0 && (
-        <section className="w-full px-6 md:px-20">
+        <section className="w-full px-6 md:px-10 lg:px-20">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
             <h2 className="text-[#1a1a1a] text-[40px] font-bold font-['Onest'] tracking-[-1px]">
               Online Stores
@@ -195,7 +195,7 @@ export default function StoresGrid({ pragStores, onlineStores, chainStores }: Pr
 
       {/* Chain Stores */}
       {chainStores.length > 0 && (
-        <section className="w-full px-6 md:px-20">
+        <section className="w-full px-6 md:px-10 lg:px-20">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
             <h2 className="text-[#1a1a1a] text-[40px] font-bold font-['Onest'] tracking-[-1px]">
               Chain Stores

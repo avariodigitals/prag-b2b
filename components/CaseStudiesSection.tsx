@@ -44,7 +44,7 @@ export default async function CaseStudiesSection() {
     : content.sectionTitle.split('\n');
 
   return (
-    <section className="w-full bg-[#fafafa] py-12 md:py-16 px-4 sm:px-6 md:px-20">
+    <section className="w-full bg-[#fafafa] py-12 md:py-16 px-4 sm:px-6 md:px-10 lg:px-20">
       <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-10">
 
         {/* Header */}

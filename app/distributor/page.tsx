@@ -66,7 +66,7 @@ export default async function DistributorPage() {
     <main className="w-full bg-white flex flex-col">
 
         {/* Hero */}
-        <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-4 text-center">
+        <div className="w-full bg-stone-50 px-6 md:px-10 lg:px-20 breadcrumb-hero-shell flex flex-col items-center gap-4 text-center">
           <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
             {heroTitle}
           </h1>
@@ -76,7 +76,7 @@ export default async function DistributorPage() {
         </div>
 
         {/* Benefits */}
-        <section className="w-full px-6 md:px-20 py-14">
+        <section className="w-full px-6 md:px-10 lg:px-20 py-14">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
             <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default async function DistributorPage() {
               {benefitsTitle}
             </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {benefits.map(({ icon: Icon, title, body }, i) => (
               <div key={`${title}-${i}`} className="p-6 rounded-2xl border border-zinc-300 md:border-zinc-500 flex flex-col gap-3">
                 <Icon className="w-6 h-6 text-sky-700" />
@@ -100,7 +100,7 @@ export default async function DistributorPage() {
         </section>
 
         {/* Partnership Tiers */}
-        <section className="w-full px-6 md:px-20 py-14 bg-white">
+        <section className="w-full px-6 md:px-10 lg:px-20 py-14 bg-white">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
             <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2">
@@ -111,7 +111,7 @@ export default async function DistributorPage() {
               {tiersTitle}
             </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {tiers.map((tier, i) => (
               <div key={`${tier.title}-${i}`} className="p-6 bg-white rounded-2xl border border-zinc-300 md:border-zinc-500 flex flex-col gap-4">
                 <div className="w-9 h-9 rounded-full bg-sky-700 flex items-center justify-center shrink-0">
@@ -126,7 +126,7 @@ export default async function DistributorPage() {
         </section>
 
         {/* Application Form */}
-        <section className="w-full px-6 md:px-20 py-14">
+        <section className="w-full px-6 md:px-10 lg:px-20 py-14">
           <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2">

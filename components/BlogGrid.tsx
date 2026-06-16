@@ -37,7 +37,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
     categories.find((c) => post.categories.includes(c.id))?.name ?? 'Power Guide';
 
   return (
-    <div className="w-full px-6 md:px-20 py-8 md:py-16">
+    <div className="w-full px-6 md:px-10 lg:px-20 py-8 md:py-16">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
 
         {/* ── Featured post ── */}
@@ -166,7 +166,7 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
           <p className="text-zinc-400 text-lg font-['Onest'] text-center py-10">No articles found.</p>
         ) : (
           /* Mobile: 1 col stacked; Desktop: 3-col grid */
-          <div className="flex flex-col gap-6 md:grid md:grid-cols-3">
+          <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => {
               const img = postImage(post);
               const catName = getCatName(post);

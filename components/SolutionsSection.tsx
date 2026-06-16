@@ -90,7 +90,7 @@ export default async function SolutionsSection() {
   const content = await getHomepageSolutionsContent();
 
   return (
-    <section className="w-full bg-[#fafafa] px-4 sm:px-6 md:px-20 py-12 md:py-20 overflow-hidden scroll-mt-24">
+    <section className="w-full bg-[#fafafa] px-4 sm:px-6 md:px-10 lg:px-20 py-12 md:py-20 overflow-hidden scroll-mt-24">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-8 md:gap-16">
 
         {/* Header */}

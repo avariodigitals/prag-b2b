@@ -178,7 +178,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
     <main className="w-full bg-white flex flex-col">
 
       {/* ── Breadcrumb + Title ── */}
-      <div className="w-full px-6 md:px-20 pt-8 pb-8">
+      <div className="w-full px-6 md:px-10 lg:px-20 pt-8 pb-8">
         <div className="max-w-[1280px] mx-auto flex flex-col gap-5">
 
           {/* Breadcrumb */}
@@ -219,8 +219,8 @@ export default async function KnowledgeCenterPost({ params }: Props) {
       </div>
 
       {/* ── 2-column: Content + Sidebar ── */}
-      <div className="w-full px-6 md:px-20 pb-16">
-        <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row items-start">
+      <div className="w-full px-6 md:px-10 lg:px-20 pb-16">
+        <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-start">
 
           {/* Left: Article Content */}
           <div className="flex-1 min-w-0 flex flex-col gap-8 md:pr-[31px]">
@@ -337,7 +337,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
 
       {/* ── Related Latest Articles ── */}
       {related.length > 0 && (
-        <div className="w-full px-6 md:px-20 py-16">
+        <div className="w-full px-6 md:px-10 lg:px-20 py-16">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
 
             {/* Section header */}
@@ -354,7 +354,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
             </div>
 
             {/* Cards grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map((p: WPPost) => (
                 <RelatedCard key={p.id} post={p} categories={categories as WPCategory[]} />
               ))}

@@ -121,7 +121,7 @@ export default function PowerCalculatorTool({ products }: Props) {
   for (let i = 0; i < APPLIANCES.length; i += 3) rows.push(APPLIANCES.slice(i, i + 3));
 
   return (
-    <div className="w-full px-6 md:px-20 py-8">
+    <div className="w-full px-6 md:px-10 lg:px-20 py-8">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
       {/* Appliance grid */}
       <div className="flex flex-col gap-4">

@@ -371,11 +371,11 @@ function MobileMenu({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`md:hidden fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`lg:hidden fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       />
       {/* Tray */}
       <div
-        className={`md:hidden fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -455,7 +455,7 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
 
   return (
     <header className="w-full bg-white sticky top-0 z-50 border-b border-[rgba(1,102,165,0.10)]">
-      <div className="w-full px-6 md:px-20">
+      <div className="w-full px-6 md:px-10 lg:px-20">
         <div className="max-w-[1280px] mx-auto h-16 flex items-center justify-between">
 
           {/* Logo */}
@@ -471,9 +471,9 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
             />
           </Link>
 
-          <div className="hidden md:flex items-center gap-14 ml-auto" onMouseLeave={handleMegaLeave}>
+          <div className="hidden lg:flex items-center gap-6 xl:gap-14 ml-auto" onMouseLeave={handleMegaLeave}>
             {/* Desktop Nav */}
-            <nav className="flex items-center gap-14">
+            <nav className="flex items-center gap-6 xl:gap-14">
               <NavItem label="Solutions" items={solutionsItems} megaKind="solutions" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
               <NavItem label="Products" items={productItems} megaKind="products" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
               <NavItem label="Company" items={companyItems} megaKind="company" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
@@ -490,14 +490,14 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
           </div>
 
           {/* Mobile Toggle */}
-          <button className="md:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
+          <button className="lg:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
             <Menu className="w-6 h-6 text-zinc-800" />
           </button>
         </div>
       </div>
 
       {activeMega && (
-        <div className="hidden md:block w-full px-6 md:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
+        <div className="hidden lg:block w-full px-6 md:px-10 lg:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
           <div className="max-w-[1280px] mx-auto">
             <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} settings={settings} />
           </div>

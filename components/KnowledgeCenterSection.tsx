@@ -79,7 +79,7 @@ export default async function KnowledgeCenterSection() {
   };
 
   return (
-    <section className="w-full bg-[#FAFAFA] py-12 md:py-16 px-4 sm:px-6 md:px-20">
+    <section className="w-full bg-[#FAFAFA] py-12 md:py-16 px-4 sm:px-6 md:px-10 lg:px-20">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-8 md:gap-10">
 
         {/* Header */}
@@ -101,7 +101,7 @@ export default async function KnowledgeCenterSection() {
 
         {/* Cards */}
         {posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {posts.map(post => (
               <Link key={post.id} href={`/knowledge-center/${post.slug}`} className="group">
                 <PostCard post={post} categories={categories} />

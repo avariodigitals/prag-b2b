@@ -110,7 +110,7 @@ export default async function ProblemsSection() {
   return (
     <section className="w-full bg-white">
       {/* Stats Bar */}
-      <div className="w-full px-4 sm:px-6 md:px-20 pt-6 pb-6 md:pt-[93px] md:pb-[39px] bg-white">
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-20 pt-6 pb-6 md:pt-[93px] md:pb-[39px] bg-white">
         <div className="max-w-[1280px] mx-auto grid grid-cols-3 divide-x divide-[#0166A5] text-center gap-0 w-full">
           {content.stats.map((s) => (
             <div
@@ -131,7 +131,7 @@ export default async function ProblemsSection() {
       </div>
 
       {/* Problems Content */}
-      <div className="w-full px-4 sm:px-6 md:px-20">
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-20">
         <div className="max-w-[1280px] mx-auto pt-10 pb-12 md:py-[4.5rem] flex flex-col gap-8 md:gap-12">
           {/* Header */}
           <div className="flex flex-col gap-4 md:gap-6">

@@ -91,7 +91,7 @@ function FAQSectionContent({
   hideHeader?: boolean;
 }) {
   return (
-    <section className="w-full px-6 md:px-20 py-20">
+    <section className="w-full px-6 md:px-10 lg:px-20 py-20">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
         {!hideHeader && (
           <div className="flex flex-col items-center gap-4 text-center">

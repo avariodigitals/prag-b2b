@@ -107,7 +107,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
     <div className="w-full flex flex-col">
 
       {/* ── Breadcrumb ── */}
-      <div className="w-full px-6 md:px-20 py-4">
+      <div className="w-full px-6 md:px-10 lg:px-20 py-4">
         <div className="max-w-[1280px] mx-auto flex items-center gap-2 flex-wrap">
           <Link
             href="/products"
@@ -138,11 +138,11 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
       </div>
 
       {/* ── Hero: Image + Info ── */}
-      <div className="w-full px-6 md:px-20 pt-6 md:pt-10 pb-10 md:pb-14">
-        <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-8 md:gap-10 items-start">
+      <div className="w-full px-6 md:px-10 lg:px-20 pt-6 md:pt-10 pb-10 md:pb-14">
+        <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
 
           {/* Product Image */}
-          <div className="w-full md:w-[52%] shrink-0">
+          <div className="w-full lg:w-[52%] shrink-0">
             <div className="relative w-full aspect-[302/275] rounded-[16px] flex items-center justify-center overflow-hidden">
               {image ? (
                 <Image
@@ -361,7 +361,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
       </div>
 
       {/* ── Tabs ── */}
-      <div className="w-full px-6 md:px-20 pb-12">
+      <div className="w-full px-6 md:px-10 lg:px-20 pb-12">
         <div className="max-w-[1280px] mx-auto">
           <div className="w-full rounded-[16px] border border-[#c4c7cc] flex flex-col gap-6 p-8">
 
@@ -558,12 +558,12 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
 
       {/* ── Related Products ── */}
       {related.length > 0 && (
-        <div className="w-full px-6 md:px-20 pb-14">
+        <div className="w-full px-6 md:px-10 lg:px-20 pb-14">
           <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
             <h2 className="text-[#444444] font-['Onest'] text-[32px] md:text-[40px] font-medium leading-tight">
               Related Products
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
               {related.map(p => (
                 <B2BProductCard key={p.id} product={p} listingMode />
               ))}
