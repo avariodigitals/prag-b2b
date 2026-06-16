@@ -39,6 +39,7 @@ export default async function AboutPage() {
   const heroDescription = heroSection?.content?.trim() || 'PRAG is a power solutions company focused on designing and delivering systems that solve unstable electricity problems for homes, businesses, and industries.';
   const aboutTitle = aboutMain?.summary?.trim() || 'Built on Engineering, Driven by Real Power Challenges';
   const aboutBody = aboutMain?.content?.trim() || 'PRAG was founded to address one core problem, unreliable electricity. Instead of simply supplying equipment, we set out to design complete power solutions that ensure stability, efficiency, and long-term performance.\n\nToday, we work with homeowners, businesses, and industrial clients to deliver systems tailored to their specific needs, backed by technical expertise and real-world experience.';
+  const aboutParas = aboutBody.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
   const aboutImage = aboutMain?.imageUrl?.trim() || 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6.png';
   const storyTitle = storyMain?.summary?.trim() || 'Nigeria\'s Leading Provider of Voltage Regulation, Power Backup, Storage, and Renewable Energy Solutions.';
   const storyImage = storyMain?.imageUrl?.trim() || 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png';
@@ -78,7 +79,7 @@ export default async function AboutPage() {
         <h1 className="breadcrumb-title-lock leading-tight max-w-3xl">
           {heroTitle}
         </h1>
-        <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed">
+        <p className="breadcrumb-description-lock max-w-[531px] leading-relaxed !font-['Onest'] !text-[#71717b]">
           <SentenceText text={heroDescription} />
         </p>
       </div>
@@ -103,9 +104,13 @@ export default async function AboutPage() {
                   {aboutTitle}
                 </h2>
                 {/* n_064b1: Space Grotesk 20px 400 #888888 */}
-                <p className="text-[#888888] text-[18px] md:text-[20px] font-normal font-['Space_Grotesk'] leading-relaxed whitespace-pre-line">
-                  {aboutBody}
-                </p>
+                <div className="flex flex-col gap-6">
+                  {aboutParas.map((para, i) => (
+                    <p key={i} className="text-[#71717b] text-[18px] md:text-[20px] font-normal font-['Onest'] leading-relaxed">
+                      <SentenceText text={para} />
+                    </p>
+                  ))}
+                </div>
               </div>
 
               {/* Stats — n_98039: Onest 48px 300, n_10871: Onest 28px 400, both #0166a5 */}
@@ -165,7 +170,7 @@ export default async function AboutPage() {
             {/* n_ad465 etc.: Space Grotesk 20px 400 #888888 */}
             <div className="flex-1 flex flex-col gap-6">
               {storyParas.map((para, i) => (
-                <p key={i} className="text-[#888888] text-[18px] md:text-[20px] font-normal font-['Space_Grotesk'] leading-relaxed">
+                <p key={i} className="text-[#71717b] text-[18px] md:text-[20px] font-normal font-['Onest'] leading-relaxed">
                   <SentenceText text={para} />
                 </p>
               ))}
@@ -189,7 +194,7 @@ export default async function AboutPage() {
               {valuesTitle}
             </h2>
             {/* n_316b9: Onest 20px 400 #444444 */}
-            <p className="text-[#444444] text-[18px] md:text-[20px] font-normal font-['Onest'] max-w-lg">
+            <p className="text-[#71717b] text-[18px] md:text-[20px] font-normal font-['Onest'] max-w-lg">
               {valuesSubtitle}
             </p>
           </div>
@@ -220,7 +225,7 @@ export default async function AboutPage() {
                     {val.title}
                   </h3>
                 </div>
-                <p className="text-[#444444] text-[16px] font-normal font-['Onest'] leading-relaxed">
+                <p className="text-[#71717b] text-[16px] font-normal font-['Onest'] leading-relaxed">
                   <SentenceText text={val.body} />
                 </p>
               </div>

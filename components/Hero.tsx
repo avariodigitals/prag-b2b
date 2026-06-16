@@ -115,7 +115,7 @@ export default async function Hero() {
               );
             })}
           </h1>
-          <p className="text-white text-center [font-family:var(--font-space-grotesk)] text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[480px] md:max-w-[760px]">
+          <p className="text-white text-center [font-family:var(--font-space-grotesk)] text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[520px] md:max-w-[840px]">
             <SentenceText text={hero.body} />
           </p>
         </div>

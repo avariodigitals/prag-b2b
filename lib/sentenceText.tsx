@@ -68,7 +68,7 @@ export function SentenceText({ text, className, as: Tag = 'span' }: SentenceText
         {sentences.map((sentence, i) => (
           <React.Fragment key={i}>
             {sentence}
-            {i < sentences.length - 1 && <br />}
+            {i < sentences.length - 1 && <span className="block h-3" aria-hidden="true" />}
           </React.Fragment>
         ))}
       </Tag>
@@ -88,12 +88,12 @@ export function SentenceText({ text, className, as: Tag = 'span' }: SentenceText
                 {sentences.map((sentence, i) => (
                   <React.Fragment key={i}>
                     {sentence}
-                    {i < sentences.length - 1 && <br />}
+                    {i < sentences.length - 1 && <span className="block h-3" aria-hidden="true" />}
                   </React.Fragment>
                 ))}
               </>
             )}
-            {lineIndex < lines.length - 1 && <br />}
+            {lineIndex < lines.length - 1 && <span className="block h-3" aria-hidden="true" />}
           </React.Fragment>
         );
       })}

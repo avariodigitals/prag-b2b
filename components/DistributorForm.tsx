@@ -108,7 +108,7 @@ export default function DistributorForm() {
   return (
     <>
       {toast && <ErrorToast toast={toast} onClose={() => setToast(null)} />}
-      <form onSubmit={handleSubmit} noValidate className="w-full max-w-3xl p-6 md:p-10 bg-white rounded-xl border border-zinc-300 flex flex-col gap-5">
+      <form onSubmit={handleSubmit} noValidate className="w-full max-w-3xl p-6 md:p-10 bg-white rounded-xl border border-zinc-500 flex flex-col gap-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="flex flex-col gap-2">
             <label className="text-zinc-900 text-base font-['Onest']">Full Name *</label>

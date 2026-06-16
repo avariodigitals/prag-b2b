@@ -118,7 +118,7 @@ export default async function ProblemsSection() {
               className="flex items-center justify-center px-2 md:px-4 py-3 md:py-5"
             >
               <span
-                className={`text-[#0166A5] text-sm sm:text-[17px] md:text-[34px] leading-[1.2] md:leading-[1.08] tracking-[0] text-center font-['Onest'] whitespace-pre-line break-words max-w-full ${
+                className={`text-[#0166A5] text-[18px] sm:text-[20px] md:text-[34px] leading-[1.2] md:leading-[1.08] tracking-[0] text-center font-['Onest'] whitespace-pre-line break-words max-w-full ${
                   s.mobileWeight === 'bold' ? 'font-bold md:font-medium' : s.weight === 'light' ? 'font-light' : 'font-medium'
                 }`}
               >

@@ -94,7 +94,7 @@ export default async function ContactPage() {
                 <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Email</span>
                 <a
                   href={`mailto:${email}`}
-                  className="text-[#6b6b6b] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
+                  className="text-[#1a1a1a] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
                 >
                   {email}
                 </a>
@@ -110,7 +110,7 @@ export default async function ContactPage() {
                 <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Phone</span>
                 <a
                   href={`tel:${phone}`}
-                  className="text-[#888888] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
+                  className="text-[#1a1a1a] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
                 >
                   {phone}
                 </a>
@@ -124,7 +124,7 @@ export default async function ContactPage() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Location</span>
-                <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{address}</span>
+                <span className="text-[#1a1a1a] text-lg font-['Space_Grotesk']">{address}</span>
               </div>
             </div>
 
@@ -135,9 +135,9 @@ export default async function ContactPage() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-[#1a1a1a] text-lg font-medium font-['Space_Grotesk']">Business Hours</span>
-                <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{hoursWeekday}</span>
+                <span className="text-[#1a1a1a] text-lg font-['Space_Grotesk']">{hoursWeekday}</span>
                 {hoursSaturday && (
-                  <span className="text-[#6b6b6b] text-lg font-['Space_Grotesk']">{hoursSaturday}</span>
+                  <span className="text-[#1a1a1a] text-lg font-['Space_Grotesk']">{hoursSaturday}</span>
                 )}
               </div>
             </div>

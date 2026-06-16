@@ -304,7 +304,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 />
               </div>
 
-              <div className="mt-3 space-y-3 text-[0.95rem] leading-[1.24] text-white/92 md:text-[0.97rem]">
+              <div className="mt-3 space-y-3 text-[1.05rem] leading-[1.24] text-white/92 md:text-[1.02rem]">
                 <p>{footerTagline}</p>
                 {footerCompanyLine ? <p>{footerCompanyLine}</p> : null}
               </div>
@@ -316,14 +316,14 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <MapPin className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{headOfficeLabel}</p>
-                      <p className="mt-1 text-[0.95rem] leading-[1.3] text-white/88 md:text-[0.92rem]">{address}</p>
+                      <p className="mt-1 text-[1.05rem] leading-[1.3] text-white/88 md:text-[1.02rem]">{address}</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <Phone className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{salesHotlineLabel}</p>
-                      <a href={`tel:${salesPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
+                      <a href={`tel:${salesPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
                         {salesPhone}
                       </a>
                     </div>
@@ -332,7 +332,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <Headphones className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{customerSupportLabel}</p>
-                      <a href={`tel:${supportPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
+                      <a href={`tel:${supportPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
                         {supportPhone}
                       </a>
                     </div>
@@ -341,7 +341,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <WhatsAppIcon className="mt-1 h-4 w-4 shrink-0 text-white/92" />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{whatsappLabel}</p>
-                      <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[0.92rem]">
+                      <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
                         {whatsappDisplay}
                       </a>
                     </div>
@@ -350,7 +350,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <Mail className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{emailLabel}</p>
-                      <a href={`mailto:${email}`} className="mt-1 block text-[0.95rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white md:text-[0.92rem]">
+                      <a href={`mailto:${email}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white md:text-[1.02rem]">
                         {email}
                       </a>
                     </div>
@@ -359,7 +359,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <Clock3 className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{workingHoursLabel}</p>
-                      <p className="mt-1 text-[0.95rem] leading-[1.3] text-white/88 md:text-[0.92rem]">{workingHoursText}</p>
+                      <p className="mt-1 text-[1.05rem] leading-[1.3] text-white/88 md:text-[1.02rem]">{workingHoursText}</p>
                     </div>
                   </li>
                 </ul>
@@ -369,19 +369,19 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                 <ul className="space-y-2.5 text-white/94">
                   <li className="flex items-center gap-2.5">
                     <WhatsAppIcon className="h-4 w-4 shrink-0 text-white/92" />
-                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="text-[0.92rem] leading-[1.3] text-white/88 transition-colors hover:text-white">
+                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="text-[1.12rem] leading-[1.3] text-white/88 transition-colors hover:text-white">
                       {whatsappDisplay}
                     </a>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Mail className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <a href={`mailto:${email}`} className="text-[0.92rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                    <a href={`mailto:${email}`} className="text-[1.12rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
                       {email}
                     </a>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-[0.92rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                    <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-[1.12rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
                       {address}
                     </a>
                   </li>
@@ -438,12 +438,12 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             </Link>
           </div>
 
-          <div className="flex flex-col items-center gap-4 py-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left">
-            <p className="max-w-[18rem] text-[0.76rem] leading-[1.45] text-white/78 md:max-w-none md:text-[0.78rem]">
+          <div className="flex flex-col items-center gap-8 py-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left">
+            <p className="w-full text-[0.95rem] leading-[1.45] text-white/78 md:w-auto md:text-[1.05rem]">
               {footerCopyright}
             </p>
 
-            <div className="flex max-w-[34rem] flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[0.76rem] leading-[1.4] text-white/78 md:max-w-none md:flex-nowrap md:gap-x-2 md:gap-y-0 md:text-[0.8rem]">
+            <div className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 text-[0.95rem] leading-[1.4] text-white/78 md:w-auto md:flex-nowrap md:gap-x-2 md:gap-y-0 md:text-[1.05rem]">
               {legalLinks.map((link, index) => (
                 <span key={link.label} className="flex items-center gap-3">
                   {index > 0 && <span className="text-white/40">|</span>}
@@ -460,18 +460,18 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
               </span>
             </div>
 
-            <div className="flex items-center gap-5 text-white">
+            <div className="flex items-center gap-8 text-white md:gap-5">
               <a href={facebook} aria-label="Facebook" className="transition-colors hover:text-white/75">
-                <FacebookIcon className="h-4.5 w-4.5" />
+                <FacebookIcon className="h-8 w-8 md:h-6 md:w-6" />
               </a>
               <a href={xSocial} target="_blank" rel="noopener noreferrer" aria-label="X" className="transition-colors hover:text-white/75">
-                <XIcon className="h-4.5 w-4.5" />
+                <XIcon className="h-8 w-8 md:h-6 md:w-6" />
               </a>
               <a href={instagram} aria-label="Instagram" className="transition-colors hover:text-white/75">
-                <InstagramIcon className="h-4.5 w-4.5" />
+                <InstagramIcon className="h-8 w-8 md:h-6 md:w-6" />
               </a>
               <a href={linkedin} aria-label="LinkedIn" className="transition-colors hover:text-white/75">
-                <LinkedinIcon className="h-4.5 w-4.5" />
+                <LinkedinIcon className="h-8 w-8 md:h-6 md:w-6" />
               </a>
             </div>
           </div>
@@ -479,7 +479,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
       </div>
 
       <div className="bg-[#1873AB] px-4 py-5 text-center sm:px-6 md:px-8">
-        <p className="mx-auto max-w-[1280px] text-[0.8rem] leading-[1.45] text-white/95 md:text-[0.85rem]">
+        <p className="mx-auto max-w-[1280px] text-[0.9rem] leading-[1.45] text-white/95 md:text-[0.95rem]">
           {disclaimerText}
         </p>
       </div>

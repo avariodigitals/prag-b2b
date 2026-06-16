@@ -99,10 +99,11 @@ export async function POST(req: NextRequest) {
 
       if (adminUrl) {
         try {
+          const intakeKind = body?.kind || 'contact';
           const intakeRes = await fetch(`${adminUrl}/api/admin/b2b/intake`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...body, kind: 'contact', route: submissionRoute }),
+            body: JSON.stringify({ ...body, kind: intakeKind, route: submissionRoute }),
           });
           syncedToAdmin = intakeRes.ok;
         } catch {

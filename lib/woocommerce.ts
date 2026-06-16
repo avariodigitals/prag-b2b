@@ -286,7 +286,7 @@ export async function getStores(): Promise<Store[]> {
 }
 
 export async function submitContactForm(data: {
-  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; subject?: string; route?: string;
+  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; subject?: string; route?: string; kind?: string;
 }): Promise<{ success: boolean }> {
   try {
     const res = await fetch('/api/contact', {
