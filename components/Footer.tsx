@@ -350,7 +350,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <Mail className="mt-1 h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{emailLabel}</p>
-                      <a href={`mailto:${email}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white md:text-[1.02rem]">
+                      <a href={`mailto:${email}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
                         {email}
                       </a>
                     </div>
@@ -375,13 +375,13 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Mail className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <a href={`mailto:${email}`} className="text-[1.12rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                    <a href={`mailto:${email}`} className="text-[1.12rem] leading-[1.3] text-white/88 transition-colors hover:text-white">
                       {email}
                     </a>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 shrink-0 text-white/92" strokeWidth={2} />
-                    <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-[1.12rem] leading-[1.3] text-white/88 underline underline-offset-2 transition-colors hover:text-white">
+                    <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-[1.12rem] leading-[1.3] text-white/88 transition-colors hover:text-white">
                       {address}
                     </a>
                   </li>
