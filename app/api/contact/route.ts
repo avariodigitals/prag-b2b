@@ -107,8 +107,29 @@ export async function POST(req: NextRequest) {
             body: JSON.stringify({ ...body, kind: intakeKind, route: submissionRoute }),
           });
           syncedToAdmin = intakeRes.ok;
+          
+          // Debug log for technical support submissions coming through contact endpoint
+          if (intakeKind === 'support' || submissionRoute === '/technical-support' || String(body?.subject || '').toLowerCase().includes('technical support')) {
+            console.log('Technical Support submission via /api/contact:', {
+              kind: intakeKind,
+              route: submissionRoute,
+              subject: body?.subject,
+              syncedToAdmin,
+              adminUrl: adminUrl.replace(/\/\/.*@/, '//***@'), // Hide auth in logs
+            });
+          }
         } catch {
           syncedToAdmin = false;
+        }
+      } else {
+        // Debug log for when admin URL is not resolved
+        if (body?.kind === 'support' || submissionRoute === '/technical-support' || String(body?.subject || '').toLowerCase().includes('technical support')) {
+          console.error('Technical Support via /api/contact: B2B Admin URL not resolved. Check environment variables:', {
+            B2B_ADMIN_API_URL: !!process.env.B2B_ADMIN_API_URL,
+            NEXT_PUBLIC_B2B_ADMIN_API_URL: !!process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL,
+            NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL: !!process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL,
+            ECOMMERCE_ADMIN_API_URL: !!process.env.ECOMMERCE_ADMIN_API_URL,
+          });
         }
       }
 

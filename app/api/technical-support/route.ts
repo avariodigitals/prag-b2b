@@ -111,6 +111,14 @@ export async function POST(req: Request) {
     } catch {
       // Ignore remote sync failures; local fallback handles dev
     }
+  } else {
+    // Log for debugging - in production this should not be null
+    console.error('Technical Support: B2B Admin URL not resolved. Check environment variables:', {
+      B2B_ADMIN_API_URL: !!process.env.B2B_ADMIN_API_URL,
+      NEXT_PUBLIC_B2B_ADMIN_API_URL: !!process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL,
+      NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL: !!process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL,
+      ECOMMERCE_ADMIN_API_URL: !!process.env.ECOMMERCE_ADMIN_API_URL,
+    });
   }
 
   // Always persist locally in dev so local Prag-Admin sees submissions.
