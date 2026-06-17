@@ -1,7 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { submitContactForm } from '@/lib/woocommerce';
+
+async function submitTechnicalSupport(data: {
+  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string;
+}): Promise<{ success: boolean }> {
+  try {
+    const res = await fetch('/api/technical-support', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return { success: res.ok };
+  } catch {
+    return { success: false };
+  }
+}
 
 const SUPPORT_TYPES = ['After Sales Support', 'Product Installation', 'Warranty Claim', 'Technical Issue', 'Maintenance', 'General Support'];
 const ALLOWED_SUPPORT = new Set(SUPPORT_TYPES);
@@ -79,12 +93,7 @@ export default function TechnicalSupportForm() {
     const error = validateSupportForm(form);
     if (error) { setToast({ type: 'error', message: error }); return; }
     setSending(true);
-    const result = await submitContactForm({
-      ...form,
-      kind: 'support',
-      route: '/technical-support',
-      subject: form.enquiry_type || 'Technical Support',
-    });
+    const result = await submitTechnicalSupport(form);
     setSending(false);
     if (result.success) {
       setForm(EMPTY_FORM);

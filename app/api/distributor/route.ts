@@ -75,6 +75,7 @@ function resolveB2BAdminUrl() {
     process.env.B2B_ADMIN_API_URL,
     process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL,
     process.env.NEXT_PUBLIC_B2B_ADMIN_PUBLIC_URL,
+    process.env.ECOMMERCE_ADMIN_API_URL,
   ];
   for (const candidate of candidates) {
     if (candidate && candidate.trim()) return candidate.replace(/\/$/, '');
