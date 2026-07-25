@@ -4,24 +4,24 @@ import { getProducts } from '@/lib/woocommerce';
 export const runtime = 'nodejs';
 
 const KNOWN_IDS: Record<string, number> = {
-  'inverters': 117,
-  'solar': 147,
-  'batteries': 151,
-  'all-prag-stabilizers': 144,
-  'voltage-stabilizers': 144,
-  'thyristor-stabilizers': 266,
-  'relay-voltage-stabilizers': 167,
-  'servo-voltage-stabilizers': 168,
-  'advanced-stabilizers': 178,
-  'hybrid-inverters': 171,
-  'heavy-duty-inverters': 165,
-  'pure-sine-inverters': 203,
-  'solar-panels': 169,
-  'solar-charge-controllers': 170,
-  'protective-device': 261,
-  'tubular-batteries': 220,
-  'lithium-battery': 240,
-  'battery-rack': 179,
+  'inverters': 314,
+  'solar': 320,
+  'batteries': 327,
+  'all-prag-stabilizers': 321,
+  'voltage-stabilizers': 322,
+  'thyristor-stabilizers': 349,
+  'relay-voltage-stabilizers': 323,
+  'servo-voltage-stabilizers': 324,
+  'advanced-stabilizers': 338,
+  'hybrid-inverters': 319,
+  'heavy-duty-inverters': 315,
+  'pure-sine-wave-inverters': 316,
+  'solar-panels': 326,
+  'solar-charge-controllers': 325,
+  'protective-device': 340,
+  'tubular-batteries': 348,
+  'lithium-batteries': 344,
+  'battery-rack': 339,
 };
 
 export async function GET(req: NextRequest) {
@@ -44,6 +44,6 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json(
     { products, hasMore: page * per_page < total },
-    { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=60' } }
+    { headers: { 'Cache-Control': 's-maxage=600, stale-while-revalidate=120' } }
   );
 }

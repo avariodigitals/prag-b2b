@@ -38,7 +38,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
               src={image.src}
               alt={image.alt || product.name}
               fill
-              className="object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+              className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 50vw, 25vw"
               quality={90}
             />
@@ -97,8 +97,8 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
               {formatPrice(product.price)}
             </span>
           ) : (
-            <span className="text-rose-600 text-sm font-medium font-['Onest'] uppercase tracking-wide">
-              Out of stock
+            <span className="text-[#0166a5] text-sm font-medium font-['Onest'] uppercase tracking-wide">
+              Call for Price
             </span>
           )}
         </div>

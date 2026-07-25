@@ -226,7 +226,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                     </div>
 
                     <p className="text-sky-700 text-lg md:text-xl font-semibold font-['Onest']">
-                      {hasPrice ? formatPrice(product.price) : 'Contact for pricing'}
+                      {hasPrice ? formatPrice(product.price) : 'Call for Price'}
                     </p>
 
                     <div className="flex flex-wrap items-center gap-2">

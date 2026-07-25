@@ -21,9 +21,9 @@ export default async function ResidentialSolutionsPage() {
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
   const fallbackCards = [
-    { title: 'Home Backup Power', description: 'Explore complete backup bundles, inverters, and batteries designed for uninterrupted home comfort.', href: '/solutions/residential/home-backup-power', ctaLabel: 'View Products' },
-    { title: 'Home Solar Systems', description: 'Browse residential solar-ready bundles and storage options that reduce fuel dependence.', href: '/solutions/residential/home-solar-systems', ctaLabel: 'View Products' },
-    { title: 'Power Stabilization & Protection', description: 'Find stabilizers and voltage protection products to keep home electronics safe from fluctuations.', href: '/solutions/residential/power-stabilization-protection', ctaLabel: 'View Products' },
+    { title: 'Home Backup Power', description: 'Explore complete backup bundles, inverters, and batteries designed for uninterrupted home comfort.', href: '/solutions/residential/home-backup-power', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
+    { title: 'Home Solar Systems', description: 'Browse residential solar-ready bundles and storage options that reduce fuel dependence.', href: '/solutions/residential/home-solar-systems', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
+    { title: 'Power Stabilization & Protection', description: 'Find stabilizers and voltage protection products to keep home electronics safe from fluctuations.', href: '/solutions/residential/power-stabilization-protection', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
   ];
 
   const cards = fallbackCards.map((fallback, index) => {
@@ -33,6 +33,8 @@ export default async function ResidentialSolutionsPage() {
       description: section?.content?.trim() || fallback.description,
       href: section?.ctaHref?.trim() || fallback.href,
       ctaLabel: section?.ctaLabel?.trim() || fallback.ctaLabel,
+      image: section?.imageUrl?.trim() || fallback.image,
+      imageAlt: section?.imageAlt?.trim() || fallback.title,
     };
   });
 
@@ -58,14 +60,23 @@ export default async function ResidentialSolutionsPage() {
               <Link
                 key={card.title}
                 href={card.href}
-                className="rounded-2xl border border-zinc-300 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+                className="rounded-2xl border border-zinc-300 bg-white flex flex-col overflow-hidden hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
-                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
-                <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
-                <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
-                  {card.ctaLabel}
-                  <ArrowRight className="w-5 h-5" />
-                </span>
+                <div className="relative w-full h-48 md:h-52 overflow-hidden">
+                  <img
+                    src={card.image}
+                    alt={card.imageAlt || card.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 md:p-7 flex flex-col gap-4 flex-1">
+                  <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
+                  <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
+                  <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2 mt-auto">
+                    {card.ctaLabel}
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

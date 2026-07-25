@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import { getSolutionCategoryContent } from '@/lib/solutions';
+import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 export const metadata: Metadata = {
   title: 'Residential Power Solutions 2',
@@ -11,23 +12,28 @@ export const metadata: Metadata = {
 
 export default async function ResidentialSolutionsTwoPage() {
   const content = await getSolutionCategoryContent('residential');
-  const sections = [
-    {
-      title: 'Home Backup Power',
-      description: 'Explore complete backup bundles, inverters, and batteries designed for uninterrupted home comfort.',
-      href: '/solutions/residential-2/home-backup-power',
-    },
-    {
-      title: 'Home Solar Systems',
-      description: 'Browse residential solar-ready bundles and storage options that reduce fuel dependence.',
-      href: '/solutions/residential-2/home-solar-systems',
-    },
-    {
-      title: 'Power Stabilization & Protection',
-      description: 'Find stabilizers and voltage protection products to keep home electronics safe from fluctuations.',
-      href: '/solutions/residential-2/power-stabilization-protection',
-    },
+
+  const b2bContent = await getB2BPublicContent();
+  const page = findB2BPage(b2bContent, '/solutions/residential');
+  const cardSections = findVisibleSectionsByType(page, 'solution-card');
+
+  const fallbackCards = [
+    { title: 'Home Backup Power', description: 'Explore complete backup bundles, inverters, and batteries designed for uninterrupted home comfort.', href: '/solutions/residential-2/home-backup-power', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
+    { title: 'Home Solar Systems', description: 'Browse residential solar-ready bundles and storage options that reduce fuel dependence.', href: '/solutions/residential-2/home-solar-systems', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
+    { title: 'Power Stabilization & Protection', description: 'Find stabilizers and voltage protection products to keep home electronics safe from fluctuations.', href: '/solutions/residential-2/power-stabilization-protection', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png' },
   ];
+
+  const cards = fallbackCards.map((fallback, index) => {
+    const section = cardSections[index];
+    return {
+      title: section?.summary?.trim() || fallback.title,
+      description: section?.content?.trim() || fallback.description,
+      href: section?.ctaHref?.trim() || fallback.href,
+      ctaLabel: section?.ctaLabel?.trim() || fallback.ctaLabel,
+      image: section?.imageUrl?.trim() || fallback.image,
+      imageAlt: section?.imageAlt?.trim() || fallback.title,
+    };
+  });
 
   return (
     <main className="w-full flex flex-col">
@@ -51,18 +57,27 @@ export default async function ResidentialSolutionsTwoPage() {
       <div className="w-full px-4 sm:px-6 md:px-20 py-10 md:py-14">
         <div className="max-w-[1280px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7">
-            {sections.map((section) => (
+            {cards.map((card) => (
               <Link
-                key={section.title}
-                href={section.href}
-                className="rounded-2xl border border-zinc-300 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+                key={card.title}
+                href={card.href}
+                className="rounded-2xl border border-zinc-300 bg-white flex flex-col overflow-hidden hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
-                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{section.title}</h2>
-                <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{section.description}</p>
-                <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
-                  View Products
-                  <ArrowRight className="w-5 h-5" />
-                </span>
+                <div className="relative w-full h-48 md:h-52 overflow-hidden">
+                  <img
+                    src={card.image}
+                    alt={card.imageAlt || card.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 md:p-7 flex flex-col gap-4 flex-1">
+                  <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
+                  <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
+                  <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2 mt-auto">
+                    {card.ctaLabel}
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

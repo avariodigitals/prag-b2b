@@ -2,7 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { unstable_cache } from 'next/cache';
 
-const B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS = 60;
+const B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS = 300;
 
 export interface PublicB2BPageSection {
   id?: string;
@@ -17,6 +17,7 @@ export interface PublicB2BPageSection {
   secondaryCtaHref?: string;
   imageUrl?: string;
   imageAlt?: string;
+  mobileImageUrl?: string;
   visible?: boolean;
 }
 

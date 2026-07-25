@@ -2,13 +2,13 @@ import type { Product } from '@/lib/woocommerce';
 import { getCategories, getProducts } from '@/lib/woocommerce';
 
 const KNOWN_CATEGORY_IDS: Record<string, number> = {
-  inverters: 117,
-  batteries: 151,
-  'all-prag-stabilizers': 144,
-  'thyristor-stabilizers': 266,
-  'relay-voltage-stabilizers': 167,
-  'servo-voltage-stabilizers': 168,
-  'advanced-stabilizers': 178,
+  inverters: 314,
+  batteries: 327,
+  'all-prag-stabilizers': 321,
+  'thyristor-stabilizers': 349,
+  'relay-voltage-stabilizers': 323,
+  'servo-voltage-stabilizers': 324,
+  'advanced-stabilizers': 338,
 };
 
 function normalize(value: string): string {

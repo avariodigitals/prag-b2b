@@ -1,3 +1,5 @@
+import { unstable_cache } from 'next/cache';
+
 export interface Product {
   id: number;
   name: string;
@@ -46,6 +48,11 @@ export interface Category {
   parent: number;
 }
 
+const FETCH_TIMEOUT_MS = 7000;
+const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes';
+const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight';
+const CATEGORY_FIELDS = 'id,name,slug,count,parent';
+
 function authParams() {
   return `consumer_key=${process.env.WC_CONSUMER_KEY}&consumer_secret=${process.env.WC_CONSUMER_SECRET}`;
 }
@@ -55,12 +62,36 @@ function baseUrl() {
   return `${url}/wc/v3`;
 }
 
+async function fetchWithRetry(url: string, init: RequestInit, timeoutMs = FETCH_TIMEOUT_MS, retries = 1): Promise<Response | null> {
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        ...init,
+        signal: controller.signal,
+        keepalive: true,
+        headers: {
+          Connection: 'keep-alive',
+          ...(init.headers as Record<string, string> ?? {}),
+        },
+      });
+      clearTimeout(timeout);
+      if (res.ok || attempt === retries) return res;
+    } catch {
+      clearTimeout(timeout);
+    }
+  }
+  return null;
+}
+
 async function wcFetch<T>(path: string, fallback: T): Promise<T> {
   try {
     const sep = path.includes('?') ? '&' : '?';
-    const res = await fetch(`${baseUrl()}${path}${sep}${authParams()}`, {
-      next: { revalidate: 300 },
-    });
+    const res = await fetchWithRetry(`${baseUrl()}${path}${sep}${authParams()}`, {
+      next: { revalidate: 600 },
+    }, FETCH_TIMEOUT_MS, 1);
+    if (!res) return fallback;
     if (!res.ok) return fallback;
     const text = await res.text();
     if (!text.startsWith('{') && !text.startsWith('[')) return fallback;
@@ -70,107 +101,134 @@ async function wcFetch<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
-export async function getCategories(): Promise<Category[]> {
-  return wcFetch<Category[]>('/products/categories?per_page=100&hide_empty=true&_fields=id,name,slug,count,parent', []);
-}
+export const getCategories = unstable_cache(
+  async (): Promise<Category[]> => {
+    return wcFetch<Category[]>(`/products/categories?per_page=100&hide_empty=true&_fields=${CATEGORY_FIELDS}`, []);
+  },
+  ['b2b-categories'],
+  { revalidate: 3600, tags: ['b2b-categories'] }
+);
 
-export async function getProducts({
-  category_id,
-  per_page = 20,
-  page = 1,
-  orderby,
-  order,
-}: {
-  category_id?: number;
-  per_page?: number;
-  page?: number;
-  orderby?: 'title' | 'date' | 'id' | 'slug' | 'price' | 'popularity' | 'rating' | 'menu_order';
-  order?: 'asc' | 'desc';
-} = {}): Promise<{ products: Product[]; total: number }> {
-  const qs = new URLSearchParams({
-    status: 'publish',
-    per_page: String(per_page),
-    page: String(page),
-    _fields: 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes',
-    ...(category_id ? { category: String(category_id) } : {}),
-    ...(orderby ? { orderby } : {}),
-    ...(order ? { order } : {}),
-  });
-  try {
-    const sep = '?';
-    const res = await fetch(`${baseUrl()}/products${sep}${qs}&${authParams()}`, {
-      next: { revalidate: 300 },
+export const getProducts = unstable_cache(
+  async ({
+    category_id,
+    per_page = 20,
+    page = 1,
+    orderby,
+    order,
+  }: {
+    category_id?: number;
+    per_page?: number;
+    page?: number;
+    orderby?: 'title' | 'date' | 'id' | 'slug' | 'price' | 'popularity' | 'rating' | 'menu_order';
+    order?: 'asc' | 'desc';
+  } = {}): Promise<{ products: Product[]; total: number }> => {
+    const qs = new URLSearchParams({
+      status: 'publish',
+      per_page: String(per_page),
+      page: String(page),
+      _fields: PRODUCT_LIST_FIELDS,
+      ...(category_id ? { category: String(category_id) } : {}),
+      ...(orderby ? { orderby } : {}),
+      ...(order ? { order } : {}),
     });
-    if (!res.ok) return { products: [], total: 0 };
-    const text = await res.text();
-    if (!text.startsWith('[')) return { products: [], total: 0 };
-    return {
-      products: JSON.parse(text) as Product[],
-      total: Number(res.headers.get('X-WP-Total') ?? 0),
-    };
-  } catch {
-    return { products: [], total: 0 };
-  }
-}
+    try {
+      const res = await fetchWithRetry(`${baseUrl()}/products?${qs}&${authParams()}`, {
+        next: { revalidate: 600 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res) return { products: [], total: 0 };
+      if (!res.ok) return { products: [], total: 0 };
+      const text = await res.text();
+      if (!text.startsWith('[')) return { products: [], total: 0 };
+      return {
+        products: JSON.parse(text) as Product[],
+        total: Number(res.headers.get('X-WP-Total') ?? 0),
+      };
+    } catch {
+      return { products: [], total: 0 };
+    }
+  },
+  ['b2b-products-list'],
+  { revalidate: 600, tags: ['b2b-products-list'] }
+);
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
-  try {
-    const res = await fetch(
-      `${baseUrl()}/products?slug=${slug}&_fields=id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight&${authParams()}`,
-      { next: { revalidate: 120 } }
-    );
-    if (!res.ok) return null;
-    const text = await res.text();
-    if (!text.startsWith('[')) return null;
-    const products = JSON.parse(text) as Product[];
-    return products[0] ?? null;
-  } catch {
-    return null;
-  }
-}
+export const getProductBySlug = unstable_cache(
+  async (slug: string): Promise<Product | null> => {
+    try {
+      const res = await fetchWithRetry(
+        `${baseUrl()}/products?slug=${slug}&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
+        { next: { revalidate: 600 } },
+        FETCH_TIMEOUT_MS,
+        1
+      );
+      if (!res) return null;
+      if (!res.ok) return null;
+      const text = await res.text();
+      if (!text.startsWith('[')) return null;
+      const products = JSON.parse(text) as Product[];
+      return products[0] ?? null;
+    } catch {
+      return null;
+    }
+  },
+  ['b2b-product-by-slug'],
+  { revalidate: 3600, tags: ['b2b-product-by-slug'] }
+);
 
-export async function getProductReviews(productId: number): Promise<ProductReview[]> {
-  try {
-    const res = await fetch(
-      `${baseUrl()}/products/reviews?product=${productId}&per_page=10&status=approved&${authParams()}`,
-      { next: { revalidate: 120 } }
-    );
-    if (!res.ok) return [];
-    const text = await res.text();
-    if (!text.startsWith('[')) return [];
-    return JSON.parse(text) as ProductReview[];
-  } catch {
-    return [];
-  }
-}
+export const getProductReviews = unstable_cache(
+  async (productId: number): Promise<ProductReview[]> => {
+    try {
+      const res = await fetchWithRetry(
+        `${baseUrl()}/products/reviews?product=${productId}&per_page=10&status=approved&${authParams()}`,
+        { next: { revalidate: 3600 } },
+        FETCH_TIMEOUT_MS,
+        1
+      );
+      if (!res) return [];
+      if (!res.ok) return [];
+      const text = await res.text();
+      if (!text.startsWith('[')) return [];
+      return JSON.parse(text) as ProductReview[];
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-product-reviews'],
+  { revalidate: 3600, tags: ['b2b-product-reviews'] }
+);
 
 function wpBase() {
   const url = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
   return `${url}/wp/v2`;
 }
 
-export async function getTechDocuments(productId: number): Promise<TechDocument[]> {
-  try {
-    const res = await fetch(`${wpBase()}/prag_document?per_page=100&_fields=id,title,meta`, {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) return [];
-    const data = await res.json() as Array<{ id: number; title: { rendered: string }; meta: Record<string, string> }>;
-    return data
-      .map(d => ({
-        id: d.id,
-        title: d.title?.rendered ?? '',
-        file_url: d.meta?.file_url ?? '',
-        file_type: d.meta?.file_type ?? '',
-        file_size: d.meta?.file_size ?? '',
-        pages: d.meta?.pages ?? '',
-        product_id: Number(d.meta?.product_id ?? 0),
-      }))
-      .filter(d => d.file_url && d.product_id === productId);
-  } catch {
-    return [];
-  }
-}
+export const getTechDocuments = unstable_cache(
+  async (productId: number): Promise<TechDocument[]> => {
+    try {
+      const res = await fetchWithRetry(`${wpBase()}/prag_document?per_page=100&_fields=id,title,meta`, {
+        next: { revalidate: 3600 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res) return [];
+      if (!res.ok) return [];
+      const data = await res.json() as Array<{ id: number; title: { rendered: string }; meta: Record<string, string> }>;
+      return data
+        .map(d => ({
+          id: d.id,
+          title: d.title?.rendered ?? '',
+          file_url: d.meta?.file_url ?? '',
+          file_type: d.meta?.file_type ?? '',
+          file_size: d.meta?.file_size ?? '',
+          pages: d.meta?.pages ?? '',
+          product_id: Number(d.meta?.product_id ?? 0),
+        }))
+        .filter(d => d.file_url && d.product_id === productId);
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-tech-documents'],
+  { revalidate: 3600, tags: ['b2b-tech-documents'] }
+);
 
 export async function getProductsForCompare(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
@@ -246,44 +304,58 @@ const SETTINGS_FALLBACK: SiteSettings = {
   },
 };
 
-export async function getSiteSettings(): Promise<SiteSettings> {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json'}/prag-core/v1/settings`,
-      { next: { revalidate: 300 } }
-    );
-    if (!res.ok) return SETTINGS_FALLBACK;
-    const data = await res.json();
-    return {
-      ...SETTINGS_FALLBACK,
-      ...data,
-      socials: { ...SETTINGS_FALLBACK.socials, ...(data.socials ?? {}) },
-    };
-  } catch {
-    return SETTINGS_FALLBACK;
-  }
-}
+export const getSiteSettings = unstable_cache(
+  async (): Promise<SiteSettings> => {
+    try {
+      const res = await fetchWithRetry(
+        `${process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json'}/prag-core/v1/settings`,
+        { next: { revalidate: 3600 } },
+        FETCH_TIMEOUT_MS,
+        1
+      );
+      if (!res) return SETTINGS_FALLBACK;
+      if (!res.ok) return SETTINGS_FALLBACK;
+      const data = await res.json();
+      return {
+        ...SETTINGS_FALLBACK,
+        ...data,
+        socials: { ...SETTINGS_FALLBACK.socials, ...(data.socials ?? {}) },
+      };
+    } catch {
+      return SETTINGS_FALLBACK;
+    }
+  },
+  ['b2b-site-settings'],
+  { revalidate: 3600, tags: ['b2b-site-settings'] }
+);
 
-export async function getStores(): Promise<Store[]> {
-  try {
-    const url = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
-    const res = await fetch(`${url}/wp/v2/prag_store?per_page=100&_fields=id,title,meta`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = await res.json() as Array<{ id: number; title: { rendered: string }; meta: Record<string, string> }>;
-    return data.map((s) => ({
-      id: s.id,
-      name: s.title?.rendered ?? '',
-      city: s.meta?.city ?? '',
-      address: s.meta?.address ?? '',
-      phone: s.meta?.phone ?? '',
-      map_url: s.meta?.map_url ?? '',
-      type: (s.meta?.store_type as Store['type']) ?? 'prag',
-      logo: s.meta?.logo_url ? { src: s.meta.logo_url, alt: s.meta?.logo_alt ?? s.title?.rendered ?? '' } : undefined,
-    }));
-  } catch {
-    return [];
-  }
-}
+export const getStores = unstable_cache(
+  async (): Promise<Store[]> => {
+    try {
+      const url = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+      const res = await fetchWithRetry(`${url}/wp/v2/prag_store?per_page=100&_fields=id,title,meta`, {
+        next: { revalidate: 3600 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res) return [];
+      if (!res.ok) return [];
+      const data = await res.json() as Array<{ id: number; title: { rendered: string }; meta: Record<string, string> }>;
+      return data.map((s) => ({
+        id: s.id,
+        name: s.title?.rendered ?? '',
+        city: s.meta?.city ?? '',
+        address: s.meta?.address ?? '',
+        phone: s.meta?.phone ?? '',
+        map_url: s.meta?.map_url ?? '',
+        type: (s.meta?.store_type as Store['type']) ?? 'prag',
+        logo: s.meta?.logo_url ? { src: s.meta.logo_url, alt: s.meta?.logo_alt ?? s.title?.rendered ?? '' } : undefined,
+      }));
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-stores'],
+  { revalidate: 3600, tags: ['b2b-stores'] }
+);
 
 export async function submitContactForm(data: {
   name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; subject?: string; route?: string; kind?: string;
@@ -315,3 +387,63 @@ export async function submitCareersForm(formData: FormData): Promise<{ success: 
     return { success: false, message: 'Network error. Please try again shortly.' };
   }
 }
+
+export interface CustomTab {
+  title: string;
+  id: string;
+  content: string;
+}
+
+export const getProductCustomTabs = unstable_cache(
+  async (productId: number): Promise<CustomTab[]> => {
+    try {
+      const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+      const res = await fetchWithRetry(`${wpApi}/prag-core/v1/products/${productId}/custom-tabs`, {
+        next: { revalidate: 3600 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res) return [];
+      if (!res.ok) return [];
+      const text = await res.text();
+      if (!text.startsWith('[')) return [];
+      return JSON.parse(text) as CustomTab[];
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-product-custom-tabs'],
+  { revalidate: 3600, tags: ['b2b-product-custom-tabs'] }
+);
+
+export const getAllProductSlugs = unstable_cache(
+  async (): Promise<{ slug: string; category: string }[]> => {
+    try {
+      const slugs: { slug: string; category: string }[] = [];
+      let page = 1;
+      const perPage = 100;
+      let hasMore = true;
+      while (hasMore) {
+        const res = await fetchWithRetry(
+          `${baseUrl()}/products?status=publish&per_page=${perPage}&page=${page}&_fields=slug,categories&${authParams()}`,
+          { next: { revalidate: 3600 } },
+          FETCH_TIMEOUT_MS,
+          1
+        );
+        if (!res || !res.ok) break;
+        const text = await res.text();
+        if (!text.startsWith('[')) break;
+        const products = JSON.parse(text) as { slug: string; categories: { slug: string }[] }[];
+        if (products.length === 0) break;
+        for (const p of products) {
+          slugs.push({ slug: p.slug, category: p.categories?.[0]?.slug ?? 'products' });
+        }
+        hasMore = products.length === perPage;
+        page += 1;
+      }
+      return slugs;
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-all-product-slugs'],
+  { revalidate: 3600, tags: ['b2b-all-product-slugs'] }
+);

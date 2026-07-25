@@ -4,7 +4,7 @@ import { useState, useSyncExternalStore, type FormEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
-import type { Product, ProductReview, TechDocument } from '@/lib/woocommerce';
+import type { Product, ProductReview, TechDocument, CustomTab } from '@/lib/woocommerce';
 import B2BProductCard from './B2BProductCard';
 
 function cleanHtml(html: string) {
@@ -43,9 +43,10 @@ interface Props {
   related: Product[];
   reviews: ProductReview[];
   techDocs: TechDocument[];
+  customTabs?: CustomTab[];
 }
 
-export default function ProductDetailView({ product, related, reviews, techDocs }: Props) {
+export default function ProductDetailView({ product, related, reviews, techDocs, customTabs }: Props) {
   const [activeTab, setActiveTab] = useState('Description');
   const [qty, setQty] = useState(1);
   const [reviewItems, setReviewItems] = useState<ProductReview[]>(reviews);
@@ -58,7 +59,9 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
     () => ''
   );
 
-  const image = product.images?.[0];
+  const images = product.images ?? [];
+  const [activeImage, setActiveImage] = useState(0);
+  const image = images[activeImage] ?? images[0];
   const buyNowHref = getShopProductUrl(product);
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
@@ -145,23 +148,39 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
       <div className="w-full px-6 md:px-10 lg:px-20 pt-6 md:pt-10 pb-10 md:pb-14">
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
 
-          {/* Product Image */}
-          <div className="w-full lg:w-[52%] shrink-0">
+          {/* Product Image + Gallery */}
+          <div className="w-full lg:w-[52%] shrink-0 flex flex-col gap-3">
             <div className="relative w-full aspect-[302/275] rounded-[16px] flex items-center justify-center overflow-hidden">
               {image ? (
                 <Image
+                  key={image.src}
                   src={image.src}
                   alt={image.alt || product.name}
                   fill
-                  className="object-contain p-3 mix-blend-multiply"
+                  className="object-contain p-3"
                   sizes="(max-width: 768px) 100vw, 52vw"
                   quality={90}
                   priority
                 />
               ) : (
-                <div className="w-24 h-24 bg-white rounded-full" />
+                <div className="w-24 h-24 rounded-full" />
               )}
             </div>
+            {images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                {images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImage(i)}
+                    className={`relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${
+                      i === activeImage ? 'border-[#0166a5]' : 'border-gray-100 hover:border-gray-300'
+                    }`}
+                  >
+                    <Image src={img.src} alt={img.alt || product.name} fill sizes="80px" className="object-contain p-1" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -191,8 +210,8 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
                     {formatPrice(product.price)}
                   </span>
                 ) : (
-                  <span className="text-rose-600 font-['Onest'] text-lg font-medium uppercase tracking-wide">
-                    Out of stock
+                  <span className="text-[#0166a5] font-['Onest'] text-lg font-medium uppercase tracking-wide">
+                    Call for Price
                   </span>
                 )}
               </div>
@@ -406,7 +425,10 @@ export default function ProductDetailView({ product, related, reviews, techDocs 
               )}
 
               {activeTab === 'Specifications' && (
-                product.attributes && product.attributes.length > 0 ? (
+                customTabs && customTabs.length > 0 ? (
+                  <div className="wp-content text-[16px] font-['Space_Grotesk'] leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: cleanHtml(customTabs.map(t => t.content).join('\n')) }} />
+                ) : product.attributes && product.attributes.length > 0 ? (
                   <div className="w-full overflow-x-auto">
                     <table className="w-full font-['Space_Grotesk'] text-[16px]">
                       <tbody>

@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
@@ -10,23 +12,23 @@ interface Props {
 }
 
 const KNOWN_IDS: Record<string, number> = {
-  'inverters': 117,
-  'solar': 147,
-  'batteries': 151,
-  'all-prag-stabilizers': 144,
-  'thyristor-stabilizers': 266,
-  'relay-voltage-stabilizers': 167,
-  'servo-voltage-stabilizers': 168,
-  'advanced-stabilizers': 178,
-  'hybrid-inverters': 171,
-  'heavy-duty-inverters': 165,
-  'pure-sine-inverters': 203,
-  'solar-panels': 169,
-  'solar-charge-controllers': 170,
-  'protective-device': 261,
-  'tubular-batteries': 220,
-  'lithium-battery': 240,
-  'battery-rack': 179,
+  'inverters': 314,
+  'solar': 320,
+  'batteries': 327,
+  'all-prag-stabilizers': 321,
+  'thyristor-stabilizers': 349,
+  'relay-voltage-stabilizers': 323,
+  'servo-voltage-stabilizers': 324,
+  'advanced-stabilizers': 338,
+  'hybrid-inverters': 319,
+  'heavy-duty-inverters': 315,
+  'pure-sine-wave-inverters': 316,
+  'solar-panels': 326,
+  'solar-charge-controllers': 325,
+  'protective-device': 340,
+  'tubular-batteries': 348,
+  'lithium-batteries': 344,
+  'battery-rack': 339,
 };
 
 const DISPLAY: Record<string, { name: string; description: string }> = {
@@ -43,6 +45,10 @@ export async function generateMetadata({ params }: Props) {
   const hero = findVisibleSectionsByType(page, 'hero')[0];
   const name = hero?.summary?.trim() || DISPLAY[category]?.name || category;
   return { title: `${name}` };
+}
+
+export async function generateStaticParams() {
+  return Object.keys(KNOWN_IDS).map((category) => ({ category }));
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {

@@ -11,14 +11,14 @@ import { getB2BPublicContent } from '@/lib/b2bContent';
 
 const onest = Onest({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-onest',
   display: 'swap',
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-space-grotesk',
   display: 'swap',
 });

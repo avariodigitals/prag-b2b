@@ -19,7 +19,7 @@ const SECTION_TABS: Record<string, { label: string; slug: string }[]> = {
   ],
   'batteries': [
     { label: 'Tabular Batteries', slug: 'tubular-batteries' },
-    { label: 'Lithium Batteries', slug: 'lithium-battery' },
+    { label: 'Lithium Batteries', slug: 'lithium-batteries' },
     { label: 'Battery Racks', slug: 'battery-rack' },
   ],
   'solar': [
@@ -122,7 +122,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
               return (
                 <button key={tab.label} onClick={() => navigate({ sub: tab.slug })}
                   className="inline-flex flex-col items-center shrink-0">
-                  <span className={`px-4 py-3 text-base font-medium font-['Space_Grotesk'] whitespace-nowrap ${isActive ? 'text-[#0166a5]' : 'text-[#888888] hover:text-[#444444]'}`}>
+                  <span className={`px-4 py-3 text-base font-medium font-['Space_Grotesk'] whitespace-nowrap ${isActive ? 'text-[#0166a5]' : 'text-[#1a1a1a] hover:text-[#0166a5]'}`}>
                     {tab.label}
                   </span>
                   <div className={`h-[2px] w-full ${isActive ? 'bg-[#0166a5]' : 'bg-[#e4e7ec]'}`} />
@@ -142,7 +142,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
                   key={tab.label}
                   type="button"
                   onClick={() => navigate({ sub: tab.slug })}
-                  className={`shrink-0 rounded-full px-6 py-3.5 text-lg font-semibold font-['Onest'] leading-none whitespace-nowrap transition-colors ${isActive ? 'bg-sky-700 text-white' : 'bg-sky-50 text-sky-700 hover:bg-sky-100'}`}
+                  className={`shrink-0 rounded-full px-6 py-3.5 text-lg font-semibold font-['Onest'] leading-none whitespace-nowrap transition-colors ${isActive ? 'bg-sky-700 text-white' : 'bg-sky-50 text-[#1a1a1a] hover:bg-sky-100'}`}
                 >
                   {tab.label}
                 </button>

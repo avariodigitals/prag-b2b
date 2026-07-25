@@ -21,9 +21,9 @@ export default async function VoltageStabilizationProtectionPage() {
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
   const fallbackCards = [
-    { title: 'Stable Power', description: 'Improve equipment performance and operational reliability with consistent voltage.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
-    { title: 'Equipment Protection', description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
-    { title: 'Facility-Wide Coverage', description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products' },
+    { title: 'Stable Power', description: 'Improve equipment performance and operational reliability with consistent voltage.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Equipment Protection', description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Facility-Wide Coverage', description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
   ];
 
   const cards = fallbackCards.map((fallback, index) => {
@@ -33,6 +33,8 @@ export default async function VoltageStabilizationProtectionPage() {
       description: section?.content?.trim() || fallback.description,
       href: section?.ctaHref?.trim() || fallback.href,
       ctaLabel: section?.ctaLabel?.trim() || fallback.ctaLabel,
+      image: section?.imageUrl?.trim() || fallback.image,
+      imageAlt: section?.imageAlt?.trim() || fallback.title,
     };
   });
 
@@ -56,14 +58,23 @@ export default async function VoltageStabilizationProtectionPage() {
               <Link
                 key={card.title}
                 href={card.href}
-                className="rounded-2xl border border-zinc-300 bg-white p-6 md:p-7 flex flex-col gap-4 hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
+                className="rounded-2xl border border-zinc-300 bg-white flex flex-col overflow-hidden hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
-                <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
-                <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
-                <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2">
-                  {card.ctaLabel}
-                  <ArrowRight className="w-5 h-5" />
-                </span>
+                <div className="relative w-full h-48 md:h-52 overflow-hidden">
+                  <img
+                    src={card.image}
+                    alt={card.imageAlt || card.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 md:p-7 flex flex-col gap-4 flex-1">
+                  <h2 className="text-[#1a1a1a] text-[24px] font-semibold font-['Onest'] leading-tight">{card.title}</h2>
+                  <p className="text-[#6f6f6f] text-[18px] font-['Space_Grotesk'] leading-7">{card.description}</p>
+                  <span className="text-[#0166a5] text-[16px] md:text-[18px] font-semibold font-['Space_Grotesk'] inline-flex items-center gap-2 mt-auto">
+                    {card.ctaLabel}
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

@@ -125,7 +125,7 @@ export default function ProblemsCarousel({
     const cards = Array.from(track.children) as HTMLElement[];
     if (cards.length === 0) return;
 
-    const referencePoint = track.scrollLeft + (track.clientWidth * 0.18);
+    const referencePoint = track.scrollLeft + (track.clientWidth * 0.05);
     let nearestIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
 
