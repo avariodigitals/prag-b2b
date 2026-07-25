@@ -37,10 +37,6 @@ async function getHeroContent() {
 export default async function Hero() {
   const hero = await getHeroContent();
   const titleLines = hero.title.replace(/\r\n/g, '\n').split('\n');
-  const normalizedCtaLabel = hero.ctaLabel.replace(/\s+/g, ' ').trim().toLowerCase();
-  const resolvedCtaHref = normalizedCtaLabel === 'get a free power assessment'
-    ? '/free-power-assessment'
-    : hero.ctaHref;
 
   return (
     <section className="relative overflow-hidden w-full min-h-[420px] md:h-[704px] flex flex-col justify-center items-center md:items-start text-center md:text-left px-4 sm:px-6 md:px-20 pt-[150px] md:pt-[100px] pb-10">
@@ -108,7 +104,7 @@ export default async function Hero() {
         {/* CTAs */}
         <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[700px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-3 md:gap-4">
           <Link
-            href={resolvedCtaHref}
+            href={hero.ctaHref}
             className="flex-1 sm:flex-none w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors text-center"
           >
             {hero.ctaLabel}

@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     const paths = Array.isArray(body?.paths) ? body.paths : [body?.path || '/'];
     const tags = Array.isArray(body?.tags)
       ? body.tags
-      : ['b2b-site-settings', 'b2b-categories', 'b2b-products-list', 'b2b-product-by-slug', 'b2b-product-reviews', 'b2b-tech-documents', 'b2b-stores', 'b2b-product-custom-tabs', 'b2b-all-product-slugs'];
+      : ['b2b-public-content', 'b2b-site-settings', 'b2b-categories', 'b2b-products-list', 'b2b-product-by-slug', 'b2b-product-reviews', 'b2b-tech-documents', 'b2b-stores', 'b2b-product-custom-tabs', 'b2b-all-product-slugs'];
 
     for (const path of paths) {
       if (typeof path === 'string' && path.startsWith('/')) {
