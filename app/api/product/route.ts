@@ -6,7 +6,11 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug');
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 });
-  const product = await getProductBySlug(slug);
-  if (!product) return NextResponse.json({ error: 'not found' }, { status: 404 });
-  return NextResponse.json(product);
+  try {
+    const product = await getProductBySlug(slug);
+    if (!product) return NextResponse.json({ error: 'not found' }, { status: 404 });
+    return NextResponse.json(product);
+  } catch {
+    return NextResponse.json({ error: 'fetch failed' }, { status: 503 });
+  }
 }

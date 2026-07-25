@@ -426,11 +426,13 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
 
               {activeTab === 'Specifications' && (
                 customTabs && customTabs.length > 0 ? (
-                  <div className="wp-content text-[16px] font-['Space_Grotesk'] leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: cleanHtml(customTabs.map(t => t.content).join('\n')) }} />
+                  <div className="w-full overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                    <div className="wp-content text-[16px] font-['Space_Grotesk'] leading-relaxed min-w-[320px]"
+                      dangerouslySetInnerHTML={{ __html: cleanHtml(customTabs.map(t => t.content).join('\n')) }} />
+                  </div>
                 ) : product.attributes && product.attributes.length > 0 ? (
-                  <div className="w-full overflow-x-auto">
-                    <table className="w-full font-['Space_Grotesk'] text-[16px]">
+                  <div className="w-full overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                    <table className="w-full min-w-[320px] font-['Space_Grotesk'] text-[16px]">
                       <tbody>
                         {product.weight && (
                           <tr className="border-b border-[#c4c7cc]">

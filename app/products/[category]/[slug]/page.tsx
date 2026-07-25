@@ -8,17 +8,29 @@ interface Props {
   params: Promise<{ category: string; slug: string }>;
 }
 
+async function fetchProductWithRetry(slug: string) {
+  try {
+    return await getProductBySlug(slug);
+  } catch {
+    return getProductBySlug(slug);
+  }
+}
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
-  return { title: product ? `${product.name}` : 'Product' };
+  try {
+    const product = await fetchProductWithRetry(slug);
+    return { title: product ? `${product.name}` : 'Product' };
+  } catch {
+    return { title: 'Product' };
+  }
 }
 
 export default async function ProductDetailPage({ params }: Props) {
   const { category, slug } = await params;
 
   const [product, { products: related }] = await Promise.all([
-    getProductBySlug(slug),
+    fetchProductWithRetry(slug),
     getProducts({ per_page: 4 }),
   ]);
 

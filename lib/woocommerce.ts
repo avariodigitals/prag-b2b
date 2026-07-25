@@ -154,22 +154,17 @@ export const getProducts = unstable_cache(
 
 export const getProductBySlug = unstable_cache(
   async (slug: string): Promise<Product | null> => {
-    try {
-      const res = await fetchWithRetry(
-        `${baseUrl()}/products?slug=${slug}&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
-        { next: { revalidate: 120 } },
-        FETCH_TIMEOUT_MS,
-        1
-      );
-      if (!res) return null;
-      if (!res.ok) return null;
-      const text = await res.text();
-      if (!text.startsWith('[')) return null;
-      const products = JSON.parse(text) as Product[];
-      return products[0] ?? null;
-    } catch {
-      return null;
-    }
+    const res = await fetchWithRetry(
+      `${baseUrl()}/products?slug=${slug}&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
+      { next: { revalidate: 120 } },
+      FETCH_TIMEOUT_MS,
+      2
+    );
+    if (!res || !res.ok) throw new Error(`Failed to fetch product "${slug}"`);
+    const text = await res.text();
+    if (!text.startsWith('[')) return null;
+    const products = JSON.parse(text) as Product[];
+    return products[0] ?? null;
   },
   ['b2b-product-by-slug'],
   { revalidate: 300, tags: ['b2b-product-by-slug'] }
@@ -232,8 +227,11 @@ export const getTechDocuments = unstable_cache(
 
 export async function getProductsForCompare(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
-  const results = await Promise.all(slugs.map(slug => getProductBySlug(slug)));
-  return results.filter((p): p is Product => p !== null);
+  const results = await Promise.allSettled(slugs.map(slug => getProductBySlug(slug)));
+  return results
+    .filter((r): r is PromiseFulfilledResult<Product | null> => r.status === 'fulfilled')
+    .map(r => r.value)
+    .filter((p): p is Product => p !== null);
 }
 
 async function searchProductsRaw(query: string, per_page = 8): Promise<Product[]> {
