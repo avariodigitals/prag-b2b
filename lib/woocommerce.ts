@@ -106,7 +106,7 @@ export const getCategories = unstable_cache(
     return wcFetch<Category[]>(`/products/categories?per_page=100&hide_empty=true&_fields=${CATEGORY_FIELDS}`, []);
   },
   ['b2b-categories'],
-  { revalidate: 3600, tags: ['b2b-categories'] }
+  { revalidate: 300, tags: ['b2b-categories'] }
 );
 
 export const getProducts = unstable_cache(
@@ -149,7 +149,7 @@ export const getProducts = unstable_cache(
     }
   },
   ['b2b-products-list'],
-  { revalidate: 600, tags: ['b2b-products-list'] }
+  { revalidate: 120, tags: ['b2b-products-list'] }
 );
 
 export const getProductBySlug = unstable_cache(
@@ -157,7 +157,7 @@ export const getProductBySlug = unstable_cache(
     try {
       const res = await fetchWithRetry(
         `${baseUrl()}/products?slug=${slug}&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
-        { next: { revalidate: 600 } },
+        { next: { revalidate: 120 } },
         FETCH_TIMEOUT_MS,
         1
       );
@@ -172,7 +172,7 @@ export const getProductBySlug = unstable_cache(
     }
   },
   ['b2b-product-by-slug'],
-  { revalidate: 3600, tags: ['b2b-product-by-slug'] }
+  { revalidate: 300, tags: ['b2b-product-by-slug'] }
 );
 
 export const getProductReviews = unstable_cache(
@@ -194,7 +194,7 @@ export const getProductReviews = unstable_cache(
     }
   },
   ['b2b-product-reviews'],
-  { revalidate: 3600, tags: ['b2b-product-reviews'] }
+  { revalidate: 600, tags: ['b2b-product-reviews'] }
 );
 
 function wpBase() {
@@ -227,7 +227,7 @@ export const getTechDocuments = unstable_cache(
     }
   },
   ['b2b-tech-documents'],
-  { revalidate: 3600, tags: ['b2b-tech-documents'] }
+  { revalidate: 600, tags: ['b2b-tech-documents'] }
 );
 
 export async function getProductsForCompare(slugs: string[]): Promise<Product[]> {
@@ -326,7 +326,7 @@ export const getSiteSettings = unstable_cache(
     }
   },
   ['b2b-site-settings'],
-  { revalidate: 3600, tags: ['b2b-site-settings'] }
+  { revalidate: 60, tags: ['b2b-site-settings'] }
 );
 
 export const getStores = unstable_cache(
@@ -354,7 +354,7 @@ export const getStores = unstable_cache(
     }
   },
   ['b2b-stores'],
-  { revalidate: 3600, tags: ['b2b-stores'] }
+  { revalidate: 300, tags: ['b2b-stores'] }
 );
 
 export async function submitContactForm(data: {
@@ -411,7 +411,7 @@ export const getProductCustomTabs = unstable_cache(
     }
   },
   ['b2b-product-custom-tabs'],
-  { revalidate: 3600, tags: ['b2b-product-custom-tabs'] }
+  { revalidate: 600, tags: ['b2b-product-custom-tabs'] }
 );
 
 export const getAllProductSlugs = unstable_cache(
@@ -445,5 +445,5 @@ export const getAllProductSlugs = unstable_cache(
     }
   },
   ['b2b-all-product-slugs'],
-  { revalidate: 3600, tags: ['b2b-all-product-slugs'] }
+  { revalidate: 600, tags: ['b2b-all-product-slugs'] }
 );
