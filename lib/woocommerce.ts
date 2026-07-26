@@ -11,6 +11,7 @@ export interface Product {
   sale_price: string;
   on_sale: boolean;
   stock_status: string;
+  date_created?: string;
   short_description: string;
   description: string;
   weight?: string;
@@ -49,8 +50,8 @@ export interface Category {
 }
 
 const FETCH_TIMEOUT_MS = 7000;
-const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,images,categories,tags,attributes';
-const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,short_description,description,images,categories,tags,attributes,dimensions,weight';
+const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,images,categories,tags,attributes';
+const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,short_description,description,images,categories,tags,attributes,dimensions,weight';
 const CATEGORY_FIELDS = 'id,name,slug,count,parent';
 
 function authParams() {

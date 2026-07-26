@@ -12,6 +12,15 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
   const image = product.images?.[0];
   const isOutOfStock = product.stock_status === 'outofstock';
   const hasNewTag = product.tags?.some(t => t.slug === 'new' || t.name.toLowerCase().includes('new'));
+  const isRecentlyCreated = (() => {
+    if (!product.date_created) return false;
+    const created = new Date(product.date_created);
+    const threshold = new Date('2026-07-28T00:00:00.000Z');
+    const now = new Date();
+    const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
+    return created >= threshold && diffDays <= 30;
+  })();
+  const shouldShowNew = (hasNewTag || isRecentlyCreated) && !isOutOfStock;
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
   const isUnavailable = isOutOfStock || !hasPrice;
@@ -61,7 +70,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
               SALE
             </span>
           )}
-          {hasNewTag && !isOutOfStock && !product.on_sale && (
+          {shouldShowNew && !product.on_sale && (
             <span className="px-3 py-1 rounded-full bg-[#0d7c34] text-white text-[10px] font-semibold font-['Space_Grotesk'] uppercase tracking-wide">
               New !
             </span>

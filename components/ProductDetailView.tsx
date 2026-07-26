@@ -66,6 +66,14 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
   const isOutOfStock = product.stock_status === 'outofstock' || !hasPrice;
+  const isRecentlyCreated = (() => {
+    if (!product.date_created) return false;
+    const created = new Date(product.date_created);
+    const threshold = new Date('2026-07-28T00:00:00.000Z');
+    const now = new Date();
+    const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
+    return created >= threshold && diffDays <= 30;
+  })();
 
   const catName = product.categories?.[0]?.name ?? '';
   const catSlug = product.categories?.[0]?.slug ?? '';
@@ -165,6 +173,18 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
               ) : (
                 <div className="w-24 h-24 rounded-full" />
               )}
+              <div className="absolute left-3 top-3 z-10 flex flex-col gap-2">
+                {product.on_sale && (
+                  <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-600 text-white text-sm md:text-base font-bold font-['Onest'] uppercase flex items-center justify-center leading-none shadow-sm">
+                    SALE
+                  </span>
+                )}
+                {isRecentlyCreated && !product.on_sale && (
+                  <span className="px-3 py-1.5 rounded-full bg-[#0d7c34] text-white text-xs font-semibold font-['Space_Grotesk'] uppercase tracking-wide shadow-sm">
+                    New
+                  </span>
+                )}
+              </div>
             </div>
             {images.length > 1 && (
               <div className="flex gap-2 overflow-x-auto scrollbar-hide">
