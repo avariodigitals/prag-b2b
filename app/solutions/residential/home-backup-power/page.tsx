@@ -1,3 +1,4 @@
+export const revalidate = 600;
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SolutionProductTabs from '@/components/SolutionProductTabs';

@@ -2,7 +2,6 @@ export const revalidate = 300;
 
 import TechResourcesView from '@/components/TechResourcesView';
 import { getProducts } from '@/lib/woocommerce';
-import type { Product } from '@/lib/woocommerce';
 
 export const metadata = { title: 'Technical Resources' };
 
@@ -12,13 +11,7 @@ interface Props {
 
 export default async function ResourcesPage({ searchParams }: Props) {
   const sp = await searchParams;
-  let products: Product[] = [];
-  try {
-    const result = await getProducts({ per_page: 100 });
-    products = result.products;
-  } catch {
-    products = [];
-  }
+  const { products } = await getProducts({ per_page: 100 });
 
   const allowedCategoryKeywords = ['solar', 'inverter', 'battery', 'stabilizer', 'stablizer'];
   const filteredProducts = products.filter((product) =>

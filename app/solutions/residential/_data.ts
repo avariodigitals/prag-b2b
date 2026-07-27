@@ -45,16 +45,13 @@ export async function getProductsForCategoryCode(codeOrSlug: string): Promise<Pr
   const categoryId = await resolveCategoryId(codeOrSlug);
   if (!categoryId) return [];
 
-  try {
-    const { products } = await getProducts({
-      category_id: categoryId,
-      per_page: 100,
-      page: 1,
-      orderby: 'title',
-      order: 'asc',
-    });
-    return products;
-  } catch {
-    return [];
-  }
+  const { products } = await getProducts({
+    category_id: categoryId,
+    per_page: 100,
+    page: 1,
+    orderby: 'title',
+    order: 'asc',
+  });
+
+  return products;
 }

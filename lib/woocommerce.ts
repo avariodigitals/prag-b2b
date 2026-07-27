@@ -49,7 +49,7 @@ export interface Category {
   parent: number;
 }
 
-const FETCH_TIMEOUT_MS = 10000;
+const FETCH_TIMEOUT_MS = 7000;
 const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,images,categories,tags,attributes';
 const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,short_description,description,images,categories,tags,attributes,dimensions,weight';
 const CATEGORY_FIELDS = 'id,name,slug,count,parent';

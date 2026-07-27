@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 import { notFound } from 'next/navigation';
 import ProductDetailView from '@/components/ProductDetailView';
@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const [product, relatedResult] = await Promise.all([
     fetchProductWithRetry(slug),
-    getProducts({ per_page: 4 }).catch(() => ({ products: [] as Product[], total: 0 })),
+    getProducts({ per_page: 4 }),
   ]);
   const related = relatedResult.products;
 

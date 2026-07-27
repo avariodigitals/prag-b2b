@@ -39,12 +39,8 @@ export default async function ProductsPage({ searchParams }: Props) {
           validRequestedCats.map(async (slug) => {
             const cat = categories.find((c) => c.slug === slug);
             if (!cat) return [] as Product[];
-            try {
-              const { products } = await getProducts({ category_id: cat.id, per_page: 100, orderby: 'title', order: 'asc' });
-              return products;
-            } catch {
-              return [] as Product[];
-            }
+            const { products } = await getProducts({ category_id: cat.id, per_page: 100, orderby: 'title', order: 'asc' });
+            return products;
           })
         ).then((groups) => {
           const deduped = new Map<number, Product>();
@@ -53,7 +49,7 @@ export default async function ProductsPage({ searchParams }: Props) {
           });
           return { products: Array.from(deduped.values()), total: deduped.size };
         })
-      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 }));
+      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' });
 
   // Fetch all products + per-category in parallel
   const [{ products: allProducts }, ...categoryResults] = await Promise.all([
@@ -61,7 +57,7 @@ export default async function ProductsPage({ searchParams }: Props) {
     ...CATEGORY_SLUGS.map(slug => {
       const cat = categories.find(c => c.slug === slug);
       return cat
-        ? getProducts({ category_id: cat.id, per_page: 50, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 }))
+        ? getProducts({ category_id: cat.id, per_page: 50, orderby: 'title', order: 'asc' })
         : Promise.resolve({ products: [] as Product[], total: 0 });
     }),
   ]);
@@ -80,7 +76,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   );
 
   const subResults = await Promise.all(
-    subcategories.map(sub => getProducts({ category_id: sub.id, per_page: 50, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 })))
+    subcategories.map(sub => getProducts({ category_id: sub.id, per_page: 50, orderby: 'title', order: 'asc' }))
   );
   subcategories.forEach((sub, i) => {
     productsByCategory[sub.slug] = subResults[i].products;

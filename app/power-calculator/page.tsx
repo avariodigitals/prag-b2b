@@ -1,6 +1,7 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
 import { getProducts } from '@/lib/woocommerce';
-import type { Product } from '@/lib/woocommerce';
+
+export const revalidate = 600;
 
 export const metadata = {
   title: 'Power Calculator',
@@ -8,13 +9,7 @@ export const metadata = {
 };
 
 export default async function PowerCalculatorPage() {
-  let products: Product[] = [];
-  try {
-    const result = await getProducts({ per_page: 100, page: 1 });
-    products = result.products;
-  } catch {
-    products = [];
-  }
+  const { products } = await getProducts({ per_page: 100, page: 1 });
 
   return (
     <main className="w-full bg-white flex flex-col">
