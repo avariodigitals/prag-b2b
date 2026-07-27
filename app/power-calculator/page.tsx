@@ -1,7 +1,7 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
 import { getProducts } from '@/lib/woocommerce';
 
-export const revalidate = 600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Power Calculator',

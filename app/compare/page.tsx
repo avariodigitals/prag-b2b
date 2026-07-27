@@ -1,7 +1,7 @@
 import { getProducts } from '@/lib/woocommerce';
 import CompareView from '@/components/CompareView';
 
-export const revalidate = 600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = { title: 'Compare Products' };
 
