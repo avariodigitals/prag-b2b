@@ -1,5 +1,5 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
-import { getProducts } from '@/lib/woocommerce';
+import { getProducts, type Product } from '@/lib/woocommerce';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +9,13 @@ export const metadata = {
 };
 
 export default async function PowerCalculatorPage() {
-  const { products } = await getProducts({ per_page: 100, page: 1 });
+  let products: Product[] = [];
+  try {
+    const result = await getProducts({ per_page: 100, page: 1 });
+    products = result.products;
+  } catch {
+    products = [];
+  }
 
   return (
     <main className="w-full bg-white flex flex-col">

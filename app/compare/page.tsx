@@ -1,4 +1,4 @@
-import { getProducts } from '@/lib/woocommerce';
+import { getProducts, type Product } from '@/lib/woocommerce';
 import CompareView from '@/components/CompareView';
 
 export const dynamic = 'force-dynamic';
@@ -6,6 +6,12 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Compare Products' };
 
 export default async function ComparePage() {
-  const { products } = await getProducts({ per_page: 100 });
+  let products: Product[] = [];
+  try {
+    const result = await getProducts({ per_page: 100 });
+    products = result.products;
+  } catch {
+    products = [];
+  }
   return <CompareView products={products} />;
 }

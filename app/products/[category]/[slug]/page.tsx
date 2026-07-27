@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const [product, relatedResult] = await Promise.all([
     fetchProductWithRetry(slug),
-    getProducts({ per_page: 4 }),
+    getProducts({ per_page: 4 }).catch(() => ({ products: [] as Product[], total: 0 })),
   ]);
   const related = relatedResult.products;
 
