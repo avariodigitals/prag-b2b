@@ -49,7 +49,7 @@ export interface Category {
   parent: number;
 }
 
-const FETCH_TIMEOUT_MS = 7000;
+const FETCH_TIMEOUT_MS = 10000;
 const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,images,categories,tags,attributes';
 const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,short_description,description,images,categories,tags,attributes,dimensions,weight';
 const CATEGORY_FIELDS = 'id,name,slug,count,parent';
@@ -136,17 +136,17 @@ export const getProducts = unstable_cache(
     try {
       const res = await fetchWithRetry(`${baseUrl()}/products?${qs}&${authParams()}`, {
         next: { revalidate: 600 },
-      }, FETCH_TIMEOUT_MS, 1);
-      if (!res) return { products: [], total: 0 };
-      if (!res.ok) return { products: [], total: 0 };
+      }, FETCH_TIMEOUT_MS, 2);
+      if (!res) throw new Error('Product fetch failed (no response)');
+      if (!res.ok) throw new Error(`Product fetch failed (HTTP ${res.status})`);
       const text = await res.text();
-      if (!text.startsWith('[')) return { products: [], total: 0 };
+      if (!text.startsWith('[')) throw new Error('Product fetch returned non-array response');
       return {
         products: JSON.parse(text) as Product[],
         total: Number(res.headers.get('X-WP-Total') ?? 0),
       };
     } catch {
-      return { products: [], total: 0 };
+      throw new Error('Failed to fetch products');
     }
   },
   ['b2b-products-list'],

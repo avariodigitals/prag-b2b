@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getProducts } from '@/lib/woocommerce';
+import type { Product } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 
 interface Props {
@@ -64,13 +65,22 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const page = findB2BPage(content, `/products/${category}`);
   const hero = findVisibleSectionsByType(page, 'hero')[0];
 
-  const { products, total } = await getProducts({
-    category_id,
-    per_page: 16,
-    page: 1,
-    orderby: 'title',
-    order: 'asc',
-  });
+  let products: Product[] = [];
+  let total = 0;
+  try {
+    const result = await getProducts({
+      category_id,
+      per_page: 16,
+      page: 1,
+      orderby: 'title',
+      order: 'asc',
+    });
+    products = result.products;
+    total = result.total;
+  } catch {
+    products = [];
+    total = 0;
+  }
 
   const name = hero?.summary?.trim() || DISPLAY[category]?.name || category;
   const description = hero?.content?.trim() || DISPLAY[category]?.description || '';
