@@ -9,10 +9,11 @@ import type { PublicB2BContent } from '@/lib/b2bContent';
 type HeaderMenuItem = {
   label: string;
   href: string;
+  image?: string;
   children?: HeaderMenuItem[];
 };
 
-const SOLUTIONS = [
+const SOLUTIONS: HeaderMenuItem[] = [
   { label: 'For Homes', href: '/solutions/residential' },
   { label: 'For Commercial', href: '/solutions/commercial' },
   { label: 'For Industrial', href: '/solutions/industrial' },
@@ -21,14 +22,14 @@ const SOLUTIONS = [
   { label: 'Backup Power', href: '/solutions/backup-power' },
 ];
 
-const PRODUCTS = [
+const PRODUCTS: HeaderMenuItem[] = [
   { label: 'Voltage Stabilizers', href: '/products/all-prag-stabilizers' },
   { label: 'Inverters', href: '/products/inverters' },
   { label: 'Lithium Batteries', href: '/products/batteries' },
   { label: 'Solar', href: '/products/solar' },
 ];
 
-const COMPANY = [
+const COMPANY: HeaderMenuItem[] = [
   { label: 'About', href: '/about' },
   { label: 'Become A Distributor', href: '/distributor' },
 ];
@@ -42,8 +43,11 @@ function normalizeMenuItems(items: unknown): HeaderMenuItem[] {
     const href = String((rawItem as { href?: unknown })?.href ?? '').trim();
     if (!label || !href) continue;
 
+    const image = String((rawItem as { image?: unknown })?.image ?? '').trim();
     const children = normalizeMenuItems((rawItem as { children?: unknown })?.children);
-    normalized.push(children.length > 0 ? { label, href, children } : { label, href });
+    const item: HeaderMenuItem = children.length > 0 ? { label, href, children } : { label, href };
+    if (image) item.image = image;
+    normalized.push(item);
   }
   return normalized;
 }
@@ -176,11 +180,11 @@ const REAL_PRODUCT_IMAGES = {
   industrial: 'https://central.prag.global/wp-content/uploads/2021/08/PRAG-Axpert-Max-II-Pantone-2925C-R-side-600-by-600-8KW-Ads-Modular-600x600.jpg',
 };
 
-function getMainItems(items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
-  return items.map((item) => ({ label: item.label, href: item.href }));
+function getMainItems(items: HeaderMenuItem[]): Array<{ label: string; href: string; image?: string }> {
+  return items.map((item) => ({ label: item.label, href: item.href, image: item.image }));
 }
 
-function getOrderedMainItems(kind: DesktopMegaKind, items: HeaderMenuItem[]): Array<{ label: string; href: string }> {
+function getOrderedMainItems(kind: DesktopMegaKind, items: HeaderMenuItem[]): Array<{ label: string; href: string; image?: string }> {
   const mainItems = getMainItems(items);
   return [...mainItems].reverse();
 }
@@ -192,7 +196,8 @@ function getCompanyIcon(label: string) {
   return ShieldCheck;
 }
 
-function getShowcaseImage(label: string, kind: Exclude<DesktopMegaKind, 'company'>): string {
+function getShowcaseImage(label: string, kind: Exclude<DesktopMegaKind, 'company'>, customImage?: string): string {
+  if (customImage) return customImage;
   const key = label.toLowerCase();
   if (kind === 'solutions') {
     if (key.includes('homes') || key.includes('residential')) return REAL_PRODUCT_IMAGES.residentialStabilizer;
@@ -274,7 +279,7 @@ function DesktopMegaPanel({
               >
                 <div className="h-12 w-full flex items-center justify-center shrink-0">
                   <Image
-                    src={getShowcaseImage(item.label, kind)}
+                    src={getShowcaseImage(item.label, kind, item.image)}
                     alt={item.label}
                     width={120}
                     height={96}

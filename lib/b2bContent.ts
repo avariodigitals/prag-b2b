@@ -31,6 +31,7 @@ export interface PublicB2BPage {
 export interface PublicB2BHeaderMenuItem {
   label?: string;
   href?: string;
+  image?: string;
   children?: PublicB2BHeaderMenuItem[];
 }
 
