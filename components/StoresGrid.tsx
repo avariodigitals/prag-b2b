@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { Store } from '@/lib/woocommerce';
+import { formatPhone } from '@/lib/formatPhone';
 
 function StoreCard({ store }: { store: Store }) {
   return (
@@ -22,7 +23,7 @@ function StoreCard({ store }: { store: Store }) {
             href={`tel:${store.phone}`}
             className="text-[#444444] text-base font-normal font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
           >
-            {store.phone}
+            {formatPhone(store.phone)}
           </a>
         </div>
       </div>

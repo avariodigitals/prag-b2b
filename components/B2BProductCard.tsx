@@ -97,12 +97,12 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
         {/* Price */}
         <div className="flex items-center justify-center gap-2">
           {product.on_sale && product.regular_price && (
-            <span className="text-zinc-400 text-sm line-through font-['Onest']">
+            <span className="text-zinc-400 text-lg line-through font-['Onest']">
               {formatPrice(product.regular_price)}
             </span>
           )}
           {hasPrice ? (
-            <span className="text-[#1a1a1a] text-[15px] font-light font-['Onest']">
+            <span className="text-[#1a1a1a] text-xl font-medium font-['Onest']">
               {formatPrice(product.price)}
             </span>
           ) : (

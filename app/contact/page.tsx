@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getStores, getSiteSettings } from '@/lib/woocommerce';
 import { getB2BPublicContent } from '@/lib/b2bContent';
+import { formatPhone } from '@/lib/formatPhone';
 import ContactForm from '@/components/ContactForm';
 import StoresGrid from '@/components/StoresGrid';
 
@@ -112,7 +113,7 @@ export default async function ContactPage() {
                   href={`tel:${phone}`}
                   className="text-[#1a1a1a] text-lg font-['Space_Grotesk'] hover:text-[#0166a5] transition-colors"
                 >
-                  {phone}
+                  {formatPhone(phone)}
                 </a>
               </div>
             </div>

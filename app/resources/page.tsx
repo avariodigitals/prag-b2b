@@ -1,4 +1,4 @@
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 import TechResourcesView from '@/components/TechResourcesView';
 import { getProducts, type Product } from '@/lib/woocommerce';

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getStores } from '@/lib/woocommerce';
+import { formatPhone } from '@/lib/formatPhone';
 
 export const metadata: Metadata = {
   title: 'Find a PRAG Store Near You',
@@ -20,7 +21,7 @@ function StoreCard({ store }: { store: { id: number; name: string; city: string;
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-sky-700 text-xs font-semibold font-['Onest'] uppercase tracking-wide">Phone Number</span>
-          <a href={`tel:${store.phone}`} className="text-zinc-700 text-sm font-['Onest'] hover:text-sky-700 transition-colors">{store.phone}</a>
+          <a href={`tel:${store.phone}`} className="text-zinc-700 text-sm font-['Onest'] hover:text-sky-700 transition-colors">{formatPhone(store.phone)}</a>
         </div>
       </div>
       <div className="flex gap-3 pt-1">

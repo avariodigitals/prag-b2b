@@ -85,7 +85,7 @@ export default function CompareView({ products }: Props) {
           values: selected.map((p) => {
             const n = Number(String(p?.price ?? '').replace(/,/g, ''));
             return n > 0 ? (
-              <span className="text-sky-700 font-bold text-base font-['Onest']">{formatPrice(p!.price)}</span>
+              <span className="text-sky-700 font-bold text-xl font-['Onest']">{formatPrice(p!.price)}</span>
             ) : (
               <span className="text-sky-700 font-bold text-sm font-['Onest'] uppercase tracking-wide">Call for Price</span>
             );

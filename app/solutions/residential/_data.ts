@@ -3,12 +3,23 @@ import { getCategories, getProducts } from '@/lib/woocommerce';
 
 const KNOWN_CATEGORY_IDS: Record<string, number> = {
   inverters: 314,
+  solar: 320,
   batteries: 327,
   'all-prag-stabilizers': 321,
+  'voltage-stabilizers': 322,
   'thyristor-stabilizers': 349,
   'relay-voltage-stabilizers': 323,
   'servo-voltage-stabilizers': 324,
   'advanced-stabilizers': 338,
+  'hybrid-inverters': 319,
+  'heavy-duty-inverters': 315,
+  'pure-sine-wave-inverters': 316,
+  'solar-panels': 326,
+  'solar-charge-controllers': 325,
+  'protective-device': 340,
+  'tubular-batteries': 348,
+  'lithium-batteries': 344,
+  'battery-rack': 339,
 };
 
 function normalize(value: string): string {

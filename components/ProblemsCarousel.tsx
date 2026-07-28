@@ -73,8 +73,8 @@ function ProblemCard({
       onClick={onClick}
       className={`w-full min-h-[270px] md:min-h-[300px] text-left p-6 rounded-2xl border flex flex-col transition-all duration-300 focus:outline-none ${
         active
-          ? 'bg-[#F9F9F9] border-[#0166A5] shadow-md'
-          : 'bg-[#F9F9F9] border-zinc-300 hover:border-[#0166A5]'
+          ? 'bg-[#F9F9F9] border-2 border-[#0166A5] shadow-md'
+          : 'bg-[#F9F9F9] border border-zinc-300 hover:border-[#0166A5]'
       }`}
     >
       {/* Icon */}
@@ -87,7 +87,7 @@ function ProblemCard({
       </div>
 
       {/* Title — always visible */}
-      <h3 className={`mt-4 w-full max-w-full break-words text-[24px] font-medium font-['Onest'] leading-[1] tracking-[0] min-h-[48px] md:min-h-[40px] transition-colors duration-200 ${active ? 'text-sky-700' : 'text-zinc-900'}`}>
+      <h3 className="mt-4 w-full max-w-full break-words text-[24px] font-medium font-['Onest'] leading-[1] tracking-[0] min-h-[48px] md:min-h-[40px] text-zinc-900">
         {problem.title}
       </h3>
 

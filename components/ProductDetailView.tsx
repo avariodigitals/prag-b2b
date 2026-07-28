@@ -221,12 +221,12 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
 
               <div className="flex items-center gap-3 flex-wrap">
                 {product.on_sale && product.regular_price && (
-                  <span className="text-zinc-400 font-['Onest'] text-[22px] font-light line-through">
+                  <span className="text-zinc-400 font-['Onest'] text-[30px] font-light line-through">
                     {formatPrice(product.regular_price)}
                   </span>
                 )}
                 {hasPrice ? (
-                  <span className="text-[#0166a5] font-['Onest'] text-[20px] font-medium leading-none">
+                  <span className="text-[#0166a5] font-['Onest'] text-[28px] font-semibold leading-none">
                     {formatPrice(product.price)}
                   </span>
                 ) : (

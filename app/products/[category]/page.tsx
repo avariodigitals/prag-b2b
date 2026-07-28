@@ -1,4 +1,4 @@
-export const revalidate = 600;
+export const dynamic = 'force-dynamic';
 
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -16,6 +16,7 @@ const KNOWN_IDS: Record<string, number> = {
   'solar': 320,
   'batteries': 327,
   'all-prag-stabilizers': 321,
+  'voltage-stabilizers': 322,
   'thyristor-stabilizers': 349,
   'relay-voltage-stabilizers': 323,
   'servo-voltage-stabilizers': 324,

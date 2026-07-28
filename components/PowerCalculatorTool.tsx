@@ -225,7 +225,7 @@ export default function PowerCalculatorTool({ products }: Props) {
                       </span>
                     </div>
 
-                    <p className="text-sky-700 text-lg md:text-xl font-semibold font-['Onest']">
+                    <p className="text-sky-700 text-2xl md:text-3xl font-semibold font-['Onest']">
                       {hasPrice ? formatPrice(product.price) : 'Call for Price'}
                     </p>
 

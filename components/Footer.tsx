@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import type { PublicB2BContent } from '@/lib/b2bContent';
+import { formatPhone } from '@/lib/formatPhone';
 
 const defaultProductLinks = [
   { label: 'Inverters', href: '/products/inverters' },
@@ -32,7 +33,7 @@ const defaultSolutionLinks = [
 ];
 
 const defaultSupportLinks = [
-  { label: 'Warranty', href: '/terms-of-use#warranty-policy' },
+  { label: 'Warranty', href: '/warranty' },
   { label: 'Power Calculator', href: '/power-calculator' },
   { label: 'Technical Support', href: '/contact' },
   { label: 'FAQs', href: '/faq' },
@@ -51,7 +52,7 @@ const defaultCompanyLinks = [
 const defaultLegalLinks = [
   { label: 'Privacy', href: '/privacy' },
   { label: 'Terms of use', href: '/terms-of-use' },
-  { label: 'Warranty Policy', href: '/terms-of-use#warranty-policy' },
+  { label: 'Warranty Policy', href: '/warranty' },
   { label: 'Delivery Policy', href: '/shipping-policy' },
   { label: 'Returns Policy', href: '/return-policy' },
 ];
@@ -154,7 +155,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
   const whatsappHref = whatsappNumber
     ? `https://wa.me/${whatsappNumber}`
     : contact?.whatsapp?.trim() || 'https://wa.me/2348032170129';
-  const whatsappDisplay = whatsappNumber ? `+${whatsappNumber}` : salesPhone;
+  const whatsappDisplay = whatsappNumber ? formatPhone(`+${whatsappNumber}`) : formatPhone(salesPhone);
   const footerCopyright = footer?.copyright?.trim() || '© Copyright 2026 PRAG. All rights reserved.';
   const disclaimerText = footer?.disclaimerText?.trim() || 'The products, prices and promotions on this website are applicable to our customers only and are subject to change anytime.';
   const footerCtaTitle = footer?.ctaTitle?.trim() || 'Stop Losing Money to Bad Power';
@@ -324,7 +325,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{salesHotlineLabel}</p>
                       <a href={`tel:${salesPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
-                        {salesPhone}
+                        {formatPhone(salesPhone)}
                       </a>
                     </div>
                   </li>
@@ -333,7 +334,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                     <div>
                       <p className="font-onest text-[1.02rem] font-semibold leading-[1.15] md:text-[0.98rem]">{customerSupportLabel}</p>
                       <a href={`tel:${supportPhone.replace(/\s+/g, '')}`} className="mt-1 block text-[1.05rem] leading-[1.3] text-white/88 transition-colors hover:text-white md:text-[1.02rem]">
-                        {supportPhone}
+                        {formatPhone(supportPhone)}
                       </a>
                     </div>
                   </li>

@@ -3,7 +3,7 @@ import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getProducts, searchProducts, type Product } from '@/lib/woocommerce';
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 const CATEGORY_SLUGS = ['inverters', 'all-prag-stabilizers', 'batteries', 'solar'];
 
