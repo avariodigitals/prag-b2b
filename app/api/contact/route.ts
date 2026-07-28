@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      if (!syncedToAdmin && !process.env.VERCEL) {
+      if (!syncedToAdmin && process.env.NODE_ENV !== 'production') {
         try {
           await persistContactLocally(body as Record<string, unknown>);
         } catch {

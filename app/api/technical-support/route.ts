@@ -122,8 +122,8 @@ export async function POST(req: Request) {
   }
 
   // Always persist locally in dev so local Prag-Admin sees submissions.
-  // In production (Vercel) the intake API is the only path.
-  if (!process.env.VERCEL) {
+  // In production the intake API is the only path.
+  if (process.env.NODE_ENV !== 'production') {
     try {
       await persistSupportLocally(body);
     } catch {

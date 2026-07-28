@@ -96,7 +96,7 @@ async function readWordPressB2BStore() {
 
 export async function GET() {
   const useWordPressContent = process.env.B2B_USE_WORDPRESS_CONTENT === 'true';
-  const localData = !useWordPressContent ? await readLocalB2BStore() : null;
+  const localData = (!useWordPressContent && process.env.NODE_ENV !== 'production') ? await readLocalB2BStore() : null;
   if (localData) {
     return NextResponse.json(localData, {
       headers: {
@@ -107,42 +107,33 @@ export async function GET() {
   }
 
   const baseUrl = resolveB2BAdminBaseUrl();
-  if (!baseUrl) {
-    return NextResponse.json({ error: 'B2B admin public URL not configured.' }, { status: 500 });
-  }
 
-  try {
-    const upstream = await fetch(`${baseUrl}/api/public/b2b-content`, { next: { revalidate: 60 } });
-    if (!upstream.ok) {
-      const wpData = await readWordPressB2BStore();
-      if (wpData) {
-        return NextResponse.json(wpData, {
+  if (baseUrl) {
+    try {
+      const upstream = await fetch(`${baseUrl}/api/public/b2b-content`, { next: { revalidate: 60 } });
+      if (upstream.ok) {
+        const data = await upstream.json();
+        return NextResponse.json(data, {
           headers: {
             'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
-            'X-B2B-Content-Source': 'wordpress-fallback',
+            'X-B2B-Content-Source': 'upstream-api',
           },
         });
       }
-      return NextResponse.json({ error: 'Unable to fetch B2B content.' }, { status: upstream.status });
+    } catch {
+      // Fall through to WordPress fallback
     }
+  }
 
-    const data = await upstream.json();
-    return NextResponse.json(data, {
+  const wpData = await readWordPressB2BStore();
+  if (wpData) {
+    return NextResponse.json(wpData, {
       headers: {
         'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
-        'X-B2B-Content-Source': 'upstream-api',
+        'X-B2B-Content-Source': 'wordpress-fallback',
       },
     });
-  } catch {
-    const wpData = await readWordPressB2BStore();
-    if (wpData) {
-      return NextResponse.json(wpData, {
-        headers: {
-          'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
-          'X-B2B-Content-Source': 'wordpress-fallback',
-        },
-      });
-    }
-    return NextResponse.json({ error: 'Unable to fetch B2B content.' }, { status: 500 });
   }
+
+  return NextResponse.json({ error: 'Unable to fetch B2B content.' }, { status: 500 });
 }

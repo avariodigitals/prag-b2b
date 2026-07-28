@@ -179,7 +179,7 @@ export async function POST(req: Request) {
       }
     }
 
-    if (!syncedToAdmin && !process.env.VERCEL) {
+    if (!syncedToAdmin && process.env.NODE_ENV !== 'production') {
       try {
         await persistCareersLocally({
           name, email, phone, location, position, experience, education, coverLetter, message,

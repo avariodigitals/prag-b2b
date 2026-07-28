@@ -77,7 +77,7 @@ export default async function Hero() {
       <div className="relative z-10 w-full max-w-[1280px] mx-auto flex flex-col items-center md:items-start justify-center gap-8 md:gap-12">
         {/* Text */}
         <div className="flex flex-col items-center md:items-start gap-4 md:gap-6">
-          <h1 className="text-white text-center md:text-left font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2 md:px-0">
+          <h1 className="text-white text-center md:text-left font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2 md:px-0 mb-2 md:mb-0">
             {titleLines.map((line, index) => {
               const marginClass =
                 index === 0

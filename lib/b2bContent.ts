@@ -256,9 +256,9 @@ async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
 }
 
 async function getB2BPublicContentFresh(): Promise<PublicB2BContent | null> {
-  // Local file fallback is useful in local dev, but avoid it on Vercel where
+  // Local file fallback is useful in local dev, but avoid it in production where
   // the Prag-Admin workspace path does not exist and adds unnecessary latency.
-  if (!process.env.VERCEL) {
+  if (process.env.NODE_ENV !== 'production') {
     const localContent = await getB2BContentFromLocalStore();
     if (localContent) return localContent;
   }
@@ -280,11 +280,19 @@ export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
   if (process.env.NODE_ENV === 'development') {
     return getB2BPublicContentFresh();
   }
-  return getB2BPublicContentCached();
+  try {
+    return await getB2BPublicContentCached();
+  } catch {
+    return null;
+  }
 }
 
-const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent | null> => {
-  return getB2BPublicContentFresh();
+const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent> => {
+  const content = await getB2BPublicContentFresh();
+  if (!content) {
+    throw new Error('B2B content unavailable from all sources');
+  }
+  return content;
 }, ['b2b-public-content'], {
   revalidate: B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS,
 });

@@ -118,7 +118,7 @@ export async function POST(req: Request) {
       }
     }
 
-    if (!syncedToAdmin && !process.env.VERCEL) {
+    if (!syncedToAdmin && process.env.NODE_ENV !== 'production') {
       try {
         await persistDistributorLocally(body as Record<string, unknown>);
       } catch {
