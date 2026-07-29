@@ -2,6 +2,18 @@
 
 import { useEffect } from 'react';
 
+function deriveRedirect(path: string): string {
+  const productMatch = path.match(/^\/products\/([^/]+)\/[^/]+/);
+  if (productMatch) {
+    return `/products/${productMatch[1]}`;
+  }
+  const categoryMatch = path.match(/^\/products\/([^/]+)$/);
+  if (categoryMatch) {
+    return '/products';
+  }
+  return '';
+}
+
 export default function NotFoundLogger() {
   useEffect(() => {
     const path = `${window.location.pathname}${window.location.search}`;
@@ -16,6 +28,7 @@ export default function NotFoundLogger() {
       host,
       referrer: document.referrer || '',
       userAgent: navigator.userAgent,
+      redirect: deriveRedirect(path),
     };
 
     fetch('/api/public/404-log', {

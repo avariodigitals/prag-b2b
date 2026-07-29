@@ -146,10 +146,30 @@ function RelatedCard({
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: 'Article' };
+  if (!post) return { title: 'Article – PRAG B2B' };
+
+  const title = stripHtml(post.title.rendered);
+  const description = stripHtml(post.excerpt.rendered).slice(0, 160);
+  const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+
   return {
-    title: stripHtml(post.title.rendered),
-    description: stripHtml(post.excerpt.rendered).slice(0, 160),
+    title,
+    description,
+    alternates: { canonical: `${siteBase}/knowledge-center/${post.slug}` },
+    openGraph: {
+      title,
+      description,
+      images: imageUrl ? [{ url: imageUrl, alt: title }] : undefined,
+      type: 'article',
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
   };
 }
 

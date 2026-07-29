@@ -14,11 +14,11 @@ function isAllowedB2BHost(host: string) {
   return allowed.some((item) => normalized === item || normalized.endsWith(`.${item}`));
 }
 
-async function appendLocal404Audit(payload: { host: string; path: string; referrer?: string; userAgent?: string }) {
+async function appendLocal404Audit(payload: { host: string; path: string; referrer?: string; userAgent?: string; redirect?: string }) {
   const localStorePath = path.resolve(process.cwd(), '..', 'Prag-Admin', '.admin-data', 'b2b-admin-config.json');
   const raw = await fs.readFile(localStorePath, 'utf8');
   const parsed = JSON.parse(raw) as {
-    audit?: Array<{ id?: string; at?: string; actor?: string; action?: string; target?: string; details?: string }>;
+    audit?: Array<{ id?: string; at?: string; actor?: string; action?: string; target?: string; details?: string; redirect?: string }>;
   };
   const audit = Array.isArray(parsed.audit) ? parsed.audit : [];
 
@@ -37,6 +37,7 @@ async function appendLocal404Audit(payload: { host: string; path: string; referr
         action: '404.not-found',
         target: payload.path,
         details,
+        redirect: payload.redirect || undefined,
       },
       ...audit,
     ].slice(0, 1000),
@@ -47,7 +48,7 @@ async function appendLocal404Audit(payload: { host: string; path: string; referr
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as { path?: string; host?: string; referrer?: string; userAgent?: string };
+    const body = (await req.json()) as { path?: string; host?: string; referrer?: string; userAgent?: string; redirect?: string };
     const loggedPath = String(body.path ?? '').trim();
     const loggedHost = String(body.host ?? '').trim();
 
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
       host: loggedHost,
       referrer: body.referrer ? String(body.referrer) : '',
       userAgent: body.userAgent ? String(body.userAgent) : '',
+      redirect: body.redirect ? String(body.redirect) : '',
     };
 
     const adminUrl = process.env.B2B_ADMIN_API_URL || process.env.NEXT_PUBLIC_B2B_ADMIN_API_URL;

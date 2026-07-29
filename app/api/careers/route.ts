@@ -126,28 +126,19 @@ export async function POST(req: Request) {
     cvPayload = await fileToBase64(cvFile);
   }
 
-  const message = [
-    `Careers Application`,
-    `Position: ${position}`,
-    `Location: ${location || 'Not provided'}`,
-    `Experience: ${experience || 'Not provided'}`,
-    `Education: ${education || 'Not provided'}`,
-    `CV/Resume: ${cvPayload ? cvPayload.filename : 'Not provided'}`,
-    '',
-    'Cover Letter:',
-    coverLetter || 'Not provided',
-  ].join('\n');
-
   const wpBody = {
     name,
     email,
     phone,
-    subject: `Careers Application: ${position}`,
-    message,
-    route: '/careers',
+    location,
+    position,
+    experience,
+    education,
+    message: coverLetter,
+    cvFilename: cvPayload ? cvPayload.filename : '',
   };
 
-  const res = await fetch(`${WP_API}/prag-core/v1/contact`, {
+  const res = await fetch(`${WP_API}/prag-core/v1/careers`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(wpBody),
@@ -182,7 +173,7 @@ export async function POST(req: Request) {
     if (!syncedToAdmin && process.env.NODE_ENV !== 'production') {
       try {
         await persistCareersLocally({
-          name, email, phone, location, position, experience, education, coverLetter, message,
+          name, email, phone, location, position, experience, education, coverLetter,
         });
       } catch {
         // Ignore local persistence failures so public submission still succeeds.

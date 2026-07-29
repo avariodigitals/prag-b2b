@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_REDIRECTS } from './lib/redirects';
 
 const nextConfig: NextConfig = {
   devIndicators: false,
@@ -42,6 +43,7 @@ const nextConfig: NextConfig = {
         destination: '/solutions/residential/power-stabilization-protection',
         permanent: true,
       },
+      ...LEGACY_REDIRECTS.map((r) => ({ ...r, permanent: true })),
     ];
   },
   async headers() {
