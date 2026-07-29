@@ -57,7 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const launchEnabled = Boolean(launch?.enabled);
   const launchTitle = launch?.title?.trim() || 'Launching Soon';
   const launchMessage = launch?.message?.trim() || 'We are preparing updates. Please check back shortly.';
-  const gaId = integrations?.googleAnalyticsId?.trim() || '';
+  const gaId = integrations?.googleAnalyticsId?.trim() || 'G-K0XL81C7CK';
   const gtmId = integrations?.googleTagManagerId?.trim() || '';
   const searchConsoleVerification = integrations?.searchConsoleVerification?.trim() || '';
   const zohoOneScript = integrations?.zohoOneScript?.trim() || '';
