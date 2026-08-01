@@ -5,30 +5,52 @@ import B2BProductCard from './B2BProductCard';
 import type { Product, Category } from '@/lib/woocommerce';
 import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
-const TOP_CATEGORIES = [
-  { label: 'All products', slug: 'all' },
-  { label: 'Inverters', slug: 'inverters' },
-  { label: 'Stabilizers', slug: 'all-prag-stabilizers' },
-  { label: 'Batteries', slug: 'batteries' },
-  { label: 'Solar', slug: 'solar' },
-];
-
 interface Props {
   allProducts: Product[];
   productsByCategory: Record<string, Product[]>;
   categories: Category[];
+  categoryOrder?: string[];
+  subcategoryOrder?: Record<string, string[]>;
 }
 
-export default function ProductsView({ allProducts, productsByCategory, categories }: Props) {
+export default function ProductsView({ allProducts, productsByCategory, categories, categoryOrder, subcategoryOrder }: Props) {
   const [activeTop, setActiveTop] = useState('all');
   const [activeSub, setActiveSub] = useState<string | null>(null);
+
+  // Build dynamic top-level tabs from categories + order
+  const orderMap = new Map((categoryOrder ?? []).map((slug, i) => [slug, i]));
+  const parentCats = categories
+    .filter(c => c.parent === 0)
+    .sort((a, b) => {
+      const aIdx = orderMap.get(a.slug);
+      const bIdx = orderMap.get(b.slug);
+      if (aIdx !== undefined && bIdx !== undefined) return aIdx - bIdx;
+      if (aIdx !== undefined) return -1;
+      if (bIdx !== undefined) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+  const TOP_CATEGORIES = [
+    { label: 'All products', slug: 'all' },
+    ...parentCats.map(c => ({ label: c.name, slug: c.slug })),
+  ];
 
   // Find the active top-level category object
   const topCat = categories.find(c => c.slug === activeTop);
 
-  // Subcategories of the active top category
+  // Subcategories of the active top category, sorted by subcategoryOrder
+  const subOrder = subcategoryOrder?.[activeTop] ?? [];
   const subcategories = topCat
-    ? categories.filter(c => c.parent === topCat.id && c.count > 0)
+    ? categories
+        .filter(c => c.parent === topCat.id && c.count > 0)
+        .sort((a, b) => {
+          const aIdx = subOrder.indexOf(a.slug);
+          const bIdx = subOrder.indexOf(b.slug);
+          if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+          if (aIdx !== -1) return -1;
+          if (bIdx !== -1) return 1;
+          return a.name.localeCompare(b.name);
+        })
     : [];
 
   // Determine which products to show

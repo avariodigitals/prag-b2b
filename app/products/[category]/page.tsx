@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
-import { getProducts, type Product } from '@/lib/woocommerce';
+import { getHiddenCategories, getProducts, type Product } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 
 interface Props {
@@ -66,6 +66,11 @@ export async function generateStaticParams() {
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { category } = await params;
   const sp = await searchParams;
+
+  // Check if this category is hidden from the storefront
+  const hiddenSet = await getHiddenCategories();
+  if (hiddenSet.has(category)) notFound();
+  if (sp.sub && hiddenSet.has(sp.sub)) notFound();
 
   const activeSlug = sp.sub ?? category;
   const category_id = KNOWN_IDS[activeSlug];

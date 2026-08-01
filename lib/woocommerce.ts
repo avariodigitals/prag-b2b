@@ -110,6 +110,60 @@ export const getCategories = unstable_cache(
   { revalidate: 300, tags: ['b2b-categories'] }
 );
 
+export const getHiddenCategories = unstable_cache(
+  async (): Promise<Set<string>> => {
+    try {
+      const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+      const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
+        next: { revalidate: 300 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res || !res.ok) return new Set();
+      const data = await res.json();
+      return new Set(Array.isArray(data.hidden_categories) ? data.hidden_categories : []);
+    } catch {
+      return new Set();
+    }
+  },
+  ['b2b-hidden-categories'],
+  { revalidate: 300, tags: ['b2b-hidden-categories'] }
+);
+
+export const getCategoryOrder = unstable_cache(
+  async (): Promise<string[]> => {
+    try {
+      const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+      const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
+        next: { revalidate: 300 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res || !res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.category_order) ? data.category_order : [];
+    } catch {
+      return [];
+    }
+  },
+  ['b2b-category-order'],
+  { revalidate: 300, tags: ['b2b-category-order'] }
+);
+
+export const getSubcategoryOrder = unstable_cache(
+  async (): Promise<Record<string, string[]>> => {
+    try {
+      const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+      const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
+        next: { revalidate: 300 },
+      }, FETCH_TIMEOUT_MS, 1);
+      if (!res || !res.ok) return {};
+      const data = await res.json();
+      return data.subcategory_order && typeof data.subcategory_order === 'object' ? data.subcategory_order : {};
+    } catch {
+      return {};
+    }
+  },
+  ['b2b-subcategory-order'],
+  { revalidate: 300, tags: ['b2b-subcategory-order'] }
+);
+
 export const getProducts = unstable_cache(
   async ({
     category_id,

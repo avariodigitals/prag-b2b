@@ -93,11 +93,23 @@ async function fetchAllKnowledgePostsForSitemap(): Promise<WpPostLite[]> {
   return [...firstData, ...restData.flat()];
 }
 
+async function fetchHiddenCategorySlugs(): Promise<Set<string>> {
+  try {
+    const res = await fetchJson(`${WP_API_URL}/prag-core/v1/settings`);
+    if (!res?.ok) return new Set();
+    const data = await res.json();
+    return new Set(Array.isArray(data.hidden_categories) ? data.hidden_categories : []);
+  } catch {
+    return new Set();
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, categories, posts] = await Promise.all([
+  const [products, categories, posts, hiddenSlugs] = await Promise.all([
     fetchAllProductsForSitemap(),
     fetchAllCategoriesForSitemap(),
     fetchAllKnowledgePostsForSitemap(),
+    fetchHiddenCategorySlugs(),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -130,7 +142,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const categoryRoutes: MetadataRoute.Sitemap = categories
-    .filter((c) => Boolean(c.slug))
+    .filter((c) => Boolean(c.slug) && !hiddenSlugs.has(c.slug))
     .map((c) => ({
       url: `${SITE_BASE}/products/${c.slug}`,
       lastModified: c.date_modified ? new Date(c.date_modified) : undefined,
@@ -139,7 +151,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
   const productRoutes: MetadataRoute.Sitemap = products
-    .filter((p) => Boolean(p.slug))
+    .filter((p) => Boolean(p.slug) && !(p.categories?.[0]?.slug && hiddenSlugs.has(p.categories[0].slug)))
     .map((p) => {
       const categorySlug = p.categories?.[0]?.slug;
       const productPath = categorySlug
