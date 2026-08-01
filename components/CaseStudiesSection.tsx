@@ -102,7 +102,7 @@ export default async function CaseStudiesSection() {
 
                   <div className="rounded-2xl p-4">
                     <p className="text-[#0166A5] text-base uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
-                    <p className="mt-2 text-neutral-800 text-[17px] sm:text-lg font-normal font-['Onest'] leading-relaxed"><SentenceText text={getNarrativeOutcome(study)} /></p>
+                    <p className="mt-2 text-neutral-800 text-[17px] sm:text-lg font-normal font-['Onest'] leading-relaxed"><SentenceText text={study.outcome?.trim() || getNarrativeOutcome(study)} /></p>
                   </div>
                 </div>
               </div>

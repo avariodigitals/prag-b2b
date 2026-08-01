@@ -96,7 +96,7 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
                   <div className="rounded-2xl border border-[#0166A5]/25 bg-[#0166A5]/5 p-4">
                     <p className="text-[#0166A5] text-[12px] uppercase tracking-[0.08em] font-semibold font-['Space_Grotesk']">Outcome</p>
                     <p className="mt-2 text-neutral-800 text-[15px] sm:text-base font-normal font-['Onest'] leading-relaxed">
-                      {getNarrativeOutcome(item)}
+                      {item.outcome?.trim() || getNarrativeOutcome(item)}
                     </p>
                   </div>
                 </div>

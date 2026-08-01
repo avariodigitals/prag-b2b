@@ -18,6 +18,7 @@ export interface CaseStudyRecord {
   solution: string;
   tags: string[];
   results: CaseStudyResult[];
+  outcome?: string;
   featured: boolean;
   active: boolean;
 }
@@ -241,6 +242,7 @@ function mergeCaseStudiesContent(content?: Partial<CaseStudiesContent> | null): 
           .map((result) => ({ label: String(result?.label ?? '').trim(), value: String(result?.value ?? '').trim() }))
           .filter((result) => result.label && result.value)
         : [],
+      outcome: String(item?.outcome ?? '').trim(),
       featured: Boolean(item?.featured),
       active: item?.active ?? true,
     });
