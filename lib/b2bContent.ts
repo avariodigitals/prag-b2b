@@ -99,6 +99,13 @@ export interface PublicB2BScriptSettings {
   footer?: string;
 }
 
+export interface PublicB2BWhatsAppChatOption {
+  label?: string;
+  subtitle?: string;
+  prefill?: string;
+  number?: string;
+}
+
 export interface PublicB2BIntegrationsSettings {
   googleAnalyticsId?: string;
   googleTagManagerId?: string;
@@ -108,6 +115,7 @@ export interface PublicB2BIntegrationsSettings {
   whatsappChatEnabled?: boolean;
   whatsappChatNumber?: string;
   whatsappChatText?: string;
+  whatsappChatOptions?: PublicB2BWhatsAppChatOption[];
 }
 
 export interface PublicB2BContactSettings {

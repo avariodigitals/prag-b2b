@@ -43,17 +43,32 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
   const subtitle = 'We typically reply within a few minutes.';
   const prefill = 'Hi PRAG, I need help.';
 
-  const options = useMemo(() => ([
-    { label: 'General Enquiries', subtitle: 'Ask anything', prefill: 'Hi PRAG, I have a general enquiry.' },
-    { label: 'Sales', subtitle: 'Pricing & product advice', prefill: 'Hi PRAG Sales, I want to buy and need help.' },
-    { label: 'Support', subtitle: 'Technical help', prefill: 'Hi PRAG Support, I need technical assistance.' },
-    { label: 'Delivery', subtitle: 'Orders & logistics', prefill: 'Hi PRAG, I need help with delivery / logistics.' },
-  ]), []);
+  const options = useMemo(() => {
+    const configured = Array.isArray(integrations?.whatsappChatOptions) ? integrations.whatsappChatOptions : [];
+    const defaults = [
+      { label: 'General Enquiries', subtitle: 'Ask anything', prefill: 'Hi PRAG, I have a general enquiry.', number: '2348032170129' },
+      { label: 'Sales', subtitle: 'Pricing & product advice', prefill: 'Hi PRAG Sales, I want to buy and need help.', number: '2347036463977' },
+      { label: 'Support', subtitle: 'Technical help', prefill: 'Hi PRAG Support, I need technical assistance.', number: '2348111043239' },
+      { label: 'Delivery', subtitle: 'Orders & logistics', prefill: 'Hi PRAG, I need help with delivery / logistics.', number: '2347036463977' },
+    ];
+
+    if (configured.length > 0) {
+      return configured.map((opt, idx) => ({
+        label: opt?.label?.trim() || defaults[idx]?.label || `Option ${idx + 1}`,
+        subtitle: opt?.subtitle?.trim() || defaults[idx]?.subtitle || '',
+        prefill: opt?.prefill?.trim() || defaults[idx]?.prefill || prefill,
+        number: (opt?.number ?? '').replace(/\D/g, '') || (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '') || '2348032170129',
+      }));
+    }
+
+    return defaults;
+  }, [integrations?.whatsappChatOptions, integrations?.whatsappChatNumber]);
 
   if (!baseLink) return null;
 
-  function openWhatsApp(message: string) {
-    const href = withPrefill(baseLink, message);
+  function openWhatsApp(number: string, message: string) {
+    const link = number ? `https://wa.me/${number}` : baseLink;
+    const href = withPrefill(link, message);
     window.open(href, '_blank', 'noopener,noreferrer');
     setOpen(false);
   }
@@ -95,7 +110,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
                   <button
                     key={option.label}
                     type="button"
-                    onClick={() => openWhatsApp(optionPrefill)}
+                    onClick={() => openWhatsApp(option.number, optionPrefill)}
                     className="group rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-left transition-colors hover:border-emerald-200 hover:bg-emerald-50/60"
                   >
                     <div className="min-w-0">
