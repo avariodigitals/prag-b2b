@@ -25,12 +25,13 @@ export default async function ProductsPage({ searchParams }: Props) {
     .split(',')
     .map((slug) => slug.trim().toLowerCase())
     .filter(Boolean);
-  const [categories, hiddenSet, categoryOrder, subcategoryOrder] = await Promise.all([
+  const [categories, hiddenArr, categoryOrder, subcategoryOrder] = await Promise.all([
     getCategories(),
     getHiddenCategories(),
     getCategoryOrder(),
     getSubcategoryOrder(),
   ]);
+  const hiddenSet = new Set(hiddenArr);
   const orderMap = new Map(categoryOrder.map((slug, i) => [slug, i]));
   const visibleCategories = categories.filter((c) => !hiddenSet.has(c.slug));
   const visibleCategorySlugs = CATEGORY_SLUGS.filter((slug) => !hiddenSet.has(slug)).sort((a, b) => {

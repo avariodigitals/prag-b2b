@@ -68,7 +68,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const sp = await searchParams;
 
   // Check if this category is hidden from the storefront
-  const hiddenSet = await getHiddenCategories();
+  const hiddenSet = new Set(await getHiddenCategories());
   if (hiddenSet.has(category)) notFound();
   if (sp.sub && hiddenSet.has(sp.sub)) notFound();
 

@@ -111,17 +111,17 @@ export const getCategories = unstable_cache(
 );
 
 export const getHiddenCategories = unstable_cache(
-  async (): Promise<Set<string>> => {
+  async (): Promise<string[]> => {
     try {
       const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
         next: { revalidate: 300 },
       }, FETCH_TIMEOUT_MS, 1);
-      if (!res || !res.ok) return new Set();
+      if (!res || !res.ok) return [];
       const data = await res.json();
-      return new Set(Array.isArray(data.hidden_categories) ? data.hidden_categories : []);
+      return Array.isArray(data.hidden_categories) ? data.hidden_categories : [];
     } catch {
-      return new Set();
+      return [];
     }
   },
   ['b2b-hidden-categories'],
