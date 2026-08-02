@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
-import { getHiddenCategories, getProducts, type Product } from '@/lib/woocommerce';
+import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 
 interface Props {
@@ -29,7 +29,6 @@ const KNOWN_IDS: Record<string, number> = {
   'protective-device': 340,
   'tubular-batteries': 348,
   'lithium-batteries': 344,
-  'battery-rack': 339,
 };
 
 const DISPLAY: Record<string, { name: string; description: string }> = {
@@ -68,9 +67,32 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const sp = await searchParams;
 
   // Check if this category is hidden from the storefront
-  const hiddenSet = new Set(await getHiddenCategories());
+  const [hiddenArr, allCategories, subcategoryOrder] = await Promise.all([
+    getHiddenCategories(),
+    getCategories(),
+    getSubcategoryOrder(),
+  ]);
+  const hiddenSet = new Set(hiddenArr);
   if (hiddenSet.has(category)) notFound();
   if (sp.sub && hiddenSet.has(sp.sub)) notFound();
+
+  // Build dynamic subcategory tabs from WooCommerce categories
+  const parentCat = allCategories.find((c) => c.slug === category);
+  const subOrder = subcategoryOrder[category] ?? [];
+  const subcategories = allCategories
+    .filter((c) => parentCat && c.parent === parentCat.id && c.count > 0 && !hiddenSet.has(c.slug))
+    .filter((c) => subOrder.length === 0 || subOrder.includes(c.slug))
+    .sort((a, b) => {
+      if (subOrder.length > 0) {
+        const aIdx = subOrder.indexOf(a.slug);
+        const bIdx = subOrder.indexOf(b.slug);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+      }
+      return a.name.localeCompare(b.name);
+    })
+    .map((c) => ({ label: c.name, slug: c.slug }));
 
   const activeSlug = sp.sub ?? category;
   const category_id = KNOWN_IDS[activeSlug];
@@ -129,6 +151,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             total={total}
             categorySlug={category}
             activeSub={sp.sub}
+            subcategories={subcategories}
           />
         </Suspense>
       </div>

@@ -6,28 +6,18 @@ import B2BProductCard from './B2BProductCard';
 import type { Product } from '@/lib/woocommerce';
 import { sortProductsBySizeThenPrice } from '@/lib/productSort';
 
-const SECTION_TABS: Record<string, { label: string; slug: string }[]> = {
-  'inverters': [
-    { label: 'Hybrid Inverters', slug: 'hybrid-inverters' },
-    { label: 'Heavy Duty Inverters', slug: 'heavy-duty-inverters' },
-  ],
-  'all-prag-stabilizers': [
-    { label: 'Thyristor Stabilizers', slug: 'thyristor-stabilizers' },
-    { label: 'Relay Stabilizers', slug: 'relay-voltage-stabilizers' },
-    { label: 'Servo Stabilizers', slug: 'servo-voltage-stabilizers' },
-    { label: '3-phase Stabilizers', slug: 'advanced-stabilizers' },
-  ],
-  'batteries': [
-    { label: 'Tabular Batteries', slug: 'tubular-batteries' },
-    { label: 'Lithium Batteries', slug: 'lithium-batteries' },
-    { label: 'Battery Racks', slug: 'battery-rack' },
-  ],
-  'solar': [
-    { label: 'Solar Panels', slug: 'solar-panels' },
-    { label: 'Solar Charge Controllers', slug: 'solar-charge-controllers' },
-    { label: 'Protective Devices', slug: 'protective-device' },
-  ],
-};
+interface Subcategory {
+  label: string;
+  slug: string;
+}
+
+interface Props {
+  products: Product[];
+  total: number;
+  categorySlug: string;
+  activeSub?: string;
+  subcategories?: Subcategory[];
+}
 
 const ALL_LABELS: Record<string, string> = {
   'inverters': 'All inverters',
@@ -36,14 +26,7 @@ const ALL_LABELS: Record<string, string> = {
   'solar': 'All Solar',
 };
 
-interface Props {
-  products: Product[];
-  total: number;
-  categorySlug: string;
-  activeSub?: string;
-}
-
-export default function CategoryProductsGrid({ products: init, total, categorySlug, activeSub }: Props) {
+export default function CategoryProductsGrid({ products: init, total, categorySlug, activeSub, subcategories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -106,7 +89,7 @@ export default function CategoryProductsGrid({ products: init, total, categorySl
     startTransition(() => router.push(`/products/${categorySlug}?${next}`));
   }
 
-  const subs = SECTION_TABS[categorySlug] ?? [];
+  const subs = subcategories ?? [];
   const allLabel = ALL_LABELS[categorySlug] ?? 'All';
   const tabs = [{ label: allLabel, slug: undefined }, ...subs];
 
