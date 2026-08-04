@@ -35,6 +35,9 @@ export async function fetchDynamicRedirects(): Promise<RedirectEntry[]> {
     if (data.success && Array.isArray(data.redirects)) {
       return data.redirects
         .filter((r: any) => r.active)
+        .filter((r: any) => typeof r.source === 'string' && typeof r.destination === 'string')
+        .filter((r: any) => !r.source.includes('?') && !r.destination.includes('?'))
+        .filter((r: any) => r.source.startsWith('/'))
         .map((r: any) => ({
           source: r.source,
           destination: r.destination,

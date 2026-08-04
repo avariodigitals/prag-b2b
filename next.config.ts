@@ -50,12 +50,7 @@ const nextConfig: NextConfig = {
         destination: '/products/:category/:product',
         permanent: true,
       },
-      {
-        source: '/shop/:product',
-        destination: '/products/:category/:product',
-        permanent: true,
-      },
-      ...LEGACY_REDIRECTS.map((r) => ({ ...r, permanent: r.permanent ?? true })),
+      ...LEGACY_REDIRECTS.filter((r) => !r.source.startsWith('/shop/')).map((r) => ({ ...r, permanent: r.permanent ?? true })),
       ...dynamicRedirects.map((r) => ({ ...r, permanent: r.permanent ?? true })),
     ];
   },

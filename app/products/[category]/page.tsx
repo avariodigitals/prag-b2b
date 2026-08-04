@@ -92,8 +92,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   
   const allDescendants = parentCat ? getAllDescendants(parentCat.id) : [];
   
+  // Exclude intermediate category "voltage-stabilizers" from subcategories
+  // since we have "all-voltage-stabilizers" as a separate category
   const subcategories = allDescendants
     .filter((c) => !hiddenSet.has(c.slug))
+    .filter((c) => c.slug !== 'voltage-stabilizers') // Exclude intermediate category
     .filter((c) => subOrder.length === 0 || subOrder.includes(c.slug))
     .sort((a, b) => {
       if (subOrder.length > 0) {
