@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getProducts } from '@/lib/woocommerce';
+import { getCategories, getProducts } from '@/lib/woocommerce';
 import type { Product } from '@/lib/woocommerce';
 
 export const runtime = 'nodejs';
@@ -32,7 +32,17 @@ export async function GET(req: NextRequest) {
   const per_page = Number(sp.get('per_page') ?? 16);
 
   const activeSlug = sub ?? categorySlug;
-  const category_id = KNOWN_IDS[activeSlug];
+  let category_id = KNOWN_IDS[activeSlug];
+
+  // Resolve dynamically from WooCommerce if not in the known map
+  if (!category_id && activeSlug) {
+    try {
+      const categories = await getCategories();
+      category_id = categories.find((c) => c.slug === activeSlug)?.id;
+    } catch {
+      category_id = undefined;
+    }
+  }
 
   let products: Product[] = [];
   let total = 0;

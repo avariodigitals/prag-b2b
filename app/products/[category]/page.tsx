@@ -111,9 +111,10 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     .map((c) => ({ label: c.name, slug: c.slug }));
 
   const activeSlug = sp.sub ?? category;
-  const category_id = KNOWN_IDS[activeSlug];
+  const activeCat = allCategories.find((c) => c.slug === activeSlug);
+  const category_id = KNOWN_IDS[activeSlug] ?? activeCat?.id;
 
-  if (!category_id && !DISPLAY[category]) notFound();
+  if (!category_id && !parentCat && !DISPLAY[category]) notFound();
 
   const content = await getB2BPublicContent();
   const page = findB2BPage(content, `/products/${category}`);
