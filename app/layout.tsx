@@ -47,6 +47,27 @@ export const metadata: Metadata = {
     apple: '/icon.png',
   },
   manifest: '/manifest.json',
+  openGraph: {
+    title: 'PRAG – Nigeria\'s Leading Power Engineering Company',
+    description: 'Enterprise power engineering solutions across Nigeria.',
+    url: 'https://www.prag.global',
+    siteName: 'PRAG',
+    images: [
+      {
+        url: 'https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'PRAG – Nigeria\'s Leading Power Engineering Company',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PRAG – Nigeria\'s Leading Power Engineering Company',
+    description: 'Enterprise power engineering solutions across Nigeria.',
+    images: ['https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png'],
+  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

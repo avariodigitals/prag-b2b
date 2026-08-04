@@ -18,6 +18,12 @@ export default function NotFound() {
           Go to Homepage
         </Link>
         <Link
+          href="/products"
+          className="px-8 py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-base font-semibold font-['Onest'] rounded-full transition-colors"
+        >
+          Products
+        </Link>
+        <Link
           href="/contact"
           className="px-8 py-3.5 border border-sky-700 text-sky-700 hover:bg-sky-50 text-base font-semibold font-['Onest'] rounded-full transition-colors"
         >
