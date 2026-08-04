@@ -80,7 +80,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const parentCat = allCategories.find((c) => c.slug === category);
   const subOrder = subcategoryOrder[category] ?? [];
   const subcategories = allCategories
-    .filter((c) => parentCat && c.parent === parentCat.id && c.count > 0 && !hiddenSet.has(c.slug))
+    .filter((c) => parentCat && c.parent === parentCat.id && !hiddenSet.has(c.slug))
     .filter((c) => subOrder.length === 0 || subOrder.includes(c.slug))
     .sort((a, b) => {
       if (subOrder.length > 0) {
