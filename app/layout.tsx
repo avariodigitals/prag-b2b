@@ -42,12 +42,9 @@ export const metadata: Metadata = {
   },
   description: 'Enterprise power engineering solutions across Nigeria.',
   icons: {
-    icon: [
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
-    ],
+    icon: '/icon.png',
     shortcut: '/icon.png',
-    apple: '/icon-192.png',
+    apple: '/icon.png',
   },
   manifest: '/manifest.json',
 };
