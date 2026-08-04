@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
-import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product } from '@/lib/woocommerce';
+import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 
 interface Props {
@@ -79,8 +79,21 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   // Build dynamic subcategory tabs from WooCommerce categories
   const parentCat = allCategories.find((c) => c.slug === category);
   const subOrder = subcategoryOrder[category] ?? [];
-  const subcategories = allCategories
-    .filter((c) => parentCat && c.parent === parentCat.id && !hiddenSet.has(c.slug))
+  
+  // Helper function to get all descendant categories recursively
+  function getAllDescendants(parentId: number): Category[] {
+    const directChildren = allCategories.filter((c) => c.parent === parentId);
+    const allDescendants = [...directChildren];
+    directChildren.forEach((child) => {
+      allDescendants.push(...getAllDescendants(child.id));
+    });
+    return allDescendants;
+  }
+  
+  const allDescendants = parentCat ? getAllDescendants(parentCat.id) : [];
+  
+  const subcategories = allDescendants
+    .filter((c) => !hiddenSet.has(c.slug))
     .filter((c) => subOrder.length === 0 || subOrder.includes(c.slug))
     .sort((a, b) => {
       if (subOrder.length > 0) {
