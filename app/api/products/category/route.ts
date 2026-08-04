@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   const per_page = Number(sp.get('per_page') ?? 16);
 
   const activeSlug = sub ?? categorySlug;
-  let category_id = KNOWN_IDS[activeSlug];
+  let category_id: number | undefined = KNOWN_IDS[activeSlug];
 
   // Resolve dynamically from WooCommerce if not in the known map
   if (!category_id && activeSlug) {
