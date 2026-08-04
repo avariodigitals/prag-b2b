@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { fetchDynamicRedirects } from './lib/redirects';
+import { fetchDynamicRedirects, LEGACY_REDIRECTS } from './lib/redirects';
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
@@ -35,7 +35,10 @@ export async function middleware(req: NextRequest) {
             const product = products[0];
             const category = product.categories?.[0];
             if (category) {
-              url.pathname = `/products/${category.slug}/${productSlug}`;
+              const destination = `/products/${category.slug}/${productSlug}`;
+              // Track the redirect hit
+              trackRedirectHit('/shop/:product', req.headers.get('host'));
+              url.pathname = destination;
               return NextResponse.redirect(url, 301);
             }
           }
@@ -47,17 +50,36 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
+    // Check legacy redirects first (these are also in next.config.ts but
+    // we handle them here to track hits accurately)
+    for (const redirect of LEGACY_REDIRECTS) {
+      const sourcePattern = redirect.source.replace(/:([^/]+)/g, '([^/]+)');
+      const regex = new RegExp(`^${sourcePattern}$`);
+      const match = pathname.match(regex);
+
+      if (match) {
+        // Track the redirect hit
+        trackRedirectHit(redirect.source, req.headers.get('host'));
+
+        // Replace parameters in destination
+        let destination = redirect.destination;
+        const paramNames = (redirect.source.match(/:([^/]+)/g) || []).map((p) => p.slice(1));
+        paramNames.forEach((param, index) => {
+          destination = destination.replace(`:${param}`, match[index + 1]);
+        });
+
+        url.pathname = destination;
+        return NextResponse.redirect(url, redirect.permanent ? 301 : 302);
+      }
+    }
+
     const dynamicRedirects = await fetchDynamicRedirects();
     
     for (const redirect of dynamicRedirects) {
       // Handle exact match
       if (redirect.source === pathname) {
         // Track the redirect hit
-        fetch('/api/admin/redirect-hit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ source: redirect.source, host: req.headers.get('host') }),
-        }).catch(() => {});
+        trackRedirectHit(redirect.source, req.headers.get('host'));
 
         url.pathname = redirect.destination;
         return NextResponse.redirect(url, redirect.permanent ? 301 : 302);
@@ -70,11 +92,7 @@ export async function middleware(req: NextRequest) {
 
       if (match) {
         // Track the redirect hit
-        fetch('/api/admin/redirect-hit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ source: redirect.source, host: req.headers.get('host') }),
-        }).catch(() => {});
+        trackRedirectHit(redirect.source, req.headers.get('host'));
 
         // Replace parameters in destination
         let destination = redirect.destination;
@@ -92,6 +110,15 @@ export async function middleware(req: NextRequest) {
   }
 
   return NextResponse.next();
+}
+
+// Fire-and-forget redirect hit tracker
+function trackRedirectHit(source: string, host: string | null) {
+  fetch('/api/admin/redirect-hit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ source, host: host ?? '' }),
+  }).catch(() => {});
 }
 
 export const config = {
