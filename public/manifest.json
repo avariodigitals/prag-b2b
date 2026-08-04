@@ -1,0 +1,17 @@
+{
+  "name": "PRAG - Nigeria's Leading Power Engineering Company",
+  "short_name": "PRAG",
+  "description": "Enterprise power engineering solutions across Nigeria.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0166a5",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "4567x4567",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

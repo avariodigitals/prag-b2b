@@ -42,10 +42,11 @@ export const metadata: Metadata = {
   },
   description: 'Enterprise power engineering solutions across Nigeria.',
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/favicon.png',
   },
+  manifest: '/manifest.json',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
