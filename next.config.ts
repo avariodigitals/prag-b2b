@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { LEGACY_REDIRECTS } from './lib/redirects';
+import { LEGACY_REDIRECTS, fetchDynamicRedirects } from './lib/redirects';
 
 const nextConfig: NextConfig = {
   devIndicators: false,
@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   async redirects() {
+    const dynamicRedirects = await fetchDynamicRedirects();
+    
     return [
       {
         source: '/solutions/residential-2',
@@ -43,7 +45,8 @@ const nextConfig: NextConfig = {
         destination: '/solutions/residential/power-stabilization-protection',
         permanent: true,
       },
-      ...LEGACY_REDIRECTS.map((r) => ({ ...r, permanent: true })),
+      ...LEGACY_REDIRECTS.map((r) => ({ ...r, permanent: r.permanent ?? true })),
+      ...dynamicRedirects.map((r) => ({ ...r, permanent: r.permanent ?? true })),
     ];
   },
   async headers() {

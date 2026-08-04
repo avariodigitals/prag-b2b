@@ -3,14 +3,24 @@
 import { useEffect } from 'react';
 
 function deriveRedirect(path: string): string {
+  // Handle old product-category URLs
+  const oldCategoryMatch = path.match(/^\/product-category\/([^/]+)(?:\/[^/]+)?$/);
+  if (oldCategoryMatch) {
+    return `/products/${oldCategoryMatch[1]}`;
+  }
+  
+  // Handle product detail pages that might be missing
   const productMatch = path.match(/^\/products\/([^/]+)\/[^/]+/);
   if (productMatch) {
     return `/products/${productMatch[1]}`;
   }
+  
+  // Handle category pages
   const categoryMatch = path.match(/^\/products\/([^/]+)$/);
   if (categoryMatch) {
     return '/products';
   }
+  
   return '';
 }
 
