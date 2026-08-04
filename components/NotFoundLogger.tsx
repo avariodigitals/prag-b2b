@@ -3,6 +3,17 @@
 import { useEffect } from 'react';
 
 function deriveRedirect(path: string): string {
+  // Handle old shop URLs
+  const shopMatch = path.match(/^\/shop\/([^/]+)$/);
+  if (shopMatch) {
+    return `/products/${shopMatch[1]}`;
+  }
+  
+  const shopCategoryMatch = path.match(/^\/shop\/([^/]+)\/([^/]+)$/);
+  if (shopCategoryMatch) {
+    return `/products/${shopCategoryMatch[1]}/${shopCategoryMatch[2]}`;
+  }
+  
   // Handle old product-category URLs
   const oldCategoryMatch = path.match(/^\/product-category\/([^/]+)(?:\/[^/]+)?$/);
   if (oldCategoryMatch) {

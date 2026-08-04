@@ -11,6 +11,8 @@ export const LEGACY_REDIRECTS: RedirectEntry[] = [
   { source: '/stabilizer-warranty', destination: '/warranty/stabilizer', permanent: true },
   { source: '/product-category/:category/:subcategory', destination: '/products/:category', permanent: true },
   { source: '/product-category/:category', destination: '/products/:category', permanent: true },
+  { source: '/shop/:product', destination: '/products/:category/:product', permanent: true },
+  { source: '/shop/:category/:product', destination: '/products/:category/:product', permanent: true },
 ];
 
 export async function fetchDynamicRedirects(): Promise<RedirectEntry[]> {

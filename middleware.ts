@@ -16,6 +16,36 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Handle /shop/ redirects - need to look up product category
+  if (pathname.startsWith('/shop/')) {
+    const productSlug = pathname.replace('/shop/', '');
+    if (productSlug) {
+      try {
+        // Try to fetch product info to determine category
+        const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
+        const auth = `consumer_key=${process.env.WC_CONSUMER_KEY}&consumer_secret=${process.env.WC_CONSUMER_SECRET}`;
+        
+        const productRes = await fetch(`${wpApi}/wc/v3/products?slug=${productSlug}&${auth}`, {
+          next: { revalidate: 300 },
+        });
+        
+        if (productRes.ok) {
+          const products = await productRes.json();
+          if (Array.isArray(products) && products.length > 0) {
+            const product = products[0];
+            const category = product.categories?.[0];
+            if (category) {
+              url.pathname = `/products/${category.slug}/${productSlug}`;
+              return NextResponse.redirect(url, 301);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to lookup product for shop redirect:', error);
+      }
+    }
+  }
+
   try {
     const dynamicRedirects = await fetchDynamicRedirects();
     

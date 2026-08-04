@@ -45,6 +45,16 @@ const nextConfig: NextConfig = {
         destination: '/solutions/residential/power-stabilization-protection',
         permanent: true,
       },
+      {
+        source: '/shop/:category/:product',
+        destination: '/products/:category/:product',
+        permanent: true,
+      },
+      {
+        source: '/shop/:product',
+        destination: '/products/:category/:product',
+        permanent: true,
+      },
       ...LEGACY_REDIRECTS.map((r) => ({ ...r, permanent: r.permanent ?? true })),
       ...dynamicRedirects.map((r) => ({ ...r, permanent: r.permanent ?? true })),
     ];
