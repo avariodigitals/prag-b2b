@@ -1,10 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import type { Product } from '@/lib/woocommerce';
-import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
-import { sortProductsBySizeThenPrice } from '@/lib/productSort';
+import { useState } from 'react';
 
 const APPLIANCES = [
   { name: 'Ceiling Fan', watts: 60 },
@@ -36,34 +32,10 @@ function nearestKva(kva: number): number {
   return KVA_SIZES.find((k) => k >= kva) ?? KVA_SIZES[KVA_SIZES.length - 1];
 }
 
-interface Props {
-  products: Product[];
-}
+const WHATSAPP_NUMBER = '2347036463977';
 
-function extractProductKva(product: Product): number | null {
-  const text = [
-    product.name,
-    ...(product.attributes?.map((attr) => `${attr.name} ${attr.options.join(' ')}`) ?? []),
-  ].join(' ');
-
-  const matches = Array.from(text.matchAll(/(\d+(?:\.\d+)?)\s*kva/gi));
-  if (!matches.length) return null;
-
-  const values = matches
-    .map((m) => Number(m[1]))
-    .filter((n) => Number.isFinite(n) && n > 0);
-
-  if (!values.length) return null;
-  return Math.max(...values);
-}
-
-function getProductLandingHref(product: Product): string {
-  return getShopProductUrl(product);
-}
-
-export default function PowerCalculatorTool({ products }: Props) {
+export default function PowerCalculatorTool() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [assessmentRequested, setAssessmentRequested] = useState(false);
 
   function update(name: string, delta: number) {
     setQuantities((prev) => ({
@@ -74,7 +46,6 @@ export default function PowerCalculatorTool({ products }: Props) {
 
   function reset() {
     setQuantities({});
-    setAssessmentRequested(false);
   }
 
   const appliancesAdded = Object.values(quantities).reduce((s, q) => s + (q > 0 ? 1 : 0), 0);
@@ -82,40 +53,24 @@ export default function PowerCalculatorTool({ products }: Props) {
   const dailyKwh = (peakWatts * 8) / 1000;
   const recommendedKva = nearestKva(peakWatts / 1000 / 0.8);
 
-  const recommendedProducts = useMemo(() => {
-    if (!assessmentRequested || appliancesAdded === 0) return [] as Array<Product & { detectedKva: number }>;
+  function getRecommendation() {
+    if (appliancesAdded === 0) return;
 
-    const withKva = products
-      .map((product) => ({ product, detectedKva: extractProductKva(product) }))
-      .filter((item): item is { product: Product; detectedKva: number } => item.detectedKva !== null)
-      .sort((a, b) => a.detectedKva - b.detectedKva);
+    const selected = APPLIANCES
+      .filter((a) => (quantities[a.name] ?? 0) > 0)
+      .map((a) => `- ${a.name} x${quantities[a.name]} (${a.watts}W each)`)
+      .join('\n');
 
-    const lowerBound = recommendedKva;
-    const upperBound = recommendedKva * 2;
+    const message =
+      `Hello Prag, I'd like a power system recommendation. Here is the list of things I want to power:\n\n` +
+      `${selected}\n\n` +
+      `Peak Load: ${peakWatts}W\n` +
+      `Estimated Daily Usage: ${dailyKwh.toFixed(1)} KWh\n` +
+      `Suggested Inverter Size: ${recommendedKva} KVA`;
 
-    let shortlist = withKva.filter((item) => item.detectedKva >= lowerBound && item.detectedKva <= upperBound);
-
-    if (!shortlist.length) {
-      shortlist = withKva.filter((item) => item.detectedKva >= lowerBound).slice(0, 8);
-    }
-
-    if (!shortlist.length) {
-      shortlist = [...withKva]
-        .sort((a, b) => Math.abs(a.detectedKva - recommendedKva) - Math.abs(b.detectedKva - recommendedKva))
-        .slice(0, 8);
-    }
-
-    const seen = new Set<number>();
-    return sortProductsBySizeThenPrice(
-      shortlist
-      .filter((item) => {
-        if (seen.has(item.product.id)) return false;
-        seen.add(item.product.id);
-        return true;
-      })
-      .map((item) => ({ ...item.product, detectedKva: item.detectedKva }))
-    );
-  }, [products, assessmentRequested, appliancesAdded, recommendedKva]);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 
   const rows: typeof APPLIANCES[] = [];
   for (let i = 0; i < APPLIANCES.length; i += 3) rows.push(APPLIANCES.slice(i, i + 3));
@@ -169,6 +124,7 @@ export default function PowerCalculatorTool({ products }: Props) {
             { label: 'Appliances Added', value: String(appliancesAdded) },
             { label: 'Peak Load', value: `${peakWatts}W` },
             { label: 'Daily Usage', value: `${dailyKwh.toFixed(1)} KWh` },
+            { label: 'Recommended Inverter', value: appliancesAdded > 0 ? `${recommendedKva} KVA` : '—' },
           ].map((item) => (
             <div key={item.label} className="flex flex-col items-center gap-0.5">
               <span className="text-white text-xl font-extrabold font-['Onest']">{item.value}</span>
@@ -188,86 +144,17 @@ export default function PowerCalculatorTool({ products }: Props) {
             Reset
           </button>
           <button
-            onClick={() => setAssessmentRequested(true)}
-            className={`h-11 px-6 bg-white rounded-full text-sky-700 text-sm font-semibold font-['Onest'] flex items-center justify-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
+            onClick={getRecommendation}
             disabled={appliancesAdded === 0}
+            className={`h-11 px-6 bg-white rounded-full text-sky-700 text-sm font-semibold font-['Onest'] flex items-center justify-center gap-2 hover:bg-sky-50 transition-colors ${appliancesAdded === 0 ? 'opacity-40 pointer-events-none' : ''}`}
           >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
             Get Recommendation
           </button>
         </div>
       </div>
-
-      {assessmentRequested && appliancesAdded > 0 && (
-        <div className="w-full rounded-2xl border border-zinc-300 p-5 md:p-6 flex flex-col gap-5">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-zinc-900 text-xl font-bold font-['Onest']">Likely Product Matches</h2>
-            <p className="text-zinc-500 text-lg md:text-xl font-['Onest']">
-              Based on your load profile, these products can support around {recommendedKva} KVA requirements.
-            </p>
-          </div>
-
-          {recommendedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recommendedProducts.map((product) => {
-                const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
-                const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
-                return (
-                  <div key={product.id} className="rounded-xl border border-zinc-300 p-4 bg-white flex flex-col gap-3">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex flex-col gap-1">
-                        <p className="text-zinc-900 text-lg md:text-xl font-bold font-['Onest'] leading-tight">{product.name}</p>
-                        <p className="text-zinc-500 text-lg md:text-xl font-['Onest']">
-                          Capacity: {product.detectedKva} KVA
-                        </p>
-                      </div>
-                      <span className="px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-semibold font-['Onest']">
-                        {product.categories?.[0]?.name ?? 'Product'}
-                      </span>
-                    </div>
-
-                    <p className="text-sky-700 text-2xl md:text-3xl font-semibold font-['Onest']">
-                      {hasPrice ? formatPrice(product.price) : 'Call for Price'}
-                    </p>
-
-                    <div className="flex flex-wrap items-center gap-2">
-                      <a
-                        href={getProductLandingHref(product)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Onest'] inline-flex items-center transition-colors"
-                      >
-                        Buy Now
-                      </a>
-                      <a
-                        href={`https://wa.me/2348032170129?text=${encodeURIComponent(`Hi PRAG, I need help choosing the right system. My calculator recommendation is ${recommendedKva} KVA and I am interested in ${product.name}.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="h-9 px-4 rounded-lg border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Onest'] inline-flex items-center transition-colors"
-                      >
-                        Contact Sales
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="rounded-xl border border-zinc-300 bg-zinc-50 p-4 flex flex-col gap-3">
-              <p className="text-zinc-600 text-lg md:text-xl font-['Onest']">
-                No direct product match was found for this exact capacity yet. Contact sales for a tailored recommendation.
-              </p>
-              <div>
-                <Link
-                  href="/contact"
-                  className="h-9 px-4 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-sm font-semibold font-['Onest'] inline-flex items-center transition-colors"
-                >
-                  Get Expert Recommendation
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
       </div>
     </div>
   );

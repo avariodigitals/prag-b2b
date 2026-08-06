@@ -1,5 +1,4 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
-import { getProducts, type Product } from '@/lib/woocommerce';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,15 +7,7 @@ export const metadata = {
   description: 'Select your appliances and get an instant system size recommendation.',
 };
 
-export default async function PowerCalculatorPage() {
-  let products: Product[] = [];
-  try {
-    const result = await getProducts({ per_page: 100, page: 1 });
-    products = result.products;
-  } catch {
-    products = [];
-  }
-
+export default function PowerCalculatorPage() {
   return (
     <main className="w-full bg-white flex flex-col">
       <div className="w-full bg-stone-50 flex flex-col items-center gap-4 px-6 md:px-20 breadcrumb-hero-shell">
@@ -27,7 +18,7 @@ export default async function PowerCalculatorPage() {
           Select your appliances, set daily usage hours, and get an instant system recommendation — free, no signup required.
         </p>
       </div>
-      <PowerCalculatorTool products={products} />
+      <PowerCalculatorTool />
     </main>
   );
 }
