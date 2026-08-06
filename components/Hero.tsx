@@ -77,7 +77,7 @@ export default async function Hero() {
       <div className="relative z-10 w-full max-w-[1280px] mx-auto flex flex-col items-center md:items-start justify-center gap-8 md:gap-12">
         {/* Text */}
         <div className="flex flex-col items-center md:items-start gap-4 md:gap-6">
-          <h1 className="text-white text-center md:text-left font-['Onest'] text-[28px] sm:text-[40px] md:text-[64px] font-bold leading-[1.05] px-2 md:px-0 mb-2 md:mb-0">
+          <h1 className="text-white text-center md:text-left font-['Onest'] text-[28px] sm:text-[40px] md:text-[48px] lg:text-[52px] xl:text-[56px] 2xl:text-[64px] font-bold leading-[1.05] px-2 md:px-0 mb-2 md:mb-0">
             {titleLines.map((line, index) => {
               const marginClass =
                 index === 0
@@ -96,13 +96,13 @@ export default async function Hero() {
               );
             })}
           </h1>
-          <p className="text-white text-center md:text-left [font-family:var(--font-space-grotesk)] text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[520px] md:max-w-[640px]">
+          <p className="text-white text-center md:text-left [font-family:var(--font-space-grotesk)] text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[1.5] max-w-[361px] sm:max-w-[520px] md:max-w-[520px] lg:max-w-[560px] xl:max-w-[600px] 2xl:max-w-[640px]">
             <SentenceText text={hero.body} />
           </p>
         </div>
 
         {/* CTAs */}
-        <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[700px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-3 md:gap-4">
+        <div className="w-full max-w-[361px] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[560px] xl:max-w-[600px] 2xl:max-w-[700px] flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-3 md:gap-4">
           <Link
             href={hero.ctaHref}
             className="flex-1 sm:flex-none w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-[#0166A5] text-white [font-family:var(--font-space-grotesk)] text-[16px] font-medium leading-normal rounded-full hover:bg-[#01588e] transition-colors text-center"
