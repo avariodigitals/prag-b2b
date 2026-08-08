@@ -9,6 +9,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Voltage Stabilization & Protection Solutions',
   description: 'Protect your equipment from voltage fluctuations with PRAG stabilization and protection systems.',
+  alternates: { canonical: 'https://www.prag.global/solutions/voltage-stabilization-protection' },
 };
 
 export default async function VoltageStabilizationProtectionPage() {

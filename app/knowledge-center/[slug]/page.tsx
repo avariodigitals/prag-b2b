@@ -151,15 +151,17 @@ export async function generateMetadata({ params }: Props) {
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).slice(0, 160);
   const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
+  const canonical = `${siteBase}/knowledge-center/${post.slug}`;
 
   return {
     title,
     description,
-    alternates: { canonical: `${siteBase}/knowledge-center/${post.slug}` },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
+      url: canonical,
       images: imageUrl ? [{ url: imageUrl, alt: title }] : undefined,
       type: 'article',
       publishedTime: post.date,
@@ -192,7 +194,8 @@ export default async function KnowledgeCenterPost({ params }: Props) {
     .slice(0, 3);
 
   const title = stripHtml(post.title.rendered);
-  const shareUrl = `https://prag.global/knowledge-center/${slug}`;
+  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
+  const shareUrl = `${siteBase}/knowledge-center/${slug}`;
 
   return (
     <main className="w-full bg-white flex flex-col">

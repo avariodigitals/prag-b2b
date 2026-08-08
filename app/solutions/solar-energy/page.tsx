@@ -9,6 +9,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Solar Energy Solutions',
   description: 'Reduce energy costs and generator dependence with PRAG solar power systems.',
+  alternates: { canonical: 'https://www.prag.global/solutions/solar-energy' },
 };
 
 export default async function SolarEnergyPage() {

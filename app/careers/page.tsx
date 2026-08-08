@@ -3,7 +3,7 @@ import CareersForm from '@/components/CareersForm';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
-export const metadata: Metadata = { title: 'Careers' };
+export const metadata: Metadata = { title: 'Careers', alternates: { canonical: 'https://www.prag.global/careers' } };
 
 async function getPageContent() {
   const fallback = {

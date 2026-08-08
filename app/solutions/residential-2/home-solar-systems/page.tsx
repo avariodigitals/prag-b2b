@@ -11,6 +11,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Home Solar Systems',
   description: 'Solar-ready complete systems, inverters, and batteries for residential energy independence.',
+  alternates: { canonical: 'https://www.prag.global/solutions/residential-2/home-solar-systems' },
 };
 
 export default async function HomeSolarSystemsPage({ searchParams }: Props) {

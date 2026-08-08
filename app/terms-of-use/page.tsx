@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Terms of Use' };
+export const metadata: Metadata = { title: 'Terms of Use', alternates: { canonical: 'https://www.prag.global/terms-of-use' } };
 
 export default function TermsOfUsePage() {
   return (

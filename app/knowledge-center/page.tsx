@@ -1,12 +1,14 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import BlogGrid from '@/components/BlogGrid';
 import { getPosts, getPostCategories } from '@/lib/wordpress';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Knowledge Center',
   description: 'Practical guides, honest comparisons, and expert insights from PRAG\'s engineering team.',
+  alternates: { canonical: 'https://www.prag.global/knowledge-center' },
 };
 
 interface Props {

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Shipping Policy' };
+export const metadata: Metadata = { title: 'Shipping Policy', alternates: { canonical: 'https://www.prag.global/shipping-policy' } };
 
 const DELIVERY_TIMEFRAMES = [
   { area: 'Lagos & Environs', time: '1-2 business days for standard delivery' },

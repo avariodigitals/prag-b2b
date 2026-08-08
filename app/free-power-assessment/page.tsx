@@ -3,7 +3,7 @@ import FreePowerAssessmentForm from '@/components/FreePowerAssessmentForm';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
-export const metadata: Metadata = { title: 'Free Power Assessment' };
+export const metadata: Metadata = { title: 'Free Power Assessment', alternates: { canonical: 'https://www.prag.global/free-power-assessment' } };
 
 async function getPageContent() {
   const fallback = {

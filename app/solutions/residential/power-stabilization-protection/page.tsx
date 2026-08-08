@@ -11,6 +11,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Power Stabilization & Protection',
   description: 'Voltage stabilizers and protection products that safeguard residential equipment from unstable power.',
+  alternates: { canonical: 'https://www.prag.global/solutions/residential/power-stabilization-protection' },
 };
 
 export default async function PowerStabilizationProtectionPage({ searchParams }: Props) {

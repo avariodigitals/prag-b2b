@@ -8,6 +8,13 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Power Solutions',
   description: 'From industrial plants to residential homes, we engineer power systems that never let you down.',
+  alternates: { canonical: 'https://www.prag.global/solutions' },
+  openGraph: {
+    title: 'Power Solutions',
+    description: 'From industrial plants to residential homes, we engineer power systems that never let you down.',
+    url: 'https://www.prag.global/solutions',
+    type: 'website',
+  },
 };
 
 const SOLUTIONS = [

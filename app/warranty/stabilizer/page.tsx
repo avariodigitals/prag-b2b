@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Stabilizer Warranty' };
+export const metadata: Metadata = { title: 'Stabilizer Warranty', alternates: { canonical: 'https://www.prag.global/warranty/stabilizer' } };
 
 export default function StabilizerWarrantyPage() {
   return (

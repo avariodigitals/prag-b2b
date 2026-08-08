@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Lithium Battery Warranty' };
+export const metadata: Metadata = { title: 'Lithium Battery Warranty', alternates: { canonical: 'https://www.prag.global/warranty/battery' } };
 
 export default function BatteryWarrantyPage() {
   return (

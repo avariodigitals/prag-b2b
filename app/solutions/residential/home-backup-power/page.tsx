@@ -11,6 +11,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Home Backup Power',
   description: 'Complete backup systems, inverters, and batteries for reliable residential power continuity.',
+  alternates: { canonical: 'https://www.prag.global/solutions/residential/home-backup-power' },
 };
 
 export default async function HomeBackupPowerPage({ searchParams }: Props) {

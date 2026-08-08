@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const SITE_BASE = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+const SITE_BASE = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
 
 export default function robots(): MetadataRoute.Robots {
   return {

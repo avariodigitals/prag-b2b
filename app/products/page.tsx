@@ -1,9 +1,22 @@
+import type { Metadata } from 'next';
 import ProductsView from '@/components/ProductsView';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, searchProducts, type Product } from '@/lib/woocommerce';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Products – PRAG B2B',
+  description: 'Browse all PRAG product categories and power technologies.',
+  alternates: { canonical: 'https://www.prag.global/products' },
+  openGraph: {
+    title: 'Products – PRAG B2B',
+    description: 'Browse all PRAG product categories and power technologies.',
+    url: 'https://www.prag.global/products',
+    type: 'website',
+  },
+};
 
 const CATEGORY_SLUGS = ['inverters', 'all-prag-stabilizers', 'batteries', 'solar'];
 

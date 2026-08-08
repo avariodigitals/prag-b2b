@@ -5,6 +5,7 @@ import { formatPhone } from '@/lib/formatPhone';
 export const metadata: Metadata = {
   title: 'Find a PRAG Store Near You',
   description: 'Connect with authorized PRAG stores across Nigeria for expert consultation, product purchases, and professional installation services.',
+  alternates: { canonical: 'https://www.prag.global/find-a-distributor' },
 };
 
 function StoreCard({ store }: { store: { id: number; name: string; city: string; address: string; phone: string; map_url: string } }) {

@@ -8,6 +8,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Residential Power Solutions 2',
   description: 'Residential solutions navigation with dedicated sections for backup, solar systems, and stabilization.',
+  alternates: { canonical: 'https://www.prag.global/solutions/residential-2' },
 };
 
 export default async function ResidentialSolutionsTwoPage() {

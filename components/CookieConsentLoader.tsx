@@ -14,7 +14,7 @@ const CONSENT_CONFIG = {
   preferences_center_close_button_hide: false,
   page_refresh_confirmation_buttons: false,
   website_name: 'PRAG B2B',
-  website_privacy_policy_url: 'https://prag.global/privacy',
+  website_privacy_policy_url: 'https://www.prag.global/privacy',
 };
 
 declare global {

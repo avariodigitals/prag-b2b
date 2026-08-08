@@ -1,9 +1,10 @@
 import DistributorForm from '@/components/DistributorForm';
+import type { Metadata } from 'next';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { LayoutGrid, Tag, GraduationCap, Headphones, BadgeCheck, Users } from 'lucide-react';
 
-export const metadata = { title: 'Become a Distributor' };
+export const metadata: Metadata = { title: 'Become a Distributor', alternates: { canonical: 'https://www.prag.global/distributor' } };
 
 const BENEFIT_ICONS = [LayoutGrid, Tag, GraduationCap, Headphones, BadgeCheck, Users];
 

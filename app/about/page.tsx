@@ -1,8 +1,9 @@
 import CountUp from '@/components/CountUp';
+import type { Metadata } from 'next';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
-export const metadata = { title: 'About Us' };
+export const metadata: Metadata = { title: 'About Us', alternates: { canonical: 'https://www.prag.global/about' } };
 
 const FALLBACK_STATS = [
   { display: 50, suffix: 'K+', label: 'System Installed' },

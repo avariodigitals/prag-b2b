@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import TechnicalSupportForm from '@/components/TechnicalSupportForm';
 
-export const metadata: Metadata = { title: 'Technical Support' };
+export const metadata: Metadata = { title: 'Technical Support', alternates: { canonical: 'https://www.prag.global/technical-support' } };
 
 export default function TechnicalSupportPage() {
   return (

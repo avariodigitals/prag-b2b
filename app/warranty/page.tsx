@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Zap, Gauge, Sun, BatteryFull } from 'lucide-react';
 import WarrantyCard from '@/components/WarrantyCard';
 
-export const metadata: Metadata = { title: 'Product Warranty' };
+export const metadata: Metadata = { title: 'Product Warranty', alternates: { canonical: 'https://www.prag.global/warranty' } };
 
 const categories = [
   {

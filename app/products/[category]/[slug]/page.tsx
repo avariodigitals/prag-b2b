@@ -26,16 +26,18 @@ export async function generateMetadata({ params }: Props) {
       || product.description?.replace(/<[^>]+>/g, '').trim().slice(0, 160)
       || `${product.name} — available from PRAG. Enterprise-grade power engineering solutions for businesses.`;
     const imageUrl = product.images?.[0]?.src;
-    const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+    const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
     const categorySlug = product.categories?.[0]?.slug ?? 'products';
+    const canonical = `${siteBase}/products/${categorySlug}/${product.slug}`;
 
     return {
       title: product.name,
       description,
-      alternates: { canonical: `${siteBase}/products/${categorySlug}/${product.slug}` },
+      alternates: { canonical },
       openGraph: {
         title: product.name,
         description,
+        url: canonical,
         images: imageUrl ? [{ url: imageUrl, alt: product.images?.[0]?.alt || product.name }] : undefined,
         type: 'website',
       },

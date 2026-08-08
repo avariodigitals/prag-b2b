@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { ManagedFAQSection } from '@/components/FAQ';
 
-export const metadata: Metadata = { title: 'FAQ' };
+export const metadata: Metadata = { title: 'FAQ', alternates: { canonical: 'https://www.prag.global/faq' } };
 
 const FALLBACK_DESCRIPTION = 'Answers to common questions about PRAG products, warranty, installation, and support.';
 const FALLBACK_ITEMS = [

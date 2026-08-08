@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Returns & Refund Policy' };
+export const metadata: Metadata = { title: 'Returns & Refund Policy', alternates: { canonical: 'https://www.prag.global/return-policy' } };
 
 export default function ReturnPolicyPage() {
   return (

@@ -9,6 +9,13 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Commercial Power Solutions',
   description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
+  alternates: { canonical: 'https://www.prag.global/solutions/commercial' },
+  openGraph: {
+    title: 'Commercial Power Solutions',
+    description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
+    url: 'https://www.prag.global/solutions/commercial',
+    type: 'website',
+  },
 };
 
 export default async function CommercialSolutionsPage() {

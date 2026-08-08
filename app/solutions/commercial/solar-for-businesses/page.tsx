@@ -11,6 +11,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Solar for Businesses',
   description: 'Solar-ready complete systems, inverters, and batteries for efficient commercial energy operations.',
+  alternates: { canonical: 'https://www.prag.global/solutions/commercial/solar-for-businesses' },
 };
 
 export default async function SolarForBusinessesPage({ searchParams }: Props) {

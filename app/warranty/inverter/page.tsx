@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Inverter Warranty' };
+export const metadata: Metadata = { title: 'Inverter Warranty', alternates: { canonical: 'https://www.prag.global/warranty/inverter' } };
 
 export default function InverterWarrantyPage() {
   return (

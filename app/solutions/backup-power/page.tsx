@@ -9,6 +9,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Backup Power Solutions',
   description: 'Stay powered during outages with PRAG inverter and battery backup systems.',
+  alternates: { canonical: 'https://www.prag.global/solutions/backup-power' },
 };
 
 export default async function BackupPowerPage() {

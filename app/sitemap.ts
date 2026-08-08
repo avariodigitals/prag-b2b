@@ -18,7 +18,7 @@ type WpPostLite = {
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
-const SITE_BASE = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+const SITE_BASE = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
 
 function authQuery() {
   return `consumer_key=${process.env.WC_CONSUMER_KEY ?? ''}&consumer_secret=${process.env.WC_CONSUMER_SECRET ?? ''}`;
@@ -153,10 +153,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productRoutes: MetadataRoute.Sitemap = products
     .filter((p) => Boolean(p.slug) && !(p.categories?.[0]?.slug && hiddenSlugs.has(p.categories[0].slug)))
     .map((p) => {
-      const categorySlug = p.categories?.[0]?.slug;
-      const productPath = categorySlug
-        ? `/products/${categorySlug}/${p.slug}`
-        : `/products/${p.slug}`;
+      const categorySlug = p.categories?.[0]?.slug ?? 'products';
+      const productPath = `/products/${categorySlug}/${p.slug}`;
       return {
         url: `${SITE_BASE}${productPath}`,
         lastModified: p.date_modified ? new Date(p.date_modified) : undefined,

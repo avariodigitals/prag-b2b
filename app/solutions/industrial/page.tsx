@@ -9,6 +9,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Industrial Power Solutions',
   description: 'Engineered power for heavy-duty operations. PRAG delivers robust, high-capacity power systems designed to keep industrial operations running without interruption.',
+  alternates: { canonical: 'https://www.prag.global/solutions/industrial' },
 };
 
 export default async function IndustrialSolutionsPage() {

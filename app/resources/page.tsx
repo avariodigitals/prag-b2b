@@ -1,9 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import TechResourcesView from '@/components/TechResourcesView';
+import type { Metadata } from 'next';
 import { getProducts, type Product } from '@/lib/woocommerce';
 
-export const metadata = { title: 'Technical Resources' };
+export const metadata: Metadata = { title: 'Technical Resources', alternates: { canonical: 'https://www.prag.global/resources' } };
 
 interface Props {
   searchParams: Promise<{ product?: string }>;

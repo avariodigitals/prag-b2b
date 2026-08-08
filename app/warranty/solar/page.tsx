@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Solar Warranty' };
+export const metadata: Metadata = { title: 'Solar Warranty', alternates: { canonical: 'https://www.prag.global/warranty/solar' } };
 
 export default function SolarWarrantyPage() {
   return (

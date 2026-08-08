@@ -11,6 +11,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Office Backup Power',
   description: 'Complete backup systems, inverters, and batteries for reliable commercial power continuity.',
+  alternates: { canonical: 'https://www.prag.global/solutions/commercial/office-backup-power' },
 };
 
 export default async function OfficeBackupPowerPage({ searchParams }: Props) {

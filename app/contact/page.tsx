@@ -6,7 +6,7 @@ import { formatPhone } from '@/lib/formatPhone';
 import ContactForm from '@/components/ContactForm';
 import StoresGrid from '@/components/StoresGrid';
 
-export const metadata: Metadata = { title: 'Get in Touch' };
+export const metadata: Metadata = { title: 'Get in Touch', alternates: { canonical: 'https://www.prag.global/contact' } };
 
 function SocialIcon({ network }: { network: string }) {
   if (network === 'facebook')

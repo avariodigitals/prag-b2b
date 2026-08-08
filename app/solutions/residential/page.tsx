@@ -9,6 +9,7 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 export const metadata: Metadata = {
   title: 'Residential Power Solutions',
   description: 'Keep your home comfortable, secure, and fully powered with smart energy solutions designed for everyday living.',
+  alternates: { canonical: 'https://www.prag.global/solutions/residential' },
 };
 
 export default async function ResidentialSolutionsPage() {

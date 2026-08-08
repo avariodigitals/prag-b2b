@@ -45,14 +45,16 @@ export async function generateMetadata({ params }: Props) {
   const hero = findVisibleSectionsByType(page, 'hero')[0];
   const name = hero?.summary?.trim() || DISPLAY[category]?.name || category;
   const description = DISPLAY[category]?.description ?? `Browse ${name} from PRAG. Enterprise-grade power engineering solutions for businesses in Nigeria.`;
-  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://prag.global';
+  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
+  const canonical = `${siteBase}/products/${category}`;
   return {
     title: `${name} – PRAG B2B`,
     description,
-    alternates: { canonical: `${siteBase}/products/${category}` },
+    alternates: { canonical },
     openGraph: {
       title: `${name} – PRAG B2B`,
       description,
+      url: canonical,
       type: 'website',
     },
   };

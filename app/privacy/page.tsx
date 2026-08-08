@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PolicyPageLayout from '@/components/PolicyPageLayout';
 
-export const metadata: Metadata = { title: 'Privacy Policy' };
+export const metadata: Metadata = { title: 'Privacy Policy', alternates: { canonical: 'https://www.prag.global/privacy' } };
 
 export default function PrivacyPolicyPage() {
   return (
