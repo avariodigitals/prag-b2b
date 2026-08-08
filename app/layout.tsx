@@ -43,11 +43,6 @@ export const metadata: Metadata = {
   description: 'Enterprise power engineering solutions across Nigeria.',
   metadataBase: new URL('https://www.prag.global'),
   alternates: { canonical: 'https://www.prag.global' },
-  icons: {
-    icon: '/icon.png',
-    shortcut: '/icon.png',
-    apple: '/icon.png',
-  },
   manifest: '/manifest.json',
   openGraph: {
     title: 'PRAG – Nigeria\'s Leading Power Engineering Company',
