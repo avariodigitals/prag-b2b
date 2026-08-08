@@ -26,10 +26,13 @@ const KNOWN_IDS: Record<string, number> = {
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
-  const categorySlug = sp.get('category') ?? '';
+  const rawCategorySlug = sp.get('category') ?? '';
   const sub = sp.get('sub');
   const page = Number(sp.get('page') ?? 2);
   const per_page = Number(sp.get('per_page') ?? 16);
+
+  // Consolidate redirected categories (all-prag-stabilizers → voltage-stabilizers)
+  const categorySlug = rawCategorySlug === 'all-prag-stabilizers' ? 'voltage-stabilizers' : rawCategorySlug;
 
   const activeSlug = sub ?? categorySlug;
   let category_id: number | undefined = KNOWN_IDS[activeSlug];

@@ -20,8 +20,8 @@ interface Props {
 }
 
 const ALL_LABELS: Record<string, string> = {
-  'inverters': 'All inverters',
-  'all-prag-stabilizers': 'All Stabilizers',
+  'inverters': 'All Inverters',
+  'voltage-stabilizers': 'All Stabilizers',
   'batteries': 'All Batteries',
   'solar': 'All Solar',
 };

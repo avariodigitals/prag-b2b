@@ -26,7 +26,7 @@ const PROBLEMS = [
     title: 'Low, High, or Fluctuating Voltage',
     desc: 'Stable Power & Protection for your appliances and equipment.',
     cta: 'Get PRAG Stabilizers',
-    href: '/products/all-prag-stabilizers',
+    href: '/products/voltage-stabilizers',
   },
   {
     icon: '/images/arcticons_chuden-power-outage-infomation.svg',

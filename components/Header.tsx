@@ -23,9 +23,9 @@ const SOLUTIONS: HeaderMenuItem[] = [
 ];
 
 const PRODUCTS: HeaderMenuItem[] = [
-  { label: 'Voltage Stabilizers', href: '/products/all-prag-stabilizers' },
+  { label: 'Voltage Stabilizers', href: '/products/voltage-stabilizers' },
   { label: 'Inverters', href: '/products/inverters' },
-  { label: 'Lithium Batteries', href: '/products/batteries' },
+  { label: 'Batteries', href: '/products/batteries' },
   { label: 'Solar', href: '/products/solar' },
 ];
 

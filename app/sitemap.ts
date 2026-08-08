@@ -1,14 +1,14 @@
 import type { MetadataRoute } from 'next';
+import {
+  APPROVED_CATEGORIES,
+  HIDDEN_KNOWLEDGE_SLUGS,
+  preferredProductCategory,
+  hasApprovedCategory,
+} from '@/lib/seoTaxonomy';
 
 type WcProductLite = {
   slug: string;
   categories?: Array<{ slug?: string }>;
-  date_modified?: string;
-};
-
-type WcCategoryLite = {
-  slug: string;
-  count?: number;
   date_modified?: string;
 };
 
@@ -63,13 +63,6 @@ async function fetchAllProductsForSitemap(): Promise<WcProductLite[]> {
   return [...firstData, ...restData.flat()];
 }
 
-async function fetchAllCategoriesForSitemap(): Promise<WcCategoryLite[]> {
-  const url = `${WP_API_URL.replace('/wp-json', '/wp-json/wc/v3')}/products/categories?per_page=100&hide_empty=true&_fields=slug,count,date_modified&${authQuery()}`;
-  const res = await fetchJson(url);
-  if (!res?.ok) return [];
-  return (await res.json()) as WcCategoryLite[];
-}
-
 async function fetchAllKnowledgePostsForSitemap(): Promise<WpPostLite[]> {
   const base = `${WP_API_URL.replace('/wp-json', '/wp-json/wp/v2')}/posts`;
   const first = await fetchJson(`${base}?per_page=100&page=1&status=publish&_fields=slug,modified`);
@@ -93,83 +86,85 @@ async function fetchAllKnowledgePostsForSitemap(): Promise<WpPostLite[]> {
   return [...firstData, ...restData.flat()];
 }
 
-async function fetchHiddenCategorySlugs(): Promise<Set<string>> {
-  try {
-    const res = await fetchJson(`${WP_API_URL}/prag-core/v1/settings`);
-    if (!res?.ok) return new Set();
-    const data = await res.json();
-    return new Set(Array.isArray(data.hidden_categories) ? data.hidden_categories : []);
-  } catch {
-    return new Set();
-  }
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, categories, posts, hiddenSlugs] = await Promise.all([
+  const [products, posts] = await Promise.all([
     fetchAllProductsForSitemap(),
-    fetchAllCategoriesForSitemap(),
     fetchAllKnowledgePostsForSitemap(),
-    fetchHiddenCategorySlugs(),
   ]);
 
+  // ─── Approved static pages ───────────────────────────────────────────────
+  // Only HTTP 200, indexable, canonical public URLs.
+  // No priority or changefreq — lastModified only where meaningful.
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${SITE_BASE}/`, changeFrequency: 'daily', priority: 1 },
-    { url: `${SITE_BASE}/products`, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${SITE_BASE}/solutions`, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE_BASE}/solutions/residential`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/solutions/commercial`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/solutions/industrial`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/solutions/backup-power`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/solutions/solar-energy`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/solutions/voltage-stabilization-protection`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_BASE}/about`, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE_BASE}/contact`, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE_BASE}/careers`, changeFrequency: 'weekly', priority: 0.5 },
-    { url: `${SITE_BASE}/distributor`, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE_BASE}/find-a-distributor`, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE_BASE}/knowledge-center`, changeFrequency: 'daily', priority: 0.7 },
-    { url: `${SITE_BASE}/resources`, changeFrequency: 'weekly', priority: 0.5 },
-    { url: `${SITE_BASE}/technical-support`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_BASE}/power-calculator`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_BASE}/free-power-assessment`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_BASE}/installations`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_BASE}/faq`, changeFrequency: 'monthly', priority: 0.4 },
-    { url: `${SITE_BASE}/warranty`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_BASE}/shipping-policy`, changeFrequency: 'monthly', priority: 0.3 },
-    { url: `${SITE_BASE}/return-policy`, changeFrequency: 'monthly', priority: 0.3 },
-    { url: `${SITE_BASE}/privacy`, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${SITE_BASE}/terms-of-use`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_BASE}/` },
+    { url: `${SITE_BASE}/products` },
+    { url: `${SITE_BASE}/solutions` },
+    { url: `${SITE_BASE}/solutions/residential` },
+    { url: `${SITE_BASE}/solutions/commercial` },
+    { url: `${SITE_BASE}/solutions/industrial` },
+    { url: `${SITE_BASE}/solutions/backup-power` },
+    { url: `${SITE_BASE}/solutions/solar-energy` },
+    { url: `${SITE_BASE}/solutions/voltage-stabilization-protection` },
+    { url: `${SITE_BASE}/about` },
+    { url: `${SITE_BASE}/contact` },
+    { url: `${SITE_BASE}/careers` },
+    { url: `${SITE_BASE}/distributor` },
+    { url: `${SITE_BASE}/find-a-distributor` },
+    { url: `${SITE_BASE}/knowledge-center` },
+    { url: `${SITE_BASE}/resources` },
+    { url: `${SITE_BASE}/technical-support` },
+    { url: `${SITE_BASE}/power-calculator` },
+    { url: `${SITE_BASE}/free-power-assessment` },
+    { url: `${SITE_BASE}/installations` },
+    { url: `${SITE_BASE}/faq` },
+    { url: `${SITE_BASE}/warranty` },
+    { url: `${SITE_BASE}/shipping-policy` },
+    { url: `${SITE_BASE}/return-policy` },
+    { url: `${SITE_BASE}/privacy` },
+    { url: `${SITE_BASE}/terms-of-use` },
   ];
 
-  const categoryRoutes: MetadataRoute.Sitemap = categories
-    .filter((c) => Boolean(c.slug) && !hiddenSlugs.has(c.slug))
-    .map((c) => ({
-      url: `${SITE_BASE}/products/${c.slug}`,
-      lastModified: c.date_modified ? new Date(c.date_modified) : undefined,
-      changeFrequency: 'weekly' as const,
-      priority: 0.75,
-    }));
+  // ─── Approved product-category pages ─────────────────────────────────────
+  // Only the SEO-approved category allowlist. Excluded categories, redirected
+  // categories, and hidden categories are omitted.
+  const categoryRoutes: MetadataRoute.Sitemap = Array.from(APPROVED_CATEGORIES).map((slug) => ({
+    url: `${SITE_BASE}/products/${slug}`,
+  }));
 
-  const productRoutes: MetadataRoute.Sitemap = products
-    .filter((p) => Boolean(p.slug) && !(p.categories?.[0]?.slug && hiddenSlugs.has(p.categories[0].slug)))
-    .map((p) => {
-      const categorySlug = p.categories?.[0]?.slug ?? 'products';
-      const productPath = `/products/${categorySlug}/${p.slug}`;
-      return {
-        url: `${SITE_BASE}${productPath}`,
-        lastModified: p.date_modified ? new Date(p.date_modified) : undefined,
-        changeFrequency: 'weekly' as const,
-        priority: 0.85,
-      };
+  // ─── Approved/indexable product pages ────────────────────────────────────
+  // Only products that belong to at least one approved category.
+  // Uses the deterministic preferred canonical category path.
+  // Deduplicates by preferred path so alternate category paths don't create
+  // duplicate sitemap entries.
+  const seenProductPaths = new Set<string>();
+  const productRoutes: MetadataRoute.Sitemap = [];
+
+  for (const p of products) {
+    if (!p.slug) continue;
+    if (!hasApprovedCategory(p.categories as Array<{ slug: string }> | undefined)) continue;
+
+    const categorySlug = preferredProductCategory(p.categories as Array<{ slug: string }> | undefined, p.slug);
+    if (categorySlug === 'products') continue;
+
+    const productPath = `/products/${categorySlug}/${p.slug}`;
+    if (seenProductPaths.has(productPath)) continue;
+    seenProductPaths.add(productPath);
+
+    productRoutes.push({
+      url: `${SITE_BASE}${productPath}`,
+      lastModified: p.date_modified ? new Date(p.date_modified) : undefined,
     });
+  }
 
+  // ─── Legitimate Knowledge Center articles ────────────────────────────────
+  // Excludes obsolete (404) and redirected (308) entries — e.g. 55977-2
+  // "Our Past Projects" → /installations — so the old URL never appears in
+  // the sitemap.
   const knowledgeRoutes: MetadataRoute.Sitemap = posts
-    .filter((p) => Boolean(p.slug))
+    .filter((p) => Boolean(p.slug) && !HIDDEN_KNOWLEDGE_SLUGS.has(p.slug))
     .map((p) => ({
       url: `${SITE_BASE}/knowledge-center/${p.slug}`,
       lastModified: p.modified ? new Date(p.modified) : undefined,
-      changeFrequency: 'weekly' as const,
-      priority: 0.65,
     }));
 
   return [...staticRoutes, ...categoryRoutes, ...productRoutes, ...knowledgeRoutes];

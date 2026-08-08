@@ -322,6 +322,9 @@ export function getShopProductUrl(product: Pick<Product, 'slug' | 'categories'>)
   return `${shopBase}/products/${encodeURIComponent(categorySlug)}/${encodeURIComponent(productSlug)}`;
 }
 
+// Re-export the preferred product URL helpers from seoTaxonomy for convenience
+export { preferredProductCategory, preferredProductPath, preferredProductUrl, hasApprovedCategory } from '@/lib/seoTaxonomy';
+
 export interface Store {
   id: number;
   name: string;

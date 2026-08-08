@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts, getPostCategories, postImage, postDate, readTime, stripHtml, type WPPost, type WPCategory } from '@/lib/wordpress';
+import { HIDDEN_KNOWLEDGE_SLUGS } from '@/lib/seoTaxonomy';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 function sanitize(html: string) {
@@ -68,7 +69,8 @@ function PostCard({ post, categories }: { post: WPPost; categories: WPCategory[]
 }
 
 export default async function KnowledgeCenterSection() {
-  const [{ posts }, categories, b2bContent] = await Promise.all([getPosts({ perPage: 3 }), getPostCategories(), getB2BPublicContent()]);
+  const [{ posts: rawPosts }, categories, b2bContent] = await Promise.all([getPosts({ perPage: 3 }), getPostCategories(), getB2BPublicContent()]);
+  const posts = rawPosts.filter((p) => !HIDDEN_KNOWLEDGE_SLUGS.has(p.slug));
   const homepage = findB2BPage(b2bContent, '/');
   const headerSection = findVisibleSectionsByType(homepage, 'knowledge-header')[0];
   const header = {

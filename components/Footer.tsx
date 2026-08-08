@@ -15,8 +15,8 @@ import { formatPhone } from '@/lib/formatPhone';
 
 const defaultProductLinks = [
   { label: 'Inverters', href: '/products/inverters' },
-  { label: 'Lithium Batteries', href: '/products/batteries' },
-  { label: 'Voltage Stabilizers', href: '/products/all-prag-stabilizers' },
+  { label: 'Batteries', href: '/products/batteries' },
+  { label: 'Voltage Stabilizers', href: '/products/voltage-stabilizers' },
   { label: 'Solar Products', href: '/products/solar' },
   { label: 'Accessories & Parts', href: '/products' },
   { label: 'Hybrid Energy Solutions', href: '/solutions' },
@@ -27,7 +27,7 @@ const defaultSolutionLinks = [
   { label: 'For Offices', href: '/solutions/commercial' },
   { label: 'For Commercial', href: '/solutions/commercial' },
   { label: 'For Industrial', href: '/solutions/industrial' },
-  { label: 'Power Stabilization & Protection', href: '/products/all-prag-stabilizers' },
+  { label: 'Power Stabilization & Protection', href: '/products/voltage-stabilizers' },
   { label: 'Renewable Energy Solutions', href: '/solutions' },
   { label: 'Energy Backup Solutions', href: '/solutions' },
 ];

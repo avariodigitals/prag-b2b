@@ -1,10 +1,12 @@
 export const dynamic = 'force-dynamic';
 
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
+import { APPROVED_CATEGORIES, EXCLUDED_CATEGORIES, REDIRECTED_CATEGORIES, isExcludedCategory } from '@/lib/seoTaxonomy';
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -32,14 +34,40 @@ const KNOWN_IDS: Record<string, number> = {
 };
 
 const DISPLAY: Record<string, { name: string; description: string }> = {
-  'inverters': { name: 'Inverter', description: 'A selection of solar inverters that convert DC power from solar panels into AC power.' },
-  'all-prag-stabilizers': { name: 'Voltage Stabilizers', description: 'Explore our range of voltage stabilizers, designed to protect your appliances from power fluctuations.' },
+  'inverters': { name: 'Inverters', description: 'A selection of solar inverters that convert DC power from solar panels into AC power.' },
+  'voltage-stabilizers': { name: 'Voltage Stabilizers', description: 'Explore our range of voltage stabilizers, designed to protect your appliances from power fluctuations.' },
   'batteries': { name: 'Batteries', description: 'Explore our wide range of batteries for solar power, inverters, and other energy storage solutions.' },
   'solar': { name: 'Solar', description: 'Explore our range of solar solutions, designed to maximize energy efficiency and protect against voltage fluctuations.' },
+  'hybrid-inverters': { name: 'Hybrid Inverters', description: 'Explore PRAG hybrid inverters — combining solar charging and battery backup in a single unit.' },
+  'heavy-duty-inverters': { name: 'Heavy-Duty Inverters', description: 'Explore PRAG heavy-duty inverters — built for demanding loads and continuous operation.' },
+  'relay-voltage-stabilizers': { name: 'Relay Voltage Stabilizers', description: 'Explore PRAG relay voltage stabilizers — fast, affordable voltage protection for home and office.' },
+  'servo-voltage-stabilizers': { name: 'Servo Voltage Stabilizers', description: 'Explore PRAG servo voltage stabilizers — precise voltage correction for sensitive equipment.' },
+  'thyristor-stabilizers': { name: 'Thyristor Stabilizers', description: 'Explore PRAG thyristor stabilizers — maintenance-free, high-precision voltage stabilization.' },
+  'advanced-stabilizers': { name: 'Advanced Stabilizers', description: 'Explore PRAG advanced stabilizers — cutting-edge voltage protection technology.' },
+  'lithium-batteries': { name: 'Lithium Batteries', description: 'Explore PRAG lithium batteries — lightweight, long-lasting energy storage for inverter and solar systems.' },
+  'solar-panels': { name: 'Solar Panels', description: 'Explore PRAG solar panels — high-efficiency panels for residential and commercial solar installations.' },
+  'solar-charge-controllers': { name: 'Solar Charge Controllers', description: 'Explore PRAG solar charge controllers — MPPT and PWM controllers for optimal solar charging.' },
+  'protective-device': { name: 'Protective Devices', description: 'Explore PRAG protective devices — surge protection for solar and power systems.' },
 };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
+
+  // Redirected categories (all-prag-stabilizers → voltage-stabilizers)
+  if (category in REDIRECTED_CATEGORIES) {
+    return {};
+  }
+
+  // Excluded categories: noindex, follow
+  if (isExcludedCategory(category)) {
+    const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
+    return {
+      title: `${DISPLAY[category]?.name ?? category} – PRAG B2B`,
+      alternates: { canonical: `${siteBase}/products/${category}` },
+      robots: { index: false, follow: true },
+    };
+  }
+
   const content = await getB2BPublicContent();
   const page = findB2BPage(content, `/products/${category}`);
   const hero = findVisibleSectionsByType(page, 'hero')[0];
@@ -68,6 +96,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const { category } = await params;
   const sp = await searchParams;
 
+  // Redirected categories: permanent 308 redirect to the canonical URL
+  if (category in REDIRECTED_CATEGORIES) {
+    const dest = REDIRECTED_CATEGORIES[category];
+    permanentRedirect(`/products/${dest}`);
+  }
+
   // Check if this category is hidden from the storefront
   const [hiddenArr, allCategories, subcategoryOrder] = await Promise.all([
     getHiddenCategories(),
@@ -81,7 +115,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   // Build dynamic subcategory tabs from WooCommerce categories
   const parentCat = allCategories.find((c) => c.slug === category);
   const subOrder = subcategoryOrder[category] ?? [];
-  
+
   // Helper function to get all descendant categories recursively
   function getAllDescendants(parentId: number): Category[] {
     const directChildren = allCategories.filter((c) => c.parent === parentId);
@@ -91,14 +125,14 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     });
     return allDescendants;
   }
-  
+
   const allDescendants = parentCat ? getAllDescendants(parentCat.id) : [];
-  
-  // Exclude intermediate category "voltage-stabilizers" from subcategories
-  // since we have "all-voltage-stabilizers" as a separate category
+
+  // Only approved SEO subcategories appear in the subcategory tabs.
+  // Excluded categories (health-fitness, travel, etc.) and non-canonical
+  // categories are filtered out.
   const subcategories = allDescendants
-    .filter((c) => !hiddenSet.has(c.slug))
-    .filter((c) => c.slug !== 'voltage-stabilizers') // Exclude intermediate category
+    .filter((c) => APPROVED_CATEGORIES.has(c.slug))
     .filter((c) => subOrder.length === 0 || subOrder.includes(c.slug))
     .sort((a, b) => {
       if (subOrder.length > 0) {

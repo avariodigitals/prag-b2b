@@ -22,7 +22,7 @@ export default async function IndustrialSolutionsPage() {
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
   const fallbackCards = [
-    { title: 'Voltage Stabilization & Protection', description: 'Maintain stable power across production equipment and help protect critical assets from damaging voltage conditions.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png' },
+    { title: 'Voltage Stabilization & Protection', description: 'Maintain stable power across production equipment and help protect critical assets from damaging voltage conditions.', href: '/products/voltage-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png' },
     { title: 'Industrial Solar Solutions', description: 'Reduce energy costs, lower generator fuel consumption, and improve long-term energy efficiency.', href: '/products/solar', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png' },
     { title: 'Power Systems Engineering', description: "Power solutions designed around your facility's operational requirements, equipment loads, and growth plans.", href: '/free-power-assessment', ctaLabel: 'Contact an Expert', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png' },
   ];

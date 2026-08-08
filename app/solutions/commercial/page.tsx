@@ -30,7 +30,7 @@ export default async function CommercialSolutionsPage() {
   const fallbackCards = [
     { title: 'Business Backup Power', description: 'Maintain productivity, connectivity, and essential operations during power outages.', href: '/products/inverters', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
     { title: 'Commercial Solar Solutions', description: 'Reduce operating costs and generator dependence with reliable solar energy solutions.', href: '/products/solar', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
-    { title: 'Voltage Stabilization & Protection', description: 'Maintain stable power across your facility and help protect valuable equipment from damaging voltage conditions.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Voltage Stabilization & Protection', description: 'Maintain stable power across your facility and help protect valuable equipment from damaging voltage conditions.', href: '/products/voltage-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
   ];
 
   const cards = fallbackCards.map((fallback, index) => {

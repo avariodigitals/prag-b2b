@@ -9,7 +9,7 @@ const TECHNOLOGIES = [
     name: 'Voltage Stabilizers',
     slug: 'voltage-stabilizers',
     image: 'https://central.prag.global/wp-content/uploads/2026/04/7ee70985fdddba92a39a6e67f80ec4773cbf34fd.png',
-    href: '/products/all-prag-stabilizers',
+    href: '/products/voltage-stabilizers',
   },
   {
     name: 'Inverters',

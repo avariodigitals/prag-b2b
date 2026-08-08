@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/lib/woocommerce';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
+import { preferredProductCategory } from '@/lib/seoTaxonomy';
 
 interface Props {
   product: Product;
@@ -24,7 +25,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
   const isUnavailable = isOutOfStock || !hasPrice;
-  const detailsHref = `/products/${product.categories[0]?.slug ?? 'products'}/${product.slug}`;
+  const detailsHref = `/products/${preferredProductCategory(product.categories as Array<{ slug: string }> | undefined, product.slug)}/${product.slug}`;
   const buyHref = getShopProductUrl(product);
 
   const splitName = (() => {

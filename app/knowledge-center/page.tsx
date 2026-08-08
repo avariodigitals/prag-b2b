@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import BlogGrid from '@/components/BlogGrid';
 import { getPosts, getPostCategories } from '@/lib/wordpress';
+import { HIDDEN_KNOWLEDGE_SLUGS } from '@/lib/seoTaxonomy';
 
 export const metadata: Metadata = {
   title: 'Knowledge Center',
@@ -22,8 +23,11 @@ export default async function KnowledgeCenterPage({ searchParams }: Props) {
     getPostCategories(),
   ]);
 
-  const featured = posts[0] ?? null;
-  const rest = posts.slice(1);
+  // Filter out obsolete/excluded and redirected articles (e.g. 55977-2
+  // "Our Past Projects" → /installations) so they never appear as cards.
+  const filteredPosts = posts.filter((p) => !HIDDEN_KNOWLEDGE_SLUGS.has(p.slug));
+  const featured = filteredPosts[0] ?? null;
+  const rest = filteredPosts.slice(1);
 
   return (
     <main className="w-full bg-white flex flex-col">

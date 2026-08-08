@@ -3,6 +3,7 @@ import ProductsView from '@/components/ProductsView';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, searchProducts, type Product } from '@/lib/woocommerce';
+import { APPROVED_CATEGORIES, hasApprovedCategory, preferredProductCategory } from '@/lib/seoTaxonomy';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
   },
 };
 
-const CATEGORY_SLUGS = ['inverters', 'all-prag-stabilizers', 'batteries', 'solar'];
+// SEO-approved top-level product families only.
+// Excludes: sales, all-prag-stabilizers (redirected), and non-core categories.
+const CATEGORY_SLUGS = ['inverters', 'voltage-stabilizers', 'batteries', 'solar'];
 
 interface Props {
   searchParams: Promise<{ q?: string; cats?: string }>;
@@ -46,7 +49,8 @@ export default async function ProductsPage({ searchParams }: Props) {
   ]);
   const hiddenSet = new Set(hiddenArr);
   const orderMap = new Map(categoryOrder.map((slug, i) => [slug, i]));
-  const visibleCategories = categories.filter((c) => !hiddenSet.has(c.slug));
+  // Only approved SEO categories are visible in the product navigation.
+  const visibleCategories = categories.filter((c) => APPROVED_CATEGORIES.has(c.slug));
   const visibleCategorySlugs = CATEGORY_SLUGS.filter((slug) => !hiddenSet.has(slug)).sort((a, b) => {
     const aIdx = orderMap.get(a);
     const bIdx = orderMap.get(b);
@@ -61,8 +65,13 @@ export default async function ProductsPage({ searchParams }: Props) {
     .map((slug) => visibleCategories.find((c) => c.slug === slug)?.name)
     .filter((name): name is string => Boolean(name));
 
+  // "All Power Products" displays only products belonging to at least one
+  // SEO-approved product category. Non-core products (health-fitness, travel,
+  // personal-electronics, sales-only) are excluded from the listing.
+  const filterApproved = (prods: Product[]) => prods.filter((p) => hasApprovedCategory(p.categories as Array<{ slug: string }> | undefined));
+
   const baseAllProductsPromise = query
-    ? Promise.resolve({ products: await searchProducts(query), total: 0 })
+    ? Promise.resolve({ products: filterApproved(await searchProducts(query)), total: 0 })
     : validRequestedCats.length > 0
       ? Promise.all(
           validRequestedCats.map(async (slug) => {
@@ -82,7 +91,9 @@ export default async function ProductsPage({ searchParams }: Props) {
           });
           return { products: Array.from(deduped.values()), total: deduped.size };
         })
-      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 }));
+      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' })
+          .catch(() => ({ products: [] as Product[], total: 0 }))
+          .then((result) => ({ products: filterApproved(result.products), total: filterApproved(result.products).length }));
 
   // Fetch all products + per-category in parallel
   const [{ products: allProducts }, ...categoryResults] = await Promise.all([

@@ -123,7 +123,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/04/51105cfa2d7e118079c6acdb18a81c8b54dc18e6-1.png',
         technologies: ['Automatic Voltage Stabilizers (1-5kVA)', 'Surge Protection for Home Circuits', 'Clean Power Distribution'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -170,7 +170,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Commercial Voltage Stabilizers', 'Servo and Relay Voltage Regulators', 'Power Conditioning Units'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -204,7 +204,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['UPS Systems for Critical Loads', 'Power Conditioning and Surge Protection', 'Voltage Stabilizers'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'inverters'],
+        productCategories: ['voltage-stabilizers', 'inverters'],
         active: true,
       },
       {
@@ -268,7 +268,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
         technologies: ['Industrial Automatic Voltage Regulators', 'Servo and Relay Voltage Stabilizers', 'Power Quality Monitoring'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'servo-voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers', 'servo-voltage-stabilizers'],
         active: true,
       },
       {
@@ -285,7 +285,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6-1.png',
         technologies: ['Power Conditioning and Surge Protection', 'UPS Systems for Critical Loads', 'Voltage Stabilizers'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers', 'inverters'],
+        productCategories: ['voltage-stabilizers', 'inverters'],
         active: true,
       },
       {
@@ -349,7 +349,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Power Conditioning Units'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -366,7 +366,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Surge Protection Devices', 'Voltage Stabilizers', 'Power Conditioning Units'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -382,7 +382,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Clean Power Distribution'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -399,7 +399,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Voltage Stabilizers', 'Power Conditioning', 'Surge Protection'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
       {
@@ -416,7 +416,7 @@ const DEFAULT_SOLUTIONS: Record<SolutionCategoryKey, SolutionCategoryContent> = 
         ],
         image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png',
         technologies: ['Automatic Voltage Stabilizers', 'Servo Voltage Regulators', 'Power Quality Monitoring'],
-        productCategories: ['all-prag-stabilizers', 'voltage-stabilizers'],
+        productCategories: ['voltage-stabilizers'],
         active: true,
       },
     ],

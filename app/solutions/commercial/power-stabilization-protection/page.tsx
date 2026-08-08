@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function CommercialPowerStabilizationProtectionPage({ searchParams }: Props) {
   const sp = await searchParams;
   const [allStabilizers, relay, servo, thyristor, advanced] = await Promise.all([
-    getProductsForCategoryCode('all-prag-stabilizers'),
+    getProductsForCategoryCode('voltage-stabilizers'),
     getProductsForCategoryCode('relay-voltage-stabilizers'),
     getProductsForCategoryCode('servo-voltage-stabilizers'),
     getProductsForCategoryCode('thyristor-stabilizers'),

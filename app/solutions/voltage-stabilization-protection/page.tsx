@@ -22,9 +22,9 @@ export default async function VoltageStabilizationProtectionPage() {
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
   const fallbackCards = [
-    { title: 'Stable Power', description: 'Improve equipment performance and operational reliability with consistent voltage.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
-    { title: 'Equipment Protection', description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
-    { title: 'Facility-Wide Coverage', description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.', href: '/products/all-prag-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Stable Power', description: 'Improve equipment performance and operational reliability with consistent voltage.', href: '/products/voltage-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Equipment Protection', description: 'Reduce the risk of voltage-related damage, repairs, and premature equipment failure.', href: '/products/voltage-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Facility-Wide Coverage', description: 'Stabilize power across entire homes, offices, businesses, and industrial facilities.', href: '/products/voltage-stabilizers', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
   ];
 
   const cards = fallbackCards.map((fallback, index) => {

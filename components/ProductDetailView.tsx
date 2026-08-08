@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
 import type { Product, ProductReview, TechDocument, CustomTab } from '@/lib/woocommerce';
+import { preferredProductCategory } from '@/lib/seoTaxonomy';
 import B2BProductCard from './B2BProductCard';
 
 function cleanHtml(html: string) {
@@ -75,8 +76,12 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
     return created >= threshold && diffDays <= 30;
   })();
 
-  const catName = product.categories?.[0]?.name ?? '';
-  const catSlug = product.categories?.[0]?.slug ?? '';
+  // Use the preferred SEO category for breadcrumb, not the first WooCommerce
+  // category (which may be "Sales!" or another non-canonical category).
+  const preferredCatSlug = preferredProductCategory(product.categories as Array<{ slug: string }> | undefined, product.slug);
+  const preferredCat = product.categories?.find((c) => c.slug === preferredCatSlug);
+  const catName = preferredCat?.name ?? '';
+  const catSlug = preferredCatSlug === 'products' ? '' : preferredCatSlug;
 
   async function handleSubmitReview(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   getPostBySlug,
@@ -11,6 +11,7 @@ import {
   readTime,
 } from '@/lib/wordpress';
 import type { WPPost, WPCategory } from '@/lib/wordpress';
+import { EXCLUDED_KNOWLEDGE_SLUGS, REDIRECTED_KNOWLEDGE_SLUGS } from '@/lib/seoTaxonomy';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -145,6 +146,22 @@ function RelatedCard({
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
+
+  // Redirected articles (e.g. 55977-2 "Our Past Projects" → /installations)
+  // issue a 308 permanent redirect from the page component. No metadata is
+  // served for the old URL.
+  if (slug in REDIRECTED_KNOWLEDGE_SLUGS) {
+    return {};
+  }
+
+  // Obsolete articles with no redirect target are not indexed.
+  if (EXCLUDED_KNOWLEDGE_SLUGS.has(slug)) {
+    return {
+      title: 'Article – PRAG B2B',
+      robots: { index: false, follow: true },
+    };
+  }
+
   const post = await getPostBySlug(slug);
   if (!post) return { title: 'Article – PRAG B2B' };
 
@@ -177,6 +194,18 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function KnowledgeCenterPost({ params }: Props) {
   const { slug } = await params;
+
+  // Redirected articles (e.g. 55977-2 "Our Past Projects") permanently
+  // redirect to their real destination instead of serving obsolete content.
+  if (slug in REDIRECTED_KNOWLEDGE_SLUGS) {
+    permanentRedirect(REDIRECTED_KNOWLEDGE_SLUGS[slug]);
+  }
+
+  // Obsolete articles with no redirect target return a retired/not-found
+  // status rather than rendering meaningless shortcode content.
+  if (EXCLUDED_KNOWLEDGE_SLUGS.has(slug)) {
+    notFound();
+  }
 
   const [post, categories, { posts: recentPosts }] = await Promise.all([
     getPostBySlug(slug),

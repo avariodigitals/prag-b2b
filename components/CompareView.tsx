@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import type { Product } from '@/lib/woocommerce';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
+import { preferredProductCategory } from '@/lib/seoTaxonomy';
 
 interface Props {
   products: Product[];
@@ -176,7 +177,7 @@ export default function CompareView({ products }: Props) {
                     >
                       <p className="font-bold font-['Onest'] text-lg md:text-xl">{p!.name}</p>
                       <p className="text-sky-200 text-lg md:text-xl font-['Onest'] font-normal mt-0.5">
-                        {p!.categories[0]?.name ?? ''}
+                        {p!.categories.find((c) => c.slug === preferredProductCategory(p!.categories as Array<{ slug: string }> | undefined, p!.slug))?.name ?? p!.categories[0]?.name ?? ''}
                       </p>
                     </th>
                   ))}
@@ -224,7 +225,7 @@ export default function CompareView({ products }: Props) {
               {selected.map((p) => (
                 <div key={p!.id} className="rounded-xl border border-zinc-200 bg-white p-3">
                   <p className="text-zinc-900 text-sm font-bold font-['Onest'] line-clamp-2 min-h-10">{p!.name}</p>
-                  <p className="text-zinc-500 text-lg md:text-xl font-['Onest'] mt-1">{p!.categories[0]?.name ?? ''}</p>
+                  <p className="text-zinc-500 text-lg md:text-xl font-['Onest'] mt-1">{p!.categories.find((c) => c.slug === preferredProductCategory(p!.categories as Array<{ slug: string }> | undefined, p!.slug))?.name ?? p!.categories[0]?.name ?? ''}</p>
                 </div>
               ))}
             </div>
