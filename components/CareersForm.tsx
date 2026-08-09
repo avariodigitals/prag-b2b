@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { submitCareersForm } from '@/lib/woocommerce';
+import Turnstile from './Turnstile';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^[+\d\s\-(). ]{7,25}$/;
@@ -179,6 +180,9 @@ export default function CareersForm() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const onVerify = useCallback((token: string) => setTurnstileToken(token), []);
 
   function setField(field: FormField) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -220,6 +224,10 @@ export default function CareersForm() {
       setToast({ type: 'error', message: error });
       return;
     }
+    if (!turnstileToken) {
+      setToast({ type: 'error', message: 'Please complete the security check before submitting.' });
+      return;
+    }
 
     setSending(true);
     const fd = new FormData();
@@ -231,18 +239,22 @@ export default function CareersForm() {
     fd.append('experience', form.experience);
     fd.append('education', form.education);
     fd.append('coverLetter', form.coverLetter);
+    fd.append('turnstileToken', turnstileToken);
     if (cvFile) fd.append('cv', cvFile);
     const result = await submitCareersForm(fd);
     setSending(false);
 
     if (result.success) {
       setSubmitted(true);
+      setTurnstileToken('');
+      setTurnstileResetKey((k) => k + 1);
       setToast({ type: 'success', message: 'Your application has been received. We will contact you shortly.' });
       setForm(EMPTY_FORM);
       setStep(0);
       return;
     }
 
+    setTurnstileResetKey((k) => k + 1);
     setToast({ type: 'error', message: result.message || 'Something went wrong. Please try again.' });
   }
 
@@ -464,14 +476,17 @@ export default function CareersForm() {
                 Continue
               </button>
             ) : (
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={sending}
-                className="px-6 py-2.5 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {sending ? 'Submitting...' : 'Submit Application'}
-              </button>
+              <div className="flex flex-col items-end gap-3">
+                <Turnstile onVerify={onVerify} resetKey={turnstileResetKey} />
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={sending || !turnstileToken}
+                  className="px-6 py-2.5 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {sending ? 'Submitting...' : 'Submit Application'}
+                </button>
+              </div>
             )}
           </div>
         </div>

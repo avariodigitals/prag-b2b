@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Turnstile from './Turnstile';
 
 const TIERS = ['Authorized Dealer', 'Certified Installer', 'Product Reseller'];
 const ALLOWED_TIERS = new Set(TIERS);
@@ -55,6 +56,9 @@ export default function DistributorForm() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [toast, setToast] = useState<Toast | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const onVerify = useCallback((token: string) => setTurnstileToken(token), []);
 
   useEffect(() => {
     if (!toast) return;
@@ -71,22 +75,28 @@ export default function DistributorForm() {
     e.preventDefault();
     const error = validateDistributorForm(form);
     if (error) { setToast({ type: 'error', message: error }); return; }
+    if (!turnstileToken) {
+      setToast({ type: 'error', message: 'Please complete the security check before submitting.' });
+      return;
+    }
     setStatus('sending');
     try {
       const res = await fetch('/api/distributor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setStatus('sent');
       } else {
         setStatus('idle');
-        setToast({ type: 'error', message: 'Something went wrong. Please try again or email us directly.' });
+        setTurnstileResetKey((k) => k + 1);
+        setToast({ type: 'error', message: data?.message || 'Something went wrong. Please try again or email us directly.' });
       }
     } catch {
       setStatus('idle');
+      setTurnstileResetKey((k) => k + 1);
       setToast({ type: 'error', message: 'Something went wrong. Please try again or email us directly.' });
     }
   }
@@ -150,7 +160,9 @@ export default function DistributorForm() {
             className="w-full p-3 bg-white rounded-lg border border-zinc-300 text-zinc-900 text-base font-['Onest'] focus:border-sky-700 outline-none transition-colors resize-none" />
         </div>
 
-        <button type="submit" disabled={status === 'sending'}
+        <Turnstile onVerify={onVerify} resetKey={turnstileResetKey} />
+
+        <button type="submit" disabled={status === 'sending' || !turnstileToken}
           className="w-full py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-base font-semibold font-['Onest'] rounded-lg transition-colors disabled:opacity-60">
           {status === 'sending' ? 'Submitting...' : 'Submit Application'}
         </button>

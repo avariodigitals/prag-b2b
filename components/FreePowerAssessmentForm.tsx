@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { submitContactForm } from '@/lib/woocommerce';
+import Turnstile from './Turnstile';
 
 const EMPTY_FORM = {
   name: '',
@@ -70,6 +71,9 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const onVerify = useCallback((token: string) => setTurnstileToken(token), []);
 
   useEffect(() => {
     if (!toast) return;
@@ -90,6 +94,10 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
       setToast({ type: 'error', message: error });
       return;
     }
+    if (!turnstileToken) {
+      setToast({ type: 'error', message: 'Please complete the security check before submitting.' });
+      return;
+    }
 
     setSending(true);
     const message = [
@@ -106,15 +114,19 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
       route: '/free-power-assessment',
       enquiry_type: 'Power Assessment',
       message,
+      turnstileToken,
     });
     setSending(false);
 
     if (result.success) {
       setForm(EMPTY_FORM);
+      setTurnstileToken('');
+      setTurnstileResetKey((k) => k + 1);
       setToast({ type: 'success', message: 'We will contact you shortly.' });
       return;
     }
 
+    setTurnstileResetKey((k) => k + 1);
     setToast({ type: 'error', message: 'Something went wrong. Please try again shortly.' });
   }
 
@@ -183,9 +195,11 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
           </select>
         </div>
 
+        <Turnstile onVerify={onVerify} resetKey={turnstileResetKey} />
+
         <button
           type="submit"
-          disabled={sending}
+          disabled={sending || !turnstileToken}
           className="w-full py-3 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
         >
           {sending ? 'Submitting...' : (submitLabel?.trim() || 'Get a Free Power Assessment')}

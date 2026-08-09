@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Turnstile from './Turnstile';
 
 async function submitTechnicalSupport(data: {
-  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string;
+  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; turnstileToken?: string;
 }): Promise<{ success: boolean }> {
   try {
     const res = await fetch('/api/technical-support', {
@@ -76,6 +77,9 @@ export default function TechnicalSupportForm() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const onVerify = useCallback((token: string) => setTurnstileToken(token), []);
 
   useEffect(() => {
     if (!toast) return;
@@ -92,13 +96,20 @@ export default function TechnicalSupportForm() {
     e.preventDefault();
     const error = validateSupportForm(form);
     if (error) { setToast({ type: 'error', message: error }); return; }
+    if (!turnstileToken) {
+      setToast({ type: 'error', message: 'Please complete the security check before submitting.' });
+      return;
+    }
     setSending(true);
-    const result = await submitTechnicalSupport(form);
+    const result = await submitTechnicalSupport({ ...form, turnstileToken });
     setSending(false);
     if (result.success) {
       setForm(EMPTY_FORM);
+      setTurnstileToken('');
+      setTurnstileResetKey((k) => k + 1);
       setToast({ type: 'success', message: "We'll get back to you shortly." });
     } else {
+      setTurnstileResetKey((k) => k + 1);
       setToast({ type: 'error', message: 'Something went wrong. Please try again or email us directly.' });
     }
   }
@@ -190,9 +201,11 @@ export default function TechnicalSupportForm() {
           />
         </div>
 
+        <Turnstile onVerify={onVerify} resetKey={turnstileResetKey} />
+
         <button
           type="submit"
-          disabled={sending}
+          disabled={sending || !turnstileToken}
           className="w-full py-3 bg-[#0166a5] hover:bg-[#015490] text-white text-[15px] font-semibold font-['DM_Sans'] rounded-lg transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
         >
           {sending ? 'Sending...' : 'Submit Ticket'}

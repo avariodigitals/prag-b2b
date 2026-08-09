@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { verifyTurnstileToken, getClientIp } from '@/lib/turnstile';
+import { checkRateLimit, FORM_RATE_LIMIT } from '@/lib/rateLimit';
 
 const WP_API = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
 
@@ -102,7 +104,25 @@ async function fileToBase64(file: File): Promise<{ base64: string; filename: str
 }
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(`careers:${ip}`, FORM_RATE_LIMIT);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { message: 'Too many submissions. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil(rl.retryAfterMs / 1000)) } },
+    );
+  }
+
   const formData = await req.formData();
+
+  const turnstileToken = String(formData.get('turnstileToken') ?? '');
+  const turnstile = await verifyTurnstileToken(turnstileToken, ip);
+  if (!turnstile.success) {
+    return NextResponse.json(
+      { message: 'Security check failed. Please complete the verification and try again.' },
+      { status: 400 },
+    );
+  }
 
   const name = String(formData.get('name') ?? '');
   const email = String(formData.get('email') ?? '');

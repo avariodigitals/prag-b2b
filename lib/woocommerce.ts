@@ -414,7 +414,7 @@ export const getStores = unstable_cache(
 );
 
 export async function submitContactForm(data: {
-  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; subject?: string; route?: string; kind?: string;
+  name: string; email: string; phone?: string; company?: string; enquiry_type?: string; message: string; subject?: string; route?: string; kind?: string; turnstileToken?: string;
 }): Promise<{ success: boolean }> {
   try {
     const res = await fetch('/api/contact', {

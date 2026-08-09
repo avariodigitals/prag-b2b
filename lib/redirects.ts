@@ -173,7 +173,7 @@ export const LEGACY_REDIRECTS: RedirectEntry[] = [
   { source: '/shop/455w-canadian-mono-panel', destination: '/products/solar-panels/455w-canadian-mono-panel', permanent: true },
   { source: '/shop/480w-jinko-mono-panel', destination: '/products/solar-panels/480w-jinko-mono-panel', permanent: true },
   { source: '/shop/5-12kwh-51-2v-lifepo4-lithium-battery', destination: '/products/lithium-batteries', permanent: true },
-  { source: '/shop/5-5kw-48v-hybrid-inverter-6000w-mppt', destination: '/products/inverters/5-5kw-48v-hybrid-inverter-6000w-mppt', permanent: true },
+  { source: '/shop/5-5kw-48v-hybrid-inverter-6000w-mppt', destination: '/products/hybrid-inverters/5-5kw-48v-hybrid-inverter-6000w-mppt', permanent: true },
   { source: '/shop/540w-mono-panel', destination: '/products/solar-panels/540w-mono-panel', permanent: true },
   { source: '/shop/595w-canadian-mono-panel', destination: '/products/solar-panels/595w-canadian-mono-panel', permanent: true },
   { source: '/shop/5kva-voltage-stabilizer', destination: '/products/voltage-stabilizers', permanent: true },
