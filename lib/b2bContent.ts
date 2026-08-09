@@ -268,22 +268,37 @@ async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
   }
 }
 
+/**
+ * Sanitize B2B content to remove retired "PRAG B2B" branding from any
+ * admin-configured fields. The brandLabel is not rendered by any component
+ * but appears in the RSC flight data payload — sanitize it so "PRAG B2B"
+ * never appears in the HTML source.
+ */
+function sanitizeB2BContent(content: PublicB2BContent): PublicB2BContent {
+  if (content?.settings?.header?.brandLabel) {
+    content.settings.header.brandLabel = content.settings.header.brandLabel
+      .replace(/PRAG B2B/gi, 'PRAG')
+      .trim();
+  }
+  return content;
+}
+
 async function getB2BPublicContentFresh(): Promise<PublicB2BContent | null> {
   // Local file fallback is useful in local dev, but avoid it in production where
   // the Prag-Admin workspace path does not exist and adds unnecessary latency.
   if (process.env.NODE_ENV !== 'production') {
     const localContent = await getB2BContentFromLocalStore();
-    if (localContent) return localContent;
+    if (localContent) return sanitizeB2BContent(localContent);
   }
 
   const baseUrl = resolveB2BAdminBaseUrl();
   if (baseUrl) {
     const adminContent = await getB2BContentFromAdminPublicApi(baseUrl);
-    if (adminContent) return adminContent;
+    if (adminContent) return sanitizeB2BContent(adminContent);
   }
 
   const wpContent = await getB2BContentFromWordPress();
-  if (wpContent) return wpContent;
+  if (wpContent) return sanitizeB2BContent(wpContent);
 
   return null;
 }
