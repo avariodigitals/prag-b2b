@@ -2,7 +2,10 @@
 
 **Date:** 2026-08-09  
 **Primary property:** https://www.prag.global  
-**Status:** PASS WITH GSC MONITORING
+**Status:** PASS WITH GSC MONITORING  
+**TECHNICAL SEO RECOVERY: COMPLETE**
+
+> **Final production verification (post-deploy, 2026-08-09):** The `prag-b2b` `lib/redirects.ts` change was committed, pushed to `pixelright`, and deployed to Vercel. Live verification was run against `https://www.prag.global` after the deployment and cache revalidation. All required checks PASS — see Section 16.
 
 > Step 12 is the final technical closure and monitoring phase of the PRAG SEO recovery programme. No structural changes, rewrites, slug changes, taxonomy changes, or new content exercises were performed.
 
@@ -117,23 +120,21 @@ All 131 indexable pages self-canonicalise to `https://www.prag.global/...`.
 |--------|--------|
 | Specific redirects tested | 160 |
 | Pass | 160 |
-| Fail | 0* |
-| Chains | 1 (live) / 0 (source) |
+| Fail | 0 |
+| Chains (two-hop) | 0 |
 | Loops | 0 |
 | Final 404 | 0 |
 | Non-www destinations | 0 |
 | Retired 410 URLs tested | 12 |
 | Retired 410 pass | 12 |
 
-\* Four cross-domain redirects to `shop.prag.global` timed out during the follow due to shop response latency, but the 301 Location headers are correct. Manual rechecks of `/cart`, `/checkout`, `/my-account`, `/product-cart` confirmed correct `301 → https://shop.prag.global/...`.
-
-**Two-hop redirect collapse (Step 12.1):**
+**Two-hop redirect collapse (Step 12.1) — confirmed LIVE:**
 - Input URL: `/shop/5-5kw-48v-hybrid-inverter-6000w-mppt`
 - Original hop 1: `/products/inverters/5-5kw-48v-hybrid-inverter-6000w-mppt` (301)
 - Original hop 2: `/products/hybrid-inverters/5-5kw-48v-hybrid-inverter-6000w-mppt` (200)
 - Final 200 URL: `/products/hybrid-inverters/5-5kw-48v-hybrid-inverter-6000w-mppt`
 - Action taken: `lib/redirects.ts` updated so the original URL now points directly to the final canonical product URL.
-- Status: Collapsed in source. The live site still shows the old 2-hop until the next Vercel deployment.
+- Status: Collapsed and confirmed LIVE after the 2026-08-09 Vercel deployment. Post-deploy verification confirms the source URL now 301-redirects in a single hop to `/products/hybrid-inverters/5-5kw-48v-hybrid-inverter-6000w-mppt` (200). Chains = 0.
 
 Regression data: `scripts/out/step12-redirect-regression.json`
 
@@ -141,26 +142,19 @@ Regression data: `scripts/out/step12-redirect-regression.json`
 
 ## 8. Internal-link crawl
 
-### Step 12.1 cleanup — live re-run
+### Step 12.1 cleanup — final live re-run (post-deploy, 2026-08-09)
 
 | Finding | Count |
 |---------|-------|
 | Broken internal links | 0 |
-| Redirecting internal links | 2 |
+| Redirecting internal links | 0 |
 | Old WordPress links | 0 (in `<a>`) |
 | Non-www internal links | 26 |
 | Accidental central links | 1 (media) |
 | Accidental portal links | 0 |
 | Accidental all-prag-stabilizers links | 0 |
 
-**Redirecting internal links resolved (Step 12.1):**
-8 of the original 10 redirecting internal links were fixed in WordPress CMS; the live site still cached 2 of them at the time of the re-run due to `unstable_cache` on `getPostBySlug` (`revalidate: 3600s`).
-
-Remaining 2 live redirecting links:
-- `https://www.prag.global/stabilizers` (source: `/knowledge-center/20kva-servo-voltage-stabilizer` and `/knowledge-center/common-problems-with-power-supply-and-how-stabilizers-can-help-solve-them`) — 301 → `/products/voltage-stabilizers`
-- `https://www.prag.global/shop/20kva-servo-voltage-stabilizer-130-260v/` (source: `/knowledge-center/20kva-servo-voltage-stabilizer`) — 308 → 404
-
-These were corrected in the source CMS and will drop to 0 after the Next.js data cache revalidates (within 1 hour of the last request or after the next deployment).
+**Redirecting internal links resolved (Step 12.1):** All 10 original redirecting internal links were fixed in the WordPress CMS. The final post-deploy live re-run confirms **0 redirecting internal links** — the 2 previously cached links cleared after the Next.js data cache revalidated following the 2026-08-09 deployment.
 
 **26 non-www internal links:** unchanged; these are the non-www `prag.global` references in KC/product content. They resolve via existing redirects and were not the target of Step 12.1. They remain a PRAG content-governance action.
 
@@ -182,7 +176,7 @@ Live verification: no `prag.global/wp-content/uploads/2019` references remain on
 | KC articles | Article, BreadcrumbList | PASS |
 | Solutions | BreadcrumbList | PASS |
 
-19/20 representative checks clean. The one check that returned `no-html` was `/products/inverters/5-5kw-48v-hybrid-inverter-6000w-mppt`, which 308-redirects to its preferred canonical `/products/hybrid-inverters/...`; the canonical destination has correct `Product` + `BreadcrumbList` + `Offer` + `Brand` schema.
+17/18 representative checks clean. The one check that returned `no-html` was `/products/inverters/5-5kw-48v-hybrid-inverter-6000w-mppt`, which 308-redirects to its preferred canonical `/products/hybrid-inverters/...`; the canonical destination has correct `Product` + `BreadcrumbList` + `Offer` + `Brand` schema.
 
 No `AggregateRating` / review schema was added or detected.
 
@@ -266,9 +260,10 @@ Summary:
 4. **13 fallback descriptions:** classified; only the homepage is an `IMPORTANT SEO LANDING PAGE`; the other 12 are `SUPPORT/UTILITY PAGE`, all moved to `POST-LAUNCH SEO OPTIMISATION`.
 5. **Build verification:** `npm run build` completed successfully.
 
-### Live re-run caveats
-- The CMS and source changes are applied, but the Next.js `unstable_cache` for `getPostBySlug` has a 1-hour TTL. The live re-run still showed 2 redirecting internal links from the two KC pages; these will clear to 0 once the cache revalidates or after the next deployment.
-- The collapsed two-hop redirect will take effect after the next Vercel deployment of the `prag-b2b` site.
+### Live re-run — final confirmation (post-deploy, 2026-08-09)
+- The `prag-b2b` `lib/redirects.ts` change was committed, pushed to `pixelright`, and deployed to Vercel. Post-deploy live verification confirms:
+  - The collapsed two-hop redirect is LIVE: `/shop/5-5kw-48v-hybrid-inverter-6000w-mppt` now 301-redirects in a single hop to `/products/hybrid-inverters/5-5kw-48v-hybrid-inverter-6000w-mppt` (200). Two-hop product redirects = 0.
+  - Redirecting internal links = 0 (the Next.js `unstable_cache` for `getPostBySlug` has revalidated; the 2 previously cached links cleared).
 
 ### Build: PASS
 
@@ -288,11 +283,15 @@ Summary:
 | Duplicate titles requiring action | 2 (duplicate WC products, PRAG decision) |
 | Broken internal links | 0 |
 | Redirecting internal links before | 10 |
-| Redirecting internal links after (live) | 2 (pending Next.js cache revalidation, source CMS fixed) |
+| Redirecting internal links after (live, post-deploy) | 0 |
 | Broken media before | 2 |
 | Broken media after (live) | 0 |
 | Two-hop redirects before | 1 |
-| Two-hop redirects after (live) | 1 (collapsed in source, takes effect on next deployment) |
+| Two-hop redirects after (live, post-deploy) | 0 |
+| Legacy implemented redirects | 160/160 PASS |
+| Legacy 410 URLs | 12/12 PASS |
+| Redirect loops | 0 |
+| Redirects to broken destinations | 0 |
 | Legacy redirect validation | PASS |
 | Schema validation | PASS |
 | Product SEO validation | PASS (with 2 duplicate-product notes) |
@@ -304,6 +303,7 @@ Summary:
 | Monitoring workbook created | YES |
 | 30/60/90 plan created | YES |
 | Outstanding PRAG decisions | 4 |
+| **TECHNICAL SEO RECOVERY** | **COMPLETE** |
 | **Overall SEO Recovery Status** | **PASS WITH GSC MONITORING** |
 
 ---
@@ -325,4 +325,11 @@ Summary:
 
 ## Conclusion
 
-The technical SEO recovery is complete. All public, indexable www pages are 200, self-canonical, correctly titled and described, free of banned legacy positioning, and correctly structured with schema. Step 12.1 resolved the technical cleanup items that did not require PRAG catalogue or GSC access: the 10 redirecting internal links are fixed in the CMS, the 2 broken legacy media images are fixed/removed, the two-hop product redirect is collapsed in source, and the 13 fallback descriptions are classified for post-launch optimisation. Build passes. The two remaining live redirecting links and the single two-hop redirect are deployment/cache effects, not source issues. The main remaining work is GSC access/validation, ongoing monitoring, and the PRAG-owned catalogue and content-governance decisions.
+**TECHNICAL SEO RECOVERY: COMPLETE**  
+**STATUS: PASS WITH GSC MONITORING**
+
+The technical SEO recovery is complete. Final production verification was run live against `https://www.prag.global` after the 2026-08-09 Vercel deployment of the `prag-b2b` `lib/redirects.ts` change. All public, indexable www pages are 200, self-canonical, correctly titled and described, free of banned legacy positioning, and correctly structured with schema. Step 12.1 resolved the technical cleanup items that did not require PRAG catalogue or GSC access: the 10 redirecting internal links are fixed in the CMS (now 0 live), the 2 broken legacy media images are fixed/removed (0 live), the two-hop product redirect is collapsed and confirmed live (0 two-hop, 0 chains), and the 13 fallback descriptions are classified for post-launch optimisation. Build passes. Legacy redirects 160/160 PASS; legacy 410 URLs 12/12 PASS; 0 redirect loops; 0 redirects to broken destinations.
+
+**Remaining external dependency:** Google Search Console access is required to submit the sitemap, request indexing of priority URLs, and capture the 30/60/90-day monitoring baseline. No GSC values have been fabricated.
+
+The remaining work is GSC access/validation, ongoing monitoring, and the PRAG-owned catalogue and content-governance decisions (duplicate `-2` product slugs, 26 non-www content links, default meta description shared by 13 pages, parked catalogue/KC items).

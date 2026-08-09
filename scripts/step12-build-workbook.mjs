@@ -52,13 +52,15 @@ const executiveRows = [
   { Item: 'Redirecting internal links', Value: links.redirecting.length },
   { Item: 'Non-www internal links', Value: links.nonWwwLinks.length },
   { Item: 'Old WP internal links', Value: links.oldWpLinks.length },
-  { Item: 'Legacy redirect pass', Value: `${redirects.pass}/${redirects.redirectCount}` },
-  { Item: 'Legacy retired (410) pass', Value: `${redirects.retiredPass}/${redirects.retiredCount}` },
-  { Item: 'Redirect chains', Value: redirects.chains },
-  { Item: 'Redirect loops', Value: redirects.loops },
+  { Item: 'Legacy redirect pass', Value: `${summary.redirects.pass}/${summary.redirects.redirectCount}` },
+  { Item: 'Legacy retired (410) pass', Value: `${summary.redirects.retiredPass}/${summary.redirects.retiredCount}` },
+  { Item: 'Redirect chains (two-hop)', Value: summary.redirects.chains },
+  { Item: 'Redirect loops', Value: summary.redirects.loops },
+  { Item: 'Redirects to broken destinations', Value: summary.redirects.final404 },
   { Item: 'Schema validation', Value: `${schema.filter((s) => s.valid && s.issues.length === 0).length}/${schema.length}` },
   { Item: 'GSC access', Value: 'NO — see Search Console status sheet' },
-  { Item: 'Overall', Value: 'PASS WITH MONITORING' },
+  { Item: 'TECHNICAL SEO RECOVERY', Value: 'COMPLETE' },
+  { Item: 'Overall', Value: 'PASS WITH GSC MONITORING' },
 ];
 addSheet('Executive Summary', ['Item', 'Value'], executiveRows);
 
@@ -72,7 +74,7 @@ const techRows = [
   { Check: 'Sitemap cleanliness', Status: 'PASS', Notes: 'No non-www, central, portal, old WP, residential-2, all-prag-stabilizers URLs' },
   { Check: 'Expected product count', Status: 'PASS', Notes: '49 canonical products in sitemap' },
   { Check: 'Expected KC count', Status: 'PASS', Notes: '42 canonical KC articles in sitemap' },
-  { Check: 'Legacy redirect regression', Status: `${redirects.fail === 0 ? 'PASS' : 'FAIL'}`, Notes: `${redirects.pass}/${redirects.redirectCount} pass; ${redirects.retiredPass}/${redirects.retiredCount} 410 pass` },
+  { Check: 'Legacy redirect regression', Status: `${summary.redirects.fail === 0 ? 'PASS' : 'FAIL'}`, Notes: `${summary.redirects.pass}/${summary.redirects.redirectCount} pass; ${summary.redirects.retiredPass}/${summary.redirects.retiredCount} 410 pass; ${summary.redirects.chains} chains; ${summary.redirects.loops} loops` },
   { Check: 'Schema validation', Status: 'PASS', Notes: 'Homepage WebSite+Organization; categories/products BreadcrumbList/Product; KC Article+BreadcrumbList' },
   { Check: 'Image alt sanity', Status: 'PASS', Notes: '0 broken; 0 non-www; 0 empty; alts product-context appropriate' },
 ];
