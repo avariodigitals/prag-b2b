@@ -29,6 +29,75 @@ export const HOMEPAGE_TITLE =
 export const HOMEPAGE_DESCRIPTION =
   'Discover PRAG inverters, voltage stabilizers, lithium batteries and solar solutions for homes, businesses and industries across Nigeria.';
 
+// ─── Product-context image alt resolution ───────────────────────────────────
+//
+// Some WooCommerce products share the same media attachment. WC stores alt
+// text on the attachment, not per-product — so a single shared image has one
+// global alt value (last update wins). This causes the wrong product's alt
+// text to appear on other products sharing that image.
+//
+// Solution: product-page rendering always derives alt from the current
+// product context, not from the shared attachment metadata.
+//
+// Logic:
+//   if image-specific alt exactly matches the product-context alt
+//       use image-specific alt (it is accurate for this product)
+//   else
+//       use safe product-context alt: "PRAG {Product Name}"
+//
+// This guarantees:
+//   Product A page → alt always refers to Product A
+//   Product B page → alt always refers to Product B
+//
+// even when the underlying WC media attachment is shared and has a
+// different product's alt text stored at the attachment level.
+//
+// For unique images (used by one product), the WC attachment alt was set
+// to "PRAG {product name}" in Step 10.2 — which exactly matches the
+// product-context alt, so the result is identical.
+//
+// For gallery/decorative images where the specific content cannot be
+// determined accurately, the product-context alt is still correct because
+// the image appears on this product's page in this product's context.
+
+/**
+ * Clean HTML/formatting from a product name for use in alt text.
+ * Removes HTML tags, entities, and excess whitespace.
+ */
+export function cleanProductNameForAlt(name: string): string {
+  return name
+    .replace(/<[^>]*>/g, '')       // strip HTML tags
+    .replace(/&[a-z]+;/gi, ' ')    // strip HTML entities
+    .replace(/\s+/g, ' ')           // collapse whitespace
+    .trim();
+}
+
+/**
+ * Resolve the alt text for a product image using product-context logic.
+ *
+ * Always returns alt text that is accurate for the current product,
+ * regardless of what is stored in the shared WC attachment metadata.
+ *
+ * @param imageAlt  - The WC attachment-level alt text (may be shared/wrong)
+ * @param productName - The current product's name (source of truth for context)
+ * @returns Alt text that is accurate for the current product
+ */
+export function resolveProductImageAlt(
+  imageAlt: string | undefined,
+  productName: string
+): string {
+  const cleanName = cleanProductNameForAlt(productName);
+  const contextAlt = `${BRAND_NAME} ${cleanName}`;
+
+  // If the image-specific alt exactly matches the product-context alt,
+  // it is accurate for this product — use it.
+  const alt = (imageAlt ?? '').trim();
+  if (alt === contextAlt) return alt;
+
+  // Otherwise, use the safe product-context alt.
+  return contextAlt;
+}
+
 // ─── SEO override shape (admin-editable) ────────────────────────────────────
 
 export interface SeoOverride {
@@ -350,9 +419,9 @@ export const ROUTE_SEO_CONFIG: Record<string, RouteSeoConfig> = {
     pageType: 'solution',
   },
   '/about': {
-    seoTitle: 'About PRAG – Nigeria Power Engineering Company Since 2005 | PRAG',
+    seoTitle: 'About PRAG – Nigeria Power Engineering Company Founded in 2012 | PRAG',
     seoDescription:
-      'PRAG is a Nigerian power engineering company founded in 2005, designing and installing inverter, stabilizer, battery and solar systems across 36 states.',
+      'PRAG is a Nigerian power engineering company founded in 2012, designing and installing inverter, stabilizer, battery and solar systems across 36 states.',
     primaryKeyword: 'PRAG about',
     secondaryKeywords: [
       'PRAG power engineering',

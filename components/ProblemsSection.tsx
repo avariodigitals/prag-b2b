@@ -3,14 +3,14 @@ import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
 const STATS = [
-  { label: 'Trusted across\n36 states', weight: 'medium' },
+  { label: '36 States\nCovered', weight: 'medium' },
   {
-    label: '20+Years of\nEngineering\nExperience',
-    desktopLabel: '20+Years of\nEngineering Experience',
+    label: '15+ Years of\nPower Industry\nExperience',
+    desktopLabel: '15+ Years of\nPower Industry Experience',
     weight: 'medium',
     mobileWeight: 'medium',
   },
-  { label: '500+\ninstallations\nnationwide', weight: 'medium' },
+  { label: '50K+\nSystems\nInstalled', weight: 'medium' },
 ];
 
 const PROBLEM_HEADER_DEFAULT = {
@@ -47,7 +47,7 @@ const PROBLEMS = [
     title: 'Reliable Energy Storage',
     desc: 'Ensure dependable backup power with high-performance battery systems.',
     cta: 'Get PRAG Lithium Batteries',
-    href: '/products/batteries',
+    href: '/products/lithium-batteries',
   },
 ];
 

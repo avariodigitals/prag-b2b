@@ -59,6 +59,11 @@ function applyCompleteSystemsLinkRules(items: HeaderMenuItem[], trail: string[] 
     const grandParentLabel = trail[trail.length - 2]?.trim().toLowerCase() ?? '';
 
     let href = item.href;
+    // Fix CMS label/URL mismatch: a "Lithium Batteries" nav item should point
+    // at the lithium-batteries category, not the broad batteries category.
+    if (label === 'lithium batteries' && href === '/products/batteries') {
+      href = '/products/lithium-batteries';
+    }
     if (label === 'home backup power') href = '/solutions/residential/home-backup-power';
     if (label === 'home solar systems') href = '/solutions/residential/home-solar-systems';
     if (label === 'office backup power') href = '/solutions/commercial/office-backup-power';

@@ -269,10 +269,75 @@ async function getB2BContentFromWordPress(): Promise<PublicB2BContent | null> {
 }
 
 /**
+ * Rewrite internal links that point at a redirected canonical URL so they
+ * resolve to the final 200 URL directly. This avoids internal redirect
+ * chains (e.g. /products/all-prag-stabilizers → /products/voltage-stabilizers)
+ * for any CMS-provided navigation, card, or CTA link.
+ *
+ * The legacy redirects themselves are preserved in lib/redirects.ts,
+ * lib/seoTaxonomy.ts and next.config.ts so external/legacy URLs still resolve.
+ * Only CMS-provided *internal* links are normalized here.
+ */
+const INTERNAL_HREF_REDIRECTS: Record<string, string> = {
+  '/products/all-prag-stabilizers': '/products/voltage-stabilizers',
+};
+
+function normalizeInternalHref(href: string | undefined): string | undefined {
+  if (!href || typeof href !== 'string') return href;
+  const trimmed = href.trim();
+  if (!trimmed) return trimmed;
+  // Leave external URLs and non-/paths untouched.
+  if (!trimmed.startsWith('/')) return trimmed;
+
+  // Split into path + query/hash so we only rewrite the path portion.
+  const queryOrHashStart = trimmed.search(/[?#]/);
+  const path = queryOrHashStart === -1 ? trimmed : trimmed.slice(0, queryOrHashStart);
+  const rest = queryOrHashStart === -1 ? '' : trimmed.slice(queryOrHashStart);
+
+  const normalizedPath = path.replace(/\/+$/, '') || path;
+  const replacement = INTERNAL_HREF_REDIRECTS[normalizedPath];
+  if (!replacement) return trimmed;
+  return `${replacement}${rest}`;
+}
+
+function normalizeMenuItems(items: PublicB2BHeaderMenuItem[] | undefined): void {
+  if (!Array.isArray(items)) return;
+  for (const item of items) {
+    if (!item) continue;
+    item.href = normalizeInternalHref(item.href);
+    if (item.children) normalizeMenuItems(item.children);
+  }
+}
+
+function normalizeFooterColumns(
+  columns: PublicB2BFooterSettings['columns'] | undefined,
+): void {
+  if (!Array.isArray(columns)) return;
+  for (const col of columns) {
+    if (!col || !Array.isArray(col.items)) continue;
+    for (const link of col.items) {
+      if (!link) continue;
+      link.href = normalizeInternalHref(link.href) ?? link.href;
+    }
+  }
+}
+
+function normalizeLegalLinks(
+  links: PublicB2BFooterSettings['legalLinks'] | undefined,
+): void {
+  if (!Array.isArray(links)) return;
+  for (const link of links) {
+    if (!link) continue;
+    link.href = normalizeInternalHref(link.href) ?? link.href;
+  }
+}
+
+/**
  * Sanitize B2B content to remove retired "PRAG B2B" branding from any
- * admin-configured fields. The brandLabel is not rendered by any component
- * but appears in the RSC flight data payload — sanitize it so "PRAG B2B"
- * never appears in the HTML source.
+ * admin-configured fields, and normalize CMS-provided internal links so they
+ * never point at a redirected canonical URL. The brandLabel is not rendered
+ * by any component but appears in the RSC flight data payload — sanitize it
+ * so "PRAG B2B" never appears in the HTML source.
  */
 function sanitizeB2BContent(content: PublicB2BContent): PublicB2BContent {
   if (content?.settings?.header?.brandLabel) {
@@ -280,6 +345,38 @@ function sanitizeB2BContent(content: PublicB2BContent): PublicB2BContent {
       .replace(/PRAG B2B/gi, 'PRAG')
       .trim();
   }
+
+  // Normalize CMS-provided internal links to avoid redirect chains.
+  if (content?.pages && Array.isArray(content.pages)) {
+    for (const page of content.pages) {
+      if (!page?.sections || !Array.isArray(page.sections)) continue;
+      for (const section of page.sections) {
+        if (!section) continue;
+        section.ctaHref = normalizeInternalHref(section.ctaHref);
+        section.secondaryCtaHref = normalizeInternalHref(section.secondaryCtaHref);
+      }
+    }
+  }
+
+  if (content?.settings?.header) {
+    const header = content.settings.header;
+    header.ctaHref = normalizeInternalHref(header.ctaHref);
+    header.contactHref = normalizeInternalHref(header.contactHref);
+    normalizeMenuItems(header.solutionsMenuItems);
+    normalizeMenuItems(header.productsMenuItems);
+    normalizeMenuItems(header.companyMenuItems);
+    normalizeMenuItems(header.menuItems);
+  }
+
+  if (content?.settings?.footer) {
+    const footer = content.settings.footer;
+    footer.primaryCtaHref = normalizeInternalHref(footer.primaryCtaHref);
+    footer.secondaryCtaHref = normalizeInternalHref(footer.secondaryCtaHref);
+    footer.partnerHref = normalizeInternalHref(footer.partnerHref);
+    normalizeFooterColumns(footer.columns);
+    normalizeLegalLinks(footer.legalLinks);
+  }
+
   return content;
 }
 

@@ -6,7 +6,9 @@ import Link from 'next/link';
 import { formatPrice, getShopProductUrl } from '@/lib/woocommerce';
 import type { Product, ProductReview, TechDocument, CustomTab } from '@/lib/woocommerce';
 import { preferredProductCategory } from '@/lib/seoTaxonomy';
+import { resolveProductImageAlt } from '@/lib/seoMeta';
 import B2BProductCard from './B2BProductCard';
+import ProductContextLinks from './ProductContextLinks';
 
 function cleanHtml(html: string) {
   return html
@@ -168,7 +170,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
                 <Image
                   key={image.src}
                   src={image.src}
-                  alt={image.alt || product.name}
+                  alt={resolveProductImageAlt(image.alt, product.name)}
                   fill
                   className="object-contain p-3"
                   sizes="(max-width: 768px) 100vw, 52vw"
@@ -201,7 +203,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
                       i === activeImage ? 'border-[#0166a5]' : 'border-gray-100 hover:border-gray-300'
                     }`}
                   >
-                    <Image src={img.src} alt={img.alt || product.name} fill sizes="80px" className="object-contain p-1" />
+                    <Image src={img.src} alt={resolveProductImageAlt(img.alt, product.name)} fill sizes="80px" className="object-contain p-1" />
                   </button>
                 ))}
               </div>
@@ -608,6 +610,9 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
           </div>
         </div>
       </div>
+
+      {/* ── Contextual Category & Solution Links ── */}
+      <ProductContextLinks product={product} />
 
       {/* ── Related Products ── */}
       {related.length > 0 && (

@@ -19,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const FALLBACK_STATS = [
-  { display: 50, suffix: 'K+', label: 'System Installed' },
-  { display: 20, suffix: '+', label: 'Years Active' },
+  { display: 50, suffix: 'K+', label: 'Systems Installed' },
+  { display: 15, suffix: '+', label: 'Years of Power Industry Experience' },
   { display: 36, suffix: '', label: 'States Covered' },
 ];
 
@@ -32,9 +32,9 @@ const VALUES = [
 ];
 
 const STORY_PARAS = [
-  'PRAG Power Engineering was founded in 2005 by a team of electrical engineers who were frustrated with the poor quality of power solutions being installed across Nigeria. They saw expensive imported equipment failing because installers didn\'t understand Nigerian power conditions. They saw families and businesses suffering from systems that were never properly designed.',
+  'PRAG Power Engineering was founded in 2012 by a team of electrical engineers who were frustrated with the poor quality of power solutions being installed across Nigeria. They saw expensive imported equipment failing because installers didn\'t understand Nigerian power conditions. They saw families and businesses suffering from systems that were never properly designed.',
   'We started with a simple mission: engineer power systems that actually work in Nigerian conditions. Not imported cookie-cutter solutions, but systems designed specifically for the voltage fluctuations, frequent outages, and harsh environments we face here.',
-  'Twenty years later, we\'ve installed over 50,000 systems across 36 states. Our engineers hold COREN certifications and international qualifications. Our systems are running in homes, hospitals, hotels, banks, factories, and data centers across Nigeria.',
+  'Today, with 15+ years of power industry experience, we\'ve installed 50K+ systems across 36 states. Our engineers hold COREN certifications and international qualifications. Our systems are running in homes, hospitals, hotels, banks, factories, and data centers across Nigeria.',
   'We\'ve grown, but our mission hasn\'t changed: reliable power engineering, done right.',
 ];
 

@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
+import SolutionBody from '@/components/SolutionContent';
 import JsonLd from '@/components/JsonLd';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
+import { getSolutionBody } from '@/lib/solutionContent';
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getB2BPublicContent();
@@ -25,6 +27,7 @@ export default async function VoltageStabilizationProtectionPage() {
   const content = await getSolutionCategoryContent('voltage-stabilization-protection');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
+  const body = getSolutionBody('voltage-stabilization-protection');
 
   const b2bContent = await getB2BPublicContent();
   const page = findB2BPage(b2bContent, '/solutions/voltage-stabilization-protection');
@@ -93,6 +96,8 @@ export default async function VoltageStabilizationProtectionPage() {
               </Link>
             ))}
           </div>
+
+          {body && <SolutionBody body={body} />}
         </div>
       </div>
     </main>

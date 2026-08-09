@@ -6,9 +6,11 @@ import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
+import { CategoryContentSections, CategoryFaqAndCta } from '@/components/CategoryContent';
 import JsonLd from '@/components/JsonLd';
 import { APPROVED_CATEGORIES, EXCLUDED_CATEGORIES, REDIRECTED_CATEGORIES, isExcludedCategory } from '@/lib/seoTaxonomy';
 import { resolveCategorySeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, CATEGORY_DISPLAY, SITE_BASE } from '@/lib/seoMeta';
+import { getCategoryContent } from '@/lib/categoryContent';
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -173,6 +175,14 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const name = hero?.summary?.trim() || DISPLAY[category]?.name || category;
   const description = hero?.content?.trim() || DISPLAY[category]?.description || '';
 
+  // Step 9 on-page content. When a structured CategoryContent entry exists for
+  // this slug, its H1 and intro override the generic CMS/fallback hero copy so
+  // the page leads with the approved intent-specific H1, and rich guidance
+  // sections + FAQs + CTA are integrated around the product grid.
+  const step9Content = getCategoryContent(category);
+  const h1 = step9Content?.h1 ?? name;
+  const intro = step9Content?.intro ?? description;
+
   return (
     <main className="w-full bg-white flex flex-col">
       <JsonLd data={buildBreadcrumbJsonLd([
@@ -182,11 +192,20 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       ])} />
       {/* Hero */}
       <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
-        <h1 className="breadcrumb-title-lock">{name}</h1>
-        {description && (
-          <p className="breadcrumb-description-lock max-w-[531px]">{description}</p>
+        <h1 className="breadcrumb-title-lock">{h1}</h1>
+        {intro && (
+          <p className="breadcrumb-description-lock max-w-[531px]">{intro}</p>
         )}
       </div>
+
+      {/* Step 9 guidance content (quick nav + H2 sections + proof links) */}
+      {step9Content && (
+        <div className="w-full px-6 md:px-20 pt-10 md:pt-14">
+          <div className="max-w-[1280px] mx-auto">
+            <CategoryContentSections content={step9Content} />
+          </div>
+        </div>
+      )}
 
       {/* Grid */}
       <div className="w-full px-6 md:px-20 py-10">
@@ -210,6 +229,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
           />
         </Suspense>
       </div>
+
+      {/* Step 9 FAQs + primary CTA (after the grid) */}
+      {step9Content && (
+        <div className="w-full px-6 md:px-20 pb-16 md:pb-24">
+          <div className="max-w-[1280px] mx-auto">
+            <CategoryFaqAndCta content={step9Content} />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
