@@ -33,19 +33,10 @@ const websiteJsonLd = {
   publisher: { '@id': 'https://www.prag.global/#organization' },
 };
 
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': 'https://www.prag.global/#organization',
-  name: 'PRAG',
-  url: 'https://www.prag.global/',
-  logo: 'https://www.prag.global/images/prag-logo.png',
-};
-
 export default function HomePage() {
   return (
     <>
-      <JsonLd data={[websiteJsonLd, organizationJsonLd]} />
+      <JsonLd data={websiteJsonLd} />
       <Hero />
       <ProblemsSection />
       <SolutionsSection />

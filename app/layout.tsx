@@ -7,7 +7,22 @@ import CookieConsentLoader from '@/components/CookieConsentLoader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
+import JsonLd from '@/components/JsonLd';
 import { getB2BPublicContent } from '@/lib/b2bContent';
+
+// Site-wide Organization structured data. Rendered in the root layout so
+// every page declares the same Organization entity (referenced by WebSite,
+// Article, and Breadcrumb JSON-LD via @id). The logo must be at least
+// 112x112px per Google's requirements — public/images/prag-logo.png is
+// 256x256. https://developers.google.com/search/docs/appearance/structured-data/logo
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://www.prag.global/#organization',
+  name: 'PRAG',
+  url: 'https://www.prag.global/',
+  logo: 'https://www.prag.global/images/prag-logo.png',
+};
 
 const onest = Onest({
   subsets: ['latin'],
@@ -118,6 +133,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
       </head>
       <body className={`${onest.variable} ${spaceGrotesk.variable} ${dmSans.variable} antialiased flex flex-col min-h-screen`} suppressHydrationWarning>
+        <JsonLd data={organizationJsonLd} />
         <CookieConsentLoader />
         {scripts?.head && <script dangerouslySetInnerHTML={{ __html: scripts.head }} />}
         {!launchEnabled && <Header settings={settings} />}
