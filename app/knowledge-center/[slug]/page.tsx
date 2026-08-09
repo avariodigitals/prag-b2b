@@ -12,6 +12,17 @@ import {
 } from '@/lib/wordpress';
 import type { WPPost, WPCategory } from '@/lib/wordpress';
 import { EXCLUDED_KNOWLEDGE_SLUGS, REDIRECTED_KNOWLEDGE_SLUGS } from '@/lib/seoTaxonomy';
+import JsonLd from '@/components/JsonLd';
+import { getB2BPublicContent } from '@/lib/b2bContent';
+import {
+  resolveKcArticleSeo,
+  buildMetadata,
+  buildArticleJsonLd,
+  buildBreadcrumbJsonLd,
+  getAdminSeoOverride,
+  fetchYoastPostSeo,
+  SITE_BASE,
+} from '@/lib/seoMeta';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -156,40 +167,40 @@ export async function generateMetadata({ params }: Props) {
 
   // Obsolete articles with no redirect target are not indexed.
   if (EXCLUDED_KNOWLEDGE_SLUGS.has(slug)) {
-    return {
-      title: 'Article – PRAG B2B',
-      robots: { index: false, follow: true },
-    };
+    return buildMetadata({
+      title: 'Article | PRAG',
+      description: '',
+      canonical: `${SITE_BASE}/knowledge-center/${slug}`,
+      ogTitle: 'Article | PRAG',
+      ogDescription: '',
+      robotsIndex: false,
+    });
   }
 
   const post = await getPostBySlug(slug);
-  if (!post) return { title: 'Article – PRAG B2B' };
+  if (!post) return { title: { absolute: 'Article | PRAG' } };
 
   const title = stripHtml(post.title.rendered);
-  const description = stripHtml(post.excerpt.rendered).slice(0, 160);
+  const excerpt = stripHtml(post.excerpt.rendered);
   const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
-  const canonical = `${siteBase}/knowledge-center/${post.slug}`;
 
-  return {
-    title,
-    description,
-    alternates: { canonical },
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      images: imageUrl ? [{ url: imageUrl, alt: title }] : undefined,
-      type: 'article',
-      publishedTime: post.date,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: imageUrl ? [imageUrl] : undefined,
-    },
-  };
+  // Resolution: admin override → Yoast meta → article-title/content fallback
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, `/knowledge-center/${post.slug}`);
+  const yoastMeta = await fetchYoastPostSeo(post.id);
+
+  const seo = resolveKcArticleSeo(title, post.slug, excerpt, imageUrl, yoastMeta, override);
+
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+    ogImage: seo.ogImage,
+    ogType: 'article',
+    publishedTime: post.date,
+  });
 }
 
 export default async function KnowledgeCenterPost({ params }: Props) {
@@ -225,9 +236,30 @@ export default async function KnowledgeCenterPost({ params }: Props) {
   const title = stripHtml(post.title.rendered);
   const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
   const shareUrl = `${siteBase}/knowledge-center/${slug}`;
+  const canonicalUrl = `${SITE_BASE}/knowledge-center/${slug}`;
+  const articleImageUrl = postImage(post);
+  const articleDescription = stripHtml(post.excerpt.rendered).slice(0, 160);
+
+  // Article JSON-LD — uses real WordPress data. Publisher references
+  // the existing Organization @id on the homepage. No invented authors.
+  const articleJsonLd = buildArticleJsonLd({
+    headline: title,
+    description: articleDescription,
+    url: canonicalUrl,
+    image: articleImageUrl ?? undefined,
+    datePublished: post.date,
+    dateModified: post.modified,
+  });
+
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: 'Home', url: `${SITE_BASE}/` },
+    { name: 'Knowledge Center', url: `${SITE_BASE}/knowledge-center` },
+    { name: title, url: canonicalUrl },
+  ]);
 
   return (
     <main className="w-full bg-white flex flex-col">
+      <JsonLd data={[articleJsonLd, breadcrumbJsonLd]} />
 
       {/* ── Breadcrumb + Title ── */}
       <div className="w-full px-6 md:px-10 lg:px-20 pt-8 pb-8">

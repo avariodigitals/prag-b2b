@@ -6,7 +6,9 @@ import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
+import JsonLd from '@/components/JsonLd';
 import { APPROVED_CATEGORIES, EXCLUDED_CATEGORIES, REDIRECTED_CATEGORIES, isExcludedCategory } from '@/lib/seoTaxonomy';
+import { resolveCategorySeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, CATEGORY_DISPLAY, SITE_BASE } from '@/lib/seoMeta';
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -34,10 +36,10 @@ const KNOWN_IDS: Record<string, number> = {
 };
 
 const DISPLAY: Record<string, { name: string; description: string }> = {
-  'inverters': { name: 'Inverters', description: 'A selection of solar inverters that convert DC power from solar panels into AC power.' },
-  'voltage-stabilizers': { name: 'Voltage Stabilizers', description: 'Explore our range of voltage stabilizers, designed to protect your appliances from power fluctuations.' },
-  'batteries': { name: 'Batteries', description: 'Explore our wide range of batteries for solar power, inverters, and other energy storage solutions.' },
-  'solar': { name: 'Solar', description: 'Explore our range of solar solutions, designed to maximize energy efficiency and protect against voltage fluctuations.' },
+  'inverters': { name: 'Inverters', description: 'Browse PRAG inverters — hybrid, heavy-duty and backup inverters that convert battery DC to stable AC for homes, businesses and industry.' },
+  'voltage-stabilizers': { name: 'Voltage Stabilizers', description: 'Browse PRAG voltage stabilizers — relay, servo and thyristor stabilizers that protect appliances and equipment from voltage fluctuations.' },
+  'batteries': { name: 'Batteries', description: 'Browse PRAG batteries — inverter batteries, solar batteries and lithium batteries for reliable energy storage.' },
+  'solar': { name: 'Solar Products', description: 'Browse PRAG solar products — solar panels, charge controllers and solar equipment for residential and commercial solar setups.' },
   'hybrid-inverters': { name: 'Hybrid Inverters', description: 'Explore PRAG hybrid inverters — combining solar charging and battery backup in a single unit.' },
   'heavy-duty-inverters': { name: 'Heavy-Duty Inverters', description: 'Explore PRAG heavy-duty inverters — built for demanding loads and continuous operation.' },
   'relay-voltage-stabilizers': { name: 'Relay Voltage Stabilizers', description: 'Explore PRAG relay voltage stabilizers — fast, affordable voltage protection for home and office.' },
@@ -60,32 +62,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // Excluded categories: noindex, follow
   if (isExcludedCategory(category)) {
-    const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
-    return {
-      title: `${DISPLAY[category]?.name ?? category} – PRAG B2B`,
-      alternates: { canonical: `${siteBase}/products/${category}` },
-      robots: { index: false, follow: true },
-    };
+    const displayName = CATEGORY_DISPLAY[category]?.name ?? category;
+    return buildMetadata({
+      title: `${displayName} | PRAG`,
+      description: '',
+      canonical: `${SITE_BASE}/products/${category}`,
+      ogTitle: `${displayName} | PRAG`,
+      ogDescription: '',
+      robotsIndex: false,
+    });
   }
 
   const content = await getB2BPublicContent();
-  const page = findB2BPage(content, `/products/${category}`);
-  const hero = findVisibleSectionsByType(page, 'hero')[0];
-  const name = hero?.summary?.trim() || DISPLAY[category]?.name || category;
-  const description = DISPLAY[category]?.description ?? `Browse ${name} from PRAG. Enterprise-grade power engineering solutions for businesses in Nigeria.`;
-  const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
-  const canonical = `${siteBase}/products/${category}`;
-  return {
-    title: `${name} – PRAG B2B`,
-    description,
-    alternates: { canonical },
-    openGraph: {
-      title: `${name} – PRAG B2B`,
-      description,
-      url: canonical,
-      type: 'website',
-    },
-  };
+  const override = getAdminSeoOverride(content?.seoOverrides, `/products/${category}`);
+  const seo = resolveCategorySeo(category, override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
 }
 
 export async function generateStaticParams() {
@@ -178,6 +175,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   return (
     <main className="w-full bg-white flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Products', url: `${SITE_BASE}/products` },
+        { name: DISPLAY[category]?.name ?? category, url: `${SITE_BASE}/products/${category}` },
+      ])} />
       {/* Hero */}
       <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
         <h1 className="breadcrumb-title-lock">{name}</h1>

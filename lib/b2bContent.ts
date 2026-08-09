@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { unstable_cache } from 'next/cache';
+import type { SeoOverrideMap } from '@/lib/seoMeta';
 
 const B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS = 60;
 
@@ -147,6 +148,7 @@ export interface PublicB2BContent {
   caseStudies?: unknown;
   solutions?: unknown;
   pages?: PublicB2BPage[];
+  seoOverrides?: SeoOverrideMap;
   updatedAt?: string;
 }
 
@@ -155,6 +157,7 @@ interface LocalB2BStoreShape {
   caseStudies?: unknown;
   solutions?: unknown;
   pages?: PublicB2BPage[];
+  seoOverrides?: SeoOverrideMap;
   audit?: Array<{ at?: string }>;
 }
 
@@ -164,6 +167,7 @@ interface WordPressAdminConfigShape {
   caseStudies?: unknown;
   solutions?: unknown;
   pages?: PublicB2BPage[];
+  seoOverrides?: SeoOverrideMap;
   audit?: Array<{ at?: string }>;
 }
 
@@ -200,6 +204,7 @@ function mapStoreToPublicContent(store: LocalB2BStoreShape): PublicB2BContent {
     caseStudies: store.caseStudies,
     solutions: store.solutions,
     pages: Array.isArray(store.pages) ? store.pages : [],
+    seoOverrides: store.seoOverrides && typeof store.seoOverrides === 'object' ? store.seoOverrides : undefined,
     updatedAt: store.audit?.[0]?.at ?? new Date().toISOString(),
   };
 }

@@ -3,14 +3,23 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
+import JsonLd from '@/components/JsonLd';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Backup Power Solutions',
-  description: 'Stay powered during outages with PRAG inverter and battery backup systems.',
-  alternates: { canonical: 'https://www.prag.global/solutions/backup-power' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions/backup-power');
+  const seo = resolveStaticSeo('/solutions/backup-power', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 export default async function BackupPowerPage() {
   const content = await getSolutionCategoryContent('backup-power');
@@ -22,9 +31,9 @@ export default async function BackupPowerPage() {
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
   const fallbackCards = [
-    { title: 'Power During Outages', description: 'Keep essential appliances, equipment, and systems running during power outages.', href: '/products/inverters', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
-    { title: 'Continuity & Productivity', description: 'Maintain comfort, connectivity, security, and productivity when utility power is unavailable.', href: '/products/inverters', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
-    { title: 'Reduced Generator Dependence', description: 'Reduce reliance on generators with quieter, cleaner, and more convenient backup power solutions.', href: '/products/inverters', ctaLabel: 'View Products', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Power During Outages', description: 'Keep essential appliances, equipment, and systems running during power outages with PRAG inverter and battery backup systems.', href: '/products/inverters', ctaLabel: 'View Inverters', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Reliable Energy Storage', description: 'Store energy with PRAG inverter, solar and lithium batteries for dependable backup when utility power is unavailable.', href: '/products/batteries', ctaLabel: 'View Batteries', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
+    { title: 'Reduced Generator Dependence', description: 'Reduce reliance on generators with quieter, cleaner, and more convenient inverter and battery backup solutions.', href: '/products/lithium-batteries', ctaLabel: 'View Lithium Batteries', image: 'https://central.prag.global/wp-content/uploads/2026/05/Rectangle-6.png' },
   ];
 
   const cards = fallbackCards.map((fallback, index) => {
@@ -41,6 +50,11 @@ export default async function BackupPowerPage() {
 
   return (
     <main className="w-full flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Solutions', url: `${SITE_BASE}/solutions` },
+        { name: 'Backup Power', url: `${SITE_BASE}/solutions/backup-power` },
+      ])} />
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
         <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
           {content.heroTitle}

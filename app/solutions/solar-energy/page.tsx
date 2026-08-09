@@ -3,14 +3,23 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
+import JsonLd from '@/components/JsonLd';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Solar Energy Solutions',
-  description: 'Reduce energy costs and generator dependence with PRAG solar power systems.',
-  alternates: { canonical: 'https://www.prag.global/solutions/solar-energy' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions/solar-energy');
+  const seo = resolveStaticSeo('/solutions/solar-energy', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 export default async function SolarEnergyPage() {
   const content = await getSolutionCategoryContent('solar-energy');
@@ -41,6 +50,11 @@ export default async function SolarEnergyPage() {
 
   return (
     <main className="w-full flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Solutions', url: `${SITE_BASE}/solutions` },
+        { name: 'Solar Energy', url: `${SITE_BASE}/solutions/solar-energy` },
+      ])} />
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
         <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
           {content.heroTitle}

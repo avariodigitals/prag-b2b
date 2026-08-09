@@ -5,10 +5,22 @@ import SolutionsSection from '@/components/SolutionsSection';
 import WhyPragSection from '@/components/WhyPragSection';
 import CaseStudiesSection from '@/components/CaseStudiesSection';
 import KnowledgeCenterSection from '@/components/KnowledgeCenterSection';
+import JsonLd from '@/components/JsonLd';
+import { getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, getAdminSeoOverride } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  alternates: { canonical: 'https://www.prag.global/' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/');
+  const seo = resolveStaticSeo('/', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 const websiteJsonLd = {
   '@context': 'https://schema.org',
@@ -17,6 +29,7 @@ const websiteJsonLd = {
   url: 'https://www.prag.global/',
   name: 'PRAG',
   alternateName: 'PRAG Power',
+  description: 'Inverters, voltage stabilizers, batteries and solar solutions in Nigeria.',
   publisher: { '@id': 'https://www.prag.global/#organization' },
 };
 
@@ -32,14 +45,7 @@ const organizationJsonLd = {
 export default function HomePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-      />
+      <JsonLd data={[websiteJsonLd, organizationJsonLd]} />
       <Hero />
       <ProblemsSection />
       <SolutionsSection />

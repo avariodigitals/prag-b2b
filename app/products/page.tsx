@@ -1,23 +1,26 @@
 import type { Metadata } from 'next';
 import ProductsView from '@/components/ProductsView';
+import JsonLd from '@/components/JsonLd';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, searchProducts, type Product } from '@/lib/woocommerce';
 import { APPROVED_CATEGORIES, hasApprovedCategory, preferredProductCategory } from '@/lib/seoTaxonomy';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Products – PRAG B2B',
-  description: 'Browse all PRAG product categories and power technologies.',
-  alternates: { canonical: 'https://www.prag.global/products' },
-  openGraph: {
-    title: 'Products – PRAG B2B',
-    description: 'Browse all PRAG product categories and power technologies.',
-    url: 'https://www.prag.global/products',
-    type: 'website',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/products');
+  const seo = resolveStaticSeo('/products', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 // SEO-approved top-level product families only.
 // Excludes: sales, all-prag-stabilizers (redirected), and non-core categories.
@@ -142,6 +145,10 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   return (
     <main className="w-full bg-white flex flex-col">
+        <JsonLd data={buildBreadcrumbJsonLd([
+          { name: 'Home', url: `${SITE_BASE}/` },
+          { name: 'Products', url: `${SITE_BASE}/products` },
+        ])} />
         {/* Hero */}
         <div className="w-full bg-stone-50 px-6 md:px-20 breadcrumb-hero-shell flex flex-col items-center gap-3 text-center">
           <h1 className="breadcrumb-title-lock">{heroTitle}</h1>

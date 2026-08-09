@@ -1,9 +1,22 @@
 import CountUp from '@/components/CountUp';
 import type { Metadata } from 'next';
 import { SentenceText } from '@/lib/sentenceText';
+import JsonLd from '@/components/JsonLd';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = { title: 'About Us', alternates: { canonical: 'https://www.prag.global/about' } };
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/about');
+  const seo = resolveStaticSeo('/about', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 const FALLBACK_STATS = [
   { display: 50, suffix: 'K+', label: 'System Installed' },
@@ -74,6 +87,10 @@ export default async function AboutPage() {
 
   return (
     <main className="w-full bg-white flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'About', url: `${SITE_BASE}/about` },
+      ])} />
 
       {/* ── Hero ── */}
       <div className="w-full px-6 md:px-20 breadcrumb-hero-shell bg-stone-50 flex flex-col items-center gap-4 text-center">

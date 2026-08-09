@@ -3,14 +3,23 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
+import JsonLd from '@/components/JsonLd';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Voltage Stabilization & Protection Solutions',
-  description: 'Protect your equipment from voltage fluctuations with PRAG stabilization and protection systems.',
-  alternates: { canonical: 'https://www.prag.global/solutions/voltage-stabilization-protection' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions/voltage-stabilization-protection');
+  const seo = resolveStaticSeo('/solutions/voltage-stabilization-protection', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 export default async function VoltageStabilizationProtectionPage() {
   const content = await getSolutionCategoryContent('voltage-stabilization-protection');
@@ -41,6 +50,11 @@ export default async function VoltageStabilizationProtectionPage() {
 
   return (
     <main className="w-full flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Solutions', url: `${SITE_BASE}/solutions` },
+        { name: 'Voltage Stabilization & Protection', url: `${SITE_BASE}/solutions/voltage-stabilization-protection` },
+      ])} />
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
         <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
           {content.heroTitle}

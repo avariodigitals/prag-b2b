@@ -7,6 +7,7 @@ export interface WPPost {
   excerpt: { rendered: string };
   content: { rendered: string };
   date: string;
+  modified?: string;
   categories: number[];
   _embedded?: { 'wp:featuredmedia'?: [{ source_url: string; alt_text: string }] };
 }

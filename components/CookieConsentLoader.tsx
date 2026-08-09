@@ -13,7 +13,7 @@ const CONSENT_CONFIG = {
   notice_banner_reject_button_hide: false,
   preferences_center_close_button_hide: false,
   page_refresh_confirmation_buttons: false,
-  website_name: 'PRAG B2B',
+  website_name: 'PRAG',
   website_privacy_policy_url: 'https://www.prag.global/privacy',
 };
 
@@ -26,18 +26,18 @@ declare global {
       showSettings?: () => void;
       show?: () => void;
     };
-    __pragB2BCookieConsentInitialized?: boolean;
+    __pragConsentCookieConsentInitialized?: boolean;
   }
 }
 
 export default function CookieConsentLoader() {
   useEffect(() => {
     const injectOverrides = () => {
-      const existing = document.getElementById('prag-b2b-cookie-consent-overrides');
+      const existing = document.getElementById('prag-cookie-consent-overrides');
       if (existing) return;
 
       const style = document.createElement('style');
-      style.id = 'prag-b2b-cookie-consent-overrides';
+      style.id = 'prag-cookie-consent-overrides';
       style.textContent = `
         #termsfeed-com---nb,
         .termsfeed-com---nb,
@@ -115,9 +115,9 @@ export default function CookieConsentLoader() {
           border-color: #075985 !important;
         }
 
-        body.prag-b2b-consent-accepted #termsfeed-com---nb,
-        body.prag-b2b-consent-accepted .termsfeed-com---nb,
-        body.prag-b2b-consent-accepted .termsfeed-com---nb-simple {
+        body.prag-consent-accepted #termsfeed-com---nb,
+        body.prag-consent-accepted .termsfeed-com---nb,
+        body.prag-consent-accepted .termsfeed-com---nb-simple {
           display: none !important;
           visibility: hidden !important;
           opacity: 0 !important;
@@ -230,11 +230,11 @@ export default function CookieConsentLoader() {
     };
 
     const runConsent = () => {
-      if (window.__pragB2BCookieConsentInitialized) return true;
+      if (window.__pragConsentCookieConsentInitialized) return true;
       if (!window.cookieconsent || typeof window.cookieconsent.run !== 'function') return false;
 
       window.cookieconsent.run(CONSENT_CONFIG);
-      window.__pragB2BCookieConsentInitialized = true;
+      window.__pragConsentCookieConsentInitialized = true;
       return true;
     };
 
@@ -252,7 +252,7 @@ export default function CookieConsentLoader() {
 
     const syncAcceptedClass = () => {
       const accepted = document.cookie.includes('cookie_consent_user_accepted=true');
-      document.body.classList.toggle('prag-b2b-consent-accepted', accepted);
+      document.body.classList.toggle('prag-consent-accepted', accepted);
       if (accepted) {
         hideNoticeBanner();
       }
@@ -263,9 +263,9 @@ export default function CookieConsentLoader() {
       const decline = document.querySelector('.cc-nb-reject') as HTMLButtonElement | null;
 
       const bind = (button: HTMLButtonElement | null) => {
-        if (!button || button.getAttribute('data-prag-b2b-consent-bound') === 'true') return;
+        if (!button || button.getAttribute('data-prag-consent-bound') === 'true') return;
 
-        button.setAttribute('data-prag-b2b-consent-bound', 'true');
+        button.setAttribute('data-prag-consent-bound', 'true');
         button.addEventListener('click', () => {
           window.setTimeout(syncAcceptedClass, 50);
         });
@@ -277,14 +277,14 @@ export default function CookieConsentLoader() {
 
     const bindPreferencesLink = () => {
       const trigger = document.getElementById('open_preferences_center');
-      if (!trigger || trigger.getAttribute('data-prag-b2b-bound') === 'true') return;
+      if (!trigger || trigger.getAttribute('data-prag-bound') === 'true') return;
 
-      trigger.setAttribute('data-prag-b2b-bound', 'true');
+      trigger.setAttribute('data-prag-bound', 'true');
       trigger.addEventListener('click', (event) => {
         event.preventDefault();
 
         if (!openPreferencesCenter()) {
-          window.__pragB2BCookieConsentInitialized = false;
+          window.__pragConsentCookieConsentInitialized = false;
           runConsent();
           openPreferencesCenter();
         }
@@ -296,13 +296,13 @@ export default function CookieConsentLoader() {
 
     if (runConsent()) return;
 
-    let script = document.querySelector('script[data-prag-b2b-cookie-consent="true"]') as HTMLScriptElement | null;
+    let script = document.querySelector('script[data-prag-cookie-consent="true"]') as HTMLScriptElement | null;
     if (!script) {
       script = document.createElement('script');
       script.src = CONSENT_SCRIPT_SRC;
       script.async = true;
       script.charset = 'UTF-8';
-      script.dataset.pragB2BCookieConsent = 'true';
+      script.dataset.pragCookieConsent = 'true';
       document.head.appendChild(script);
     }
 

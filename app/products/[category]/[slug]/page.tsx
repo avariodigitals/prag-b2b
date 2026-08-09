@@ -2,8 +2,11 @@ export const dynamic = 'force-dynamic';
 
 import { notFound, redirect, permanentRedirect } from 'next/navigation';
 import ProductDetailView from '@/components/ProductDetailView';
+import JsonLd from '@/components/JsonLd';
 import { getProductBySlug, getProducts, getProductReviews, getTechDocuments, getProductCustomTabs, searchProducts, type CustomTab, type Product } from '@/lib/woocommerce';
 import { preferredProductCategory, hasApprovedCategory, isExcludedCategory, REDIRECTED_CATEGORIES } from '@/lib/seoTaxonomy';
+import { resolveProductSeo, buildMetadata, buildProductJsonLd, buildBreadcrumbJsonLd, getAdminSeoOverride, CATEGORY_DISPLAY, SITE_BASE } from '@/lib/seoMeta';
+import { getB2BPublicContent } from '@/lib/b2bContent';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -21,51 +24,48 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   try {
     const product = await fetchProductWithRetry(slug);
-    if (!product) return { title: 'Product – PRAG B2B' };
+    if (!product) return { title: { absolute: 'Product | PRAG' } };
 
     // Non-core products (belonging only to excluded/non-core categories) are
     // not part of the SEO catalogue. If the route remains accessible, set
     // noindex, follow rather than allowing duplicate indexable content.
     if (!hasApprovedCategory(product.categories as Array<{ slug: string }> | undefined)) {
-      const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
-      return {
-        title: `${product.name} – PRAG B2B`,
-        alternates: { canonical: `${siteBase}/products/${product.categories?.[0]?.slug ?? 'products'}/${product.slug}` },
-        robots: { index: false, follow: true },
-      };
+      const categorySlug = product.categories?.[0]?.slug ?? 'products';
+      return buildMetadata({
+        title: `${product.name} | PRAG`,
+        description: '',
+        canonical: `${SITE_BASE}/products/${categorySlug}/${product.slug}`,
+        ogTitle: `${product.name} | PRAG`,
+        ogDescription: '',
+        robotsIndex: false,
+      });
     }
 
-    const description = product.short_description?.replace(/<[^>]+>/g, '').trim().slice(0, 160)
-      || product.description?.replace(/<[^>]+>/g, '').trim().slice(0, 160)
-      || `${product.name} — available from PRAG. Enterprise-grade power engineering solutions for businesses.`;
-    const imageUrl = product.images?.[0]?.src;
-    const siteBase = process.env.NEXT_PUBLIC_B2B_SITE_URL ?? 'https://www.prag.global';
-    // Use the deterministic preferred SEO category for the canonical URL,
-    // not the first WooCommerce category (which may be "sales" or another
-    // non-canonical category).
     const categorySlug = preferredProductCategory(product.categories as Array<{ slug: string }> | undefined, product.slug);
-    const canonical = `${siteBase}/products/${categorySlug}/${product.slug}`;
+    const imageUrl = product.images?.[0]?.src;
+    const content = await getB2BPublicContent();
+    const override = getAdminSeoOverride(content?.seoOverrides, `/products/${categorySlug}/${product.slug}`);
 
-    return {
-      title: product.name,
-      description,
-      alternates: { canonical },
-      openGraph: {
-        title: product.name,
-        description,
-        url: canonical,
-        images: imageUrl ? [{ url: imageUrl, alt: product.images?.[0]?.alt || product.name }] : undefined,
-        type: 'website',
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: product.name,
-        description,
-        images: imageUrl ? [imageUrl] : undefined,
-      },
-    };
+    const seo = resolveProductSeo(
+      product.name,
+      product.slug,
+      categorySlug,
+      product.short_description,
+      product.description,
+      imageUrl,
+      override,
+    );
+
+    return buildMetadata({
+      title: seo.title,
+      description: seo.description,
+      canonical: seo.canonical,
+      ogTitle: seo.ogTitle,
+      ogDescription: seo.ogDescription,
+      ogImage: seo.ogImage,
+    });
   } catch {
-    return { title: 'Product – PRAG B2B' };
+    return { title: { absolute: 'Product | PRAG' } };
   }
 }
 
@@ -119,8 +119,35 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const relatedFiltered = related.filter(p => p.slug !== slug).slice(0, 4);
 
+  // Build Product + Offer and BreadcrumbList JSON-LD from real WC data.
+  // No invented ratings/reviews.
+  const categoryName = CATEGORY_DISPLAY[preferredCat]?.name ?? preferredCat;
+  const canonicalUrl = `${SITE_BASE}/products/${preferredCat}/${product.slug}`;
+  const cleanDescription = product.short_description?.replace(/<[^>]+>/g, '').trim() ||
+    product.description?.replace(/<[^>]+>/g, '').trim() ||
+    `${product.name} — available from PRAG Nigeria.`;
+
+  const productJsonLd = buildProductJsonLd({
+    name: product.name,
+    description: cleanDescription.slice(0, 500),
+    url: canonicalUrl,
+    image: product.images?.[0]?.src,
+    sku: product.sku || undefined,
+    price: product.price || undefined,
+    currency: 'NGN',
+    availability: product.stock_status || undefined,
+  });
+
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: 'Home', url: `${SITE_BASE}/` },
+    { name: 'Products', url: `${SITE_BASE}/products` },
+    { name: categoryName, url: `${SITE_BASE}/products/${preferredCat}` },
+    { name: product.name, url: canonicalUrl },
+  ]);
+
   return (
     <main className="w-full bg-white flex flex-col">
+      <JsonLd data={[productJsonLd, breadcrumbJsonLd]} />
       <ProductDetailView product={product} related={relatedFiltered} reviews={reviews} techDocs={techDocs} customTabs={customTabs} />
     </main>
   );

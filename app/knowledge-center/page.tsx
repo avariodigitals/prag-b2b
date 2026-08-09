@@ -3,14 +3,24 @@ export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import BlogGrid from '@/components/BlogGrid';
+import JsonLd from '@/components/JsonLd';
 import { getPosts, getPostCategories } from '@/lib/wordpress';
 import { HIDDEN_KNOWLEDGE_SLUGS } from '@/lib/seoTaxonomy';
+import { getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Knowledge Center',
-  description: 'Practical guides, honest comparisons, and expert insights from PRAG\'s engineering team.',
-  alternates: { canonical: 'https://www.prag.global/knowledge-center' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/knowledge-center');
+  const seo = resolveStaticSeo('/knowledge-center', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 interface Props {
   searchParams: Promise<{ category?: string; page?: string }>;
@@ -31,6 +41,10 @@ export default async function KnowledgeCenterPage({ searchParams }: Props) {
 
   return (
     <main className="w-full bg-white flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Knowledge Center', url: `${SITE_BASE}/knowledge-center` },
+      ])} />
       <div className="w-full bg-stone-50 flex flex-col items-center gap-4 px-6 md:px-10 lg:px-20 breadcrumb-hero-shell">
         <h1 className="breadcrumb-title-lock text-center max-w-2xl">
           Understand Power.<br />Make Better Decisions.

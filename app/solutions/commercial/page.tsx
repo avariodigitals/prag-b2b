@@ -3,20 +3,23 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
 import ProblemsCarousel from '@/components/ProblemsCarousel';
+import JsonLd from '@/components/JsonLd';
 import { getSolutionCategoryContent } from '@/lib/solutions';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Commercial Power Solutions',
-  description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
-  alternates: { canonical: 'https://www.prag.global/solutions/commercial' },
-  openGraph: {
-    title: 'Commercial Power Solutions',
-    description: 'Efficient and reliable power solutions built to support daily business operations without interruption.',
-    url: 'https://www.prag.global/solutions/commercial',
-    type: 'website',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions/commercial');
+  const seo = resolveStaticSeo('/solutions/commercial', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 export default async function CommercialSolutionsPage() {
   const content = await getSolutionCategoryContent('commercial');
@@ -47,6 +50,11 @@ export default async function CommercialSolutionsPage() {
 
   return (
     <main className="w-full flex flex-col">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Solutions', url: `${SITE_BASE}/solutions` },
+        { name: 'Commercial', url: `${SITE_BASE}/solutions/commercial` },
+      ])} />
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-4 text-center px-6 bg-stone-50">
         <h1 className="breadcrumb-title-lock leading-tight max-w-2xl">
           {content.heroTitle}

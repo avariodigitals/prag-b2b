@@ -3,19 +3,22 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
+import JsonLd from '@/components/JsonLd';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
-export const metadata: Metadata = {
-  title: 'Power Solutions',
-  description: 'From industrial plants to residential homes, we engineer power systems that never let you down.',
-  alternates: { canonical: 'https://www.prag.global/solutions' },
-  openGraph: {
-    title: 'Power Solutions',
-    description: 'From industrial plants to residential homes, we engineer power systems that never let you down.',
-    url: 'https://www.prag.global/solutions',
-    type: 'website',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions');
+  const seo = resolveStaticSeo('/solutions', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 const SOLUTIONS = [
   {
@@ -95,6 +98,10 @@ export default async function SolutionsPage() {
 
   return (
     <main className="w-full">
+      <JsonLd data={buildBreadcrumbJsonLd([
+        { name: 'Home', url: `${SITE_BASE}/` },
+        { name: 'Solutions', url: `${SITE_BASE}/solutions` },
+      ])} />
       {/* Hero */}
       <div className="breadcrumb-hero-shell flex flex-col items-center gap-3 text-center px-4 sm:px-6 bg-stone-50">
         <h1 className="breadcrumb-title-lock">

@@ -37,16 +37,18 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "PRAG - Nigeria's Leading Power Engineering Company.",
-    template: '%s - PRAG',
+    default: 'PRAG – Inverters, Stabilizers, Batteries & Solar Solutions in Nigeria',
+    template: '%s | PRAG',
   },
-  description: 'Enterprise power engineering solutions across Nigeria.',
+  description:
+    'Discover PRAG inverters, voltage stabilizers, lithium batteries and solar solutions for homes, businesses and industries across Nigeria.',
   metadataBase: new URL('https://www.prag.global'),
   alternates: { canonical: 'https://www.prag.global' },
   manifest: '/manifest.json',
   openGraph: {
-    title: 'PRAG – Nigeria\'s Leading Power Engineering Company',
-    description: 'Enterprise power engineering solutions across Nigeria.',
+    title: 'PRAG – Inverters, Stabilizers, Batteries & Solar Solutions in Nigeria',
+    description:
+      'Discover PRAG inverters, voltage stabilizers, lithium batteries and solar solutions for homes, businesses and industries across Nigeria.',
     url: 'https://www.prag.global/',
     siteName: 'PRAG',
     images: [
@@ -54,15 +56,16 @@ export const metadata: Metadata = {
         url: 'https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png',
         width: 1200,
         height: 630,
-        alt: 'PRAG – Nigeria\'s Leading Power Engineering Company',
+        alt: 'PRAG – Inverters, Stabilizers, Batteries & Solar Solutions in Nigeria',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PRAG – Nigeria\'s Leading Power Engineering Company',
-    description: 'Enterprise power engineering solutions across Nigeria.',
+    title: 'PRAG – Inverters, Stabilizers, Batteries & Solar Solutions in Nigeria',
+    description:
+      'Discover PRAG inverters, voltage stabilizers, lithium batteries and solar solutions for homes, businesses and industries across Nigeria.',
     images: ['https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png'],
   },
 };
@@ -94,7 +97,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
         {gtmId && (
           <Script
-            id="b2b-gtm-loader"
+            id="prag-gtm-loader"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`,
@@ -105,7 +108,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
             <Script
-              id="b2b-ga-init"
+              id="prag-ga-init"
               strategy="afterInteractive"
               dangerouslySetInnerHTML={{
                 __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}');`,
@@ -137,7 +140,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <div className="mx-auto mb-5 relative w-28 h-9">
                   <Image
                     src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
-                    alt="PRAG B2B"
+                    alt="PRAG"
                     fill
                     className="object-contain"
                     priority
