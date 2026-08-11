@@ -210,7 +210,7 @@ export const getProducts = unstable_cache(
 export const getProductBySlug = unstable_cache(
   async (slug: string): Promise<Product | null> => {
     const res = await fetchWithRetry(
-      `${baseUrl()}/products?slug=${slug}&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
+      `${baseUrl()}/products?slug=${slug}&status=publish&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
       { next: { revalidate: 120 } },
       FETCH_TIMEOUT_MS,
       2

@@ -58,7 +58,7 @@ async function lookupShopProduct(productSlug: string): Promise<ShopProductLookup
     const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
     const auth = `consumer_key=${process.env.WC_CONSUMER_KEY}&consumer_secret=${process.env.WC_CONSUMER_SECRET}`;
 
-    const productRes = await fetch(`${wpApi}/wc/v3/products?slug=${productSlug}&${auth}`, {
+    const productRes = await fetch(`${wpApi}/wc/v3/products?slug=${productSlug}&status=publish&${auth}`, {
       next: { revalidate: 300 },
     });
 
