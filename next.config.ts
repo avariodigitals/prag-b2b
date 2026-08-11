@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  env: {
+    // Lets the client Turnstile component detect preview deployments and use
+    // Cloudflare's test sitekey (production sitekey rejects *.vercel.app hosts).
+    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV ?? '',
+  },
   // Let middleware handle trailing-slash normalisation so legacy URLs with
   // trailing slashes redirect in ONE hop instead of two (308 normalise + 301
   // legacy redirect). The middleware strips the trailing slash, checks
