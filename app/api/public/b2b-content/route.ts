@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -23,23 +21,6 @@ function resolveB2BAdminBaseUrl() {
     if (candidate && candidate.trim()) return candidate.replace(/\/$/, '');
   }
   return null;
-}
-
-async function readLocalB2BStore() {
-  try {
-    const localStorePath = path.resolve(process.cwd(), '..', 'Prag-Admin', '.admin-data', 'b2b-admin-config.json');
-    const raw = await fs.readFile(localStorePath, 'utf8');
-    const parsed = JSON.parse(raw) as B2BStoreShape;
-    return {
-      settings: parsed.settings,
-      caseStudies: parsed.caseStudies,
-      solutions: parsed.solutions,
-      pages: Array.isArray(parsed.pages) ? parsed.pages : [],
-      updatedAt: parsed.audit?.[0]?.at ?? new Date().toISOString(),
-    };
-  } catch {
-    return null;
-  }
 }
 
 function resolveWordPressApiUrl() {
@@ -95,17 +76,9 @@ async function readWordPressB2BStore() {
 }
 
 export async function GET() {
-  const useWordPressContent = process.env.B2B_USE_WORDPRESS_CONTENT === 'true';
-  const localData = (!useWordPressContent && process.env.NODE_ENV !== 'production') ? await readLocalB2BStore() : null;
-  if (localData) {
-    return NextResponse.json(localData, {
-      headers: {
-        'Cache-Control': 's-maxage=60, stale-while-revalidate=300',
-        'X-B2B-Content-Source': 'local-store',
-      },
-    });
-  }
-
+  // Local-file fallback removed — production WordPress is the single source of
+  // truth. Local dev now mirrors production so localhost content can never
+  // diverge from the live site.
   const baseUrl = resolveB2BAdminBaseUrl();
 
   if (baseUrl) {

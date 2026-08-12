@@ -1,5 +1,3 @@
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import { unstable_cache } from 'next/cache';
 import type { SeoOverrideMap } from '@/lib/seoMeta';
 
@@ -209,17 +207,6 @@ function mapStoreToPublicContent(store: LocalB2BStoreShape): PublicB2BContent {
   };
 }
 
-async function getB2BContentFromLocalStore(): Promise<PublicB2BContent | null> {
-  try {
-    const localStorePath = path.resolve(process.cwd(), '..', 'Prag-Admin', '.admin-data', 'b2b-admin-config.json');
-    const raw = await fs.readFile(localStorePath, 'utf8');
-    const parsed = JSON.parse(raw) as LocalB2BStoreShape;
-    return mapStoreToPublicContent(parsed);
-  } catch {
-    return null;
-  }
-}
-
 async function getB2BContentFromAdminPublicApi(baseUrl: string): Promise<PublicB2BContent | null> {
   try {
     const res = await fetch(`${baseUrl}/api/public/b2b-content`, {
@@ -381,13 +368,9 @@ function sanitizeB2BContent(content: PublicB2BContent): PublicB2BContent {
 }
 
 async function getB2BPublicContentFresh(): Promise<PublicB2BContent | null> {
-  // Local file fallback is useful in local dev, but avoid it in production where
-  // the Prag-Admin workspace path does not exist and adds unnecessary latency.
-  if (process.env.NODE_ENV !== 'production') {
-    const localContent = await getB2BContentFromLocalStore();
-    if (localContent) return sanitizeB2BContent(localContent);
-  }
-
+  // Local-file fallback removed — production WordPress is the single source of
+  // truth. Local dev now mirrors production so localhost content can never
+  // diverge from the live site.
   const baseUrl = resolveB2BAdminBaseUrl();
   if (baseUrl) {
     const adminContent = await getB2BContentFromAdminPublicApi(baseUrl);
