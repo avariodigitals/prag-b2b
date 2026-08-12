@@ -17,6 +17,12 @@ function cleanHtml(html: string) {
     .replace(/javascript:/gi, '')
     .replace(/<img[^>]*>/gi, '')
     .replace(/<p>\s*<\/p>/gi, '')
+    // Convert non-breaking spaces to regular spaces so text wraps normally.
+    // Some WooCommerce descriptions have &nbsp; between every word (pasted
+    // from rich text editors), which prevents line breaking and causes
+    // horizontal overflow.
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\u00a0/g, ' ')
     .trim();
 }
 

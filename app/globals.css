@@ -108,10 +108,15 @@
   font-family: var(--font-dm-sans), sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: #ffffff;
   color: #1a1a1a;
   font-family: var(--font-onest), sans-serif;
+  overflow-x: hidden;
 }
 
 /* ── Product description prose styles ── */
@@ -121,6 +126,8 @@ body {
   font-weight: 400;
   color: #475367;
   line-height: 1.7;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .product-prose p {
@@ -164,6 +171,8 @@ body {
   font-size: 1rem;
   line-height: 1.75;
   color: #475367;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .wp-content p {
