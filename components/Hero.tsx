@@ -39,7 +39,7 @@ export default async function Hero() {
   const titleLines = hero.title.replace(/\r\n/g, '\n').split('\n');
 
   return (
-    <section className="relative overflow-hidden w-full min-h-[420px] md:h-[704px] flex flex-col justify-center items-center md:items-start text-center md:text-left px-4 sm:px-6 md:px-20 pt-[150px] md:pt-[100px] pb-10">
+    <section className="relative overflow-hidden w-full min-h-[420px] md:min-h-[704px] flex flex-col justify-center items-center md:items-start text-center md:text-left px-4 sm:px-6 md:px-20 pt-[150px] md:pt-[100px] pb-10">
       <div
         className="absolute inset-x-0 top-0 h-full bg-cover bg-bottom bg-no-repeat md:hidden"
         style={{

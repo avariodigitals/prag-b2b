@@ -439,12 +439,12 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
             </Link>
           </div>
 
-          <div className="flex flex-col items-center gap-8 py-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left">
-            <p className="w-full text-[0.95rem] leading-[1.45] text-white/78 md:w-auto md:text-[1.05rem]">
+          <div className="flex flex-col items-center gap-8 py-8 text-center lg:flex-row lg:justify-between lg:gap-6 lg:text-left">
+            <p className="w-full text-[0.95rem] leading-[1.45] text-white/78 lg:w-auto lg:text-[1.05rem]">
               {footerCopyright}
             </p>
 
-            <div className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 text-[0.95rem] leading-[1.4] text-white/78 md:w-auto md:flex-nowrap md:gap-x-2 md:gap-y-0 md:text-[1.05rem]">
+            <div className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 text-[0.95rem] leading-[1.4] text-white/78 lg:w-auto lg:flex-nowrap lg:gap-x-2 lg:gap-y-0 lg:text-[1.05rem]">
               {legalLinks.map((link, index) => (
                 <span key={link.label} className="flex items-center gap-3">
                   {index > 0 && <span className="text-white/40">|</span>}

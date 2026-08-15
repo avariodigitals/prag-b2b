@@ -177,9 +177,9 @@ export default async function AboutPage() {
           </div>
 
           {/* Image (left) + text (right) */}
-          <div className="flex flex-col md:flex-row items-start gap-8 md:gap-10 w-full">
+          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-10 w-full">
             {/* n_79ae4: 539×499px, border-radius 24px */}
-            <div className="relative w-full md:w-[539px] h-64 md:h-[499px] rounded-[24px] overflow-hidden shrink-0">
+            <div className="relative w-full lg:w-[539px] h-64 lg:h-[499px] rounded-[24px] overflow-hidden shrink-0">
               <img
                 src={storyImage}
                 alt="Our Story"

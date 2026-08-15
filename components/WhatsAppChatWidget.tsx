@@ -78,7 +78,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
   return (
     <div className="fixed right-6 bottom-8 z-50 flex flex-col items-end gap-3">
       {open && (
-        <div className="w-[280px] overflow-hidden rounded-2xl border border-emerald-100 bg-white/95 shadow-2xl backdrop-blur">
+        <div className="w-[280px] max-w-[calc(100vw-3rem)] overflow-hidden rounded-2xl border border-emerald-100 bg-white/95 shadow-2xl backdrop-blur">
           <div className="bg-gradient-to-br from-[#25D366] to-[#12B76A] px-4 py-3 text-white flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-lg md:text-xl font-semibold font-['Onest'] truncate">{title}</p>

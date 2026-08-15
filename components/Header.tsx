@@ -377,15 +377,19 @@ function MobileMenu({
   cta: { label: string; href: string };
 }) {
   return (
-    <>
+    <div
+      className={`lg:hidden fixed inset-0 z-50 overflow-hidden ${open ? '' : 'pointer-events-none'}`}
+      aria-hidden={!open}
+      inert={!open}
+    >
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`lg:hidden fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}
       />
       {/* Tray */}
       <div
-        className={`lg:hidden fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`absolute top-0 right-0 bottom-0 w-4/5 max-w-sm bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -426,7 +430,7 @@ function MobileMenu({
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
