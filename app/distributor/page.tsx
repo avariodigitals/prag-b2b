@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import DistributorForm from '@/components/DistributorForm';
 import type { Metadata } from 'next';
 import { SentenceText } from '@/lib/sentenceText';

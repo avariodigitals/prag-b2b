@@ -8,10 +8,8 @@ const EMPTY_FORM = {
   name: '',
   phone: '',
   email: '',
-  preferredContactMethod: '',
 };
 
-const CONTACT_METHODS = ['WhatsApp', 'Email', 'Phone'];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^[+\d\s\-(). ]{7,25}$/;
 const INJECTION_RE = /<script|javascript:|on\w+\s*=|<iframe|<object|<embed|<svg/i;
@@ -24,9 +22,8 @@ interface Toast {
 function validate(form: typeof EMPTY_FORM): string | null {
   if (!form.name.trim() || form.name.trim().length > 100) return 'Enter a valid name (max 100 characters).';
   if (INJECTION_RE.test(form.name)) return 'Name contains invalid characters.';
-  if (!EMAIL_RE.test(form.email.trim())) return 'Enter a valid email address.';
   if (!PHONE_RE.test(form.phone)) return 'Enter a valid phone / WhatsApp number.';
-  if (!CONTACT_METHODS.includes(form.preferredContactMethod)) return 'Select a preferred contact method.';
+  if (form.email.trim() && !EMAIL_RE.test(form.email.trim())) return 'Enter a valid email address.';
   return null;
 }
 
@@ -103,7 +100,6 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
     const message = [
       'Free Power Assessment Request',
       `Phone / WhatsApp Number: ${form.phone.trim()}`,
-      `Preferred Contact Method: ${form.preferredContactMethod}`,
     ].join('\n');
 
     const result = await submitContactForm({
@@ -168,31 +164,14 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelCls}>Email *</label>
+          <label className={labelCls}>Email <span className="text-zinc-400 font-normal">(optional)</span></label>
           <input
-            required
             type="email"
             value={form.email}
             onChange={set('email')}
             className={inputCls}
             aria-label="Email"
           />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label className={labelCls}>Preffered Contact Method *</label>
-          <select
-            required
-            value={form.preferredContactMethod}
-            onChange={set('preferredContactMethod')}
-            className={inputCls}
-            aria-label="Preffered Contact Method"
-          >
-            <option value=""></option>
-            {CONTACT_METHODS.map((method) => (
-              <option key={method} value={method}>{method}</option>
-            ))}
-          </select>
         </div>
 
         <Turnstile onVerify={onVerify} resetKey={turnstileResetKey} />

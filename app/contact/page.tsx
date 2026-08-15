@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getStores, getSiteSettings } from '@/lib/woocommerce';

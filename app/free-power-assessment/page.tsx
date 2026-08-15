@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from 'next';
 import FreePowerAssessmentForm from '@/components/FreePowerAssessmentForm';
 import { SentenceText } from '@/lib/sentenceText';

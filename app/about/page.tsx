@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import CountUp from '@/components/CountUp';
 import type { Metadata } from 'next';
 import { SentenceText } from '@/lib/sentenceText';
