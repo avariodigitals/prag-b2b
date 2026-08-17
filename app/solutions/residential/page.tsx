@@ -29,9 +29,9 @@ export default async function ResidentialSolutionsPage() {
   const content = await getSolutionCategoryContent('residential');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('residential');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('residential', b2bContent?.solutionBodies?.['residential']);
   const page = findB2BPage(b2bContent, '/solutions/residential');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 

@@ -29,9 +29,9 @@ export default async function IndustrialSolutionsPage() {
   const content = await getSolutionCategoryContent('industrial');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('industrial');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('industrial', b2bContent?.solutionBodies?.['industrial']);
   const page = findB2BPage(b2bContent, '/solutions/industrial');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 

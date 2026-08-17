@@ -29,9 +29,9 @@ export default async function BackupPowerPage() {
   const content = await getSolutionCategoryContent('backup-power');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('backup-power');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('backup-power', b2bContent?.solutionBodies?.['backup-power']);
   const page = findB2BPage(b2bContent, '/solutions/backup-power');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 

@@ -29,9 +29,9 @@ export default async function CommercialSolutionsPage() {
   const content = await getSolutionCategoryContent('commercial');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('commercial');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('commercial', b2bContent?.solutionBodies?.['commercial']);
   const page = findB2BPage(b2bContent, '/solutions/commercial');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 

@@ -12,6 +12,7 @@
  */
 
 import type { CatLink, Paragraph, Section, Faq, Segment } from '@/lib/categoryContent';
+import type { PublicB2BSolutionBodyOverride } from '@/lib/b2bContent';
 
 export type { CatLink, Paragraph, Section, Faq, Segment };
 
@@ -352,6 +353,36 @@ export const SOLUTION_BODY: Record<string, SolutionBody> = {
   },
 };
 
-export function getSolutionBody(slug: string): SolutionBody | undefined {
-  return SOLUTION_BODY[slug];
+export function getSolutionBody(slug: string, adminOverride?: PublicB2BSolutionBodyOverride | null): SolutionBody | undefined {
+  const fallback = SOLUTION_BODY[slug];
+  if (!adminOverride || (!adminOverride.sections?.length && !adminOverride.faqs?.length)) {
+    return fallback;
+  }
+
+  // Start from fallback to preserve proofLinks and CTAs (which stay hardcoded)
+  const base: SolutionBody = fallback ?? {
+    sections: [],
+    primaryCta: { label: 'Request a power assessment', href: '/free-power-assessment' },
+    secondaryCta: { label: 'Talk to a PRAG Engineer', href: '/contact' },
+  };
+
+  // Override sections if admin has any
+  const sections: Section[] = (adminOverride.sections ?? []).map((s) => ({
+    id: s.id,
+    heading: s.heading,
+    paragraphs: [{ segments: [s.body] }],
+    list: s.list,
+  }));
+
+  // Override FAQs if admin has any
+  const faqs: Faq[] = (adminOverride.faqs ?? []).map((f) => ({
+    question: f.question,
+    answer: f.answer,
+  }));
+
+  return {
+    ...base,
+    sections: sections.length > 0 ? sections : base.sections,
+    faqs: faqs.length > 0 ? faqs : base.faqs,
+  };
 }

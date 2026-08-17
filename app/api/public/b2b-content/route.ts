@@ -7,6 +7,7 @@ type B2BStoreShape = {
   settings?: unknown;
   caseStudies?: unknown;
   solutions?: unknown;
+  solutionBodies?: unknown;
   pages?: unknown;
   audit?: Array<{ at?: string }>;
 };
@@ -67,6 +68,7 @@ async function readWordPressB2BStore() {
       settings: store.settings,
       caseStudies: store.caseStudies,
       solutions: store.solutions,
+      solutionBodies: store.solutionBodies,
       pages: Array.isArray(store.pages) ? store.pages : [],
       updatedAt: store.audit?.[0]?.at ?? new Date().toISOString(),
     };

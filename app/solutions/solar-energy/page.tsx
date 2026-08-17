@@ -29,9 +29,9 @@ export default async function SolarEnergyPage() {
   const content = await getSolutionCategoryContent('solar-energy');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('solar-energy');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('solar-energy', b2bContent?.solutionBodies?.['solar-energy']);
   const page = findB2BPage(b2bContent, '/solutions/solar-energy');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 

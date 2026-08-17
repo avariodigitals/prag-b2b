@@ -134,6 +134,25 @@ export interface PublicB2BContactSettings {
   };
 }
 
+export interface PublicB2BSolutionBodySection {
+  id?: string;
+  heading: string;
+  body: string;
+  list?: string[];
+}
+
+export interface PublicB2BSolutionBodyFaq {
+  question: string;
+  answer: string;
+}
+
+export interface PublicB2BSolutionBodyOverride {
+  sections: PublicB2BSolutionBodySection[];
+  faqs: PublicB2BSolutionBodyFaq[];
+}
+
+export type PublicB2BSolutionBodyOverrideMap = Record<string, PublicB2BSolutionBodyOverride>;
+
 export interface PublicB2BContent {
   settings?: {
     contact?: PublicB2BContactSettings;
@@ -145,6 +164,7 @@ export interface PublicB2BContent {
   };
   caseStudies?: unknown;
   solutions?: unknown;
+  solutionBodies?: PublicB2BSolutionBodyOverrideMap;
   pages?: PublicB2BPage[];
   seoOverrides?: SeoOverrideMap;
   updatedAt?: string;
@@ -154,6 +174,7 @@ interface LocalB2BStoreShape {
   settings?: PublicB2BContent['settings'];
   caseStudies?: unknown;
   solutions?: unknown;
+  solutionBodies?: PublicB2BSolutionBodyOverrideMap;
   pages?: PublicB2BPage[];
   seoOverrides?: SeoOverrideMap;
   audit?: Array<{ at?: string }>;
@@ -164,6 +185,7 @@ interface WordPressAdminConfigShape {
   settings?: PublicB2BContent['settings'];
   caseStudies?: unknown;
   solutions?: unknown;
+  solutionBodies?: PublicB2BSolutionBodyOverrideMap;
   pages?: PublicB2BPage[];
   seoOverrides?: SeoOverrideMap;
   audit?: Array<{ at?: string }>;
@@ -201,6 +223,7 @@ function mapStoreToPublicContent(store: LocalB2BStoreShape): PublicB2BContent {
     settings: store.settings,
     caseStudies: store.caseStudies,
     solutions: store.solutions,
+    solutionBodies: store.solutionBodies && typeof store.solutionBodies === 'object' ? store.solutionBodies : undefined,
     pages: Array.isArray(store.pages) ? store.pages : [],
     seoOverrides: store.seoOverrides && typeof store.seoOverrides === 'object' ? store.seoOverrides : undefined,
     updatedAt: store.audit?.[0]?.at ?? new Date().toISOString(),

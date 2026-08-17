@@ -29,9 +29,9 @@ export default async function VoltageStabilizationProtectionPage() {
   const content = await getSolutionCategoryContent('voltage-stabilization-protection');
   const activeProblems = content.problems.filter((problem) => problem.active);
   const problems = activeProblems.length > 0 ? activeProblems : content.problems;
-  const body = getSolutionBody('voltage-stabilization-protection');
 
   const b2bContent = await getB2BPublicContent();
+  const body = getSolutionBody('voltage-stabilization-protection', b2bContent?.solutionBodies?.['voltage-stabilization-protection']);
   const page = findB2BPage(b2bContent, '/solutions/voltage-stabilization-protection');
   const cardSections = findVisibleSectionsByType(page, 'solution-card');
 
