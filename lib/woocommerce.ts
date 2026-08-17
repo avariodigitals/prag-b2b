@@ -50,7 +50,7 @@ export interface Category {
 }
 
 const FETCH_TIMEOUT_MS = 7000;
-const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,images,categories,tags,attributes';
+const PRODUCT_LIST_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,featured,stock_status,date_created,short_description,images,categories,tags,attributes';
 const PRODUCT_DETAIL_FIELDS = 'id,name,slug,sku,permalink,price,regular_price,sale_price,on_sale,stock_status,date_created,short_description,description,images,categories,tags,attributes,dimensions,weight';
 const CATEGORY_FIELDS = 'id,name,slug,count,parent';
 
@@ -204,6 +204,103 @@ export const getProducts = unstable_cache(
     }
   },
   ['b2b-products-list'],
+  { revalidate: 120, tags: ['b2b-products-list'] }
+);
+
+const B2B_FETCH_PAGE_SIZE = 100;
+
+/**
+ * Fetch ALL products by paginating through every page.
+ * Use this instead of getProducts({ per_page: N }) when you need the
+ * complete set (e.g. the "All" tab on /products).
+ */
+export const getAllProducts = unstable_cache(
+  async (): Promise<{ products: Product[]; total: number }> => {
+    const buildQs = (page: number) => new URLSearchParams({
+      status: 'publish',
+      per_page: String(B2B_FETCH_PAGE_SIZE),
+      page: String(page),
+      _fields: PRODUCT_LIST_FIELDS,
+      orderby: 'title',
+      order: 'asc',
+    });
+
+    const firstRes = await fetchWithRetry(`${baseUrl()}/products?${buildQs(1)}&${authParams()}`, {
+      next: { revalidate: 600 },
+    }, FETCH_TIMEOUT_MS, 2);
+    if (!firstRes || !firstRes.ok) throw new Error('Failed to fetch all products');
+    const firstText = await firstRes.text();
+    if (!firstText.startsWith('[')) throw new Error('Product fetch returned non-array response');
+    const firstProducts = JSON.parse(firstText) as Product[];
+    const total = Number(firstRes.headers.get('X-WP-Total') ?? 0);
+
+    if (total <= firstProducts.length) {
+      return { products: firstProducts, total };
+    }
+
+    const totalPages = Math.ceil(total / B2B_FETCH_PAGE_SIZE);
+    const rest = await Promise.all(
+      Array.from({ length: Math.max(totalPages - 1, 0) }, (_, i) => i + 2).map(async (pageNumber) => {
+        const res = await fetchWithRetry(`${baseUrl()}/products?${buildQs(pageNumber)}&${authParams()}`, {
+          next: { revalidate: 600 },
+        }, FETCH_TIMEOUT_MS, 2);
+        if (!res || !res.ok) return [] as Product[];
+        const text = await res.text();
+        if (!text.startsWith('[')) return [] as Product[];
+        return JSON.parse(text) as Product[];
+      })
+    );
+
+    return { products: [...firstProducts, ...rest.flat()], total };
+  },
+  ['b2b-all-products'],
+  { revalidate: 120, tags: ['b2b-products-list'] }
+);
+
+/**
+ * Fetch ALL products for a given category by paginating through every page.
+ */
+export const getAllProductsForCategory = unstable_cache(
+  async (categoryId: number | string): Promise<{ products: Product[]; total: number }> => {
+    const buildQs = (page: number) => new URLSearchParams({
+      status: 'publish',
+      category: String(categoryId),
+      per_page: String(B2B_FETCH_PAGE_SIZE),
+      page: String(page),
+      _fields: PRODUCT_LIST_FIELDS,
+      orderby: 'title',
+      order: 'asc',
+    });
+
+    const firstRes = await fetchWithRetry(`${baseUrl()}/products?${buildQs(1)}&${authParams()}`, {
+      next: { revalidate: 600 },
+    }, FETCH_TIMEOUT_MS, 2);
+    if (!firstRes || !firstRes.ok) throw new Error('Failed to fetch products for category');
+    const firstText = await firstRes.text();
+    if (!firstText.startsWith('[')) throw new Error('Product fetch returned non-array response');
+    const firstProducts = JSON.parse(firstText) as Product[];
+    const total = Number(firstRes.headers.get('X-WP-Total') ?? 0);
+
+    if (total <= firstProducts.length) {
+      return { products: firstProducts, total };
+    }
+
+    const totalPages = Math.ceil(total / B2B_FETCH_PAGE_SIZE);
+    const rest = await Promise.all(
+      Array.from({ length: Math.max(totalPages - 1, 0) }, (_, i) => i + 2).map(async (pageNumber) => {
+        const res = await fetchWithRetry(`${baseUrl()}/products?${buildQs(pageNumber)}&${authParams()}`, {
+          next: { revalidate: 600 },
+        }, FETCH_TIMEOUT_MS, 2);
+        if (!res || !res.ok) return [] as Product[];
+        const text = await res.text();
+        if (!text.startsWith('[')) return [] as Product[];
+        return JSON.parse(text) as Product[];
+      })
+    );
+
+    return { products: [...firstProducts, ...rest.flat()], total };
+  },
+  ['b2b-all-products-for-category'],
   { revalidate: 120, tags: ['b2b-products-list'] }
 );
 

@@ -3,7 +3,7 @@ import ProductsView from '@/components/ProductsView';
 import JsonLd from '@/components/JsonLd';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
-import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, searchProducts, type Product } from '@/lib/woocommerce';
+import { getCategories, getCategoryOrder, getHiddenCategories, getAllProducts, getAllProductsForCategory, getSubcategoryOrder, searchProducts, type Product } from '@/lib/woocommerce';
 import { APPROVED_CATEGORIES, hasApprovedCategory, preferredProductCategory } from '@/lib/seoTaxonomy';
 import { resolveStaticSeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, SITE_BASE } from '@/lib/seoMeta';
 
@@ -81,7 +81,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             const cat = categories.find((c) => c.slug === slug);
             if (!cat) return [] as Product[];
             try {
-              const { products } = await getProducts({ category_id: cat.id, per_page: 100, orderby: 'title', order: 'asc' });
+              const { products } = await getAllProductsForCategory(cat.id);
               return products;
             } catch {
               return [] as Product[];
@@ -94,17 +94,17 @@ export default async function ProductsPage({ searchParams }: Props) {
           });
           return { products: Array.from(deduped.values()), total: deduped.size };
         })
-      : getProducts({ per_page: 100, orderby: 'title', order: 'asc' })
+      : getAllProducts()
           .catch(() => ({ products: [] as Product[], total: 0 }))
           .then((result) => ({ products: filterApproved(result.products), total: filterApproved(result.products).length }));
 
   // Fetch all products + per-category in parallel
-  const [{ products: allProducts }, ...categoryResults] = await Promise.all([
+  const [{ products: baseAllProducts }, ...categoryResults] = await Promise.all([
     baseAllProductsPromise,
     ...visibleCategorySlugs.map(slug => {
       const cat = visibleCategories.find(c => c.slug === slug);
       return cat
-        ? getProducts({ category_id: cat.id, per_page: 50, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 }))
+        ? getAllProductsForCategory(cat.id).catch(() => ({ products: [] as Product[], total: 0 }))
         : Promise.resolve({ products: [] as Product[], total: 0 });
     }),
   ]);
@@ -137,11 +137,28 @@ export default async function ProductsPage({ searchParams }: Props) {
   });
 
   const subResults = await Promise.all(
-    subcategories.map(sub => getProducts({ category_id: sub.id, per_page: 50, orderby: 'title', order: 'asc' }).catch(() => ({ products: [] as Product[], total: 0 })))
+    subcategories.map(sub => getAllProductsForCategory(sub.id).catch(() => ({ products: [] as Product[], total: 0 })))
   );
   subcategories.forEach((sub, i) => {
     productsByCategory[sub.slug] = subResults[i].products;
   });
+
+  // "All" tab: merge the union of all category + subcategory products with the
+  // base fetch so newly added products in any subcategory always appear.
+  let allProducts = baseAllProducts;
+  if (!query && validRequestedCats.length === 0) {
+    const union = new Map<number, Product>();
+    for (const products of Object.values(productsByCategory)) {
+      for (const product of products) {
+        if (!union.has(product.id)) union.set(product.id, product);
+      }
+    }
+    // Include products from the base fetch (handles uncategorized / straddling)
+    for (const product of allProducts) {
+      if (!union.has(product.id)) union.set(product.id, product);
+    }
+    allProducts = Array.from(union.values());
+  }
 
   return (
     <main className="w-full bg-white flex flex-col">
