@@ -380,7 +380,6 @@ function MobileMenu({
     <div
       className={`lg:hidden fixed inset-0 z-50 overflow-hidden ${open ? '' : 'pointer-events-none'}`}
       aria-hidden={!open}
-      inert={!open}
     >
       {/* Backdrop */}
       <div

@@ -3,16 +3,25 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import SolutionProductTabs from '@/components/SolutionProductTabs';
 import { getProductsForCategoryCode } from '@/app/solutions/residential/_data';
+import { resolveStaticSeo, buildMetadata, getAdminSeoOverride } from '@/lib/seoMeta';
+import { getB2BPublicContent } from '@/lib/b2bContent';
 
 interface Props {
   searchParams: Promise<{ tab?: string }>;
 }
 
-export const metadata: Metadata = {
-  title: 'Home Backup Power',
-  description: 'Complete backup systems, inverters, and batteries for reliable residential power continuity.',
-  alternates: { canonical: 'https://www.prag.global/solutions/residential/home-backup-power' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getB2BPublicContent();
+  const override = getAdminSeoOverride(content?.seoOverrides, '/solutions/residential/home-backup-power');
+  const seo = resolveStaticSeo('/solutions/residential/home-backup-power', override);
+  return buildMetadata({
+    title: seo.title,
+    description: seo.description,
+    canonical: seo.canonical,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+  });
+}
 
 export default async function HomeBackupPowerPage({ searchParams }: Props) {
   const sp = await searchParams;
@@ -50,14 +59,12 @@ export default async function HomeBackupPowerPage({ searchParams }: Props) {
       </div>
 
       <div className="w-full px-6 md:px-20 py-10">
-        <div className="max-w-[1280px] mx-auto">
-          <SolutionProductTabs
-            basePath="/solutions/residential/home-backup-power"
-            tabs={tabs}
-            activeTab={sp.tab}
-            emptyMessage="No products available in this Home Backup Power tab yet."
-          />
-        </div>
+        <SolutionProductTabs
+          basePath="/solutions/residential/home-backup-power"
+          tabs={tabs}
+          activeTab={sp.tab}
+          emptyMessage="No products available in this Home Backup Power tab yet."
+        />
       </div>
     </main>
   );

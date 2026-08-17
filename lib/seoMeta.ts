@@ -418,6 +418,84 @@ export const ROUTE_SEO_CONFIG: Record<string, RouteSeoConfig> = {
     ],
     pageType: 'solution',
   },
+  '/solutions/residential/home-backup-power': {
+    seoTitle: 'Home Backup Power in Nigeria – Inverters, Batteries & Backup Systems | PRAG',
+    seoDescription:
+      'Complete home backup power systems, inverters and batteries from PRAG — keep your home powered through outages across Nigeria.',
+    primaryKeyword: 'home backup power Nigeria',
+    secondaryKeywords: [
+      'home inverter',
+      'home battery backup',
+      'backup power system',
+      'power outage solution',
+    ],
+    pageType: 'solution',
+  },
+  '/solutions/residential/home-solar-systems': {
+    seoTitle: 'Home Solar Systems in Nigeria – Residential Solar Bundles | PRAG',
+    seoDescription:
+      'PRAG home solar systems — complete residential solar bundles with inverters and batteries for cleaner, cost-efficient energy in Nigeria.',
+    primaryKeyword: 'home solar systems Nigeria',
+    secondaryKeywords: [
+      'residential solar',
+      'home solar panels',
+      'solar bundle',
+      'solar for home',
+    ],
+    pageType: 'solution',
+  },
+  '/solutions/residential/power-stabilization-protection': {
+    seoTitle: 'Residential Voltage Stabilizers & Protection – Home Power Stabilization | PRAG',
+    seoDescription:
+      'PRAG residential voltage stabilizers — relay, servo, thyristor and advanced stabilizers that protect home appliances from voltage fluctuations in Nigeria.',
+    primaryKeyword: 'home voltage stabilizer',
+    secondaryKeywords: [
+      'residential stabilizer',
+      'home power protection',
+      'voltage fluctuation home',
+      'appliance protection',
+    ],
+    pageType: 'solution',
+  },
+  '/solutions/commercial/office-backup-power': {
+    seoTitle: 'Office Backup Power in Nigeria – Commercial Backup Systems | PRAG',
+    seoDescription:
+      'Complete office backup power systems, inverters and batteries from PRAG — keep business operations running through outages across Nigeria.',
+    primaryKeyword: 'office backup power Nigeria',
+    secondaryKeywords: [
+      'commercial backup power',
+      'business inverter',
+      'office UPS system',
+      'backup power business',
+    ],
+    pageType: 'solution',
+  },
+  '/solutions/commercial/power-stabilization-protection': {
+    seoTitle: 'Commercial Voltage Stabilizers & Protection – Business Power Stabilization | PRAG',
+    seoDescription:
+      'PRAG commercial voltage stabilizers — relay, servo, thyristor and advanced stabilizers that protect business equipment from voltage fluctuations in Nigeria.',
+    primaryKeyword: 'commercial voltage stabilizer',
+    secondaryKeywords: [
+      'business power protection',
+      'commercial stabilizer',
+      'office voltage regulation',
+      'equipment protection business',
+    ],
+    pageType: 'solution',
+  },
+  '/solutions/commercial/solar-for-businesses': {
+    seoTitle: 'Solar for Businesses in Nigeria – Commercial Solar Solutions | PRAG',
+    seoDescription:
+      'PRAG commercial solar solutions — complete solar bundles with inverters and batteries designed to reduce operating costs and fuel dependence for Nigerian businesses.',
+    primaryKeyword: 'solar for business Nigeria',
+    secondaryKeywords: [
+      'commercial solar',
+      'business solar panels',
+      'solar for office',
+      'commercial solar bundle',
+    ],
+    pageType: 'solution',
+  },
   '/about': {
     seoTitle: 'About PRAG – Nigeria Power Engineering Company Founded in 2012 | PRAG',
     seoDescription:
