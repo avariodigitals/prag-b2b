@@ -111,6 +111,7 @@ export interface PublicB2BIntegrationsSettings {
   searchConsoleVerification?: string;
   zohoOneScript?: string;
   customDomainHook?: string;
+  metaPixelId?: string;
   whatsappChatEnabled?: boolean;
   whatsappChatNumber?: string;
   whatsappChatText?: string;

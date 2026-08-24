@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { submitContactForm } from '@/lib/woocommerce';
+import { trackLead } from '@/lib/metaPixel';
 import Turnstile from './Turnstile';
 
 const EMPTY_FORM = {
@@ -115,6 +116,7 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
     setSending(false);
 
     if (result.success) {
+      trackLead({ content_name: 'Free Power Assessment' });
       setForm(EMPTY_FORM);
       setTurnstileToken('');
       setTurnstileResetKey((k) => k + 1);

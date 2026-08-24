@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { trackLead } from '@/lib/metaPixel';
 import Turnstile from './Turnstile';
 
 async function submitTechnicalSupport(data: {
@@ -104,6 +105,7 @@ export default function TechnicalSupportForm() {
     const result = await submitTechnicalSupport({ ...form, turnstileToken });
     setSending(false);
     if (result.success) {
+      trackLead({ content_name: 'Technical Support', content_category: form.enquiry_type || 'Support' });
       setForm(EMPTY_FORM);
       setTurnstileToken('');
       setTurnstileResetKey((k) => k + 1);

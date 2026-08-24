@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { trackLead } from '@/lib/metaPixel';
 import Turnstile from './Turnstile';
 
 const TIERS = ['Authorized Dealer', 'Certified Installer', 'Product Reseller'];
@@ -88,6 +89,7 @@ export default function DistributorForm() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        trackLead({ content_name: 'Distributor Application', content_category: form.tier || 'Distributor' });
         setStatus('sent');
       } else {
         setStatus('idle');

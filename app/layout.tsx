@@ -96,6 +96,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const launchMessage = launch?.message?.trim() || 'We are preparing updates. Please check back shortly.';
   const gaId = integrations?.googleAnalyticsId?.trim() || 'G-K0XL81C7CK';
   const gtmId = integrations?.googleTagManagerId?.trim() || '';
+  const metaPixelId = integrations?.metaPixelId?.trim() || '';
   const searchConsoleVerification = integrations?.searchConsoleVerification?.trim() || '';
   const zohoOneScript = integrations?.zohoOneScript?.trim() || '';
   const customDomainHook = integrations?.customDomainHook?.trim() || '';
@@ -130,6 +131,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               }}
             />
           </>
+        )}
+        {metaPixelId && (
+          <Script
+            id="prag-meta-pixel"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${metaPixelId}');fbq('track','PageView');`,
+            }}
+          />
         )}
       </head>
       <body className={`${onest.variable} ${spaceGrotesk.variable} ${dmSans.variable} antialiased flex flex-col min-h-screen`} suppressHydrationWarning>

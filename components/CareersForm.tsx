@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { submitCareersForm } from '@/lib/woocommerce';
+import { trackLead } from '@/lib/metaPixel';
 import Turnstile from './Turnstile';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -245,6 +246,7 @@ export default function CareersForm() {
     setSending(false);
 
     if (result.success) {
+      trackLead({ content_name: 'Careers Application' });
       setSubmitted(true);
       setTurnstileToken('');
       setTurnstileResetKey((k) => k + 1);
