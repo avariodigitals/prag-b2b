@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import {
   ArrowDown,
   ArrowUp,
@@ -61,53 +62,15 @@ function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
 }
 
 export const metadata: Metadata = {
-  title: {
-    absolute: 'Voltage Stabilizers in Nigeria – Buy PRAG Stabilizers for Home, Office & Industry',
-  },
-  description:
-    'Get stable voltage with PRAG stabilizers. Protect appliances and equipment from low, high and fluctuating voltage. Free voltage assessment and WhatsApp support.',
-  alternates: { canonical: CANONICAL },
-  robots: { index: true, follow: true },
-  keywords: [
-    'voltage stabilizer Nigeria',
-    'buy voltage stabilizer',
-    'PRAG stabilizer',
-    'home stabilizer',
-    'commercial stabilizer',
-    'industrial stabilizer',
-    'voltage regulator',
-    'servo stabilizer',
-    'relay stabilizer',
-    'thyristor stabilizer',
-    'voltage protection',
-    'power fluctuation solution',
-  ],
-  openGraph: {
-    title: 'Voltage Stabilizers in Nigeria – Buy PRAG Stabilizers for Home, Office & Industry',
-    description:
-      'Get stable voltage with PRAG stabilizers. Protect appliances and equipment from low, high and fluctuating voltage. Free voltage assessment and WhatsApp support.',
-    url: CANONICAL,
-    siteName: 'PRAG',
-    type: 'website',
-    images: [
-      {
-        url: HERO_IMAGE_FALLBACK,
-        width: 500,
-        height: 500,
-        alt: 'PRAG voltage stabilizer',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Voltage Stabilizers in Nigeria – Buy PRAG Stabilizers for Home, Office & Industry',
-    description:
-      'Get stable voltage with PRAG stabilizers. Protect appliances and equipment from low, high and fluctuating voltage. Free voltage assessment and WhatsApp support.',
-    images: [HERO_IMAGE_FALLBACK],
-  },
+  title: { absolute: 'Not Found' },
+  robots: { index: false, follow: false },
 };
 
 export default async function VoltageStabilizerLandingPage() {
+  // This page is disabled from public view and SEO.
+  // Kept in the repo for reference / future iteration.
+  notFound();
+
   const b2bContent = await getB2BPublicContent();
 
   const settings = b2bContent?.settings;
