@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Script from 'next/script';
 import './globals.css';
 import CookieConsentLoader from '@/components/CookieConsentLoader';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
+import Header from '@/components/Header';
 import JsonLd from '@/components/JsonLd';
+import RouteAwareShell from '@/components/RouteAwareShell';
+import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
 // Site-wide Organization structured data. Rendered in the root layout so
@@ -146,7 +147,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <JsonLd data={organizationJsonLd} />
         <CookieConsentLoader />
         {scripts?.head && <script dangerouslySetInnerHTML={{ __html: scripts.head }} />}
-        {!launchEnabled && <Header settings={settings} />}
         {gtmId && (
           <noscript>
             <iframe
@@ -177,11 +177,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
             </main>
           ) : (
-            children
+            <RouteAwareShell
+              header={<Header settings={settings} />}
+              footer={<Footer settings={settings} />}
+              whatsapp={<WhatsAppChatWidget settings={settings} />}
+            >
+              {children}
+            </RouteAwareShell>
           )}
         </div>
-        {!launchEnabled && <WhatsAppChatWidget settings={settings} />}
-        {!launchEnabled && <Footer settings={settings} />}
         {scripts?.footer && <script dangerouslySetInnerHTML={{ __html: scripts.footer }} />}
         {customDomainHook && <script dangerouslySetInnerHTML={{ __html: customDomainHook }} />}
       </body>

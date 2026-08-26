@@ -118,7 +118,7 @@ export default function B2BProductCard({ product, listingMode = false }: Props) 
             href={detailsHref}
             className="px-5 py-2 bg-[#0166a5] rounded-full text-white text-sm font-medium font-['Space_Grotesk'] text-center hover:bg-[#015490] transition-colors whitespace-nowrap"
           >
-            Learn more
+            View details
           </Link>
           {!listingMode && (
             <a
