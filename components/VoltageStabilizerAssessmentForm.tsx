@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { trackLead } from '@/lib/metaPixel';
 
 interface Props {
   whatsappNumber: string;
@@ -83,6 +84,7 @@ export default function VoltageStabilizerAssessmentForm({ whatsappNumber }: Prop
     const number = (whatsappNumber || '2348032170129').replace(/\D/g, '');
     const href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
     window.open(href, '_blank', 'noopener,noreferrer');
+    trackLead({ content_name: 'Voltage Stabilizer Assessment', content_category: form.property });
     setSending(false);
   }
 

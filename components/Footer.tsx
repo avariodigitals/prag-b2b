@@ -295,7 +295,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
 
           <div className="mt-6 pb-8 md:mt-[40px] md:grid md:grid-cols-[228px_minmax(0,1fr)] md:gap-10 md:pb-7 lg:gap-10">
             <div className="md:self-start md:border-r md:border-white md:pr-6">
-              <div className="relative mt-[5px] h-[34px] w-[118px] md:mt-0 md:h-[38px] md:w-[128px]">
+              <Link href="/" aria-label="PRAG home" className="relative mt-[5px] block h-[34px] w-[118px] md:mt-0 md:h-[38px] md:w-[128px]">
                 <Image
                   src="/images/PRAGC70a-A01aT07a-Z%202.png"
                   alt="PRAG"
@@ -303,7 +303,7 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
                   className="object-contain object-left brightness-0 invert"
                   sizes="136px"
                 />
-              </div>
+              </Link>
 
               <div className="mt-3 space-y-3 text-[1.05rem] leading-[1.24] text-white/92 md:text-[1.02rem]">
                 <p>{footerTagline}</p>
