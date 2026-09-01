@@ -142,7 +142,7 @@ export default async function VoltageStabilizerLandingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#071a2f] via-[#0a2b4a] to-[#0a4f7c] opacity-90" />
         <div className="relative w-full px-8 sm:px-12 lg:px-16 py-5 md:py-10 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1 flex flex-col gap-6">
+            <div className="order-2 lg:order-1 flex flex-col items-center text-center lg:items-start lg:text-left gap-6 pt-6 lg:pt-0">
               <p className="tracking-widest uppercase" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '16px', lineHeight: '20px', fontWeight: 800, fontStyle: 'normal', color: 'rgb(248, 162, 78)' }}>
                 PRAG Voltage Stabilizers
               </p>
@@ -153,6 +153,18 @@ export default async function VoltageStabilizerLandingPage() {
               <p className="text-zinc-300 max-w-xl" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '16px', lineHeight: '24px', fontWeight: 400, fontStyle: 'normal' }}>
                 Whether your voltage is low, high or constantly fluctuating, a PRAG voltage stabilizer corrects it to a stable level—and protects your connected appliances and equipment at the same time.
               </p>
+              <div className="block lg:hidden w-full">
+                <div className="relative w-full max-w-[280px] aspect-[4/3] overflow-hidden mx-auto">
+                  <Image
+                    src="/images/20kva-hero.png"
+                    alt="PRAG 20KVA Thyristor Voltage Stabilizer"
+                    fill
+                    className="object-contain"
+                    sizes="280px"
+                    priority
+                  />
+                </div>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <a
                   href="#free-assessment"
@@ -174,36 +186,36 @@ export default async function VoltageStabilizerLandingPage() {
               </div>
               <div className="mt-8 grid grid-cols-3 border-t border-white/10 pt-6">
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
-                  <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                  <p className="flex flex-col items-center justify-center sm:flex-row sm:items-baseline sm:justify-center lg:justify-start gap-0.5 sm:gap-2">
                     <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">36</span>
                     <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">STATES</span>
                   </p>
-                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Trusted Across Nigeria</p>
+                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center lg:text-left">Trusted Across Nigeria</p>
                 </div>
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
-                  <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                  <p className="flex flex-col items-center justify-center sm:flex-row sm:items-baseline sm:justify-center lg:justify-start gap-0.5 sm:gap-2">
                     <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">15+</span>
                     <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">YEARS</span>
                   </p>
-                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Power Expertise</p>
+                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center lg:text-left">Power Expertise</p>
                 </div>
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
-                  <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                  <p className="flex flex-col items-center justify-center sm:flex-row sm:items-baseline sm:justify-center lg:justify-start gap-0.5 sm:gap-2">
                     <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">50K+</span>
                     <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">INSTALLATIONS</span>
                   </p>
-                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Nationwide</p>
+                  <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center lg:text-left">Nationwide</p>
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end mt-4 sm:mt-0">
-              <div className="relative w-full max-w-[280px] md:max-w-[560px] aspect-[4/3] overflow-hidden">
+            <div className="hidden lg:order-2 lg:flex relative items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-[560px] aspect-[4/3] overflow-hidden">
                 <Image
                   src="/images/20kva-hero.png"
                   alt="PRAG 20KVA Thyristor Voltage Stabilizer"
                   fill
                   className="object-contain"
-                  sizes="(max-width: 768px) 280px, 560px"
+                  sizes="560px"
                   priority
                 />
               </div>
