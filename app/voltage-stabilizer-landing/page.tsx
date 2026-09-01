@@ -140,7 +140,7 @@ export default async function VoltageStabilizerLandingPage() {
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-[#071a2f]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#071a2f] via-[#0a2b4a] to-[#0a4f7c] opacity-90" />
-        <div className="relative w-full px-8 sm:px-12 lg:px-16 py-5 md:py-10 lg:py-14">
+        <div className="relative w-full px-8 sm:px-12 lg:px-16 py-5 md:py-10 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="order-2 lg:order-1 flex flex-col gap-6">
               <p className="tracking-widest uppercase" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '16px', lineHeight: '20px', fontWeight: 800, fontStyle: 'normal', color: 'rgb(248, 162, 78)' }}>
@@ -196,14 +196,14 @@ export default async function VoltageStabilizerLandingPage() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end">
-              <div className="relative w-full aspect-[4/3] overflow-hidden">
+            <div className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end mt-4 sm:mt-0">
+              <div className="relative w-full max-w-[280px] md:max-w-[560px] aspect-[4/3] overflow-hidden">
                 <Image
                   src="/images/20kva-hero.png"
                   alt="PRAG 20KVA Thyristor Voltage Stabilizer"
                   fill
                   className="object-contain"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 280px, 560px"
                   priority
                 />
               </div>
