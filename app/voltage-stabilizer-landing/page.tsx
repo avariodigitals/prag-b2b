@@ -140,9 +140,9 @@ export default async function VoltageStabilizerLandingPage() {
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-[#071a2f]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#071a2f] via-[#0a2b4a] to-[#0a4f7c] opacity-90" />
-        <div className="relative w-full px-8 sm:px-12 lg:px-16 py-14 md:py-20 lg:py-24">
+        <div className="relative w-full px-8 sm:px-12 lg:px-16 py-5 md:py-10 lg:py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="flex flex-col gap-6">
+            <div className="order-2 lg:order-1 flex flex-col gap-6">
               <p className="tracking-widest uppercase" style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '16px', lineHeight: '20px', fontWeight: 800, fontStyle: 'normal', color: 'rgb(248, 162, 78)' }}>
                 PRAG Voltage Stabilizers
               </p>
@@ -175,29 +175,29 @@ export default async function VoltageStabilizerLandingPage() {
               <div className="mt-8 grid grid-cols-3 border-t border-white/10 pt-6">
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
                   <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-                    <span className="text-lg sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">36</span>
-                    <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">STATES</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">36</span>
+                    <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">STATES</span>
                   </p>
                   <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Trusted Across Nigeria</p>
                 </div>
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
                   <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-                    <span className="text-lg sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">15+</span>
-                    <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">YEARS</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">15+</span>
+                    <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">YEARS</span>
                   </p>
                   <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Power Expertise</p>
                 </div>
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
                   <p className="flex flex-col items-center sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-                    <span className="text-lg sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">50K+</span>
-                    <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">INSTALLATIONS</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">50K+</span>
+                    <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">INSTALLATIONS</span>
                   </p>
                   <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center sm:text-left">Nationwide</p>
                 </div>
               </div>
             </div>
-            <div className="relative flex items-center justify-center lg:justify-end">
-              <div className="relative w-full aspect-square md:aspect-[4/3] overflow-hidden">
+            <div className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end">
+              <div className="relative w-full aspect-[4/3] overflow-hidden">
                 <Image
                   src="/images/20kva-hero.png"
                   alt="PRAG 20KVA Thyristor Voltage Stabilizer"
