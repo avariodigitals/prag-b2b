@@ -201,7 +201,7 @@ export default async function VoltageStabilizerLandingPage() {
                 </div>
                 <div className="px-1.5 sm:px-4 md:px-6 border-r border-white/10 last:border-r-0">
                   <p className="flex flex-col items-center justify-center sm:flex-row sm:items-baseline sm:justify-center lg:justify-start gap-0.5 sm:gap-2">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">50K+</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#7BB7FF] font-['Arial, Helvetica, sans-serif'] leading-none">38K+</span>
                     <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-normal sm:tracking-wider text-white font-['Arial, Helvetica, sans-serif']">INSTALLATIONS</span>
                   </p>
                   <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-zinc-400 font-['Arial, Helvetica, sans-serif'] text-center lg:text-left">Nationwide</p>
