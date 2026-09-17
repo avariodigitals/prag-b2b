@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SentenceText } from '@/lib/sentenceText';
@@ -81,10 +80,12 @@ export default async function SolarEnergyPage() {
                 className="rounded-2xl border border-zinc-300 bg-white flex flex-col overflow-hidden hover:border-[#0166a5]/40 hover:shadow-sm transition-colors"
               >
                 <div className="relative w-full h-48 md:h-52 overflow-hidden">
-                  <img
+                  <Image
                     src={card.image}
                     alt={card.imageAlt || card.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="p-6 md:p-7 flex flex-col gap-4 flex-1">

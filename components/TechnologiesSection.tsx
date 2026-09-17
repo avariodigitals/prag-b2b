@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -159,10 +160,12 @@ export default function TechnologiesSection() {
                   background: 'linear-gradient(179.15deg, rgba(102,102,102,0.2) 12.01%, rgba(0,0,0,1) 99.26%)',
                 }}
               >
-                <img
+                <Image
                   src={tech.image}
                   alt={tech.name}
-                  className="absolute inset-0 w-full h-full object-contain p-8 pb-28 md:p-16 md:pb-24 group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 600px"
+                  className="object-contain p-8 pb-28 md:p-16 md:pb-24 group-hover:scale-105 transition-transform duration-300"
                 />
                 {/* Gradient overlay */}
                 <div

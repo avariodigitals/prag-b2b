@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -124,7 +122,7 @@ export default async function SolutionsPage() {
             >
             {/* Image */}
             <div className={`w-full h-[240px] sm:h-[300px] md:h-[450px] rounded-xl overflow-hidden relative ${s.imageLeft ? 'md:order-1' : 'md:order-2'}`}>
-              <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
+              <Image src={s.image} alt={s.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
 
             {/* Content */}

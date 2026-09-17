@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo } from 'react';
 import Link from 'next/link';
 import type { CaseStudiesContent } from '@/lib/caseStudies';
@@ -59,10 +60,12 @@ export default function InstallationsView({ content }: { content: CaseStudiesCon
                 className={`relative w-full lg:w-[52%] lg:max-w-none shrink-0 h-[280px] sm:h-[340px] lg:h-auto lg:min-h-[500px] rounded-2xl overflow-hidden
                             ${!item.imageLeft ? 'md:order-2' : 'md:order-1'}`}
               >
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={item.imageAlt || item.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 52vw"
+                  className="object-cover"
                 />
               </div>
 

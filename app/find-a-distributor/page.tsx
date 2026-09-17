@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getStores } from '@/lib/woocommerce';
 import { formatPhone } from '@/lib/formatPhone';
 
@@ -78,7 +79,7 @@ export default async function FindADistributorPage() {
                 <div key={store.id} className="p-5 bg-white border border-zinc-300 rounded-2xl flex flex-col gap-4">
                   <h3 className="text-sky-700 text-base font-bold font-['Onest']">{store.name}</h3>
                   <div className="flex-1 flex items-center justify-center py-4">
-                    <img src={store.logo!.src} alt={store.logo!.alt} className="max-h-14 w-auto object-contain" />
+                    <Image src={store.logo!.src} alt={store.logo!.alt} width={0} height={0} sizes="200px" unoptimized className="max-h-14 w-auto h-auto object-contain" />
                   </div>
                   <a href={store.map_url} target="_blank" rel="noopener noreferrer"
                     className="w-full py-2.5 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Onest'] rounded-lg text-center transition-colors">
@@ -99,7 +100,7 @@ export default async function FindADistributorPage() {
                 <div key={store.id} className="p-5 bg-white border border-zinc-300 rounded-2xl flex flex-col gap-4">
                   <h3 className="text-sky-700 text-base font-bold font-['Onest']">{store.name}</h3>
                   <div className="flex-1 flex items-center justify-center py-4">
-                    <img src={store.logo!.src} alt={store.logo!.alt} className="max-h-14 w-auto object-contain" />
+                    <Image src={store.logo!.src} alt={store.logo!.alt} width={0} height={0} sizes="200px" unoptimized className="max-h-14 w-auto h-auto object-contain" />
                   </div>
                   <a href={store.map_url} target="_blank" rel="noopener noreferrer"
                     className="w-full py-2.5 border border-sky-700 text-sky-700 hover:bg-sky-50 text-sm font-semibold font-['Onest'] rounded-lg text-center transition-colors">

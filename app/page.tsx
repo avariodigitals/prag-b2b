@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
 import ProblemsSection from '@/components/ProblemsSection';

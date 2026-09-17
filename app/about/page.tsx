@@ -1,7 +1,6 @@
-export const dynamic = 'force-dynamic';
-
 import CountUp from '@/components/CountUp';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { SentenceText } from '@/lib/sentenceText';
 import JsonLd from '@/components/JsonLd';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
@@ -149,10 +148,12 @@ export default async function AboutPage() {
 
               {/* Image — n_b9386: border-radius 24px */}
               <div className="relative w-full h-64 md:h-[499px] rounded-[24px] overflow-hidden">
-                <img
+                <Image
                   src={aboutImage}
                   alt="PRAG solar installation"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -180,10 +181,12 @@ export default async function AboutPage() {
           <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-10 w-full">
             {/* n_79ae4: 539×499px, border-radius 24px */}
             <div className="relative w-full lg:w-[539px] h-64 lg:h-[499px] rounded-[24px] overflow-hidden shrink-0">
-              <img
+              <Image
                 src={storyImage}
                 alt="Our Story"
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 539px"
+                className="object-cover"
               />
             </div>
 
@@ -231,7 +234,7 @@ export default async function AboutPage() {
                 <div className="flex flex-col gap-3">
                   {/* Blue round frame containing pin icon — matches Figma value card */}
                   <div className="w-10 h-10 rounded-full bg-[#0166a5] flex items-center justify-center shrink-0">
-                    <img
+                    <Image
                       src="/images/pin-icon.svg"
                       alt=""
                       width={8}

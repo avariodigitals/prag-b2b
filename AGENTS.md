@@ -31,3 +31,30 @@ When left blank, verification is skipped (fail-open) so dev/forms keep working.
 
 Each route: (1) rate-limit check -> 429, (2) Turnstile verify -> 400, then existing logic.
 The captcha token is stripped before forwarding to WordPress / Prag-Admin.
+
+## Performance / Rendering (do not regress)
+- Pages are static/ISR by default (content revalidates every 60s via the
+  `b2b-public-content` cache in `lib/b2bContent.ts`, plus `/api/revalidate`
+  tags). Only query-driven pages stay dynamic (`/products`, `/products/[category]`,
+  `/knowledge-center`, `/resources`, `/compare`... and the `?tab=` solution
+  subpages). Do NOT add `force-dynamic` to content pages.
+- `middleware.ts` uses precompiled matchers (`splitRedirects`): exact-match
+  sources go in a Map, `:param` sources are compiled once at module scope.
+  Add redirects to `lib/redirects.ts` (LEGACY_REDIRECTS) — do not hand-roll
+  regex matching in middleware.
+- Admin-injected scripts (`settings.scripts.head/body/footer`,
+  `integrations.zohoOneScript`, `integrations.customDomainHook`) render via
+  `next/script` (deferred) in `app/layout.tsx` — they no longer block render.
+  Keep it that way; do not revert to raw `<script>` tags.
+- Always use `next/image` for content images. Only use `unoptimized` or raw
+  `<img>` for assets whose host is outside `**.prag.global`
+  (images.remotePatterns) — e.g. third-party store logos.
+
+## On-Demand Revalidation (Prag-Admin -> frontend)
+Prag-Admin calls `POST /api/revalidate?secret=...` with `{paths, tags}` after
+every save (`lib/revalidateFrontend.ts`, a `'use server'` module).
+`app/api/revalidate/route.ts` uses `revalidateTag(tag, { expire: 0 })` for
+immediate expiry (the `'max'` profile serves stale for ~5 min). Any `fetch()`
+inside an `unstable_cache` in `lib/woocommerce.ts` must set `next.tags`
+matching the wrapper's tag or `revalidateTag` won't reach the underlying
+fetch cache — tag names must match what Prag-Admin sends (`b2b-*` tags).

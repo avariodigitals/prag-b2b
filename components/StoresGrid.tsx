@@ -64,10 +64,14 @@ function OnlineChainCard({ name, logoSrc, logoAlt, href, buttonLabel }: OnlineCh
     <div className="flex flex-col gap-4 p-5 bg-white rounded-2xl border border-zinc-300">
       <h3 className="text-[#0166a5] text-[28px] font-bold font-['Onest'] leading-tight">{name}</h3>
       <div className="flex items-center justify-center h-[122px]">
-        <img
+        <Image
           src={logoSrc}
           alt={logoAlt}
-          className="max-h-[90px] max-w-full object-contain"
+          width={0}
+          height={0}
+          sizes="240px"
+          unoptimized
+          className="max-h-[90px] max-w-full w-auto h-auto object-contain"
         />
       </div>
       <a

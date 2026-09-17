@@ -3,30 +3,81 @@ import type { NextRequest } from 'next/server';
 import { fetchDynamicRedirects, LEGACY_REDIRECTS, RETIRED_URLS, type RedirectEntry } from './lib/redirects';
 import { APPROVED_CATEGORIES, preferredProductCategory } from './lib/seoTaxonomy';
 
+// --- Compiled redirect matchers (built once, not per request) ---
+interface CompiledRedirect {
+  entry: RedirectEntry;
+  regex: RegExp;
+  params: string[];
+}
+
+// Split a redirect list into a Map for exact-match sources (O(1) lookup —
+// the common case) and a small list of precompiled RegExps for sources that
+// contain :param segments. Avoids compiling ~160 regexes on every request.
+function splitRedirects(redirects: RedirectEntry[]) {
+  const exact = new Map<string, RedirectEntry>();
+  const patterns: CompiledRedirect[] = [];
+  for (const entry of redirects) {
+    const params = (entry.source.match(/:([^/]+)/g) ?? []).map((p) => p.slice(1));
+    if (params.length === 0) {
+      exact.set(entry.source, entry);
+    } else {
+      const pattern = entry.source.replace(/:([^/]+)/g, '([^/]+)');
+      patterns.push({ entry, regex: new RegExp(`^${pattern}$`), params });
+    }
+  }
+  return { exact, patterns };
+}
+
+const LEGACY_COMPILED = splitRedirects(LEGACY_REDIRECTS);
+
+function matchCompiled(pathname: string, compiled: CompiledRedirect): { destination: string; permanent: boolean; source: string } | null {
+  const match = pathname.match(compiled.regex);
+  if (!match) return null;
+  let destination = compiled.entry.destination;
+  compiled.params.forEach((param, index) => {
+    destination = destination.replace(`:${param}`, match[index + 1]);
+  });
+  return { destination, permanent: Boolean(compiled.entry.permanent), source: compiled.entry.source };
+}
+
 // --- In-memory cache for dynamic redirects (avoids fetching on every request) ---
-let cachedDynamicRedirects: RedirectEntry[] | null = null;
-let dynamicRedirectsFetchPromise: Promise<RedirectEntry[]> | null = null;
+interface DynamicRedirectCache {
+  exact: Map<string, RedirectEntry>;
+  patterns: CompiledRedirect[];
+}
+let cachedDynamicRedirects: DynamicRedirectCache | null = null;
+let dynamicRedirectsFetchPromise: Promise<DynamicRedirectCache> | null = null;
 let dynamicRedirectsExpiry = 0;
 const DYNAMIC_REDIRECTS_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
-function getDynamicRedirectsCached(): Promise<RedirectEntry[]> {
-  const now = Date.now();
-  if (cachedDynamicRedirects && now < dynamicRedirectsExpiry) {
-    return Promise.resolve(cachedDynamicRedirects);
-  }
-  // Deduplicate concurrent fetches
+function refreshDynamicRedirects(): Promise<DynamicRedirectCache> {
   if (!dynamicRedirectsFetchPromise) {
     dynamicRedirectsFetchPromise = fetchDynamicRedirects()
-      .catch(() => [] as RedirectEntry[])
+      .then((redirects) => splitRedirects(redirects))
+      .catch(() => splitRedirects([]))
       .finally(() => {
         dynamicRedirectsFetchPromise = null;
       });
-    dynamicRedirectsFetchPromise.then((redirects) => {
-      cachedDynamicRedirects = redirects;
+    dynamicRedirectsFetchPromise.then((compiled) => {
+      cachedDynamicRedirects = compiled;
       dynamicRedirectsExpiry = Date.now() + DYNAMIC_REDIRECTS_TTL_MS;
     });
   }
   return dynamicRedirectsFetchPromise;
+}
+
+function getDynamicRedirectsCached(): Promise<DynamicRedirectCache> {
+  const now = Date.now();
+  if (cachedDynamicRedirects && now < dynamicRedirectsExpiry) {
+    return Promise.resolve(cachedDynamicRedirects);
+  }
+  // Stale-while-revalidate: serve the stale list and refresh in the
+  // background so an expired cache never blocks a request on the network.
+  if (cachedDynamicRedirects) {
+    void refreshDynamicRedirects();
+    return Promise.resolve(cachedDynamicRedirects);
+  }
+  return refreshDynamicRedirects();
 }
 
 // --- In-memory cache for /shop/ product lookups ---
@@ -60,6 +111,7 @@ async function lookupShopProduct(productSlug: string): Promise<ShopProductLookup
 
     const productRes = await fetch(`${wpApi}/wc/v3/products?slug=${productSlug}&status=publish&${auth}`, {
       next: { revalidate: 300 },
+      signal: AbortSignal.timeout(5000),
     });
 
     if (productRes.ok) {
@@ -143,21 +195,16 @@ export async function middleware(req: NextRequest) {
   //   - Specific /shop/{slug} entries override the generic WC product lookup.
   //   - Curated redirects override conflicting admin-created dynamic redirects.
   try {
-    for (const redirect of LEGACY_REDIRECTS) {
-      const sourcePattern = redirect.source.replace(/:([^/]+)/g, '([^/]+)');
-      const regex = new RegExp(`^${sourcePattern}$`);
-      const match = pathname.match(regex);
-
-      if (match) {
-        trackRedirectHit(redirect.source, req.headers.get('host'), origin);
-
-        let destination = redirect.destination;
-        const paramNames = (redirect.source.match(/:([^/]+)/g) || []).map((p) => p.slice(1));
-        paramNames.forEach((param, index) => {
-          destination = destination.replace(`:${param}`, match[index + 1]);
-        });
-
-        return redirectResponse(destination, origin, search, redirect.permanent ? 301 : 302);
+    const exactHit = LEGACY_COMPILED.exact.get(pathname);
+    if (exactHit) {
+      trackRedirectHit(exactHit.source, req.headers.get('host'), origin);
+      return redirectResponse(exactHit.destination, origin, search, exactHit.permanent ? 301 : 302);
+    }
+    for (const compiled of LEGACY_COMPILED.patterns) {
+      const hit = matchCompiled(pathname, compiled);
+      if (hit) {
+        trackRedirectHit(hit.source, req.headers.get('host'), origin);
+        return redirectResponse(hit.destination, origin, search, hit.permanent ? 301 : 302);
       }
     }
   } catch (error) {
@@ -230,26 +277,16 @@ export async function middleware(req: NextRequest) {
   try {
     const dynamicRedirects = await getDynamicRedirectsCached();
 
-    for (const redirect of dynamicRedirects) {
-      if (redirect.source === pathname) {
-        trackRedirectHit(redirect.source, req.headers.get('host'), origin);
-        return redirectResponse(redirect.destination, origin, search, redirect.permanent ? 301 : 302);
-      }
-
-      const sourcePattern = redirect.source.replace(/:([^/]+)/g, '([^/]+)');
-      const regex = new RegExp(`^${sourcePattern}$`);
-      const match = pathname.match(regex);
-
-      if (match) {
-        trackRedirectHit(redirect.source, req.headers.get('host'), origin);
-
-        let destination = redirect.destination;
-        const paramNames = (redirect.source.match(/:([^/]+)/g) || []).map((p) => p.slice(1));
-        paramNames.forEach((param, index) => {
-          destination = destination.replace(`:${param}`, match[index + 1]);
-        });
-
-        return redirectResponse(redirect.destination, origin, search, redirect.permanent ? 301 : 302);
+    const exactHit = dynamicRedirects.exact.get(pathname);
+    if (exactHit) {
+      trackRedirectHit(exactHit.source, req.headers.get('host'), origin);
+      return redirectResponse(exactHit.destination, origin, search, exactHit.permanent ? 301 : 302);
+    }
+    for (const compiled of dynamicRedirects.patterns) {
+      const hit = matchCompiled(pathname, compiled);
+      if (hit) {
+        trackRedirectHit(hit.source, req.headers.get('host'), origin);
+        return redirectResponse(hit.destination, origin, search, hit.permanent ? 301 : 302);
       }
     }
   } catch (error) {

@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { notFound, redirect, permanentRedirect } from 'next/navigation';
 import ProductDetailView from '@/components/ProductDetailView';
 import JsonLd from '@/components/JsonLd';

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { SentenceText } from '@/lib/sentenceText';
 import { getCaseStudiesContent } from '@/lib/caseStudies';
 
@@ -73,10 +74,12 @@ export default async function CaseStudiesSection() {
               className="w-full p-4 sm:p-6 bg-white rounded-3xl border border-[#888888] flex flex-col lg:flex-row justify-start items-stretch gap-6"
             >
               <div className="relative w-full lg:w-[52%] lg:max-w-none shrink-0 h-[280px] sm:h-[340px] lg:h-auto lg:min-h-[500px] rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src={study.imageUrl}
                   alt={study.imageAlt || study.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 52vw"
+                  className="object-cover"
                 />
               </div>
 

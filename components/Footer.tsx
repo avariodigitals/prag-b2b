@@ -252,9 +252,11 @@ export default function Footer({ settings }: { settings?: PublicB2BContent['sett
           <div className="hidden rounded-[2px] border border-white bg-[#0d3d67] px-4 py-3 md:hidden">
             <div className="flex flex-col divide-y divide-white md:flex-row md:divide-x md:divide-y-0">
               <Link href="/contact" className="flex flex-1 items-center gap-3 py-3 first:pt-0 last:pb-0 md:px-4 md:py-1.5 md:first:pl-0 md:last:pr-0">
-                <img
+                <Image
                   src="/images/contact_support.png"
                   alt="Contact support"
+                  width={44}
+                  height={44}
                   className="h-10 w-10 shrink-0 md:h-11 md:w-11"
                 />
                 <div className="min-w-0">

@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 import { ManagedFAQSection } from '@/components/FAQ';

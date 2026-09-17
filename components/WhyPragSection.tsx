@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { SentenceText } from '@/lib/sentenceText';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
 
@@ -83,10 +84,12 @@ export default async function WhyPragSection() {
               key={r.title}
               className="relative min-h-[300px] sm:min-h-[340px] md:min-h-[380px] h-full rounded-2xl overflow-hidden group"
             >
-              <img
+              <Image
                 src={r.image}
                 alt={r.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               {/* Light base tint over whole card */}
               <div

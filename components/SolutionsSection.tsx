@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 function BoldFirstSentence({ text }: { text: string }) {
   let idx = -1;
   for (let i = 0; i < text.length - 1; i++) {
@@ -118,10 +119,12 @@ export default async function SolutionsSection() {
             >
               {/* Image */}
               <div className="relative w-full h-56 md:h-60 overflow-hidden rounded-tl-2xl rounded-tr-2xl">
-                <img
+                <Image
                   src={s.image}
                   alt={s.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 640px"
+                  className="object-cover"
                 />
               </div>
 

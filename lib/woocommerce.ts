@@ -90,7 +90,7 @@ async function wcFetch<T>(path: string, fallback: T): Promise<T> {
   try {
     const sep = path.includes('?') ? '&' : '?';
     const res = await fetchWithRetry(`${baseUrl()}${path}${sep}${authParams()}`, {
-      next: { revalidate: 600 },
+      next: { revalidate: 600, tags: ['b2b-categories'] },
     }, FETCH_TIMEOUT_MS, 1);
     if (!res) return fallback;
     if (!res.ok) return fallback;
@@ -115,7 +115,7 @@ export const getHiddenCategories = unstable_cache(
     try {
       const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 300, tags: ['b2b-site-settings'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res || !res.ok) return [];
       const data = await res.json();
@@ -133,7 +133,7 @@ export const getCategoryOrder = unstable_cache(
     try {
       const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 300, tags: ['b2b-site-settings'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res || !res.ok) return [];
       const data = await res.json();
@@ -151,7 +151,7 @@ export const getSubcategoryOrder = unstable_cache(
     try {
       const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${wpApi}/prag-core/v1/settings`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 300, tags: ['b2b-site-settings'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res || !res.ok) return {};
       const data = await res.json();
@@ -189,7 +189,7 @@ export const getProducts = unstable_cache(
     });
     try {
       const res = await fetchWithRetry(`${baseUrl()}/products?${qs}&${authParams()}`, {
-        next: { revalidate: 600 },
+        next: { revalidate: 600, tags: ['b2b-products-list'] },
       }, FETCH_TIMEOUT_MS, 2);
       if (!res) throw new Error('Product fetch failed (no response)');
       if (!res.ok) throw new Error(`Product fetch failed (HTTP ${res.status})`);
@@ -226,7 +226,7 @@ export const getAllProducts = unstable_cache(
     });
 
     const firstRes = await fetchWithRetry(`${baseUrl()}/products?${buildQs(1)}&${authParams()}`, {
-      next: { revalidate: 600 },
+      next: { revalidate: 600, tags: ['b2b-products-list'] },
     }, FETCH_TIMEOUT_MS, 2);
     if (!firstRes || !firstRes.ok) throw new Error('Failed to fetch all products');
     const firstText = await firstRes.text();
@@ -242,7 +242,7 @@ export const getAllProducts = unstable_cache(
     const rest = await Promise.all(
       Array.from({ length: Math.max(totalPages - 1, 0) }, (_, i) => i + 2).map(async (pageNumber) => {
         const res = await fetchWithRetry(`${baseUrl()}/products?${buildQs(pageNumber)}&${authParams()}`, {
-          next: { revalidate: 600 },
+          next: { revalidate: 600, tags: ['b2b-products-list'] },
         }, FETCH_TIMEOUT_MS, 2);
         if (!res || !res.ok) return [] as Product[];
         const text = await res.text();
@@ -273,7 +273,7 @@ export const getAllProductsForCategory = unstable_cache(
     });
 
     const firstRes = await fetchWithRetry(`${baseUrl()}/products?${buildQs(1)}&${authParams()}`, {
-      next: { revalidate: 600 },
+      next: { revalidate: 600, tags: ['b2b-products-list'] },
     }, FETCH_TIMEOUT_MS, 2);
     if (!firstRes || !firstRes.ok) throw new Error('Failed to fetch products for category');
     const firstText = await firstRes.text();
@@ -289,7 +289,7 @@ export const getAllProductsForCategory = unstable_cache(
     const rest = await Promise.all(
       Array.from({ length: Math.max(totalPages - 1, 0) }, (_, i) => i + 2).map(async (pageNumber) => {
         const res = await fetchWithRetry(`${baseUrl()}/products?${buildQs(pageNumber)}&${authParams()}`, {
-          next: { revalidate: 600 },
+          next: { revalidate: 600, tags: ['b2b-products-list'] },
         }, FETCH_TIMEOUT_MS, 2);
         if (!res || !res.ok) return [] as Product[];
         const text = await res.text();
@@ -308,7 +308,7 @@ export const getProductBySlug = unstable_cache(
   async (slug: string): Promise<Product | null> => {
     const res = await fetchWithRetry(
       `${baseUrl()}/products?slug=${slug}&status=publish&_fields=${PRODUCT_DETAIL_FIELDS}&${authParams()}`,
-      { next: { revalidate: 120 } },
+      { next: { revalidate: 120, tags: ['b2b-product-by-slug'] } },
       FETCH_TIMEOUT_MS,
       2
     );
@@ -327,7 +327,7 @@ export const getProductReviews = unstable_cache(
     try {
       const res = await fetchWithRetry(
         `${baseUrl()}/products/reviews?product=${productId}&per_page=10&status=approved&${authParams()}`,
-        { next: { revalidate: 3600 } },
+        { next: { revalidate: 3600, tags: ['b2b-product-reviews'] } },
         FETCH_TIMEOUT_MS,
         1
       );
@@ -353,7 +353,7 @@ export const getTechDocuments = unstable_cache(
   async (productId: number): Promise<TechDocument[]> => {
     try {
       const res = await fetchWithRetry(`${wpBase()}/prag_document?per_page=100&_fields=id,title,meta`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: 3600, tags: ['b2b-tech-documents'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res) return [];
       if (!res.ok) return [];
@@ -462,7 +462,7 @@ export const getSiteSettings = unstable_cache(
     try {
       const res = await fetchWithRetry(
         `${process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json'}/prag-core/v1/settings`,
-        { next: { revalidate: 3600 } },
+        { next: { revalidate: 3600, tags: ['b2b-site-settings'] } },
         FETCH_TIMEOUT_MS,
         1
       );
@@ -487,7 +487,7 @@ export const getStores = unstable_cache(
     try {
       const url = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${url}/wp/v2/prag_store?per_page=100&_fields=id,title,meta`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: 3600, tags: ['b2b-stores'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res) return [];
       if (!res.ok) return [];
@@ -552,7 +552,7 @@ export const getProductCustomTabs = unstable_cache(
     try {
       const wpApi = process.env.NEXT_PUBLIC_WP_API_URL ?? 'https://central.prag.global/wp-json';
       const res = await fetchWithRetry(`${wpApi}/prag-core/v1/products/${productId}/custom-tabs`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: 3600, tags: ['b2b-product-custom-tabs'] },
       }, FETCH_TIMEOUT_MS, 1);
       if (!res) return [];
       if (!res.ok) return [];
@@ -577,7 +577,7 @@ export const getAllProductSlugs = unstable_cache(
       while (hasMore) {
         const res = await fetchWithRetry(
           `${baseUrl()}/products?status=publish&per_page=${perPage}&page=${page}&_fields=slug,categories&${authParams()}`,
-          { next: { revalidate: 3600 } },
+          { next: { revalidate: 3600, tags: ['b2b-all-product-slugs'] } },
           FETCH_TIMEOUT_MS,
           1
         );

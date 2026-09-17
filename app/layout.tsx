@@ -146,7 +146,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${onest.variable} ${spaceGrotesk.variable} ${dmSans.variable} antialiased flex flex-col min-h-screen`} suppressHydrationWarning>
         <JsonLd data={organizationJsonLd} />
         <CookieConsentLoader />
-        {scripts?.head && <script dangerouslySetInnerHTML={{ __html: scripts.head }} />}
+        {scripts?.head && (
+          <Script
+            id="prag-admin-head-scripts"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{ __html: scripts.head }}
+          />
+        )}
         {gtmId && (
           <noscript>
             <iframe
@@ -157,8 +163,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
           </noscript>
         )}
-        {scripts?.body && <script dangerouslySetInnerHTML={{ __html: scripts.body }} />}
-        {zohoOneScript && <script dangerouslySetInnerHTML={{ __html: zohoOneScript }} />}
+        {scripts?.body && (
+          <Script
+            id="prag-admin-body-scripts"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{ __html: scripts.body }}
+          />
+        )}
+        {zohoOneScript && (
+          <Script
+            id="prag-zoho-one"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{ __html: zohoOneScript }}
+          />
+        )}
         <div className="flex-1 flex flex-col">
           {launchEnabled ? (
             <main className="flex-1 flex items-center justify-center px-6 py-20 bg-stone-50">
@@ -186,8 +204,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </RouteAwareShell>
           )}
         </div>
-        {scripts?.footer && <script dangerouslySetInnerHTML={{ __html: scripts.footer }} />}
-        {customDomainHook && <script dangerouslySetInnerHTML={{ __html: customDomainHook }} />}
+        {scripts?.footer && (
+          <Script
+            id="prag-admin-footer-scripts"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{ __html: scripts.footer }}
+          />
+        )}
+        {customDomainHook && (
+          <Script
+            id="prag-custom-domain-hook"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{ __html: customDomainHook }}
+          />
+        )}
       </body>
     </html>
   );

@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import Image from 'next/image';
 import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';

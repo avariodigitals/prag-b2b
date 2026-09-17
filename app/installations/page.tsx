@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
 import InstallationsView from '@/components/InstallationsView';
 import JsonLd from '@/components/JsonLd';

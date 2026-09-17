@@ -4,9 +4,10 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/lib/b2bContent';
-import { getCategories, getCategoryOrder, getHiddenCategories, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
+import { getCategories, getCategoryOrder, getHiddenCategories, getAllProductsForCategory, getProducts, getSubcategoryOrder, type Product, type Category } from '@/lib/woocommerce';
 import CategoryProductsGrid from '@/components/CategoryProductsGrid';
 import JsonLd from '@/components/JsonLd';
+import SlideOutChat from '@/components/SlideOutChat';
 import { APPROVED_CATEGORIES, EXCLUDED_CATEGORIES, REDIRECTED_CATEGORIES, isExcludedCategory } from '@/lib/seoTaxonomy';
 import { resolveCategorySeo, buildMetadata, buildBreadcrumbJsonLd, getAdminSeoOverride, CATEGORY_DISPLAY, SITE_BASE } from '@/lib/seoMeta';
 
@@ -153,16 +154,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const page = findB2BPage(content, `/products/${category}`);
   const hero = findVisibleSectionsByType(page, 'hero')[0];
 
+  // Fetch the full category set so the client-side size/price sort covers
+  // every product — paginating alphabetically here leaves small-kVA items
+  // (e.g. 5KVA stabilizers) stranded on later pages until infinite scroll fires.
   let products: Product[] = [];
   let total = 0;
   try {
-    const result = await getProducts({
-      category_id,
-      per_page: 16,
-      page: 1,
-      orderby: 'title',
-      order: 'asc',
-    });
+    const result = category_id
+      ? await getAllProductsForCategory(category_id)
+      : await getProducts({ per_page: 16, page: 1, orderby: 'title', order: 'asc' });
     products = result.products;
     total = result.total;
   } catch {
@@ -210,6 +210,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
           />
         </Suspense>
       </div>
+      <SlideOutChat settings={content?.settings} />
     </main>
   );
 }

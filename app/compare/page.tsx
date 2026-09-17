@@ -1,8 +1,6 @@
 import { getProducts, type Product } from '@/lib/woocommerce';
 import CompareView from '@/components/CompareView';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata = { title: 'Compare Products' };
 
 export default async function ComparePage() {

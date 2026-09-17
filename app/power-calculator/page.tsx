@@ -1,8 +1,6 @@
 import PowerCalculatorTool from '@/components/PowerCalculatorTool';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Power Calculator',
   description: 'Select your appliances and get an instant system size recommendation.',
