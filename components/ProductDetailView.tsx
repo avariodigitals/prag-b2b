@@ -73,7 +73,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
   const [activeImage, setActiveImage] = useState(0);
   const image = images[activeImage] ?? images[0];
   const buyNowHref = getShopProductUrl(product);
-  const whatsappOrderHref = `https://wa.me/2348032170129?text=${encodeURIComponent(`Hi, I'm interested in the ${product.name} (Qty: ${qty}). ${pageUrl}`)}`;
+  const whatsappOrderHref = `https://wa.me/2348032170129?text=${encodeURIComponent(`Hi, I'm interested in the ${product.name}. ${pageUrl}`)}`;
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
   const isOutOfStock = product.stock_status === 'outofstock' || !hasPrice;
