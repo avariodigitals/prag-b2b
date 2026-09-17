@@ -73,6 +73,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
   const [activeImage, setActiveImage] = useState(0);
   const image = images[activeImage] ?? images[0];
   const buyNowHref = getShopProductUrl(product);
+  const whatsappOrderHref = `https://wa.me/2348032170129?text=${encodeURIComponent(`Hi, I'm interested in the ${product.name} (Qty: ${qty}). ${pageUrl}`)}`;
   const numericPrice = Number(String(product.price ?? '').replace(/,/g, ''));
   const hasPrice = Number.isFinite(numericPrice) && numericPrice > 0;
   const isOutOfStock = product.stock_status === 'outofstock' || !hasPrice;
@@ -303,7 +304,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
                 </svg>
               </a>
               <a
-                href="https://wa.me/2348032170129"
+                href={whatsappOrderHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackLead({ content_name: product.name, content_category: 'Product — WhatsApp Order' })}
@@ -333,7 +334,7 @@ export default function ProductDetailView({ product, related, reviews, techDocs,
                 </svg>
               </a>
               <a
-                href="https://wa.me/2348032170129"
+                href={whatsappOrderHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackLead({ content_name: product.name, content_category: 'Product — WhatsApp Order' })}
