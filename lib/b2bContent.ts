@@ -412,11 +412,38 @@ export async function getB2BPublicContent(): Promise<PublicB2BContent | null> {
   if (process.env.NODE_ENV === 'development') {
     return getB2BPublicContentFresh();
   }
-  try {
-    return await getB2BPublicContentCached();
-  } catch {
-    return null;
+  const now = Date.now();
+  if (memContent && now - memContent.at < MEM_CONTENT_TTL_MS) {
+    return memContent.content;
   }
+  // Stale-while-revalidate: unstable_cache blocks the request when its entry
+  // expires, which stalls the root layout (and every page) on the upstream
+  // fetch — up to ~16s when both sources time out. Serve the last known
+  // content immediately and refresh it in the background instead.
+  if (memContent) {
+    void refreshPublicContent();
+    return memContent.content;
+  }
+  return refreshPublicContent();
+}
+
+const MEM_CONTENT_TTL_MS = B2B_PUBLIC_CONTENT_REVALIDATE_SECONDS * 1000;
+let memContent: { content: PublicB2BContent | null; at: number } | null = null;
+let memContentInflight: Promise<PublicB2BContent | null> | null = null;
+
+async function refreshPublicContent(): Promise<PublicB2BContent | null> {
+  if (!memContentInflight) {
+    memContentInflight = getB2BPublicContentCached()
+      .catch(() => null)
+      .then((content) => {
+        memContent = { content, at: Date.now() };
+        return content;
+      })
+      .finally(() => {
+        memContentInflight = null;
+      });
+  }
+  return memContentInflight;
 }
 
 const getB2BPublicContentCached = unstable_cache(async (): Promise<PublicB2BContent> => {

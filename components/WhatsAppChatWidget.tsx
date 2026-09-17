@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import type { PublicB2BContent } from '@/lib/b2bContent';
 
 function normalizeWhatsAppLink(raw: string) {
@@ -32,18 +32,18 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
   const integrations = settings?.integrations;
   const contact = settings?.contact;
 
-  const baseLink = useMemo(() => {
+  const baseLink = (() => {
     const number = (integrations?.whatsappChatNumber ?? '').replace(/\D/g, '');
     if (number) return `https://wa.me/${number}`;
     const raw = contact?.whatsapp?.trim() || 'https://wa.me/2348032170129';
     return normalizeWhatsAppLink(raw);
-  }, [integrations?.whatsappChatNumber, contact?.whatsapp]);
+  })();
 
   const title = integrations?.whatsappChatText?.trim() || 'Chat with us on WhatsApp';
   const subtitle = 'We typically reply within a few minutes.';
   const prefill = 'Hi PRAG, I need help.';
 
-  const options = useMemo(() => {
+  const options = (() => {
     const configured = Array.isArray(integrations?.whatsappChatOptions) ? integrations.whatsappChatOptions : [];
     const defaults = [
       { label: 'General Enquiries', subtitle: 'Ask anything', prefill: 'Hi PRAG, I have a general enquiry.', number: '2348032170129' },
@@ -62,7 +62,7 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
     }
 
     return defaults;
-  }, [integrations?.whatsappChatOptions, integrations?.whatsappChatNumber]);
+  })();
 
   if (!baseLink) return null;
 
@@ -103,12 +103,12 @@ export default function WhatsAppChatWidget({ settings }: { settings?: PublicB2BC
             </p>
 
             <div className="flex flex-col gap-2">
-              {options.map((option) => {
+              {options.map((option, idx) => {
                 const optionPrefill = option.prefill?.trim() || prefill;
                 const optionSubtitle = option.subtitle?.trim() || '';
                 return (
                   <button
-                    key={option.label}
+                    key={`${idx}-${option.label}`}
                     type="button"
                     onClick={() => openWhatsApp(option.number, optionPrefill)}
                     className="group rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-left transition-colors hover:border-emerald-200 hover:bg-emerald-50/60"

@@ -258,11 +258,11 @@ function DesktopMegaPanel({
             kind === 'company' ? '' : ''
           }`}
         >
-          {mainItems.map((item) => {
+          {mainItems.map((item, index) => {
             if (kind === 'company') {
               const Icon = getCompanyIcon(item.label);
               return (
-                <div key={item.href} className="contents">
+                <div key={`${item.href}-${index}`} className="contents">
                   <Link
                     href={item.href}
                     className="min-w-[170px] rounded-lg border border-zinc-300/70 bg-transparent px-2.5 py-2.5 flex flex-row items-center justify-start gap-2.5 text-left transition-colors"
@@ -278,7 +278,7 @@ function DesktopMegaPanel({
 
             return (
               <Link
-                key={item.href}
+                key={`${item.href}-${index}`}
                 href={item.href}
                 className="min-w-[150px] rounded-lg bg-transparent px-1.5 py-2 flex flex-col items-center justify-center gap-2 text-center transition-colors"
               >

@@ -7,7 +7,7 @@ import CookieConsentLoader from '@/components/CookieConsentLoader';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import JsonLd from '@/components/JsonLd';
-import RouteAwareShell from '@/components/RouteAwareShell';
+import ShellGate from '@/components/ShellGate';
 import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
 import { getB2BPublicContent } from '@/lib/b2bContent';
 
@@ -195,13 +195,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
             </main>
           ) : (
-            <RouteAwareShell
-              header={<Header settings={settings} />}
-              footer={<Footer settings={settings} />}
-              whatsapp={<WhatsAppChatWidget settings={settings} />}
-            >
+            <>
+              <ShellGate>
+                <Header settings={settings} />
+              </ShellGate>
               {children}
-            </RouteAwareShell>
+              <ShellGate>
+                <Footer settings={settings} />
+              </ShellGate>
+              <ShellGate>
+                <WhatsAppChatWidget settings={settings} />
+              </ShellGate>
+            </>
           )}
         </div>
         {scripts?.footer && (

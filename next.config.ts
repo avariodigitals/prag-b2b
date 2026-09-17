@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
         hostname: '**.prag.global',
       },
     ],
-    qualities: [75],
+    qualities: [75, 90],
     minimumCacheTTL: 86400,
     formats: ['image/avif', 'image/webp'],
   },
