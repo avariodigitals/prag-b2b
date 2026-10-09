@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
           body: (
             <p>
               Your data is handled in accordance with the{' '}
-              <a href="https://ndpb.gov.ng/nigeria-data-protection-act/" target="_blank" rel="noopener noreferrer" className="text-sky-700 hover:underline">
+              <a href="https://ngfrepository.org.ng:8443/jspui/handle/123456789/7548" target="_blank" rel="noopener noreferrer" className="text-sky-700 hover:underline">
                 Nigeria Data Protection Act
               </a>.
             </p>

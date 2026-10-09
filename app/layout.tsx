@@ -101,6 +101,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const searchConsoleVerification = integrations?.searchConsoleVerification?.trim() || '';
   const zohoOneScript = integrations?.zohoOneScript?.trim() || '';
   const customDomainHook = integrations?.customDomainHook?.trim() || '';
+  // Zoho SalesIQ widget code. Admins may paste either the bare code hash
+  // ("siq...") or a full widget URL — normalise to the bare code so we can
+  // build the two-tag embed ourselves.
+  const zohoSalesIqCode = (() => {
+    const raw = (integrations?.zohoSalesIqCode ?? '').trim();
+    if (!raw) return '';
+    const match = raw.match(/[?&]wc=([^&\s"'<>]+)/i);
+    return (match?.[1] ?? raw).trim();
+  })();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -176,6 +185,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             strategy="lazyOnload"
             dangerouslySetInnerHTML={{ __html: zohoOneScript }}
           />
+        )}
+        {zohoSalesIqCode && (
+          <>
+            <Script
+              id="zsiq-init"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `window.$zoho=window.$zoho||{};window.$zoho.salesiq=window.$zoho.salesiq||{};window.$zoho.salesiq.widgetcode="${zohoSalesIqCode}";`,
+              }}
+            />
+            <Script
+              id="zsiqscript"
+              strategy="lazyOnload"
+              defer
+              src={`https://salesiq.zohopublic.com/widget?wc=${zohoSalesIqCode}`}
+            />
+          </>
         )}
         <div className="flex-1 flex flex-col">
           {launchEnabled ? (

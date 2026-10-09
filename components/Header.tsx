@@ -467,65 +467,70 @@ export default function Header({ settings }: { settings?: PublicB2BContent['sett
   const activeItems = activeMega === 'solutions' ? solutionsItems : activeMega === 'products' ? productItems : companyItems;
 
   return (
-    <header className="w-full bg-white sticky top-0 z-50 border-b border-[rgba(1,102,165,0.10)]">
-      <div className="w-full px-6 md:px-10 lg:px-20">
-        <div className="max-w-[1280px] mx-auto h-16 flex items-center justify-between">
+    <>
+      <header className="w-full bg-white fixed top-0 inset-x-0 z-50 border-b border-[rgba(1,102,165,0.10)]">
+        <div className="w-full px-6 md:px-10 lg:px-20">
+          <div className="max-w-[1280px] mx-auto h-16 flex items-center justify-between">
 
-          {/* Logo */}
-          <Link href="/" className="shrink-0">
-            <Image
-              src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
-              alt="Prag"
-              width={135}
-              height={39}
-              priority
-              className="h-10 w-auto object-contain"
-              style={{ width: 'auto' }}
-            />
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-6 xl:gap-14 ml-auto" onMouseLeave={handleMegaLeave}>
-            {/* Desktop Nav */}
-            <nav className="flex items-center gap-6 xl:gap-14">
-              <NavItem label="Solutions" items={solutionsItems} megaKind="solutions" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
-              <NavItem label="Products" items={productItems} megaKind="products" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
-              <NavItem label="Company" items={companyItems} megaKind="company" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
-              <NavItem label={contact.label} href={contact.href} />
-            </nav>
-
-            {/* Shop Button */}
-            <Link
-              href={cta.href}
-              className="inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Onest'] hover:bg-sky-700 hover:border-sky-700 hover:text-white transition-colors"
-            >
-              {cta.label}
+            {/* Logo */}
+            <Link href="/" className="shrink-0">
+              <Image
+                src="https://central.prag.global/wp-content/uploads/2026/04/Prag-Logo.png"
+                alt="Prag"
+                width={135}
+                height={39}
+                priority
+                className="h-10 w-auto object-contain"
+                style={{ width: 'auto' }}
+              />
             </Link>
+
+            <div className="hidden lg:flex items-center gap-6 xl:gap-14 ml-auto" onMouseLeave={handleMegaLeave}>
+              {/* Desktop Nav */}
+              <nav className="flex items-center gap-6 xl:gap-14">
+                <NavItem label="Solutions" items={solutionsItems} megaKind="solutions" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+                <NavItem label="Products" items={productItems} megaKind="products" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+                <NavItem label="Company" items={companyItems} megaKind="company" activeMega={activeMega} onMegaEnter={handleMegaEnter} />
+                <NavItem label={contact.label} href={contact.href} />
+              </nav>
+
+              {/* Shop Button */}
+              <Link
+                href={cta.href}
+                className="inline-flex px-5 py-2 rounded-full border border-zinc-800 text-zinc-800 text-base font-medium font-['Onest'] hover:bg-sky-700 hover:border-sky-700 hover:text-white transition-colors"
+              >
+                {cta.label}
+              </Link>
+            </div>
+
+            {/* Mobile Toggle */}
+            <button className="lg:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
+              <Menu className="w-6 h-6 text-zinc-800" />
+            </button>
           </div>
-
-          {/* Mobile Toggle */}
-          <button className="lg:hidden" onClick={() => setMobileOpen((o) => !o)} aria-label="Toggle menu">
-            <Menu className="w-6 h-6 text-zinc-800" />
-          </button>
         </div>
-      </div>
 
-      {activeMega && (
-        <div className="hidden lg:block w-full px-6 md:px-10 lg:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
-          <div className="max-w-[1280px] mx-auto">
-            <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} settings={settings} />
+        {activeMega && (
+          <div className="hidden lg:block w-full px-6 md:px-10 lg:px-20" onMouseEnter={() => handleMegaEnter(activeMega)} onMouseLeave={handleMegaLeave}>
+            <div className="max-w-[1280px] mx-auto">
+              <DesktopMegaPanel label={activeLabel} kind={activeMega} items={activeItems} settings={settings} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <MobileMenu
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        solutionsItems={solutionsItems}
-        productItems={productItems}
-        companyItems={companyItems}
-        contact={contact}
-        cta={cta}
-      />
-    </header>
+        <MobileMenu
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          solutionsItems={solutionsItems}
+          productItems={productItems}
+          companyItems={companyItems}
+          contact={contact}
+          cta={cta}
+        />
+      </header>
+
+      {/* Spacer so the fixed header does not overlap page content */}
+      <div aria-hidden="true" className="h-16" />
+    </>
   );
 }
