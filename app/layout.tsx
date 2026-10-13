@@ -10,6 +10,7 @@ import JsonLd from '@/components/JsonLd';
 import ShellGate from '@/components/ShellGate';
 import WhatsAppChatWidget from '@/components/WhatsAppChatWidget';
 import { getB2BPublicContent } from '@/lib/b2bContent';
+import { resolveSalesIqWidgetCode, stripSalesIqEmbed } from '@/lib/salesiq';
 
 // Site-wide Organization structured data. Rendered in the root layout so
 // every page declares the same Organization entity (referenced by WebSite,
@@ -90,8 +91,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const content = await getB2BPublicContent();
   const settings = content?.settings;
   const launch = settings?.launch;
-  const scripts = settings?.scripts;
+  const scripts = {
+    head: stripSalesIqEmbed(settings?.scripts?.head),
+    body: stripSalesIqEmbed(settings?.scripts?.body),
+    footer: stripSalesIqEmbed(settings?.scripts?.footer),
+  };
   const integrations = settings?.integrations;
+  const salesIqCode = resolveSalesIqWidgetCode(process.env.ZOHO_SALESIQ_WIDGET_CODE, integrations?.zohoSalesIqCode);
   const launchEnabled = Boolean(launch?.enabled);
   const launchTitle = launch?.title?.trim() || 'Launching Soon';
   const launchMessage = launch?.message?.trim() || 'We are preparing updates. Please check back shortly.';
@@ -99,43 +105,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const gtmId = integrations?.googleTagManagerId?.trim() || '';
   const metaPixelId = integrations?.metaPixelId?.trim() || '';
   const searchConsoleVerification = integrations?.searchConsoleVerification?.trim() || '';
-  const customDomainHook = integrations?.customDomainHook?.trim() || '';
-  // Zoho SalesIQ widget code. Admins may paste the bare code hash ("siq..."),
-  // a full widget URL, or the ENTIRE embed snippet from the Zoho dashboard —
-  // extract the bare code in all three cases so we can build the two-tag
-  // embed ourselves.
-  const zohoSalesIqCode = (() => {
-    const raw = (integrations?.zohoSalesIqCode ?? '').trim();
-    if (!raw) return '';
-    // 1) wc= value in a URL or pasted snippet (covers Zoho's older embeds
-    //    where the code is inlined in the loader src).
-    const wc = raw.match(/[?&]wc=([a-z0-9_-]{8,})/i);
-    if (wc?.[1]) return wc[1];
-    // 2) Newer Zoho snippets pass the code as '+i+dl', but still include the
-    //    literal "siq_..." token somewhere in the snippet.
-    const token = raw.match(/siq_[a-z0-9]+/i);
-    if (token) return token[0];
-    // 3) Bare code pasted as-is — accept only if it looks like a plain token
-    //    (no HTML/quotes/spaces); otherwise drop it rather than render a
-    //    broken script tag.
-    const cleaned = raw.replace(/^['"`]+|['"`]+$/g, '');
-    return /^[a-z0-9_-]{8,}$/i.test(cleaned) ? cleaned : '';
-  })();
-  // Zoho One embed script (free-text admin field). If the SalesIQ widget
-  // snippet was ALSO pasted here (a common mistake), strip it when the
-  // dedicated widget code is set — otherwise the widget loader runs twice
-  // (duplicate #zsiqscript tags) and SalesIQ fails to render anything.
-  const zohoOneScript = (() => {
-    const raw = (integrations?.zohoOneScript ?? '').trim();
-    if (!raw) return '';
-    if (!zohoSalesIqCode || !/salesiq/i.test(raw)) return raw;
-    return raw
-      // Script tags loading the SalesIQ widget itself.
-      .replace(/<script[^>]*salesiq\.zohopublic\.com[^>]*>[\s\S]*?<\/script>/gi, '')
-      // Inline SalesIQ init snippets (widgetcode / $zoho.salesiq bootstraps).
-      .replace(/<script\b[^>]*>(?:(?!<\/script>)[\s\S])*?(widgetcode|salesiq\.zohopublic|zsiqscript|\$zoho\.salesiq)(?:(?!<\/script>)[\s\S])*?<\/script>/gi, '')
-      .trim();
-  })();
+  const customDomainHook = stripSalesIqEmbed(integrations?.customDomainHook);
+  // SalesIQ is owned by this layout. Remove legacy pasted embeds and
+  // remove pasted copies without changing other tagged integrations.
+  const zohoOneScript = stripSalesIqEmbed(integrations?.zohoOneScript);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -212,23 +185,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             dangerouslySetInnerHTML={{ __html: zohoOneScript }}
           />
         )}
-        {zohoSalesIqCode && (
-          <>
-            <Script
-              id="zsiq-init"
-              strategy="lazyOnload"
-              dangerouslySetInnerHTML={{
-                __html: `window.$zoho=window.$zoho||{};window.$zoho.salesiq=window.$zoho.salesiq||{};window.$zoho.salesiq.widgetcode="${zohoSalesIqCode}";`,
-              }}
-            />
-            <Script
-              id="zsiqscript"
-              strategy="lazyOnload"
-              defer
-              src={`https://salesiq.zohopublic.com/widget?wc=${zohoSalesIqCode}`}
-            />
-          </>
-        )}
+        <Script
+          id="zsiq-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: 'window.$zoho=window.$zoho||{};window.$zoho.salesiq=window.$zoho.salesiq||{ready:function(){}};',
+          }}
+        />
+        <Script
+          id="zsiqscript"
+          strategy="afterInteractive"
+          defer
+          src={`https://salesiq.zohopublic.com/widget?wc=${encodeURIComponent(salesIqCode)}`}
+        />
         <div className="flex-1 flex flex-col">
           {launchEnabled ? (
             <main className="flex-1 flex items-center justify-center px-6 py-20 bg-stone-50">

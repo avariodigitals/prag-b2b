@@ -110,7 +110,7 @@ export interface PublicB2BIntegrationsSettings {
   googleTagManagerId?: string;
   searchConsoleVerification?: string;
   zohoOneScript?: string;
-  /** Zoho SalesIQ widget code hash; rendered as the two-tag embed in the root layout. */
+  /** Admin SalesIQ widget code; used unless ZOHO_SALESIQ_WIDGET_CODE overrides it. */
   zohoSalesIqCode?: string;
   customDomainHook?: string;
   metaPixelId?: string;
