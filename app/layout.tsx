@@ -225,7 +225,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               id="zsiqscript"
               strategy="lazyOnload"
               defer
-              src={`https://salesiq.zohopublic.com/leads?wc=${zohoSalesIqCode}`}
+              src={`https://salesiq.zohopublic.com/widget?wc=${zohoSalesIqCode}`}
             />
           </>
         )}

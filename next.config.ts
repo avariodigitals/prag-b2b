@@ -92,7 +92,7 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.termsfeed.com https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com https://connect.facebook.net https://salesiq.zohopublic.com https://static.zohocdn.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.termsfeed.com https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com https://connect.facebook.net https://salesiq.zohopublic.com https://static.zohocdn.com https://*.zoho.com https://*.zohopublic.com",
               "style-src 'self' 'unsafe-inline' https://static.zohocdn.com https://salesiq.zohopublic.com",
               "img-src 'self' data: blob: https://central.prag.global https://www.termsfeed.com https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.google.com.ng https://stats.g.doubleclick.net https://www.facebook.com https://*.zohopublic.com https://*.zoho.com https://static.zohocdn.com",
               "font-src 'self' data: https://static.zohocdn.com",
