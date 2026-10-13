@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Onest, Space_Grotesk, DM_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 import Image from 'next/image';
 import Script from 'next/script';
 import './globals.css';
@@ -26,23 +26,27 @@ const organizationJsonLd = {
   logo: 'https://www.prag.global/images/prag-logo.png',
 };
 
-const onest = Onest({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+// Bundle the existing typefaces so builds do not fetch Google font URLs.
+const onest = localFont({
+  src: './fonts/onest.woff2',
+  weight: '400 700',
+  style: 'normal',
   variable: '--font-onest',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const spaceGrotesk = localFont({
+  src: './fonts/space-grotesk.woff2',
+  weight: '400 700',
+  style: 'normal',
   variable: '--font-space-grotesk',
   display: 'swap',
 });
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const dmSans = localFont({
+  src: './fonts/dm-sans.woff2',
+  weight: '400 700',
+  style: 'normal',
   variable: '--font-dm-sans',
   display: 'swap',
 });
