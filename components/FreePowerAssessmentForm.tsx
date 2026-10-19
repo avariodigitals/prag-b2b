@@ -24,7 +24,7 @@ function validate(form: typeof EMPTY_FORM): string | null {
   if (!form.name.trim() || form.name.trim().length > 100) return 'Enter a valid name (max 100 characters).';
   if (INJECTION_RE.test(form.name)) return 'Name contains invalid characters.';
   if (!PHONE_RE.test(form.phone)) return 'Enter a valid phone / WhatsApp number.';
-  if (form.email.trim() && !EMAIL_RE.test(form.email.trim())) return 'Enter a valid email address.';
+  if (!form.email.trim() || !EMAIL_RE.test(form.email.trim())) return 'Enter a valid email address.';
   return null;
 }
 
@@ -166,8 +166,9 @@ export default function FreePowerAssessmentForm({ submitLabel }: Props) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelCls}>Email <span className="text-zinc-400 font-normal">(optional)</span></label>
+          <label className={labelCls}>Email *</label>
           <input
+            required
             type="email"
             value={form.email}
             onChange={set('email')}
