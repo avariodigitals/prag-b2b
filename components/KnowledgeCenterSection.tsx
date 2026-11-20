@@ -19,12 +19,12 @@ function PostCard({ post, categories }: { post: WPPost; categories: WPCategory[]
   return (
     <div className="rounded-2xl flex flex-col overflow-hidden bg-white border border-[#888888]">
       {img && (
-        <div className="relative h-48 shrink-0 overflow-hidden">
+        <div className="relative h-48 shrink-0 overflow-hidden bg-zinc-100">
           <Image
             src={img}
             alt={stripHtml(post.title.rendered)}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 33vw"
             quality={90}
           />
