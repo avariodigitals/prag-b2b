@@ -291,7 +291,7 @@ body {
   color: #71717b;
   line-height: 1.75;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   word-break: normal;
 }
 
@@ -358,6 +358,7 @@ body {
 .article-body a {
   color: #0166a5;
   text-decoration: underline;
+  overflow-wrap: anywhere;
 }
 
 .article-body a:hover {
