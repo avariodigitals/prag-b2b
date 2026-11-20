@@ -5,13 +5,13 @@ import { findB2BPage, findVisibleSectionsByType, getB2BPublicContent } from '@/l
 
 async function getHeroContent() {
   const fallback = {
-    image: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
-    mobileImage: 'https://central.prag.global/wp-content/uploads/2026/05/pragrite-1.jpg',
-    title: 'Low or High Voltage?\nUnreliable or No Power?\nGet PRAG',
-    body: 'Reliable power solutions for homes, businesses, and industries across Nigeria.',
+    image: 'https://central.prag.global/wp-content/uploads/2026/07/pragheroz.png',
+    mobileImage: 'https://central.prag.global/wp-content/uploads/2026/07/ChatGPT-Image-Jul-28-2026-02_41_57-PM.png',
+    title: 'Unreliable or No Power?\nLow or High Voltage?\nGet PRAG',
+    body: 'Voltage stabilization, backup power, and solar solutions for homes, businesses, and industries.',
     ctaLabel: 'Get a Free Power Assessment',
     ctaHref: '/free-power-assessment',
-    secondaryCtaLabel: 'Phone/WhatsApp',
+    secondaryCtaLabel: 'Chat on WhatsApp',
     secondaryCtaHref: 'https://wa.me/2348032170129',
   };
 
