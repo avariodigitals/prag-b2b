@@ -36,7 +36,45 @@ function sanitize(html: string) {
 }
 
 function sanitizeArticleBody(html: string) {
-  return sanitize(html).replace(/<br\s*\/?>/gi, ' ');
+  const content = sanitize(html).replace(/<br\s*\/?>/gi, ' ');
+  return content.replace(/(?:<p\b[^>]*>[\s\S]*?<\/p>\s*)+/gi, (paragraphs) => {
+    const parts = [...paragraphs.matchAll(/(<p\b[^>]*>)([\s\S]*?)<\/p>/gi)];
+    if (parts.length < 2) return paragraphs;
+
+    const merged: Array<{ openTag: string; content: string }> = [];
+    let current = { openTag: parts[0][1], content: parts[0][2] };
+
+    for (const part of parts.slice(1)) {
+      const currentText = current.content
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;|&#160;|&#xA0;/gi, ' ')
+        .trim();
+      const nextText = part[2]
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;|&#160;|&#xA0;/gi, ' ')
+        .trim();
+      const continuesSentence =
+        !/[.!?…]["'”’)\]]*$/u.test(currentText) && /^[a-z]/u.test(nextText);
+
+      if (continuesSentence) {
+        current.content = current.content.replace(
+          /(?:\s|&nbsp;|&#160;|&#xA0;)+((?:<\/[^>]+>\s*)*)$/gi,
+          '$1'
+        );
+        const nextContent = part[2].replace(
+          /^((?:<[^>]+>\s*)*)(?:\s|&nbsp;|&#160;|&#xA0;)+/gi,
+          '$1'
+        );
+        current.content += ` ${nextContent}`;
+      } else {
+        merged.push(current);
+        current = { openTag: part[1], content: part[2] };
+      }
+    }
+
+    merged.push(current);
+    return merged.map(({ openTag, content: paragraph }) => `${openTag}${paragraph}</p>`).join('\n');
+  });
 }
 
 function postDateLong(post: WPPost): string {
