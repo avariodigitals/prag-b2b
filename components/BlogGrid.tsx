@@ -120,12 +120,12 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
         {featured && (
           <>
             {/* Mobile: full-height overlay card (Figma: h=376px, overlay style) */}
-            <div className="md:hidden relative rounded-2xl overflow-hidden h-[376px]">
+            <div className="md:hidden relative rounded-2xl overflow-hidden h-[376px] bg-zinc-100">
               <Image
                 src={postImage(featured) || ''}
                 alt={stripHtml(featured.title.rendered)}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="100vw"
                 quality={90}
                 priority
@@ -168,12 +168,12 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
             {/* Desktop: image-left layout */}
             <div className="hidden md:flex flex-row rounded-2xl overflow-hidden border border-zinc-500/20">
               {postImage(featured) && (
-                <div className="relative w-[540px] h-[380px] shrink-0">
+                <div className="relative w-[540px] h-[380px] shrink-0 bg-zinc-100">
                   <Image
                     src={postImage(featured)!}
                     alt={stripHtml(featured.title.rendered)}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     sizes="540px"
                     quality={90}
                     priority
@@ -250,12 +250,12 @@ export default function BlogGrid({ featured, posts, categories, activeCategory }
                 <Link key={post.id} href={`/knowledge-center/${post.slug}`} className="flex flex-col group cursor-pointer">
                   {/* Image — top-only rounded corners (Figma: border-radius 16px 16px 0 0) */}
                   {img && (
-                    <div className="relative h-[229px] md:h-52 shrink-0 rounded-t-[16px] overflow-hidden">
+                    <div className="relative h-[229px] md:h-52 shrink-0 rounded-t-[16px] overflow-hidden bg-zinc-100">
                       <Image
                         src={img}
                         alt={stripHtml(post.title.rendered)}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-contain"
                         sizes="(max-width: 768px) 100vw, 33vw"
                         quality={90}
                       />

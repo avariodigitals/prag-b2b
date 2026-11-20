@@ -35,6 +35,10 @@ function sanitize(html: string) {
     .replace(/javascript:/gi, '');
 }
 
+function sanitizeArticleBody(html: string) {
+  return sanitize(html).replace(/<br\s*\/?>/gi, ' ');
+}
+
 function postDateLong(post: WPPost): string {
   return new Date(post.date).toLocaleDateString('en-US', {
     month: 'long',
@@ -327,7 +331,7 @@ export default async function KnowledgeCenterPost({ params }: Props) {
             {/* Article body */}
             <article
               className="article-body"
-              dangerouslySetInnerHTML={{ __html: sanitize(post.content.rendered) }}
+              dangerouslySetInnerHTML={{ __html: sanitizeArticleBody(post.content.rendered) }}
             />
           </div>
 
